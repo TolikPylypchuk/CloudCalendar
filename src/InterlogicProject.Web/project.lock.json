@@ -4032,6 +4032,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "InterlogicProject.DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+          "Microsoft.Extensions.Configuration.Json": "1.0.0",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "netstandard1.6/InterlogicProject.DAL.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/InterlogicProject.DAL.dll": {}
+        }
       }
     }
   },
@@ -10355,10 +10370,16 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "InterlogicProject.DAL/1.0.0": {
+      "type": "project",
+      "path": "../InterlogicProject.DAL/project.json",
+      "msbuildProject": "../InterlogicProject.DAL/InterlogicProject.DAL.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
+      "InterlogicProject.DAL >= 1.0.0-*",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.1",
       "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
@@ -10375,6 +10396,26 @@
   },
   "tools": {
     ".NETCoreApp,Version=v1.0": {
+      "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+          "Microsoft.DotNet.ProjectModel.Loader": "1.0.0-preview2-003121",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
+          "Microsoft.NETCore.App": "1.0.0",
+          "Newtonsoft.Json": "9.0.1",
+          "System.Diagnostics.Process": "4.1.0",
+          "System.Runtime.Serialization.Primitives": "4.1.1"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/dotnet-razor-tooling.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/dotnet-razor-tooling.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Server.IISIntegration.Tools/1.0.0-preview2-final": {
         "type": "package",
         "dependencies": {
@@ -10389,12 +10430,31 @@
         "runtime": {
           "lib/netcoreapp1.0/dotnet-publish-iis.dll": {}
         }
+      },
+      "Microsoft.EntityFrameworkCore.Tools/1.0.0-preview2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
+          "Microsoft.DotNet.ProjectModel": "1.0.0-rc3-003121",
+          "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.NETCore.App": "1.0.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.0.0"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/dotnet-ef.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/dotnet-ef.dll": {}
+        }
       }
     }
   },
   "projectFileToolGroups": {
     ".NETCoreApp,Version=v1.0": [
-      "Microsoft.AspNetCore.Server.IISIntegration.Tools >= 1.0.0-preview2-final"
+      "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
+      "Microsoft.AspNetCore.Server.IISIntegration.Tools >= 1.0.0-preview2-final",
+      "Microsoft.EntityFrameworkCore.Tools >= 1.0.0-preview2-final"
     ]
   }
 }
