@@ -6,7 +6,7 @@ namespace InterlogicProject.Controllers
 	{
 		public IActionResult Index()
 		{
-			return View();
+			return this.View();
 		}
 	}
 }
