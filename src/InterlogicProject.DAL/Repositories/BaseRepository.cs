@@ -57,8 +57,19 @@ namespace InterlogicProject.DAL.Repositories
 			return this.Context.SaveChangesAsync();
 		}
 
-		public abstract int Delete(int id);
-		public abstract Task<int> DeleteAsync(int id);
+		public virtual int Delete(int id)
+		{
+			this.Context.Entry(new T { Id = id }).State =
+				EntityState.Deleted;
+			return this.Context.SaveChanges();
+		}
+
+		public virtual Task<int> DeleteAsync(int id)
+		{
+			this.Context.Entry(new T { Id = id }).State =
+				EntityState.Deleted;
+			return this.Context.SaveChangesAsync();
+		}
 
 		public virtual int Delete(T entity)
 		{
