@@ -24,7 +24,7 @@ namespace InterlogicProject
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<ApplicationDbContext>(
+			services.AddDbContext<AppDbContext>(
 				options =>
 					options.UseSqlServer(
 						this.configuration[
@@ -46,7 +46,13 @@ namespace InterlogicProject
 			app.UseDeveloperExceptionPage();
 			app.UseStatusCodePages();
 			app.UseStaticFiles();
-			app.UseMvcWithDefaultRoute();
+
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			});
 		}
 	}
 }

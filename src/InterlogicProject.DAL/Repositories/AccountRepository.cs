@@ -4,7 +4,7 @@ namespace InterlogicProject.DAL.Repositories
 {
 	public class AccountRepository : BaseRepository<Account>
 	{
-		public AccountRepository(ApplicationDbContext context)
+		public AccountRepository(AppDbContext context)
 			: base(context)
 		{
 			this.table = this.Context.Accounts;

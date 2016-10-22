@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterlogicProject.DAL.Models
 {
-	[Table(nameof(ApplicationDbContext.Departments))]
+	[Table(nameof(AppDbContext.Departments))]
 	public class Department : EntityBase
 	{
 		[Required(ErrorMessage = "Please enter the department name")]

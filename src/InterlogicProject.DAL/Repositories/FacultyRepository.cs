@@ -4,7 +4,7 @@ namespace InterlogicProject.DAL.Repositories
 {
 	public class FacultyRepository : BaseRepository<Faculty>
 	{
-		public FacultyRepository(ApplicationDbContext context)
+		public FacultyRepository(AppDbContext context)
 			: base(context)
 		{
 			this.table = this.Context.Faculties;

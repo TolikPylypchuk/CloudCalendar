@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterlogicProject.DAL.Models
 {
-	[Table(nameof(ApplicationDbContext.Groups))]
+	[Table(nameof(AppDbContext.Groups))]
 	public class Group : EntityBase
 	{
 		[Required(ErrorMessage = "Please enter the name")]

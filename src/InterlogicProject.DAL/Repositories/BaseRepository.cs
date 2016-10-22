@@ -14,12 +14,12 @@ namespace InterlogicProject.DAL.Repositories
 	{
 		protected DbSet<T> table;
 
-		protected BaseRepository(ApplicationDbContext context)
+		protected BaseRepository(AppDbContext context)
 		{
 			this.Context = context;
 		}
 
-		public ApplicationDbContext Context { get; }
+		public AppDbContext Context { get; }
 
 		public virtual int Add(T entity)
 		{

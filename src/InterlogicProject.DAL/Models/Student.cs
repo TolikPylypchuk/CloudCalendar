@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterlogicProject.DAL.Models
 {
-	[Table(nameof(ApplicationDbContext.Students))]
+	[Table(nameof(AppDbContext.Students))]
 	public class Student : EntityBase
 	{
 		[Required(ErrorMessage = "Please specify the account")]
