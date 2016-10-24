@@ -4,26 +4,26 @@ using System.Threading.Tasks;
 
 namespace InterlogicProject.DAL.Repositories
 {
-	public interface IRepository<T>
+	public interface IRepository<TEntity>
 	{
-		int Add(T entity);
-		Task<int> AddAsync(T entity);
+		int Add(TEntity entity);
+		Task<int> AddAsync(TEntity entity);
 
-		int AddRange(IEnumerable<T> entities);
-		Task<int> AddRangeAsync(IEnumerable<T> enitities);
+		int AddRange(IEnumerable<TEntity> entities);
+		Task<int> AddRangeAsync(IEnumerable<TEntity> enitities);
 
-		int Update(T entity);
-		Task<int> UpdateAsync(T entity);
+		int Update(TEntity entity);
+		Task<int> UpdateAsync(TEntity entity);
 
 		int Delete(int id);
 		Task<int> DeleteAsync(int id);
 
-		int Delete(T entity);
-		Task<int> DeleteAsync(T entity);
+		int Delete(TEntity entity);
+		Task<int> DeleteAsync(TEntity entity);
 
-		T GetById(int id);
-		Task<T> GetByIdAsync(int id);
+		TEntity GetById(int id);
+		Task<TEntity> GetByIdAsync(int id);
 
-		IQueryable<T> GetAll();
+		IQueryable<TEntity> GetAll();
 	}
 }

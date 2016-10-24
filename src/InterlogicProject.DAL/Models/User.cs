@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace InterlogicProject.DAL.Models
 {
-	[Table(nameof(AppDbContext.Accounts))]
-	public class Account : EntityBase
+	public class User : IdentityUser
 	{
 		[Required(ErrorMessage = "Please enter the first name")]
 		[StringLength(30)]
@@ -17,16 +17,5 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Please enter the last name")]
 		[StringLength(30)]
 		public string LastName { get; set; }
-
-		[DataType(DataType.EmailAddress)]
-		[EmailAddress]
-		[Required(ErrorMessage = "Please enter the email")]
-		[StringLength(30)]
-		public string Email { get; set; }
-
-		[DataType(DataType.Password)]
-		[Required(ErrorMessage = "Please enter the password")]
-		[StringLength(30)]
-		public string Password { get; set; }
 	}
 }

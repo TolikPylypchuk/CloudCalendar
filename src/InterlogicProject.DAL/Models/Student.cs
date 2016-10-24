@@ -1,25 +1,34 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Newtonsoft.Json;
+
 namespace InterlogicProject.DAL.Models
 {
 	[Table(nameof(AppDbContext.Students))]
 	public class Student : EntityBase
 	{
-		[Required(ErrorMessage = "Please specify the account")]
-		public int AccountId { get; set; }
+		[JsonIgnore]
+		[Required(ErrorMessage = "Please specify the user info")]
+		public string UserId { get; set; }
 
+		[JsonIgnore]
 		[Required(ErrorMessage = "Please specify the group")]
 		public int GroupId { get; set; }
 
 		[Required(ErrorMessage = "Please specify the number in group")]
 		public int NumberInGroup { get; set; }
 
-		[Required(ErrorMessage = "Please specify the student number")]
+		[Required(ErrorMessage = "Please specify the unique student number")]
 		public string StudentNumber { get; set; }
 
-		[ForeignKey(nameof(AccountId))]
-		public Account Account { get; set; }
+		[Required(ErrorMessage =
+			"Please specify whether this student " +
+			"is a leader of a group")]
+		public bool IsGroupLeader { get; set; }
+
+		[ForeignKey(nameof(UserId))]
+		public User User { get; set; }
 
 		[ForeignKey(nameof(GroupId))]
 		public Group Group { get; set; }

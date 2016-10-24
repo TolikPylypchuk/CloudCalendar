@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using InterlogicProject.DAL.Models;
-using InterlogicProject.DAL.Infrastructure;
 
 namespace InterlogicProject.DAL.Repositories
 {
-	public abstract class BaseRepository<T> : IRepository<T>
-		where T : EntityBase, new()
+	public abstract class BaseRepository<TEntity> : IRepository<TEntity>
+		where TEntity : EntityBase, new()
 	{
-		protected DbSet<T> table;
+		protected DbSet<TEntity> table;
 
 		protected BaseRepository(AppDbContext context)
 		{
@@ -21,37 +20,37 @@ namespace InterlogicProject.DAL.Repositories
 
 		public AppDbContext Context { get; }
 
-		public virtual int Add(T entity)
+		public virtual int Add(TEntity entity)
 		{
 			this.table.Add(entity);
 			return this.Context.SaveChanges();
 		}
 
-		public virtual Task<int> AddAsync(T entity)
+		public virtual Task<int> AddAsync(TEntity entity)
 		{
 			this.table.Add(entity);
 			return this.Context.SaveChangesAsync();
 		}
 
-		public virtual int AddRange(IEnumerable<T> entities)
+		public virtual int AddRange(IEnumerable<TEntity> entities)
 		{
 			this.table.AddRange(entities);
 			return this.Context.SaveChanges();
 		}
 
-		public virtual Task<int> AddRangeAsync(IEnumerable<T> enitities)
+		public virtual Task<int> AddRangeAsync(IEnumerable<TEntity> enitities)
 		{
 			this.table.AddRange(enitities);
 			return this.Context.SaveChangesAsync();
 		}
 
-		public virtual int Update(T entity)
+		public virtual int Update(TEntity entity)
 		{
 			this.Context.Entry(entity).State = EntityState.Modified;
 			return this.Context.SaveChanges();
 		}
 
-		public virtual Task<int> UpdateAsync(T entity)
+		public virtual Task<int> UpdateAsync(TEntity entity)
 		{
 			this.Context.Entry(entity).State = EntityState.Modified;
 			return this.Context.SaveChangesAsync();
@@ -59,37 +58,37 @@ namespace InterlogicProject.DAL.Repositories
 
 		public virtual int Delete(int id)
 		{
-			this.Context.Entry(new T { Id = id }).State =
+			this.Context.Entry(new TEntity { Id = id }).State =
 				EntityState.Deleted;
 			return this.Context.SaveChanges();
 		}
 
 		public virtual Task<int> DeleteAsync(int id)
 		{
-			this.Context.Entry(new T { Id = id }).State =
+			this.Context.Entry(new TEntity { Id = id }).State =
 				EntityState.Deleted;
 			return this.Context.SaveChangesAsync();
 		}
 
-		public virtual int Delete(T entity)
+		public virtual int Delete(TEntity entity)
 		{
 			this.Context.Entry(entity).State = EntityState.Deleted;
 			return this.Context.SaveChanges();
 		}
 
-		public virtual Task<int> DeleteAsync(T entity)
+		public virtual Task<int> DeleteAsync(TEntity entity)
 		{
 			this.Context.Entry(entity).State = EntityState.Deleted;
 			return this.Context.SaveChangesAsync();
 		}
 
-		public virtual T GetById(int id) => this.table.Find(id);
+		public virtual TEntity GetById(int id)
+			=> this.GetAll().FirstOrDefault(e => e.Id == id);
 
-		public Task<T> GetByIdAsync(int id)
-		{
-			return Task.Factory.StartNew(() => this.table.Find(id));
-		}
+		public virtual Task<TEntity> GetByIdAsync(int id)
+			=> Task.Factory.StartNew(
+				() => this.GetAll().FirstOrDefault(e => e.Id == id));
 
-		public IQueryable<T> GetAll() => this.table;
+		public virtual IQueryable<TEntity> GetAll() => this.table;
 	}
 }

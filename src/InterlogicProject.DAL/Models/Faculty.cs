@@ -9,11 +9,5 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Please enter the faculty name")]
 		[StringLength(50)]
 		public string Name { get; set; }
-
-		[Required(ErrorMessage = "Please specify the dean")]
-		public int DeanId { get; set; }
-
-		[ForeignKey(nameof(DeanId))]
-		public Lecturer Dean { get; set; }
 	}
 }
