@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,11 @@ namespace InterlogicProject.DAL
 				.GetRequiredService<AppDbContext>();
 			var userManager = serviceProvider
 				.GetRequiredService<UserManager<User>>();
+
+			if (userManager.Users.Any())
+			{
+				return;
+			}
 
 			var users = new[]
 			{

@@ -12,12 +12,21 @@ using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Infrastructure;
 
+using Swashbuckle.Swagger.Model;
+
 namespace InterlogicProject
 {
+	/// <summary>
+	/// This class is used to configure the application.
+	/// </summary>
 	public class Startup
 	{
 		private IConfigurationRoot configuration;
 
+		/// <summary>
+		/// Initializes a new instance of the Startup class.
+		/// </summary>
+		/// <param name="env">The hosting environment.</param>
 		public Startup(IHostingEnvironment env)
 		{
 			this.configuration = new ConfigurationBuilder()
@@ -25,6 +34,12 @@ namespace InterlogicProject
 				.AddJsonFile("appsettings.json").Build();
 		}
 
+		/// <summary>
+		/// Adds and configures services used in this application.
+		/// </summary>
+		/// <param name="services">
+		/// The collection of services used in this application.
+		/// </param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDbContext>(
@@ -68,8 +83,29 @@ namespace InterlogicProject
 			});
 
 			services.AddMvc();
+
+			string pathToDoc = this.configuration["Swagger:Path"];
+
+			services.AddSwaggerGen(options =>
+			{
+				options.SingleApiVersion(new Info
+				{
+					Version = "v1",
+					Title = "Interlogic Project API",
+					Description = "A simple API for Interlogic Project",
+					TermsOfService = "None"
+				});
+				options.IncludeXmlComments(pathToDoc);
+				options.DescribeAllEnumsAsStrings();
+			});
 		}
 
+		/// <summary>
+		/// Configures this application.
+		/// </summary>
+		/// <param name="app">The builder of this application.</param>
+		/// <param name="env">The hosting environment.</param>
+		/// <param name="loggerFactory">The factory of loggers.</param>
 		public void Configure(
 			IApplicationBuilder app,
 			IHostingEnvironment env,
@@ -84,8 +120,11 @@ namespace InterlogicProject
 			{
 				routes.MapRoute(
 					name: "default",
-					template: "{controller=Home}/{action=Index}");
+					template: "{controller=Home}/{action=Index}/{id?}");
 			});
+
+			app.UseSwagger();
+			app.UseSwaggerUi();
 			
 			DataInitializer.InitializeDatabaseAsync(
 				app.ApplicationServices).Wait();
