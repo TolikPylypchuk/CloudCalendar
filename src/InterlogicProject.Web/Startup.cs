@@ -35,6 +35,11 @@ namespace InterlogicProject
 
 			services.AddIdentity<User, IdentityRole>(options => {
 				options.User.RequireUniqueEmail = true;
+				options.User.AllowedUserNameCharacters =
+					"abcdefghijklmnopqrstuvwxyz" +
+					"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+					"1234567890" +
+					"@.-!#$%&'*+-/=?^_`{|}~";
 
 				options.Password.RequiredLength = 6;
 				options.Password.RequireNonAlphanumeric = false;
@@ -77,14 +82,6 @@ namespace InterlogicProject
 
 			app.UseMvc(routes =>
 			{
-				routes.MapRoute(
-					name: "lecturerDefault",
-					template: "lecturer/{controller=Home}/{action=Index}");
-
-				routes.MapRoute(
-					name: "studentDefault",
-					template: "student/{controller=Home}/{action=Index}");
-
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}");

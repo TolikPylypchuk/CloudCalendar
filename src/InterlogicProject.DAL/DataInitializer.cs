@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
@@ -48,61 +47,66 @@ namespace InterlogicProject.DAL
 			var userManager = serviceProvider
 				.GetRequiredService<UserManager<User>>();
 
-			if (userManager.Users.Any())
-			{
-				return;
-			}
-
 			var users = new[]
 			{
 				new User
 				{
+					UserName = "lecturer1@example.com",
 					Email = "lecturer1@example.com",
+					NormalizedEmail = "LECTURER1@EXAMPLE.COM",
 					FirstName = "test1",
 					MiddleName = "test1",
 					LastName = "test1"
 				},
 				new User
 				{
+					UserName = "lecturer2@example.com",
 					Email = "lecturer2@example.com",
+					NormalizedEmail = "LECTURER2@EXAMPLE.COM",
 					FirstName = "test2",
 					MiddleName = "test2",
 					LastName = "test2"
 				},
 				new User
 				{
+					UserName = "lecturer3@example.com",
 					Email = "lecturer3@example.com",
+					NormalizedEmail = "LECTURER3@EXAMPLE.COM",
 					FirstName = "test3",
 					MiddleName = "test3",
 					LastName = "test3"
 				},
 				new User
 				{
+					UserName = "student1@example.com",
 					Email = "student1@example.com",
+					NormalizedEmail = "STUDENT1@EXAMPLE.COM",
 					FirstName = "test4",
 					MiddleName = "test4",
 					LastName = "test4"
 				},
 				new User
 				{
+					UserName = "student1@example.com",
 					Email = "student1@example.com",
+					NormalizedEmail = "STUDENT2@EXAMPLE.COM",
 					FirstName = "test5",
 					MiddleName = "test5",
 					LastName = "test5"
 				}
 			};
 			
-			await userManager.AddToRoleAsync(users[0], "Lecturer");
-			await userManager.AddToRoleAsync(users[1], "Lecturer");
-			await userManager.AddToRoleAsync(users[2], "Lecturer");
-			await userManager.AddToRoleAsync(users[3], "Student");
-			await userManager.AddToRoleAsync(users[4], "Student");
-
 			for (int i = 0; i < 5; i++)
 			{
 				await userManager.CreateAsync(users[i], "secret");
 			}
 
+			await userManager.AddToRoleAsync(users[0], "Lecturer");
+			await userManager.AddToRoleAsync(users[1], "Lecturer");
+			await userManager.AddToRoleAsync(users[2], "Lecturer");
+			await userManager.AddToRoleAsync(users[3], "Student");
+			await userManager.AddToRoleAsync(users[4], "Student");
+			
 			var lecturers = new[]
 			{
 				new Lecturer
@@ -178,7 +182,7 @@ namespace InterlogicProject.DAL
 
 			students[0].Group = group;
 			students[1].Group = group;
-
+			
 			context.Add(faculty);
 			context.AddRange(departments);
 			context.AddRange(lecturers);
