@@ -3,10 +3,14 @@ using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
-using InterlogicProject.DAL.Models;
-using InterlogicProject.DAL.Repositories;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using Swashbuckle.SwaggerGen.Annotations;
+
+using InterlogicProject.DAL.Models;
+using InterlogicProject.DAL.Repositories;
+using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject.API
 {
@@ -35,9 +39,9 @@ namespace InterlogicProject.API
 		/// <returns>All lecturers from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<Lecturer>))]
-		public IEnumerable<Lecturer> Get()
-			=> this.groups.GetAll();
+			Type = typeof(IEnumerable<LecturerDto>))]
+		public IEnumerable<LecturerDto> Get()
+			=> this.groups.GetAll().ProjectTo<LecturerDto>();
 
 		/// <summary>
 		/// Gets a lecturer with the specified ID.
@@ -45,8 +49,8 @@ namespace InterlogicProject.API
 		/// <param name="id">The ID of the lecturer to get.</param>
 		/// <returns>A lecturer with the specified ID.</returns>
 		[HttpGet("{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Lecturer))]
-		public Lecturer Get(int id)
-			=> this.groups.GetById(id);
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		public LecturerDto Get(int id)
+			=> Mapper.Map<LecturerDto>(this.groups.GetById(id));
 	}
 }

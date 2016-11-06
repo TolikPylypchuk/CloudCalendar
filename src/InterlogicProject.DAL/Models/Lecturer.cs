@@ -1,18 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Newtonsoft.Json;
-
 namespace InterlogicProject.DAL.Models
 {
 	[Table(nameof(AppDbContext.Lecturers))]
 	public class Lecturer : EntityBase
 	{
-		[JsonIgnore]
 		[Required(ErrorMessage = "Please specify the user info")]
 		public string UserId { get; set; }
 
-		[JsonIgnore]
 		[Required(ErrorMessage = "Please specify the department")]
 		public int DepartmentId { get; set; }
 

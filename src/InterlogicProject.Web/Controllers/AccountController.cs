@@ -9,24 +9,12 @@ using InterlogicProject.Models.ViewModels;
 
 namespace InterlogicProject.Controllers
 {
-	/// <summary>
-	/// The controller for account-related actions.
-	/// </summary>
 	[Authorize]
 	public class AccountController : Controller
 	{
 		private UserManager<User> userManager;
 		private SignInManager<User> signInManager;
 
-		/// <summary>
-		/// Initializes a new instance of the AccountController class.
-		/// </summary>
-		/// <param name="userManager">
-		/// The user manager that this instance will use.
-		/// </param>
-		/// <param name="signInManager">
-		/// The sign in manager that this instance will use.
-		/// </param>
 		public AccountController(
 			UserManager<User> userManager,
 			SignInManager<User> signInManager)
@@ -35,14 +23,6 @@ namespace InterlogicProject.Controllers
 			this.signInManager = signInManager;
 		}
 
-		/// <summary>
-		/// Gets the Login view or redirects
-		/// to default action if already logged in.
-		/// </summary>
-		/// <param name="returnUrl">The URL to return to.</param>
-		/// <returns>
-		/// The Login view or redirection
-		/// to default action if already logged in.</returns>
 		[AllowAnonymous]
 		public IActionResult Login(string returnUrl)
 		{
@@ -57,15 +37,6 @@ namespace InterlogicProject.Controllers
 			return this.View();
 		}
 
-		/// <summary>
-		/// Logs in a user.
-		/// </summary>
-		/// <param name="details">The login details.</param>
-		/// <param name="returnUrl">The URL to return to.</param>
-		/// <returns>
-		/// Redirection to a return URL if login was successful
-		/// or a Login view if login failed.
-		/// </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
@@ -102,10 +73,6 @@ namespace InterlogicProject.Controllers
 			return this.View(details);
 		}
 
-		/// <summary>
-		/// Logs out a user.
-		/// </summary>
-		/// <returns>Redirection to the default action.</returns>
 		[Authorize]
 		public async Task<IActionResult> Logout()
 		{
@@ -113,12 +80,6 @@ namespace InterlogicProject.Controllers
 			return this.RedirectToAction(nameof(HomeController.Index), "Home");
 		}
 
-		/// <summary>
-		/// Returns a view that tells the user that access was denied.
-		/// </summary>
-		/// <returns>
-		/// A view that tells the user that access was denied.
-		/// </returns>
 		[AllowAnonymous]
 		public IActionResult AccessDenied() => this.View();
 	}

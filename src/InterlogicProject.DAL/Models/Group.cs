@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-using Newtonsoft.Json;
 
 namespace InterlogicProject.DAL.Models
 {
@@ -15,11 +14,9 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Please enter the year")]
 		public int Year { get; set; }
 
-		[JsonIgnore]
 		[Required(ErrorMessage = "Please specify the curator")]
 		public int CuratorId { get; set; }
 
-		[JsonIgnore]
 		[Required(ErrorMessage = "Please specify the department")]
 		public int DepartmentId { get; set; }
 		
@@ -28,5 +25,8 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(DepartmentId))]
 		public Department Department { get; set; }
+
+		public virtual ICollection<Student> Students { get; set; } =
+			new HashSet<Student>();
 	}
 }

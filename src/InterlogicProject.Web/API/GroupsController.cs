@@ -3,10 +3,14 @@ using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
-using InterlogicProject.DAL.Models;
-using InterlogicProject.DAL.Repositories;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using Swashbuckle.SwaggerGen.Annotations;
+
+using InterlogicProject.DAL.Models;
+using InterlogicProject.DAL.Repositories;
+using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject.API
 {
@@ -35,9 +39,9 @@ namespace InterlogicProject.API
 		/// <returns>All groups from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<Group>))]
-		public IEnumerable<Group> Get()
-			=> this.groups.GetAll();
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> Get()
+			=> this.groups.GetAll().ProjectTo<GroupDto>();
 
 		/// <summary>
 		/// Gets a group with the specified ID.
@@ -45,8 +49,8 @@ namespace InterlogicProject.API
 		/// <param name="id">The ID of the group to get.</param>
 		/// <returns>A group with the specified ID.</returns>
 		[HttpGet("{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Group))]
-		public Group Get(int id)
-			=> this.groups.GetById(id);
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(GroupDto))]
+		public GroupDto Get(int id)
+			=> Mapper.Map<GroupDto>(this.groups.GetById(id));
 	}
 }

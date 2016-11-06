@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using Newtonsoft.Json;
@@ -18,5 +19,8 @@ namespace InterlogicProject.DAL.Models
 		
 		[ForeignKey(nameof(FacultyId))]
 		public Faculty Faculty { get; set; }
+		
+		public virtual ICollection<Lecturer> Lecturers { get; set; } =
+			new HashSet<Lecturer>();
 	}
 }

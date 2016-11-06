@@ -3,10 +3,14 @@ using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
-using InterlogicProject.DAL.Models;
-using InterlogicProject.DAL.Repositories;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using Swashbuckle.SwaggerGen.Annotations;
+
+using InterlogicProject.DAL.Models;
+using InterlogicProject.DAL.Repositories;
+using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject.API
 {
@@ -35,9 +39,9 @@ namespace InterlogicProject.API
 		/// <returns>All departments from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<Department>))]
-		public IEnumerable<Department> Get()
-			=> this.departments.GetAll();
+			Type = typeof(IEnumerable<DepartmentDto>))]
+		public IEnumerable<DepartmentDto> Get()
+			=> this.departments.GetAll().ProjectTo<DepartmentDto>();
 
 		/// <summary>
 		/// Gets a department with the specified ID.
@@ -45,8 +49,8 @@ namespace InterlogicProject.API
 		/// <param name="id">The ID of the department to get.</param>
 		/// <returns>A department with the specified ID.</returns>
 		[HttpGet("{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Department))]
-		public Department Get(int id)
-			=> this.departments.GetById(id);
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(DepartmentDto))]
+		public DepartmentDto Get(int id)
+			=> Mapper.Map<DepartmentDto>(this.departments.GetById(id));
 	}
 }

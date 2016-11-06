@@ -7,26 +7,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
+using AutoMapper;
+
+using Swashbuckle.Swagger.Model;
+
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Infrastructure;
-
-using Swashbuckle.Swagger.Model;
+using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject
 {
-	/// <summary>
-	/// This class is used to configure the application.
-	/// </summary>
 	public class Startup
 	{
 		private IConfigurationRoot configuration;
 
-		/// <summary>
-		/// Initializes a new instance of the Startup class.
-		/// </summary>
-		/// <param name="env">The hosting environment.</param>
 		public Startup(IHostingEnvironment env)
 		{
 			this.configuration = new ConfigurationBuilder()
@@ -34,12 +30,6 @@ namespace InterlogicProject
 				.AddJsonFile("appsettings.json").Build();
 		}
 
-		/// <summary>
-		/// Adds and configures services used in this application.
-		/// </summary>
-		/// <param name="services">
-		/// The collection of services used in this application.
-		/// </param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDbContext>(
@@ -63,18 +53,18 @@ namespace InterlogicProject
 				options.Password.RequireDigit = false;
 			}).AddEntityFrameworkStores<AppDbContext>();
 
-			services.AddTransient<IUserValidator<User>,
+			services.AddScoped<IUserValidator<User>,
 				CustomUserValidator>();
 
-			services.AddTransient<IRepository<Department>,
+			services.AddScoped<IRepository<Department>,
 				DepartmentRepository>();
-			services.AddTransient<IRepository<Faculty>,
+			services.AddScoped<IRepository<Faculty>,
 				FacultyRepository>();
-			services.AddTransient<IRepository<Group>,
+			services.AddScoped<IRepository<Group>,
 				GroupRepository>();
-			services.AddTransient<IRepository<Lecturer>,
+			services.AddScoped<IRepository<Lecturer>,
 				LecturerRepository>();
-			services.AddTransient<IRepository<Student>,
+			services.AddScoped<IRepository<Student>,
 				StudentRepository>();
 
 			services.AddRouting(options =>
@@ -84,28 +74,30 @@ namespace InterlogicProject
 
 			services.AddMvc();
 
-			string pathToDoc = this.configuration["Swagger:Path"];
-
+			Mapper.Initialize(config =>
+			{
+				config.CreateMap<User, UserDto>();
+				config.CreateMap<Student, StudentDto>();
+				config.CreateMap<Lecturer, LecturerDto>();
+				config.CreateMap<Group, GroupDto>();
+				config.CreateMap<Faculty, FacultyDto>();
+				config.CreateMap<Department, DepartmentDto>();
+			});
+			
 			services.AddSwaggerGen(options =>
 			{
 				options.SingleApiVersion(new Info
 				{
 					Version = "v1",
 					Title = "Interlogic Project API",
-					Description = "A simple API for Interlogic Project",
+					Description = "A simple API for the Interlogic project",
 					TermsOfService = "None"
 				});
-				options.IncludeXmlComments(pathToDoc);
+				options.IncludeXmlComments(this.configuration["Swagger:Path"]);
 				options.DescribeAllEnumsAsStrings();
 			});
 		}
 
-		/// <summary>
-		/// Configures this application.
-		/// </summary>
-		/// <param name="app">The builder of this application.</param>
-		/// <param name="env">The hosting environment.</param>
-		/// <param name="loggerFactory">The factory of loggers.</param>
 		public void Configure(
 			IApplicationBuilder app,
 			IHostingEnvironment env,

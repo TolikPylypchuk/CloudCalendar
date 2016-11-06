@@ -1,4 +1,8 @@
-﻿using InterlogicProject.DAL.Models;
+﻿using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using InterlogicProject.DAL.Models;
 
 namespace InterlogicProject.DAL.Repositories
 {
@@ -9,5 +13,11 @@ namespace InterlogicProject.DAL.Repositories
 		{
 			this.table = this.Context.Faculties;
 		}
+
+		public override IQueryable<Faculty> GetAll()
+			=> base.GetAll()
+				   .Include(f => f.Departments)
+						.ThenInclude(d => d.Lecturers)
+							.ThenInclude(lecturer => lecturer.User);
 	}
 }
