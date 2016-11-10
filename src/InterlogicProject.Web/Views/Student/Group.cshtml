@@ -1,0 +1,32 @@
+﻿@{
+	ViewBag.Title = "Group";
+}
+
+@model Group
+
+<h1>@Model.Name</h1>
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>no.</th>
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th>Middle Name</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var student in Model.Students.OrderBy(s => s.NumberInGroup))
+		{
+			<tr>
+				<td>@student.NumberInGroup</td>
+				<td>@student.User.LastName</td>
+				<td>@student.User.FirstName</td>
+				<td>@student.User.MiddleName</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-primary btn-sm">Return</a>

@@ -14,8 +14,8 @@ namespace InterlogicProject.DAL.Models
 
 		[Required(ErrorMessage =
 			"Please specify whether this lecturer " +
-			"is a manager of a department")]
-		public bool IsManager { get; set; }
+			"is a head of a department")]
+		public bool IsHead { get; set; }
 
 		[Required(ErrorMessage =
 			"Please specify whether this lecturer " +
@@ -32,5 +32,7 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(DepartmentId))]
 		public Department Department { get; set; }
+
+		public override string ToString() => this.User.FullName;
 	}
 }

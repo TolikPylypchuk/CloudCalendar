@@ -13,5 +13,7 @@ namespace InterlogicProject.DAL.Models
 		
 		public virtual ICollection<Department> Departments { get; set; } =
 			new HashSet<Department>();
+
+		public override string ToString() => this.Name;
 	}
 }

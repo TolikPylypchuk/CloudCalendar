@@ -20,7 +20,7 @@ namespace InterlogicProject.DAL
 				serviceProvider,
 				new[] { "Lecturer", "Student" });
 
-			await SeedDatabase(serviceProvider);
+			await SeedDatabaseAsync(serviceProvider);
 		}
 
 		private static async Task CreateRolesAsync(
@@ -40,79 +40,174 @@ namespace InterlogicProject.DAL
 			}
 		}
 
-		private static async Task SeedDatabase(
+		private static async Task SeedDatabaseAsync(
 			IServiceProvider serviceProvider)
 		{
 			var context = serviceProvider
 				.GetRequiredService<AppDbContext>();
 			var userManager = serviceProvider
 				.GetRequiredService<UserManager<User>>();
-
+			
 			if (userManager.Users.Any())
 			{
 				return;
 			}
-
+			
 			var users = new[]
 			{
 				new User
 				{
-					UserName = "lecturer1@example.com",
-					Email = "lecturer1@example.com",
-					NormalizedEmail = "LECTURER1@EXAMPLE.COM",
-					FirstName = "test1",
-					MiddleName = "test1",
-					LastName = "test1"
+					UserName = "dyyak.ivan@example.com",
+					Email = "dyyak.ivan@example.com",
+					NormalizedEmail = "DYYAK.IVAN@EXAMPLE.COM",
+					FirstName = "Ivan",
+					MiddleName = "Ivanovych",
+					LastName = "Dyyak"
 				},
 				new User
 				{
-					UserName = "lecturer2@example.com",
-					Email = "lecturer2@example.com",
-					NormalizedEmail = "LECTURER2@EXAMPLE.COM",
-					FirstName = "test2",
-					MiddleName = "test2",
-					LastName = "test2"
+					UserName = "shynkarenko.heorhiy@example.com",
+					Email = "shynkarenko.heorhiy@example.com",
+					NormalizedEmail = "SHYNKARENKO.HEORHIY@EXAMPLE.COM",
+					FirstName = "Heorhiy",
+					MiddleName = "Ivanovych",
+					LastName = "Shynkarenko"
 				},
 				new User
 				{
-					UserName = "lecturer3@example.com",
-					Email = "lecturer3@example.com",
-					NormalizedEmail = "LECTURER3@EXAMPLE.COM",
-					FirstName = "test3",
-					MiddleName = "test3",
-					LastName = "test3"
+					UserName = "horlatch.vitaliy@example.com",
+					Email = "horlatch.vitaliy@example.com",
+					NormalizedEmail = "HORLATCH.VITALIY@EXAMPLE.COM",
+					FirstName = "Vitaliy",
+					MiddleName = "Mykhaylovych",
+					LastName = "Horlatch"
 				},
 				new User
 				{
-					UserName = "student1@example.com",
-					Email = "student1@example.com",
-					NormalizedEmail = "STUDENT1@EXAMPLE.COM",
-					FirstName = "test4",
-					MiddleName = "test4",
-					LastName = "test4"
+					UserName = "vahin.petro@example.com",
+					Email = "vahin.petro@example.com",
+					NormalizedEmail = "VAHIN.PETRO@EXAMPLE.COM",
+					FirstName = "Petro",
+					MiddleName = "Petrovych",
+					LastName = "Vahin"
 				},
 				new User
 				{
-					UserName = "student1@example.com",
-					Email = "student1@example.com",
-					NormalizedEmail = "STUDENT2@EXAMPLE.COM",
-					FirstName = "test5",
-					MiddleName = "test5",
-					LastName = "test5"
+					UserName = "yaroshko.serhii@example.com",
+					Email = "yaroshko.serhii@example.com",
+					NormalizedEmail = "YAROSHKO.SERHII@EXAMPLE.COM",
+					FirstName = "Serhii",
+					MiddleName = "Adamovych",
+					LastName = "Yaroshko"
+				},
+				new User
+				{
+					UserName = "kostiv.vasyl@example.com",
+					Email = "kostiv.vasyl@example.com",
+					NormalizedEmail = "KOSTIV.VASYL@EXAMPLE.COM",
+					FirstName = "Vasyl",
+					MiddleName = "Yaroslavovych",
+					LastName = "Kostiv"
+				},
+				new User
+				{
+					UserName = "hoshko.bogdan@example.com",
+					Email = "hoshko.bogdan@example.com",
+					NormalizedEmail = "HOSHKO.BOGDAN@EXAMPLE.COM",
+					FirstName = "Bogdan",
+					MiddleName = "Myroslavovych",
+					LastName = "Hoshko"
+				},
+				new User
+				{
+					UserName = "pylypchuk.anatoliy@example.com",
+					Email = "pylypchuk.anatoliy@example.com",
+					NormalizedEmail = "PYLYPCHUK.ANATOLIY@EXAMPLE.COM",
+					FirstName = "Anatoliy",
+					MiddleName = "Ihorovych",
+					LastName = "Pylypchuk"
+				},
+				new User
+				{
+					UserName = "telepko.bozhena@example.com",
+					Email = "telepko.bozhena@example.com",
+					NormalizedEmail = "TELEPKO.BOZHENA@EXAMPLE.COM",
+					FirstName = "Bozhena",
+					MiddleName = "Tarasivna",
+					LastName = "Telepko"
+				},
+				new User
+				{
+					UserName = "andrukhiv.ulyana@example.com",
+					Email = "andrukhiv.ulyana@example.com",
+					NormalizedEmail = "ANDRUKHIV.ULYANA@EXAMPLE.COM",
+					FirstName = "Ulyana",	
+					MiddleName = "Tarasivna",
+					LastName = "Andrukhiv"
+				},
+				new User
+				{
+					UserName = "zayats.artur@example.com",
+					Email = "zayats.artur@example.com",
+					NormalizedEmail = "ZAYATS.ARTUR@EXAMPLE.COM",
+					FirstName = "Artur",
+					MiddleName = "Romanovych",
+					LastName = "Zayats"
+				},
+				new User
+				{
+					UserName = "slobodyaniuk.nataliia@example.com",
+					Email = "slobodyaniuk.nataliia@example.com",
+					NormalizedEmail = "SLOBODYIANIUK.NATALIIA@EXAMPLE.COM",
+					FirstName = "Nataliia",
+					MiddleName = "Andriivna",
+					LastName = "Slobodyaniuk"
+				},
+				new User
+				{
+					UserName = "zvizlo.julia@example.com",
+					Email = "zvizlo.julia@example.com",
+					NormalizedEmail = "ZVIZLO.JULIA@EXAMPLE.COM",
+					FirstName = "Julia",
+					MiddleName = "Zenoviivna",
+					LastName = "Zvizlo"
 				}
 			};
 			
-			for (int i = 0; i < 5; i++)
+			foreach (var user in users)
 			{
-				await userManager.CreateAsync(users[i], "secret");
+				await userManager.CreateAsync(user, "secret");
 			}
 
-			await userManager.AddToRoleAsync(users[0], "Lecturer");
-			await userManager.AddToRoleAsync(users[1], "Lecturer");
-			await userManager.AddToRoleAsync(users[2], "Lecturer");
-			await userManager.AddToRoleAsync(users[3], "Student");
-			await userManager.AddToRoleAsync(users[4], "Student");
+			for (int i = 0; i < 7; i++)
+			{
+				await userManager.AddToRoleAsync(users[i], "Lecturer");
+			}
+
+			for (int i = 7; i < 13; i++)
+			{
+				await userManager.AddToRoleAsync(users[i], "Student");
+			}
 			
+			var faculty = new Faculty
+			{
+				Name = "Faculty of Applied Mathematics and Informatics",
+			};
+
+			var departments = new[]
+			{
+				new Department
+				{
+					Name = "Department of Programming",
+					Faculty = faculty
+				},
+				new Department
+				{
+					Name = "Department of Information Systems",
+					Faculty = faculty
+				}
+			};
+
 			var lecturers = new[]
 			{
 				new Lecturer
@@ -120,79 +215,126 @@ namespace InterlogicProject.DAL
 					User = users[0],
 					IsAdmin = true,
 					IsDean = true,
-					IsManager = false
+					IsHead = false,
+					Department = departments[1]
 				},
 				new Lecturer
 				{
 					User = users[1],
 					IsAdmin = false,
 					IsDean = false,
-					IsManager = true
+					IsHead = true,
+					Department = departments[1]
 				},
 				new Lecturer
 				{
 					User = users[2],
-					IsAdmin = false,
-					IsManager = true
+					IsAdmin = true,
+					IsDean = false,
+					IsHead = false,
+					Department = departments[1]
 				},
+				new Lecturer
+				{
+					User = users[3],
+					IsAdmin = false,
+					IsDean = false,
+					IsHead = false,
+					Department = departments[1]
+				},
+				new Lecturer
+				{
+					User = users[4],
+					IsAdmin = false,
+					IsDean = false,
+					IsHead = true,
+					Department = departments[0]
+				},
+				new Lecturer
+				{
+					User = users[5],
+					IsAdmin = false,
+					IsDean = false,
+					IsHead = false,
+					Department = departments[0]
+				},
+				new Lecturer
+				{
+					User = users[6],
+					IsAdmin = false,
+					IsDean = false,
+					IsHead = false,
+					Department = departments[0]
+				}
+			};
+
+			var group = new Group
+			{
+				Name = "AMi-31",
+				Year = 3,
+				Curator = lecturers[5],
+				Department = departments[0]
 			};
 
 			var students = new[]
 			{
 				new Student
 				{
-					User = users[3],
-					StudentNumber = "1",
-					NumberInGroup = 1,
+					User = users[7],
+					StudentNumber = "16479s",
+					Group = group,
+					NumberInGroup = 16,
+					IsGroupLeader = false
+				},
+				new Student
+				{
+					User = users[8],
+					StudentNumber = "16480s",
+					Group = group,
+					NumberInGroup = 21,
 					IsGroupLeader = true
 				},
 				new Student
 				{
-					User = users[4],
-					StudentNumber = "2",
-					NumberInGroup = 2,
+					User = users[9],
+					StudentNumber = "16478s",
+					Group = group,
+					NumberInGroup = 1,
+					IsGroupLeader = false
+				},
+				new Student
+				{
+					User = users[10],
+					StudentNumber = "16481s",
+					Group = group,
+					NumberInGroup = 5,
+					IsGroupLeader = false
+				},
+				new Student
+				{
+					User = users[11],
+					StudentNumber = "16482s",
+					Group = group,
+					NumberInGroup = 19,
+					IsGroupLeader = false
+				},
+				new Student
+				{
+					User = users[12],
+					StudentNumber = "16482s",
+					Group = group,
+					NumberInGroup = 6,
 					IsGroupLeader = false
 				}
 			};
-
-			var faculty = new Faculty
-			{
-				Name = "testFaculty",
-			};
-
-			var departments = new[]
-			{
-				new Department
-				{
-					Name = "testDepartment1",
-					Faculty = faculty
-				},
-				new Department
-				{
-					Name = "testDepartment2",
-					Faculty = faculty
-				}
-			};
-
-			var group = new Group
-			{
-				Name = "testGroup",
-				Year = 1,
-				Curator = lecturers[1],
-				Department = departments[0],
-			};
-
-			lecturers[0].Department = departments[0];
-			lecturers[1].Department = departments[0];
-			lecturers[2].Department = departments[1];
-
-			students[0].Group = group;
-			students[1].Group = group;
 			
 			context.Add(faculty);
 			context.AddRange(departments);
 			context.AddRange(lecturers);
 			context.Add(group);
+
+			context.SaveChanges();
+
 			context.AddRange(students);
 
 			context.SaveChanges();

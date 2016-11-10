@@ -1,0 +1,34 @@
+﻿@model Department
+
+@{
+	ViewBag.Title = "Department";
+}
+
+<h1>@Model.Name</h1>
+
+<h2>@Model.Faculty.Name</h2>
+
+<h3>Head: @Model.Lecturers.First(l => l.IsHead).User.FullName</h3>
+
+<table class="table table-bordered table-striped">
+	<caption>Lecturers</caption>
+	<thead>
+		<tr>
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th>Middle Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var lecturer in Model.Lecturers.OrderBy(l => l.User.LastName))
+		{
+			<tr>
+				<td>@lecturer.User.LastName</td>
+				<td>@lecturer.User.FirstName</td>
+				<td>@lecturer.User.MiddleName</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-primary btn-sm">Return</a>

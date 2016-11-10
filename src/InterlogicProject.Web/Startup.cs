@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,8 @@ namespace InterlogicProject
 				LecturerRepository>();
 			services.AddScoped<IRepository<Student>,
 				StudentRepository>();
+
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			services.AddRouting(options =>
 			{

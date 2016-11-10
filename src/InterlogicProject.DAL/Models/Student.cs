@@ -28,5 +28,7 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(GroupId))]
 		public Group Group { get; set; }
+
+		public override string ToString() => this.User.FullName;
 	}
 }

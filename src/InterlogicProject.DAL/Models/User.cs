@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -17,5 +18,9 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Please enter the last name")]
 		[StringLength(30)]
 		public string LastName { get; set; }
+
+		[NotMapped]
+		public string FullName
+			=> $"{this.LastName} {this.FirstName} {this.MiddleName}";
 	}
 }

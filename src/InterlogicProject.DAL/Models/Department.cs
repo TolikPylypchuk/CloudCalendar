@@ -22,5 +22,7 @@ namespace InterlogicProject.DAL.Models
 		
 		public virtual ICollection<Lecturer> Lecturers { get; set; } =
 			new HashSet<Lecturer>();
+
+		public override string ToString() => this.Name;
 	}
 }
