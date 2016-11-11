@@ -2,21 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InterlogicProject.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161111175841_RemovedUnnecessaryPropertiesAddedIndexes")]
+    partial class RemovedUnnecessaryPropertiesAddedIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Department",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -37,9 +37,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Faculty",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -56,9 +54,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("Faculties");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Group",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -80,9 +76,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Lecturer",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -107,9 +101,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("Lecturers");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Student",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -136,9 +128,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.User",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.User", b =>
                 {
                     b.Property<string>("Id");
 
@@ -199,9 +189,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id");
 
@@ -222,9 +210,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -243,9 +229,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -264,9 +248,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -284,9 +266,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -301,9 +281,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -318,9 +296,7 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Department",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.Faculty", "Faculty")
                         .WithMany("Departments")
@@ -328,9 +304,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Group",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Curator")
                         .WithMany()
@@ -338,9 +312,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Lecturer",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.Department", "Department")
                         .WithMany("Lecturers")
@@ -353,9 +325,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"InterlogicProject.DAL.Models.Student",
-				b =>
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
                         .WithMany("Students")
@@ -368,9 +338,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Claims")
@@ -378,9 +346,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.User")
                         .WithMany("Claims")
@@ -388,9 +354,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("InterlogicProject.DAL.Models.User")
                         .WithMany("Logins")
@@ -398,9 +362,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity(
-				"Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>",
-				b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Users")

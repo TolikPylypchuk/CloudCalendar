@@ -11,9 +11,8 @@
 
 		public int GroupId { get; set; }
 		public string GroupName { get; set; }
-		public int NumberInGroup { get; set; }
 		public bool IsGroupLeader { get; set; }
 
-		public string StudentNumber { get; set; }
+		public string TranscriptNumber { get; set; }
 	}
 }

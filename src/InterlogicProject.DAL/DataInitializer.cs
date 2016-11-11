@@ -272,8 +272,7 @@ namespace InterlogicProject.DAL
 			{
 				Name = "AMi-31",
 				Year = 3,
-				Curator = lecturers[5],
-				Department = departments[0]
+				Curator = lecturers[5]
 			};
 
 			var students = new[]
@@ -281,49 +280,43 @@ namespace InterlogicProject.DAL
 				new Student
 				{
 					User = users[7],
-					StudentNumber = "16479s",
+					TranscriptNumber = "1600479s",
 					Group = group,
-					NumberInGroup = 16,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[8],
-					StudentNumber = "16480s",
+					TranscriptNumber = "1600480s",
 					Group = group,
-					NumberInGroup = 21,
 					IsGroupLeader = true
 				},
 				new Student
 				{
 					User = users[9],
-					StudentNumber = "16478s",
+					TranscriptNumber = "1600478s",
 					Group = group,
-					NumberInGroup = 1,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[10],
-					StudentNumber = "16481s",
+					TranscriptNumber = "1600481s",
 					Group = group,
-					NumberInGroup = 5,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[11],
-					StudentNumber = "16482s",
+					TranscriptNumber = "1600482s",
 					Group = group,
-					NumberInGroup = 19,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[12],
-					StudentNumber = "16482s",
+					TranscriptNumber = "1600483s",
 					Group = group,
-					NumberInGroup = 6,
 					IsGroupLeader = false
 				}
 			};

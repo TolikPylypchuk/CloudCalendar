@@ -11,12 +11,9 @@ namespace InterlogicProject.DAL.Models
 
 		[Required(ErrorMessage = "Please specify the group")]
 		public int GroupId { get; set; }
-
-		[Required(ErrorMessage = "Please specify the number in group")]
-		public int NumberInGroup { get; set; }
-
-		[Required(ErrorMessage = "Please specify the unique student number")]
-		public string StudentNumber { get; set; }
+		
+		[Required(ErrorMessage = "Please specify the transcript number")]
+		public string TranscriptNumber { get; set; }
 
 		[Required(ErrorMessage =
 			"Please specify whether this student " +

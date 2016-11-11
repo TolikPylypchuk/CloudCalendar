@@ -13,7 +13,7 @@
 		public string DepartmentName { get; set; }
 
 		public bool IsDean { get; set; }
-		public bool IsManager { get; set; }
+		public bool IsHead { get; set; }
 		public bool IsAdmin { get; set; }
 	}
 }

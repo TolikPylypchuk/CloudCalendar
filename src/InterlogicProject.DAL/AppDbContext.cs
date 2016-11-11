@@ -17,5 +17,26 @@ namespace InterlogicProject.DAL
 		public DbSet<Faculty> Faculties { get; set; }
 		public DbSet<Lecturer> Lecturers { get; set; }
 		public DbSet<Student> Students { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			builder.Entity<Faculty>()
+				   .HasIndex(f => f.Name)
+				   .IsUnique();
+
+			builder.Entity<Department>()
+				   .HasIndex(d => d.Name)
+				   .IsUnique();
+
+			builder.Entity<Group>()
+				   .HasIndex(g => g.Name)
+				   .IsUnique();
+
+			builder.Entity<Student>()
+				   .HasIndex(s => s.TranscriptNumber)
+				   .IsUnique();
+		}
 	}
 }

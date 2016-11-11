@@ -16,16 +16,10 @@ namespace InterlogicProject.DAL.Models
 
 		[Required(ErrorMessage = "Please specify the curator")]
 		public int CuratorId { get; set; }
-
-		[Required(ErrorMessage = "Please specify the department")]
-		public int DepartmentId { get; set; }
 		
 		[ForeignKey(nameof(CuratorId))]
 		public Lecturer Curator { get; set; }
-
-		[ForeignKey(nameof(DepartmentId))]
-		public Department Department { get; set; }
-
+		
 		public virtual ICollection<Student> Students { get; set; } =
 			new HashSet<Student>();
 
