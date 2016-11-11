@@ -60,117 +60,126 @@ namespace InterlogicProject.DAL
 					UserName = "dyyak.ivan@example.com",
 					Email = "dyyak.ivan@example.com",
 					NormalizedEmail = "DYYAK.IVAN@EXAMPLE.COM",
-					FirstName = "Ivan",
-					MiddleName = "Ivanovych",
-					LastName = "Dyyak"
+					FirstName = "Іван",
+					MiddleName = "Іванович",
+					LastName = "Дияк"
 				},
 				new User
 				{
 					UserName = "shynkarenko.heorhiy@example.com",
 					Email = "shynkarenko.heorhiy@example.com",
 					NormalizedEmail = "SHYNKARENKO.HEORHIY@EXAMPLE.COM",
-					FirstName = "Heorhiy",
-					MiddleName = "Ivanovych",
-					LastName = "Shynkarenko"
+					FirstName = "Георгій",
+					MiddleName = "Іванович",
+					LastName = "Шинкаренко"
 				},
 				new User
 				{
 					UserName = "horlatch.vitaliy@example.com",
 					Email = "horlatch.vitaliy@example.com",
 					NormalizedEmail = "HORLATCH.VITALIY@EXAMPLE.COM",
-					FirstName = "Vitaliy",
-					MiddleName = "Mykhaylovych",
-					LastName = "Horlatch"
+					FirstName = "Віталій",
+					MiddleName = "Михайлович",
+					LastName = "Горлач"
 				},
 				new User
 				{
 					UserName = "vahin.petro@example.com",
 					Email = "vahin.petro@example.com",
 					NormalizedEmail = "VAHIN.PETRO@EXAMPLE.COM",
-					FirstName = "Petro",
-					MiddleName = "Petrovych",
-					LastName = "Vahin"
+					FirstName = "Петро",
+					MiddleName = "Петрович",
+					LastName = "Вагін"
 				},
 				new User
 				{
 					UserName = "yaroshko.serhii@example.com",
 					Email = "yaroshko.serhii@example.com",
 					NormalizedEmail = "YAROSHKO.SERHII@EXAMPLE.COM",
-					FirstName = "Serhii",
-					MiddleName = "Adamovych",
-					LastName = "Yaroshko"
+					FirstName = "Сергій",
+					MiddleName = "Адамович",
+					LastName = "Ярошко"
 				},
 				new User
 				{
 					UserName = "kostiv.vasyl@example.com",
 					Email = "kostiv.vasyl@example.com",
 					NormalizedEmail = "KOSTIV.VASYL@EXAMPLE.COM",
-					FirstName = "Vasyl",
-					MiddleName = "Yaroslavovych",
-					LastName = "Kostiv"
+					FirstName = "Василь",
+					MiddleName = "Ярославович",
+					LastName = "Костів"
 				},
 				new User
 				{
 					UserName = "hoshko.bogdan@example.com",
 					Email = "hoshko.bogdan@example.com",
 					NormalizedEmail = "HOSHKO.BOGDAN@EXAMPLE.COM",
-					FirstName = "Bogdan",
-					MiddleName = "Myroslavovych",
-					LastName = "Hoshko"
+					FirstName = "Богдан",
+					MiddleName = "Мирославович",
+					LastName = "Гошко"
+				},
+				new User
+				{
+					UserName = "malets.roma@example.com",
+					Email = "malets.roma@example.com",
+					NormalizedEmail = "MALETS.ROMA@EXAMPLE.COM",
+					FirstName = "Рома",
+					MiddleName = "Богданівна",
+					LastName = "Малець"
 				},
 				new User
 				{
 					UserName = "pylypchuk.anatoliy@example.com",
 					Email = "pylypchuk.anatoliy@example.com",
 					NormalizedEmail = "PYLYPCHUK.ANATOLIY@EXAMPLE.COM",
-					FirstName = "Anatoliy",
-					MiddleName = "Ihorovych",
-					LastName = "Pylypchuk"
+					FirstName = "Анатолій",
+					MiddleName = "Ігорович",
+					LastName = "Пилипчук"
 				},
 				new User
 				{
 					UserName = "telepko.bozhena@example.com",
 					Email = "telepko.bozhena@example.com",
 					NormalizedEmail = "TELEPKO.BOZHENA@EXAMPLE.COM",
-					FirstName = "Bozhena",
-					MiddleName = "Tarasivna",
-					LastName = "Telepko"
+					FirstName = "Божена",
+					MiddleName = "Тарасівна",
+					LastName = "Телепко"
 				},
 				new User
 				{
 					UserName = "andrukhiv.ulyana@example.com",
 					Email = "andrukhiv.ulyana@example.com",
 					NormalizedEmail = "ANDRUKHIV.ULYANA@EXAMPLE.COM",
-					FirstName = "Ulyana",	
-					MiddleName = "Tarasivna",
-					LastName = "Andrukhiv"
+					FirstName = "Уляна",	
+					MiddleName = "Тарасівна",
+					LastName = "Андрухів"
 				},
 				new User
 				{
 					UserName = "zayats.artur@example.com",
 					Email = "zayats.artur@example.com",
 					NormalizedEmail = "ZAYATS.ARTUR@EXAMPLE.COM",
-					FirstName = "Artur",
-					MiddleName = "Romanovych",
-					LastName = "Zayats"
+					FirstName = "Артур",
+					MiddleName = "Романович",
+					LastName = "Заяць"
 				},
 				new User
 				{
 					UserName = "slobodyaniuk.nataliia@example.com",
 					Email = "slobodyaniuk.nataliia@example.com",
 					NormalizedEmail = "SLOBODYIANIUK.NATALIIA@EXAMPLE.COM",
-					FirstName = "Nataliia",
-					MiddleName = "Andriivna",
-					LastName = "Slobodyaniuk"
+					FirstName = "Наталія",
+					MiddleName = "Андріївна",
+					LastName = "Слободянюк"
 				},
 				new User
 				{
 					UserName = "zvizlo.julia@example.com",
 					Email = "zvizlo.julia@example.com",
 					NormalizedEmail = "ZVIZLO.JULIA@EXAMPLE.COM",
-					FirstName = "Julia",
-					MiddleName = "Zenoviivna",
-					LastName = "Zvizlo"
+					FirstName = "Юлія",
+					MiddleName = "Зеновііївна",
+					LastName = "Звізло"
 				}
 			};
 			
@@ -179,31 +188,31 @@ namespace InterlogicProject.DAL
 				await userManager.CreateAsync(user, "secret");
 			}
 
-			for (int i = 0; i < 7; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				await userManager.AddToRoleAsync(users[i], "Lecturer");
 			}
 
-			for (int i = 7; i < 13; i++)
+			for (int i = 8; i < 14; i++)
 			{
 				await userManager.AddToRoleAsync(users[i], "Student");
 			}
 			
 			var faculty = new Faculty
 			{
-				Name = "Faculty of Applied Mathematics and Informatics",
+				Name = "Факультет прикладної математики та інформатики",
 			};
 
 			var departments = new[]
 			{
 				new Department
 				{
-					Name = "Department of Programming",
+					Name = "Кафедра програмування",
 					Faculty = faculty
 				},
 				new Department
 				{
-					Name = "Department of Information Systems",
+					Name = "Кафедра інформаційних систем",
 					Faculty = faculty
 				}
 			};
@@ -265,57 +274,65 @@ namespace InterlogicProject.DAL
 					IsDean = false,
 					IsHead = false,
 					Department = departments[0]
+				},
+				new Lecturer
+				{
+					User = users[7],
+					IsAdmin = false,
+					IsDean = false,
+					IsHead = false,
+					Department = departments[0]
 				}
 			};
 
 			var group = new Group
 			{
-				Name = "AMi-31",
-				Year = 3,
-				Curator = lecturers[5]
+				Name = "ПМі-31",
+				Year = 2014,
+				Curator = lecturers[7]
 			};
 
 			var students = new[]
 			{
 				new Student
 				{
-					User = users[7],
-					TranscriptNumber = "1600479s",
+					User = users[8],
+					TranscriptNumber = "2714088с",
 					Group = group,
 					IsGroupLeader = false
 				},
 				new Student
 				{
-					User = users[8],
-					TranscriptNumber = "1600480s",
+					User = users[9],
+					TranscriptNumber = "2714089с",
 					Group = group,
 					IsGroupLeader = true
 				},
 				new Student
 				{
-					User = users[9],
-					TranscriptNumber = "1600478s",
-					Group = group,
-					IsGroupLeader = false
-				},
-				new Student
-				{
 					User = users[10],
-					TranscriptNumber = "1600481s",
+					TranscriptNumber = "2714090с",
 					Group = group,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[11],
-					TranscriptNumber = "1600482s",
+					TranscriptNumber = "2714091с",
 					Group = group,
 					IsGroupLeader = false
 				},
 				new Student
 				{
 					User = users[12],
-					TranscriptNumber = "1600483s",
+					TranscriptNumber = "2714092с",
+					Group = group,
+					IsGroupLeader = false
+				},
+				new Student
+				{
+					User = users[13],
+					TranscriptNumber = "2714093с",
 					Group = group,
 					IsGroupLeader = false
 				}
@@ -325,9 +342,6 @@ namespace InterlogicProject.DAL
 			context.AddRange(departments);
 			context.AddRange(lecturers);
 			context.Add(group);
-
-			context.SaveChanges();
-
 			context.AddRange(students);
 
 			context.SaveChanges();

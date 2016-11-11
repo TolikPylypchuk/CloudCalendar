@@ -7,14 +7,13 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Groups))]
 	public class Group : EntityBase
 	{
-		[Required(ErrorMessage = "Please enter the group name")]
+		[Required(ErrorMessage = "Введіть назву групи")]
 		public string Name { get; set; }
 		
-		[Range(1, 6, ErrorMessage = "The year must be in range 1 to 6")]
-		[Required(ErrorMessage = "Please enter the year")]
+		[Required(ErrorMessage = "Введіть рік вступу групи")]
 		public int Year { get; set; }
 
-		[Required(ErrorMessage = "Please specify the curator")]
+		[Required(ErrorMessage = "Вкажіть куротора групи")]
 		public int CuratorId { get; set; }
 		
 		[ForeignKey(nameof(CuratorId))]

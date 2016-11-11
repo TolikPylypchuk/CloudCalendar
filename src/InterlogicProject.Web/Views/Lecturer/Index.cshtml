@@ -1,15 +1,19 @@
-﻿<div class="bg-primary panel-heading">
-	<h4>This is a lecturer account.</h4>
+﻿@{
+	ViewBag.Title = "Головна";
+}
+
+<div class="bg-primary panel-heading">
+	<h4>Акаунт викладача.</h4>
 </div>
 
 <a asp-action="Department" class="btn btn-primary btn-sm">
-	Department info
+	Інформація про кафедру
 </a>
 
 <a asp-action="Groups" class="btn btn-primary btn-sm">
-	Groups in department
+	Групи кафедри
 </a>
 
 <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-sm">
-	Logout
+	Вийди
 </a>

@@ -7,15 +7,15 @@ namespace InterlogicProject.DAL.Models
 {
 	public class User : IdentityUser
 	{
-		[Required(ErrorMessage = "Please enter the first name")]
+		[Required(ErrorMessage = "Введіть ім'я")]
 		[StringLength(30)]
 		public string FirstName { get; set; }
 
-		[Required(ErrorMessage = "Please enter the middle name")]
+		[Required(ErrorMessage = "Введіть по-батькові")]
 		[StringLength(30)]
 		public string MiddleName { get; set; }
 
-		[Required(ErrorMessage = "Please enter the last name")]
+		[Required(ErrorMessage = "Введіть прізвище")]
 		[StringLength(30)]
 		public string LastName { get; set; }
 

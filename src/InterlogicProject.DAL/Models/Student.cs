@@ -6,18 +6,17 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Students))]
 	public class Student : EntityBase
 	{
-		[Required(ErrorMessage = "Please specify the user info")]
+		[Required(ErrorMessage = "Вкажіть інформацію про користувача")]
 		public string UserId { get; set; }
 
-		[Required(ErrorMessage = "Please specify the group")]
+		[Required(ErrorMessage = "Вкажіть групу")]
 		public int GroupId { get; set; }
 		
-		[Required(ErrorMessage = "Please specify the transcript number")]
+		[Required(ErrorMessage = "Вкажіть номер залікової книжки")]
 		public string TranscriptNumber { get; set; }
 
 		[Required(ErrorMessage =
-			"Please specify whether this student " +
-			"is a leader of a group")]
+			"Вкажіть, чи цей студент є старостою групи")]
 		public bool IsGroupLeader { get; set; }
 
 		[ForeignKey(nameof(UserId))]

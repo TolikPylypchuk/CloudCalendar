@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Group>
 
 @{
-	ViewBag.Title = "Groups";
+	ViewBag.Title = "Групи";
 }
 
 @if (Model.Any())
 {
-	<h1>Groups in @Model.First().Curator.Department</h1>
+	<h1>@Model.First().Curator.Department</h1>
 
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>Curator</th>
+				<th>Назва</th>
+				<th>Куратор</th>
 			</tr>
 		</thead>
 	
@@ -28,7 +28,7 @@
 	</table>
 } else
 {
-	<h1>No Groups in this department.</h1>
+	<h1>На цій кафедрі немає груп.</h1>
 }
 
-<a asp-action="Index" class="btn btn-primary btn-sm">Return</a>
+<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>

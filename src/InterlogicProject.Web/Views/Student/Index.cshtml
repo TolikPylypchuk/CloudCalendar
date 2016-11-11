@@ -1,8 +1,12 @@
-﻿<div class="bg-primary panel-body">
-	<h4>This is a student account.</h4>
+﻿@{
+	ViewBag.Title = "Головна";
+}
+
+<div class="bg-primary panel-body">
+	<h4>Студентський акаунт.</h4>
 </div>
 
-<a asp-action="Group" class="btn btn-primary btn-sm">View Group</a>
+<a asp-action="Group" class="btn btn-primary btn-sm">Група</a>
 
 <a asp-controller="Account" asp-action="Logout"
-   class="btn btn-danger btn-sm">Logout</a>
+   class="btn btn-danger btn-sm">Вийти</a>

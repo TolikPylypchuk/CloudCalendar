@@ -7,7 +7,7 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Faculties))]
 	public class Faculty : EntityBase
 	{
-		[Required(ErrorMessage = "Please enter the faculty name")]
+		[Required(ErrorMessage = "Введіть назву факультету")]
 		[StringLength(50)]
 		public string Name { get; set; }
 		

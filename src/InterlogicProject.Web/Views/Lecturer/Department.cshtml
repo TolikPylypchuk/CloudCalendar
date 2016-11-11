@@ -1,22 +1,22 @@
 ﻿@model Department
 
 @{
-	ViewBag.Title = "Department";
+	ViewBag.Title = "Кафедра";
 }
 
 <h1>@Model.Name</h1>
 
 <h2>@Model.Faculty.Name</h2>
 
-<h3>Head: @Model.Lecturers.First(l => l.IsHead).User.FullName</h3>
+<h3>Завідувач: @Model.Lecturers.First(l => l.IsHead).User.FullName</h3>
 
 <table class="table table-bordered table-striped">
 	<caption>Lecturers</caption>
 	<thead>
 		<tr>
-			<th>Last Name</th>
-			<th>First Name</th>
-			<th>Middle Name</th>
+			<th>Прізвище</th>
+			<th>Ім'я</th>
+			<th>По-батькові</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,4 +31,4 @@
 	</tbody>
 </table>
 
-<a asp-action="Index" class="btn btn-primary btn-sm">Return</a>
+<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>

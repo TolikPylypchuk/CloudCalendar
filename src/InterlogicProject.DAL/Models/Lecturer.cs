@@ -6,25 +6,22 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Lecturers))]
 	public class Lecturer : EntityBase
 	{
-		[Required(ErrorMessage = "Please specify the user info")]
+		[Required(ErrorMessage = "Вкажіть інформацію про користувача")]
 		public string UserId { get; set; }
 
-		[Required(ErrorMessage = "Please specify the department")]
+		[Required(ErrorMessage = "Вкажіть кафедру, до якої належить викладач")]
 		public int DepartmentId { get; set; }
 
 		[Required(ErrorMessage =
-			"Please specify whether this lecturer " +
-			"is a head of a department")]
+			"Вкажіть чи цей викладач є завідувачем кафедри")]
 		public bool IsHead { get; set; }
 
 		[Required(ErrorMessage =
-			"Please specify whether this lecturer " +
-			"is a dean of a faculty")]
+			"Вкажіть чи цей викладач є деканом факультету")]
 		public bool IsDean { get; set; }
 
 		[Required(ErrorMessage =
-			"Please specify whether this lecturer " +
-			"has administrator privileges")]
+			"Вкажіть чи цей викладач має права адміністатора")]
 		public bool IsAdmin { get; set; }
 
 		[ForeignKey(nameof(UserId))]

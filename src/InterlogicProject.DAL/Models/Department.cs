@@ -9,12 +9,12 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Departments))]
 	public class Department : EntityBase
 	{
-		[Required(ErrorMessage = "Please enter the department name")]
+		[Required(ErrorMessage = "Введіть назву кафедри")]
 		[StringLength(50)]
 		public string Name { get; set; }
 
 		[JsonIgnore]
-		[Required(ErrorMessage = "Please specify the faculty")]
+		[Required(ErrorMessage = "Вкажіть факультет кафедри")]
 		public int FacultyId { get; set; }
 		
 		[ForeignKey(nameof(FacultyId))]
