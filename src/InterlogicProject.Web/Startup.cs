@@ -91,6 +91,9 @@ namespace InterlogicProject
 				config.CreateMap<Group, GroupDto>();
 				config.CreateMap<Faculty, FacultyDto>();
 				config.CreateMap<Department, DepartmentDto>();
+				config.CreateMap<Subject, SubjectDto>();
+				config.CreateMap<GroupSubject, GroupSubjectDto>();
+				config.CreateMap<Class, ClassDto>();
 			});
 			
 			services.AddSwaggerGen(options =>

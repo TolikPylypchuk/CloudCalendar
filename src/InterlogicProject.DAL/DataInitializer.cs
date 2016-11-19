@@ -55,7 +55,7 @@ namespace InterlogicProject.DAL
 			
 			var users = new[]
 			{
-				new User
+				new User // 0
 				{
 					UserName = "dyyak.ivan@example.com",
 					Email = "dyyak.ivan@example.com",
@@ -64,7 +64,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Іванович",
 					LastName = "Дияк"
 				},
-				new User
+				new User // 1
 				{
 					UserName = "shynkarenko.heorhiy@example.com",
 					Email = "shynkarenko.heorhiy@example.com",
@@ -73,7 +73,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Іванович",
 					LastName = "Шинкаренко"
 				},
-				new User
+				new User // 2
 				{
 					UserName = "horlatch.vitaliy@example.com",
 					Email = "horlatch.vitaliy@example.com",
@@ -82,7 +82,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Михайлович",
 					LastName = "Горлач"
 				},
-				new User
+				new User // 3
 				{
 					UserName = "vahin.petro@example.com",
 					Email = "vahin.petro@example.com",
@@ -91,7 +91,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Петрович",
 					LastName = "Вагін"
 				},
-				new User
+				new User // 4
 				{
 					UserName = "yaroshko.serhii@example.com",
 					Email = "yaroshko.serhii@example.com",
@@ -100,7 +100,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Адамович",
 					LastName = "Ярошко"
 				},
-				new User
+				new User // 5
 				{
 					UserName = "kostiv.vasyl@example.com",
 					Email = "kostiv.vasyl@example.com",
@@ -109,7 +109,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Ярославович",
 					LastName = "Костів"
 				},
-				new User
+				new User // 6
 				{
 					UserName = "hoshko.bogdan@example.com",
 					Email = "hoshko.bogdan@example.com",
@@ -118,7 +118,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Мирославович",
 					LastName = "Гошко"
 				},
-				new User
+				new User // 7
 				{
 					UserName = "malets.roma@example.com",
 					Email = "malets.roma@example.com",
@@ -127,7 +127,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Богданівна",
 					LastName = "Малець"
 				},
-				new User
+				new User // 8
 				{
 					UserName = "pylypchuk.anatoliy@example.com",
 					Email = "pylypchuk.anatoliy@example.com",
@@ -136,7 +136,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Ігорович",
 					LastName = "Пилипчук"
 				},
-				new User
+				new User // 9
 				{
 					UserName = "telepko.bozhena@example.com",
 					Email = "telepko.bozhena@example.com",
@@ -145,7 +145,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Тарасівна",
 					LastName = "Телепко"
 				},
-				new User
+				new User // 10
 				{
 					UserName = "andrukhiv.ulyana@example.com",
 					Email = "andrukhiv.ulyana@example.com",
@@ -154,7 +154,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Тарасівна",
 					LastName = "Андрухів"
 				},
-				new User
+				new User // 11
 				{
 					UserName = "zayats.artur@example.com",
 					Email = "zayats.artur@example.com",
@@ -163,7 +163,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Романович",
 					LastName = "Заяць"
 				},
-				new User
+				new User // 12
 				{
 					UserName = "slobodyaniuk.nataliia@example.com",
 					Email = "slobodyaniuk.nataliia@example.com",
@@ -172,7 +172,7 @@ namespace InterlogicProject.DAL
 					MiddleName = "Андріївна",
 					LastName = "Слободянюк"
 				},
-				new User
+				new User // 13
 				{
 					UserName = "zvizlo.julia@example.com",
 					Email = "zvizlo.julia@example.com",
@@ -219,7 +219,7 @@ namespace InterlogicProject.DAL
 
 			var lecturers = new[]
 			{
-				new Lecturer
+				new Lecturer // 0
 				{
 					User = users[0],
 					IsAdmin = true,
@@ -227,7 +227,7 @@ namespace InterlogicProject.DAL
 					IsHead = false,
 					Department = departments[1]
 				},
-				new Lecturer
+				new Lecturer // 1
 				{
 					User = users[1],
 					IsAdmin = false,
@@ -235,7 +235,7 @@ namespace InterlogicProject.DAL
 					IsHead = true,
 					Department = departments[1]
 				},
-				new Lecturer
+				new Lecturer // 2
 				{
 					User = users[2],
 					IsAdmin = true,
@@ -243,7 +243,7 @@ namespace InterlogicProject.DAL
 					IsHead = false,
 					Department = departments[1]
 				},
-				new Lecturer
+				new Lecturer // 3
 				{
 					User = users[3],
 					IsAdmin = false,
@@ -251,7 +251,7 @@ namespace InterlogicProject.DAL
 					IsHead = false,
 					Department = departments[1]
 				},
-				new Lecturer
+				new Lecturer // 4
 				{
 					User = users[4],
 					IsAdmin = false,
@@ -259,7 +259,7 @@ namespace InterlogicProject.DAL
 					IsHead = true,
 					Department = departments[0]
 				},
-				new Lecturer
+				new Lecturer // 5
 				{
 					User = users[5],
 					IsAdmin = false,
@@ -267,7 +267,7 @@ namespace InterlogicProject.DAL
 					IsHead = false,
 					Department = departments[0]
 				},
-				new Lecturer
+				new Lecturer // 6
 				{
 					User = users[6],
 					IsAdmin = false,
@@ -275,7 +275,7 @@ namespace InterlogicProject.DAL
 					IsHead = false,
 					Department = departments[0]
 				},
-				new Lecturer
+				new Lecturer // 7
 				{
 					User = users[7],
 					IsAdmin = false,
@@ -294,42 +294,42 @@ namespace InterlogicProject.DAL
 
 			var students = new[]
 			{
-				new Student
+				new Student // 0
 				{
 					User = users[8],
 					TranscriptNumber = "2714088с",
 					Group = group,
 					IsGroupLeader = false
 				},
-				new Student
+				new Student // 1
 				{
 					User = users[9],
 					TranscriptNumber = "2714089с",
 					Group = group,
 					IsGroupLeader = true
 				},
-				new Student
+				new Student // 2
 				{
 					User = users[10],
 					TranscriptNumber = "2714090с",
 					Group = group,
 					IsGroupLeader = false
 				},
-				new Student
+				new Student // 3
 				{
 					User = users[11],
 					TranscriptNumber = "2714091с",
 					Group = group,
 					IsGroupLeader = false
 				},
-				new Student
+				new Student // 4
 				{
 					User = users[12],
 					TranscriptNumber = "2714092с",
 					Group = group,
 					IsGroupLeader = false
 				},
-				new Student
+				new Student // 5
 				{
 					User = users[13],
 					TranscriptNumber = "2714093с",
@@ -337,12 +337,39 @@ namespace InterlogicProject.DAL
 					IsGroupLeader = false
 				}
 			};
+
+			var subjects = new[]
+			{
+				new Subject { Name = "Математичний аналіз" },
+				new Subject { Name = "Програмування" },
+				new Subject { Name = "Чисельні методи" },
+				new Subject { Name = "Бази даних та інформаційні системи" },
+				new Subject { Name = "Паралельні та розподілені обчислення" },
+			};
+
+			var groupSubjects = new[]
+			{
+				new GroupSubject
+				{
+					Subject = subjects[3],
+					Group = group,
+					Lecturer = lecturers[5]
+				},
+				new GroupSubject
+				{
+					Subject = subjects[4],
+					Group = group,
+					Lecturer = lecturers[6]
+				},
+			};
 			
 			context.Add(faculty);
 			context.AddRange(departments);
 			context.AddRange(lecturers);
 			context.Add(group);
 			context.AddRange(students);
+			context.AddRange(subjects);
+			context.AddRange(groupSubjects);
 
 			context.SaveChanges();
 		}
