@@ -2,8 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Newtonsoft.Json;
-
 namespace InterlogicProject.DAL.Models
 {
 	[Table(nameof(AppDbContext.Departments))]
@@ -13,7 +11,6 @@ namespace InterlogicProject.DAL.Models
 		[StringLength(50)]
 		public string Name { get; set; }
 
-		[JsonIgnore]
 		[Required(ErrorMessage = "Вкажіть факультет кафедри")]
 		public int FacultyId { get; set; }
 		

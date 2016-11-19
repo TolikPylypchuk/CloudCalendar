@@ -4,31 +4,37 @@
 	ViewBag.Title = "Кафедра";
 }
 
-<h1>@Model.Name</h1>
+<div class="panel-heading">
+	<h1>@Model.Name</h1>
 
-<h2>@Model.Faculty.Name</h2>
+	<p class="h2">@Model.Faculty.Name</p>
 
-<h3>Завідувач: @Model.Lecturers.First(l => l.IsHead).User.FullName</h3>
+	<p class="h3">
+		Завідувач: @Model.Lecturers.First(l => l.IsHead).User.FullName
+	</p>
+</div>
 
-<table class="table table-bordered table-striped">
-	<caption>Lecturers</caption>
-	<thead>
-		<tr>
-			<th>Прізвище</th>
-			<th>Ім'я</th>
-			<th>По-батькові</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var lecturer in Model.Lecturers.OrderBy(l => l.User.LastName))
-		{
+<div class="panel-body">
+	<table class="table table-bordered table-striped">
+		<caption>Викладачі</caption>
+		<thead>
 			<tr>
-				<td>@lecturer.User.LastName</td>
-				<td>@lecturer.User.FirstName</td>
-				<td>@lecturer.User.MiddleName</td>
+				<th>Прізвище</th>
+				<th>Ім'я</th>
+				<th>По-батькові</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var lecturer in Model.Lecturers.OrderBy(l => l.User.LastName))
+			{
+				<tr>
+					<td>@lecturer.User.LastName</td>
+					<td>@lecturer.User.FirstName</td>
+					<td>@lecturer.User.MiddleName</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 
-<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+	<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+</div>

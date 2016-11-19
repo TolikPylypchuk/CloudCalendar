@@ -2,11 +2,13 @@
 	ViewBag.Title = "Головна";
 }
 
-<div class="bg-primary panel-body">
-	<h4>Студентський акаунт.</h4>
+<div class="bg-primary panel-heading">
+	<h4>Студентський акаунт</h4>
 </div>
 
-<a asp-action="Group" class="btn btn-primary btn-sm">Група</a>
+<div class="panel-body">
+	<a asp-action="Group" class="btn btn-primary btn-sm">Група</a>
 
-<a asp-controller="Account" asp-action="Logout"
-   class="btn btn-danger btn-sm">Вийти</a>
+	<a asp-controller="Account" asp-action="Logout"
+	   class="btn btn-danger btn-sm">Вийти</a>
+</div>

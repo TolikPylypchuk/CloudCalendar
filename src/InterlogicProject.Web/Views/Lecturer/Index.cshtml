@@ -3,17 +3,19 @@
 }
 
 <div class="bg-primary panel-heading">
-	<h4>Акаунт викладача.</h4>
+	<h4>Акаунт викладача</h4>
 </div>
 
-<a asp-action="Department" class="btn btn-primary btn-sm">
-	Інформація про кафедру
-</a>
+<div class="panel-body">
+	<a asp-action="Department" class="btn btn-primary btn-sm">
+		Інформація про кафедру
+	</a>
 
-<a asp-action="Groups" class="btn btn-primary btn-sm">
-	Групи кафедри
-</a>
+	<a asp-action="Groups" class="btn btn-primary btn-sm">
+		Групи кафедри
+	</a>
 
-<a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-sm">
-	Вийди
-</a>
+	<a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-sm">
+		Вийди
+	</a>
+</div>

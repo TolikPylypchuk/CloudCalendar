@@ -4,31 +4,33 @@
 	ViewBag.Title = "Групи";
 }
 
-@if (Model.Any())
-{
-	<h1>@Model.First().Curator.Department</h1>
+<div class="panel-body">
+	@if (Model.Any())
+	{
+		<h1>@Model.First().Curator.Department</h1>
 
-	<table class="table table-bordered table-striped">
-		<thead>
-			<tr>
-				<th>Назва</th>
-				<th>Куратор</th>
-			</tr>
-		</thead>
-	
-		<tbody>
-			@foreach (var group in Model.OrderBy(g => g.Name))
-			{
+		<table class="table table-bordered table-striped">
+			<thead>
 				<tr>
-					<td>@group.Name</td>
-					<td>@group.Curator.User.FullName</td>
+					<th>Назва</th>
+					<th>Куратор</th>
 				</tr>
-			}
-		</tbody>
-	</table>
-} else
-{
-	<h1>На цій кафедрі немає груп.</h1>
-}
+			</thead>
 
-<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+			<tbody>
+				@foreach (var group in Model.OrderBy(g => g.Name))
+				{
+					<tr>
+						<td>@group.Name</td>
+						<td>@group.Curator.User.FullName</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	} else
+	{
+		<h1>На цій кафедрі немає груп.</h1>
+	}
+
+	<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+</div>

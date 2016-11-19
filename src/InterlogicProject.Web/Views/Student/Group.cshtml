@@ -4,27 +4,31 @@
 
 @model Group
 
-<h1>@Model.Name</h1>
+<div class="panel-heading">
+	<h1>@Model.Name</h1>
+</div>
 
-<table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<th>Прізвище</th>
-			<th>Ім'я</th>
-			<th>По-батькові</th>
-		</tr>
-	</thead>
-
-	<tbody>
-		@foreach (var student in Model.Students.OrderBy(s => s.User.LastName))
-		{
+<div class="panel-body">
+	<table class="table table-bordered table-striped">
+		<thead>
 			<tr>
-				<td>@student.User.LastName</td>
-				<td>@student.User.FirstName</td>
-				<td>@student.User.MiddleName</td>
+				<th>Прізвище</th>
+				<th>Ім'я</th>
+				<th>По-батькові</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
 
-<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+		<tbody>
+			@foreach (var student in Model.Students.OrderBy(s => s.User.LastName))
+			{
+				<tr>
+					<td>@student.User.LastName</td>
+					<td>@student.User.FirstName</td>
+					<td>@student.User.MiddleName</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<a asp-action="Index" class="btn btn-primary btn-sm">Назад</a>
+</div>

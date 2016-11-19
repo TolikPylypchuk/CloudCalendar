@@ -4,21 +4,23 @@
 	ViewBag.Title = "Вхід";
 }
 
-<div class="bg-primary panel-body">
-	<h4>Вхід</h4>
+<div class="bg-primary panel-heading">
+	<h1 class="h1">Вхід</h1>
 </div>
 
-<div class="text-danger" asp-validation-summary="All"></div>
+<div class="panel-body">
+	<div class="text-danger" asp-validation-summary="All"></div>
 
-<form asp-action="Login" method="post">
-	<input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-	<div class="form-group">
-		<label asp-for="Email">Email</label>
-		<input asp-for="Email" class="form-control" />
-	</div>
-	<div class="form-group">
-		<label asp-for="Password">Пароль</label>
-		<input asp-for="Password" class="form-control" />
-	</div>
-	<button class="btn btn-primary" type="submit">Увійти</button>
-</form>
+	<form asp-action="Login" method="post">
+		<input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+		<div class="form-group">
+			<label asp-for="Email">Email</label>
+			<input asp-for="Email" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label asp-for="Password">Пароль</label>
+			<input asp-for="Password" class="form-control" />
+		</div>
+		<button class="btn btn-primary" type="submit">Увійти</button>
+	</form>
+</div>
