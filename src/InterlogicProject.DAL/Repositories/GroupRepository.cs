@@ -15,13 +15,13 @@ namespace InterlogicProject.DAL.Repositories
 		}
 
 		public override IQueryable<Group> GetAll()
-			=> base.GetAll()
-				   .Include(group => group.Curator)
+			 => base.GetAll()
+					.Include(group => group.Curator)
 						.ThenInclude(curator => curator.User)
-				   .Include(group => group.Curator)
+					.Include(group => group.Curator)
 						.ThenInclude(curator => curator.Department)
 							.ThenInclude(d => d.Faculty)
-				   .Include(group => group.Students)
+					.Include(group => group.Students)
 						.ThenInclude(student => student.User);
 	}
 }

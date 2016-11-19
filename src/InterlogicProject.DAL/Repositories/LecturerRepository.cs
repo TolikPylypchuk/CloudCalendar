@@ -15,11 +15,11 @@ namespace InterlogicProject.DAL.Repositories
 		}
 
 		public override IQueryable<Lecturer> GetAll()
-			=> base.GetAll()
-				   .Include(lecturer => lecturer.User)
-				   .Include(lecturer => lecturer.Department)
+			 => base.GetAll()
+					.Include(lecturer => lecturer.User)
+					.Include(lecturer => lecturer.Department)
 						.ThenInclude(d => d.Faculty)
-				   .Include(lecturer => lecturer.Department)
+					.Include(lecturer => lecturer.Department)
 						.ThenInclude(d => d.Lecturers)
 							.ThenInclude(lecturer => lecturer.User);
 	}

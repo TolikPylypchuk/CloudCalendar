@@ -6,17 +6,17 @@ using InterlogicProject.DAL.Models;
 
 namespace InterlogicProject.DAL.Repositories
 {
-	public class StudentRepository : BaseRepository<Student>
+	public class GroupSubjectRepository : BaseRepository<GroupSubject>
 	{
-		public StudentRepository(AppDbContext context)
+		public GroupSubjectRepository(AppDbContext context)
 			: base(context)
 		{
-			this.table = this.Context.Students;
+			this.table = this.Context.GroupSubjects;
 		}
 
-		public override IQueryable<Student> GetAll()
+		public override IQueryable<GroupSubject> GetAll()
 			 => base.GetAll()
-					.Include(s => s.User)
+					.Include(s => s.Subject)
 					.Include(s => s.Group)
 						.ThenInclude(group => group.Curator)
 							.ThenInclude(curator => curator.User)
@@ -26,6 +26,11 @@ namespace InterlogicProject.DAL.Repositories
 								.ThenInclude(d => d.Faculty)
 					.Include(s => s.Group)
 						.ThenInclude(group => group.Students)
-							.ThenInclude(student => student.User);
+							.ThenInclude(student => student.User)
+					.Include(s => s.Lecturer)
+						.ThenInclude(lecturer => lecturer.User)
+					.Include(s => s.Lecturer)
+						.ThenInclude(lecturer => lecturer.Department)
+							.ThenInclude(d => d.Faculty);
 	}
 }

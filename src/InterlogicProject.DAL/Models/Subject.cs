@@ -6,7 +6,9 @@ namespace InterlogicProject.DAL.Models
 	[Table(nameof(AppDbContext.Subjects))]
 	public class Subject : EntityBase
 	{
-		[Required(ErrorMessage = "Введіть назву предмету")]
+		[Required(ErrorMessage = "Вкажіть назву")]
 		public string Name { get; set; }
+
+		public override string ToString() => this.Name;
 	}
 }

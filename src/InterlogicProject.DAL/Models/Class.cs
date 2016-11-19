@@ -8,7 +8,7 @@ namespace InterlogicProject.DAL.Models
 	public class Class : EntityBase
 	{
 		[Required(ErrorMessage = "Вкажіть дані про предмет")]
-		public int SubjectId { get; set; }
+		public int GroupSubjectId { get; set; }
 
 		[Required(ErrorMessage = "Вкажіть дату і час пари")]
 		public DateTime DateTime { get; set; }
@@ -22,7 +22,9 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Вкажіть тип пари")]
 		public string Type { get; set; }
 
-		[ForeignKey(nameof(SubjectId))]
-		public GroupSubject Subject { get; set; }
+		[ForeignKey(nameof(GroupSubjectId))]
+		public GroupSubject GroupSubject { get; set; }
+
+		public override string ToString() => this.GroupSubject.Subject.Name;
 	}
 }

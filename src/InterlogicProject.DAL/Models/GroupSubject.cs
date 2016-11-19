@@ -23,5 +23,7 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(SubjectId))]
 		public Subject Subject { get; set; }
+
+		public override string ToString() => this.Subject.Name;
 	}
 }

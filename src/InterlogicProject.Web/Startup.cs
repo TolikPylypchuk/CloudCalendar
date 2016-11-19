@@ -67,6 +67,12 @@ namespace InterlogicProject
 				LecturerRepository>();
 			services.AddScoped<IRepository<Student>,
 				StudentRepository>();
+			services.AddScoped<IRepository<Subject>,
+				SubjectRepository>();
+			services.AddScoped<IRepository<GroupSubject>,
+				GroupSubjectRepository>();
+			services.AddScoped<IRepository<Class>,
+				ClassRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
