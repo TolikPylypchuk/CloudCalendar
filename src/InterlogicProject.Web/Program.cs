@@ -6,6 +6,8 @@ namespace InterlogicProject
 {
 	public class Program
 	{
+		public static string EmailDomain { get; set; }
+
 		public static void Main(string[] args)
 		{
 			var host = new WebHostBuilder()

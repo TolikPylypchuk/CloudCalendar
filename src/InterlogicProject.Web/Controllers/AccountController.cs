@@ -44,6 +44,8 @@ namespace InterlogicProject.Controllers
 			LoginModel details,
 			string returnUrl)
 		{
+			details.Email += $"@{Program.EmailDomain}";
+
 			if (this.ModelState.IsValid)
 			{
 				var user = await this.userManager

@@ -29,6 +29,8 @@ namespace InterlogicProject
 			this.configuration = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json").Build();
+
+			Program.EmailDomain = this.configuration["EmailDomain"];
 		}
 
 		public void ConfigureServices(IServiceCollection services)

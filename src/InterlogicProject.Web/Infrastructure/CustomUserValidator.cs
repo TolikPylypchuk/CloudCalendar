@@ -29,7 +29,7 @@ namespace InterlogicProject.Infrastructure
 				? new List<IdentityError>()
 				: result.Errors.ToList();
 
-			if (!user.Email.ToLower().EndsWith("@example.com"))
+			if (!user.Email.ToLower().EndsWith($"@{Program.EmailDomain}"))
 			{
 				errors.Add(new IdentityError
 				{

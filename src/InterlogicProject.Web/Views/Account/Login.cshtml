@@ -16,13 +16,20 @@
 		<fieldset class="form-group">
 			<div class="row">
 				<div class="col-sm-4">
-					<label asp-for="Email">Email</label>
+					<label asp-for="Email" class="form-control-label">
+						Email
+					</label>
 				</div>
 				<div class="col-sm-8"></div>
 			</div>
 			<div class="row">
 				<div class="col-sm-4">
-					<input asp-for="Email" class="form-control" />
+					<div class="input-group">
+						<input asp-for="Email" class="form-control" />
+						<span class="input-group-addon" id="Email">
+							@@@Program.EmailDomain
+						</span>
+					</div>
 				</div>
 				<div class="col-sm-8"></div>
 			</div>
