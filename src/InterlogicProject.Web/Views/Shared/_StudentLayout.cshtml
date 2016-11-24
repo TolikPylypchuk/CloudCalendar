@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+	<link rel="stylesheet" type="text/css"
+		  asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+</head>
+
+<body>
+	<nav class="navbar navbar-full navbar-dark bg-primary">
+		<a class="navbar-brand" asp-action="Index"
+		   asp-controller="Home">
+			[Вставити назву]
+		</a>
+		<ul class="nav navbar-nav">
+			<li class="nav-item active">
+				<a class="nav-link" asp-action="Group"
+				   asp-controller="Student">
+					Моя група
+				</a>
+			</li>
+			<li class="nav-item dropdown pull-lg-right
+						pull-md-right pull-sm-right pull-xs-right">
+				<a id="dropdownItem" class="nav-link dropdown-toggle"
+				   data-toggle="dropdown" role="button"
+				   aria-haspopup="true" aria-expanded="false">
+					Мій акаунт
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownItem">
+					<a class="dropdown-item"
+						asp-controller="Account"
+						asp-action="Logout">
+						Вийти
+					</a>
+				</div>
+			</li>
+		</ul>
+	</nav>
+
+    <div>
+        @RenderBody()
+    </div>
+	
+	<script asp-src-include="~/lib/jquery/dist/*.min.js"></script>
+	<script asp-src-include="~/lib/tether/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/bootstrap/dist/js/*.min.js"></script>
+</body>
+</html>
