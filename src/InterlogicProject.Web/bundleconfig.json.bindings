@@ -1,0 +1,1 @@
+﻿///<binding AfterBuild='Update all files, Clean output files, wwwroot/js/callendar.min.js, wwwroot/css/dist/style.min.css' />

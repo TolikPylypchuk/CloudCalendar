@@ -1,0 +1,14 @@
+[
+	{
+		"outputFileName": "wwwroot/js/callendar.min.js",
+		"inputFiles": [
+			"wwwroot/js/callendar.js"
+		]
+	},
+	{
+		"outputFileName": "wwwroot/css/dist/style.min.css",
+		"inputFiles": [
+			"wwwroot/css/dist/style.css"
+		]
+	}
+]
