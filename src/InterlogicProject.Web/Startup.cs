@@ -22,23 +22,23 @@ namespace InterlogicProject
 {
 	public class Startup
 	{
-		private IConfigurationRoot configuration;
-
 		public Startup(IHostingEnvironment env)
 		{
-			this.configuration = new ConfigurationBuilder()
+			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json").Build();
 
-			Program.EmailDomain = this.configuration["EmailDomain"];
+			Program.EmailDomain = this.Configuration["EmailDomain"];
 		}
+
+		public IConfigurationRoot Configuration { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AppDbContext>(
 				options =>
 					options.UseSqlServer(
-						this.configuration[
+						this.Configuration[
 							"ConnectionStrings:DefaultConnection"]));
 
 			services.AddIdentity<User, IdentityRole>(options => {
@@ -54,7 +54,8 @@ namespace InterlogicProject
 				options.Password.RequireLowercase = false;
 				options.Password.RequireUppercase = false;
 				options.Password.RequireDigit = false;
-			}).AddEntityFrameworkStores<AppDbContext>();
+			}).AddEntityFrameworkStores<AppDbContext>()
+			  .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
 			services.AddScoped<IUserValidator<User>,
 				CustomUserValidator>();
@@ -107,7 +108,7 @@ namespace InterlogicProject
 					Description = "A simple API for the Interlogic project",
 					TermsOfService = "None"
 				});
-				options.IncludeXmlComments(this.configuration["Swagger:Path"]);
+				options.IncludeXmlComments(this.Configuration["Swagger:Path"]);
 				options.DescribeAllEnumsAsStrings();
 			});
 		}

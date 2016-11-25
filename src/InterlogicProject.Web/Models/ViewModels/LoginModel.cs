@@ -4,11 +4,11 @@ namespace InterlogicProject.Models.ViewModels
 {
 	public class LoginModel
 	{
-		[Required]
+		[Required(ErrorMessage = "Неправильний email або пароль")]
 		[UIHint("email")]
 		public string Email { get; set; }
-
-		[Required]
+		
+		[Required(ErrorMessage = "Неправильний email або пароль")]
 		[UIHint("password")]
 		public string Password { get; set; }
 	}

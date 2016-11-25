@@ -35,7 +35,7 @@ namespace InterlogicProject.Infrastructure
 				{
 					Code = "EmailDomainError",
 					Description =
-						"Only example.com email addresses are allowed"
+						$"Дозволено тільки адреси @{Program.EmailDomain}"
 				});
 			}
 

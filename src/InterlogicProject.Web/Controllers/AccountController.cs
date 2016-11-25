@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
+using InterlogicProject.Infrastructure;
 using InterlogicProject.Models.ViewModels;
 
 namespace InterlogicProject.Controllers
@@ -39,17 +40,16 @@ namespace InterlogicProject.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
+		[InsertEmailDomain]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(
-			LoginModel details,
+			LoginModel model,
 			string returnUrl)
 		{
-			details.Email += $"@{Program.EmailDomain}";
-
 			if (this.ModelState.IsValid)
 			{
 				var user = await this.userManager
-					.FindByEmailAsync(details.Email);
+					.FindByEmailAsync(model.Email);
 
 				if (user != null)
 				{
@@ -57,7 +57,7 @@ namespace InterlogicProject.Controllers
 					var result =
 						await this.signInManager.PasswordSignInAsync(
 							user,
-							details.Password,
+							model.Password,
 							false,
 							false);
 
@@ -70,9 +70,9 @@ namespace InterlogicProject.Controllers
 
 			this.ModelState.AddModelError(
 					nameof(LoginModel.Email),
-					"Invalid user name or password.");
+					"Неправильний логін або пароль.");
 
-			return this.View(details);
+			return this.View(model);
 		}
 
 		[Authorize]
