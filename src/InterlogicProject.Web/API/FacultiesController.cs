@@ -10,7 +10,6 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject.API
 {
@@ -39,9 +38,9 @@ namespace InterlogicProject.API
 		/// <returns>All faculties from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<FacultyDto>))]
-		public IEnumerable<FacultyDto> Get()
-			=> this.faculties.GetAll().ProjectTo<FacultyDto>();
+			Type = typeof(IEnumerable<Faculty>))]
+		public IEnumerable<Faculty> Get()
+			=> this.faculties.GetAll().ProjectTo<Faculty>();
 
 		/// <summary>
 		/// Gets a faculty with the specified ID.
@@ -49,8 +48,8 @@ namespace InterlogicProject.API
 		/// <param name="id">The ID of the faculty to get.</param>
 		/// <returns>A faculty with the specified ID.</returns>
 		[HttpGet("{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(FacultyDto))]
-		public FacultyDto Get(int id)
-			=> Mapper.Map<FacultyDto>(this.faculties.GetById(id));
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Faculty))]
+		public Faculty Get(int id)
+			=> Mapper.Map<Faculty>(this.faculties.GetById(id));
 	}
 }

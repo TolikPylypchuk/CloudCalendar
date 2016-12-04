@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,14 +26,14 @@ namespace InterlogicProject
 			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json").Build();
-
-			Program.EmailDomain = this.Configuration["EmailDomain"];
 		}
 
 		public IConfigurationRoot Configuration { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			Program.EmailDomain = this.Configuration["EmailDomain"];
+
 			services.AddDbContext<AppDbContext>(
 				options =>
 					options.UseSqlServer(
@@ -55,11 +54,9 @@ namespace InterlogicProject
 				options.Password.RequireUppercase = false;
 				options.Password.RequireDigit = false;
 			}).AddEntityFrameworkStores<AppDbContext>()
+			  .AddUserValidator<CustomUserValidator>()
 			  .AddErrorDescriber<CustomIdentityErrorDescriber>();
-
-			services.AddScoped<IUserValidator<User>,
-				CustomUserValidator>();
-
+			
 			services.AddScoped<IRepository<Department>,
 				DepartmentRepository>();
 			services.AddScoped<IRepository<Faculty>,
@@ -72,10 +69,12 @@ namespace InterlogicProject
 				StudentRepository>();
 			services.AddScoped<IRepository<Subject>,
 				SubjectRepository>();
-			services.AddScoped<IRepository<GroupSubject>,
-				GroupSubjectRepository>();
 			services.AddScoped<IRepository<Class>,
 				ClassRepository>();
+			services.AddScoped<IRepository<ClassPlace>,
+				ClassPlaceRepository>();
+			services.AddScoped<IRepository<LecturerToClass>,
+				LecturerToClassRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -92,11 +91,10 @@ namespace InterlogicProject
 				config.CreateMap<Student, StudentDto>();
 				config.CreateMap<Lecturer, LecturerDto>();
 				config.CreateMap<Group, GroupDto>();
-				config.CreateMap<Faculty, FacultyDto>();
 				config.CreateMap<Department, DepartmentDto>();
-				config.CreateMap<Subject, SubjectDto>();
-				config.CreateMap<GroupSubject, GroupSubjectDto>();
 				config.CreateMap<Class, ClassDto>();
+				config.CreateMap<ClassPlace, ClassPlaceDto>();
+				config.CreateMap<LecturerToClass, LecturerToClassDto>();
 			});
 			
 			services.AddSwaggerGen(options =>

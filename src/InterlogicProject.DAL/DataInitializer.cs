@@ -346,22 +346,6 @@ namespace InterlogicProject.DAL
 				new Subject { Name = "Бази даних та інформаційні системи" },
 				new Subject { Name = "Паралельні та розподілені обчислення" },
 			};
-
-			var groupSubjects = new[]
-			{
-				new GroupSubject
-				{
-					Subject = subjects[3],
-					Group = group,
-					Lecturer = lecturers[5]
-				},
-				new GroupSubject
-				{
-					Subject = subjects[4],
-					Group = group,
-					Lecturer = lecturers[6]
-				},
-			};
 			
 			context.Add(faculty);
 			context.AddRange(departments);
@@ -369,7 +353,6 @@ namespace InterlogicProject.DAL
 			context.Add(group);
 			context.AddRange(students);
 			context.AddRange(subjects);
-			context.AddRange(groupSubjects);
 
 			context.SaveChanges();
 		}

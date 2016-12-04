@@ -16,27 +16,7 @@ namespace InterlogicProject.DAL.Repositories
 
 		public override IQueryable<Class> GetAll()
 			 => base.GetAll()
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Subject)
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Group)
-							.ThenInclude(group => group.Curator)
-								.ThenInclude(c => c.User)
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Group)
-							.ThenInclude(group => group.Curator)
-								.ThenInclude(c => c.Department)
-									.ThenInclude(d => d.Faculty)
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Group)
-							.ThenInclude(group => group.Students)
-								.ThenInclude(s => s.User)
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Lecturer)
-							.ThenInclude(lecturer => lecturer.User)
-					.Include(c => c.GroupSubject)
-						.ThenInclude(s => s.Lecturer)
-							.ThenInclude(lecturer => lecturer.Department)
-								.ThenInclude(d => d.Faculty);
+					.Include(c => c.Subject)
+					.Include(c => c.Places);
 	}
 }

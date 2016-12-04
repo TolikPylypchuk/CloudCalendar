@@ -10,7 +10,6 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Models.Dto;
 
 namespace InterlogicProject.API
 {
@@ -39,9 +38,9 @@ namespace InterlogicProject.API
 		/// <returns>All subjects from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<SubjectDto>))]
-		public IEnumerable<SubjectDto> Get()
-			=> this.subjects.GetAll().ProjectTo<SubjectDto>();
+			Type = typeof(IEnumerable<Subject>))]
+		public IEnumerable<Subject> Get()
+			=> this.subjects.GetAll().ProjectTo<Subject>();
 
 		/// <summary>
 		/// Gets a subject with the specified ID.
@@ -49,8 +48,8 @@ namespace InterlogicProject.API
 		/// <param name="id">The ID of the subject to get.</param>
 		/// <returns>A subject with the specified ID.</returns>
 		[HttpGet("{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SubjectDto))]
-		public SubjectDto Get(int id)
-			=> Mapper.Map<SubjectDto>(this.subjects.GetById(id));
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Subject))]
+		public Subject Get(int id)
+			=> Mapper.Map<Subject>(this.subjects.GetById(id));
     }
 }
