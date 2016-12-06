@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='compile-sass' />
+﻿/// <binding BeforeBuild='compile-sass' AfterBuild='compile-ts' />
 
 var gulp = require("gulp");
 var gulpSass = require("gulp-sass");

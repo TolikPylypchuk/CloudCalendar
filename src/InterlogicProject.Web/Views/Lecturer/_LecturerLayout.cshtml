@@ -6,23 +6,24 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" type="text/css"
-			asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+	    	asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-		  asp-href-include="~/lib/fullcalendar/dist/*.min.css" />
+	      asp-href-include="~/lib/fullcalendar/dist/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-		  asp-href-include="~/css/dist/style.min.css" />
+	      asp-href-include="~/css/dist/style.min.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
 </head>
 
 <body>
 	<nav class="navbar navbar-full navbar-dark bg-primary">
 		<a class="navbar-brand" asp-action="Index"
-			asp-controller="Home">
+		   asp-controller="Home">
 			InterlogicProject
 		</a>
 		<ul class="nav navbar-nav">
 			<li class="nav-item active">
 				<a class="nav-link" asp-action="Department"
-					asp-controller="Lecturer">
+				   asp-controller="Lecturer">
 					Моя кафедра
 				</a>
 			</li>
@@ -32,17 +33,17 @@
 					Групи в кафедрі
 				</a>
 			</li>
-			<li class="nav-item dropdown m-r-2 pull-lg-right
-						pull-md-right pull-sm-right pull-xs-right">
+			<li class="nav-item dropdown pull-lg-right
+			           pull-md-right pull-sm-right pull-xs-right">
 				<a id="dropdownItem" class="nav-link dropdown-toggle"
-					data-toggle="dropdown" role="button"
-					aria-haspopup="true" aria-expanded="false">
+				   data-toggle="dropdown" role="button"
+				   aria-haspopup="true" aria-expanded="false">
 					Мій акаунт
 				</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item"
-						asp-controller="Account"
-						asp-action="Logout">
+					   asp-controller="Account"
+					   asp-action="Logout">
 						Вийти
 					</a>
 				</div>

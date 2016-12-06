@@ -1,0 +1,17 @@
+{
+	"include": [
+		"wwwroot/js/*.ts"
+	],
+	"compilerOptions": {
+		"noImplicitAny": true,
+		"noEmitOnError": true,
+		"removeComments": false,
+		"sourceMap": true,
+		"target": "es2015"
+	},
+	"exclude": [
+		"node_modules",
+		"wwwroot/lib",
+		"**/*.spec.ts"
+	]
+}
