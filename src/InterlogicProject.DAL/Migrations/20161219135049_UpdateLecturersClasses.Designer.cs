@@ -8,9 +8,10 @@ using InterlogicProject.DAL;
 namespace InterlogicProject.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161219135049_UpdateLecturersClasses")]
+    partial class UpdateLecturersClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -23,16 +24,12 @@ namespace InterlogicProject.DAL.Migrations
 
                     b.Property<DateTime>("DateTime");
 
-                    b.Property<int>("GroupId");
-
                     b.Property<int>("SubjectId");
 
                     b.Property<string>("Type")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
 
                     b.HasIndex("SubjectId");
 
@@ -375,11 +372,6 @@ namespace InterlogicProject.DAL.Migrations
 
             modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
                 {
-                    b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("InterlogicProject.DAL.Models.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")

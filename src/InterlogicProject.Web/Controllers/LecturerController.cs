@@ -1,19 +1,23 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 
+using AutoMapper;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
+using InterlogicProject.Models.Dto;
+using InterlogicProject.Models.ViewModels;
 
 namespace InterlogicProject.Controllers
 {
 	[Authorize(Roles = "Lecturer")]
 	public class LecturerController : Controller
 	{
-		private IRepository<Group> groupRepo;
+		private IRepository<Group> groups;
 
 		private Lecturer currentLecturer;
 
@@ -22,7 +26,7 @@ namespace InterlogicProject.Controllers
 			IRepository<Lecturer> lecturers,
 			IHttpContextAccessor accessor)
 		{
-			this.groupRepo = groups;
+			this.groups = groups;
 
 			var userId = accessor.HttpContext.User
 				.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -31,13 +35,21 @@ namespace InterlogicProject.Controllers
 				.First(l => l.UserId == userId);
 		}
 
-		public IActionResult Index() => this.View();
+		public IActionResult Index()
+		{
+			var model = new LecturerModel
+			{
+				Lecturer = Mapper.Map<LecturerDto>(this.currentLecturer)
+			};
+
+			return this.View(model);
+		}
 
 		public IActionResult Department()
 			=> this.View(this.currentLecturer.Department);
 
 		public IActionResult Groups()
-			=> this.View(this.groupRepo.GetAll()
+			=> this.View(this.groups.GetAll()
 				.Where(g => g.Curator.Department ==
 							this.currentLecturer.Department));
 	}

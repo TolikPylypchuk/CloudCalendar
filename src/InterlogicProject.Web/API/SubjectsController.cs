@@ -47,7 +47,7 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the subject to get.</param>
 		/// <returns>A subject with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Subject))]
 		public Subject Get(int id)
 			=> Mapper.Map<Subject>(this.subjects.GetById(id));

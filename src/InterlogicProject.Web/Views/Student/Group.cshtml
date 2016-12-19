@@ -1,12 +1,14 @@
-﻿@{
-	Layout = "_StudentLayout";
+﻿@model StudentModel
+
+@{
 	ViewBag.Title = "Група";
+	ViewBag.Group = Model.Student.Group.Name;
+	ViewBag.Account =
+		$"{Model.Student.User.FirstName} {Model.Student.User.LastName}";
 }
 
-@model Group
-
 <div class="p-a-1">
-	<h1>@Model.Name</h1>
+	<h1>@Model.Student.Group.Name</h1>
 </div>
 
 <div class="panel-body p-a-1">
@@ -16,24 +18,54 @@
 				<th>Прізвище</th>
 				<th>Ім'я</th>
 				<th>По-батькові</th>
+				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 
 		<tbody>
-			@foreach (var student in Model.Students.OrderBy(s => s.User.LastName))
+			@foreach (var student in
+				Model.Student.Group.Students.OrderBy(s => s.User.LastName))
 			{
 				<tr>
 					<td>@student.User.LastName</td>
 					<td>@student.User.FirstName</td>
 					<td>@student.User.MiddleName</td>
+					<td>
+						<a asp-action="Edit" class="btn btn-sm btn-primary"
+						   asp-route-id="@student.Id">
+							Редагувати
+						</a>
+					</td>
+					@if (student != Model.Student)
+					{
+						<td>
+							<form asp-action="Delete" method="post">
+								<input type="hidden" name="id"
+									   value="@student.Id" />
+								<button type="submit"
+										class="btn btn-sm btn-danger">
+									Видалити
+								</button>
+							</form>
+						</td>
+					}
 				</tr>
 			}
 		</tbody>
 	</table>
-
+	
+	<a asp-action="Create" class="btn btn-info m-a-1">Додати</a>
 	<a asp-action="Index" class="btn btn-primary m-a-1">Назад</a>
 </div>
 
-<script asp-src-include="~/lib/jquery/dist/*.min.js"></script>
-<script asp-src-include="~/lib/tether/dist/js/*.min.js"></script>
-<script asp-src-include="~/lib/bootstrap/dist/js/*.min.js"></script>
+@section scripts {
+	<script asp-src-include="~/lib/jquery/dist/*.js"></script>
+	<script asp-src-exclude="~/lib/jquery/dist/*.min.js"></script>
+
+	<script asp-src-include="~/lib/tether/dist/js/*.js"></script>
+	<script asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
+
+	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"></script>
+	<script asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
+}

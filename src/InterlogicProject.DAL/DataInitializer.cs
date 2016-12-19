@@ -52,7 +52,9 @@ namespace InterlogicProject.DAL
 			{
 				return;
 			}
-			
+
+			#region Users
+
 			var users = new[]
 			{
 				new User // 0
@@ -197,7 +199,11 @@ namespace InterlogicProject.DAL
 			{
 				await userManager.AddToRoleAsync(users[i], "Student");
 			}
-			
+
+			#endregion
+
+			#region Faculties and departments
+
 			var faculty = new Faculty
 			{
 				Name = "Факультет прикладної математики та інформатики",
@@ -216,6 +222,10 @@ namespace InterlogicProject.DAL
 					Faculty = faculty
 				}
 			};
+
+			#endregion
+
+			#region Lecturers
 
 			var lecturers = new[]
 			{
@@ -285,6 +295,10 @@ namespace InterlogicProject.DAL
 				}
 			};
 
+			#endregion
+
+			#region Groups and students
+
 			var group = new Group
 			{
 				Name = "ПМі-31",
@@ -338,6 +352,10 @@ namespace InterlogicProject.DAL
 				}
 			};
 
+			#endregion
+
+			#region Subjects and classes
+
 			var subjects = new[]
 			{
 				new Subject { Name = "Математичний аналіз" },
@@ -346,6 +364,33 @@ namespace InterlogicProject.DAL
 				new Subject { Name = "Бази даних та інформаційні системи" },
 				new Subject { Name = "Паралельні та розподілені обчислення" },
 			};
+
+			var classes = new[]
+			{
+				new Class // 0
+				{
+					Subject = subjects[4],
+					DateTime = new DateTime(2016, 12, 19, 10, 10, 0),
+					Group = group,
+					Type = "Лекція"
+				},
+				new Class // 1
+				{
+					Subject = subjects[3],
+					DateTime = new DateTime(2016, 12, 19, 11, 50, 0),
+					Group = group,
+					Type = "Лабораторна"
+				},
+				new Class // 2
+				{
+					Subject = subjects[2],
+					DateTime = new DateTime(2016, 12, 26, 11, 50, 0),
+					Group = group,
+					Type = "Лекція"
+				}
+			};
+
+			#endregion
 			
 			context.Add(faculty);
 			context.AddRange(departments);
@@ -353,6 +398,47 @@ namespace InterlogicProject.DAL
 			context.Add(group);
 			context.AddRange(students);
 			context.AddRange(subjects);
+			context.AddRange(classes);
+			context.AddRange(
+				new ClassPlace
+				{
+					Building = "вул. Університетська, 1",
+					Classroom = "439",
+					Class = classes[0]
+				},
+				new ClassPlace
+				{
+					Building = "вул. Університетська, 1",
+					Classroom = "119а",
+					Class = classes[1]
+				},
+				new ClassPlace
+				{
+					Building = "вул. Університетська, 1",
+					Classroom = "439",
+					Class = classes[2]
+				});
+			context.AddRange(
+				new LecturerClass
+				{
+					Lecturer = lecturers[6],
+					Class = classes[0]
+				},
+				new LecturerClass
+				{
+					Lecturer = lecturers[5],
+					Class = classes[1]
+				},
+				new LecturerClass
+				{
+					Lecturer = lecturers[7],
+					Class = classes[1]
+				},
+				new LecturerClass
+				{
+					Lecturer = lecturers[3],
+					Class = classes[2]
+				});
 
 			context.SaveChanges();
 		}

@@ -38,7 +38,8 @@ namespace InterlogicProject
 				options =>
 					options.UseSqlServer(
 						this.Configuration[
-							"ConnectionStrings:DefaultConnection"]));
+							"ConnectionStrings:DefaultConnection"]),
+				ServiceLifetime.Scoped);
 
 			services.AddIdentity<User, IdentityRole>(options => {
 				options.User.RequireUniqueEmail = true;
@@ -73,8 +74,8 @@ namespace InterlogicProject
 				ClassRepository>();
 			services.AddScoped<IRepository<ClassPlace>,
 				ClassPlaceRepository>();
-			services.AddScoped<IRepository<LecturerToClass>,
-				LecturerToClassRepository>();
+			services.AddScoped<IRepository<LecturerClass>,
+				LecturerClassRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -94,7 +95,7 @@ namespace InterlogicProject
 				config.CreateMap<Department, DepartmentDto>();
 				config.CreateMap<Class, ClassDto>();
 				config.CreateMap<ClassPlace, ClassPlaceDto>();
-				config.CreateMap<LecturerToClass, LecturerToClassDto>();
+				config.CreateMap<LecturerClass, LecturerClassDto>();
 			});
 			
 			services.AddSwaggerGen(options =>

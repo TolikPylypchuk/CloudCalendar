@@ -2,6 +2,7 @@
 	"include": [
 		"wwwroot/js/*.ts"
 	],
+	"compileOnSave": true,
 	"compilerOptions": {
 		"noImplicitAny": true,
 		"noEmitOnError": true,

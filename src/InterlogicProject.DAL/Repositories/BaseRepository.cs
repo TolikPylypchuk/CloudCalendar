@@ -58,15 +58,21 @@ namespace InterlogicProject.DAL.Repositories
 
 		public virtual int Delete(int id)
 		{
-			this.Context.Entry(new TEntity { Id = id }).State =
-				EntityState.Deleted;
+			var entry = this.Context.ChangeTracker.Entries()
+				.FirstOrDefault(e => (e.Entity as EntityBase)?.Id == id)
+				?? this.Context.Entry(new TEntity { Id = id });
+
+			entry.State = EntityState.Deleted;
 			return this.Context.SaveChanges();
 		}
 
 		public virtual Task<int> DeleteAsync(int id)
 		{
-			this.Context.Entry(new TEntity { Id = id }).State =
-				EntityState.Deleted;
+			var entry = this.Context.ChangeTracker.Entries()
+				.FirstOrDefault(e => (e.Entity as EntityBase)?.Id == id)
+				?? this.Context.Entry(new TEntity { Id = id });
+
+			entry.State = EntityState.Deleted;
 			return this.Context.SaveChangesAsync();
 		}
 

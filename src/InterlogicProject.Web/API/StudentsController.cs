@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,33 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the student to get.</param>
 		/// <returns>A student with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
 		public StudentDto Get(int id)
 			=> Mapper.Map<StudentDto>(this.students.GetById(id));
+
+		/// <summary>
+		/// Gets a student with the specified user ID.
+		/// </summary>
+		/// <param name="id">The ID of the user.</param>
+		/// <returns>A student with the specified user ID.</returns>
+		[HttpGet("userId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		public StudentDto GetByUser(string id)
+			=> Mapper.Map<StudentDto>(
+				this.students.GetAll()
+							 .FirstOrDefault(s => s.UserId == id));
+
+		/// <summary>
+		/// Gets a student with the specified email.
+		/// </summary>
+		/// <param name="email">The email of the student.</param>
+		/// <returns>A student with the specified email.</returns>
+		[HttpGet("email/{email}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		public StudentDto GetByEmail(string email)
+			=> Mapper.Map<StudentDto>(
+				this.students.GetAll()
+							  .FirstOrDefault(s => s.User.Email == email));
 	}
 }

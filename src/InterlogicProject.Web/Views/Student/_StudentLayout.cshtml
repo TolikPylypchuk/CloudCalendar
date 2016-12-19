@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" type="text/css"
-	    	asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+	      asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-	    	asp-href-include="~/lib/fullcalendar/dist/*.min.css" />
+	      asp-href-include="~/lib/fullcalendar/dist/*.min.css" />
 	<link rel="stylesheet" type="text/css"
 	      asp-href-include="~/css/dist/style.min.css" />
 	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
@@ -24,7 +24,7 @@
 			<li class="nav-item active">
 				<a class="nav-link" asp-action="Group"
 				   asp-controller="Student">
-					Моя група
+					@ViewBag.Group
 				</a>
 			</li>
 			<li class="nav-item dropdown pull-lg-right
@@ -32,7 +32,7 @@
 				<a id="dropdownItem" class="nav-link dropdown-toggle"
 				   data-toggle="dropdown" role="button"
 				   aria-haspopup="true" aria-expanded="false">
-					Мій акаунт
+					@ViewBag.Account
 				</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item"
@@ -45,6 +45,16 @@
 		</ul>
 	</nav>
 
-	@RenderBody()
+	<div>
+		@RenderBody()
+	</div>
+
+	<hr class="m-x-1" />
+
+	<footer>
+		<p class="m-x-1">Created by Anatoliy Pylypchuk.</p>
+	</footer>
+
+	@RenderSection("scripts", false);
 </body>
 </html>

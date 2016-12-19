@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,22 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the class place to get.</param>
 		/// <returns>A class place with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(ClassPlaceDto))]
 		public ClassPlaceDto Get(int id)
 			=> Mapper.Map<ClassPlaceDto>(this.places.GetById(id));
+
+		/// <summary>
+		/// Gets all class places with the specified class.
+		/// </summary>
+		/// <param name="id">The ID of the class.</param>
+		/// <returns>All class places with the specified class.</returns>
+		[HttpGet("classId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassPlaceDto>))]
+		public IEnumerable<ClassPlaceDto> GetByClass(int id)
+			=> this.places.GetAll()
+						  .Where(p => p.ClassId == id)
+						  .ProjectTo<ClassPlaceDto>();
 	}
 }

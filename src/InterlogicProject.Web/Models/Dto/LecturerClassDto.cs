@@ -1,6 +1,6 @@
 ﻿namespace InterlogicProject.Models.Dto
 {
-	public class LecturerToClassDto
+	public class LecturerClassDto
 	{
 		public int LecturerId { get; set; }
 		public int ClassId { get; set; }

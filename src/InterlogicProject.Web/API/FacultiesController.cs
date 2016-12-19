@@ -47,7 +47,7 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the faculty to get.</param>
 		/// <returns>A faculty with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(Faculty))]
 		public Faculty Get(int id)
 			=> Mapper.Map<Faculty>(this.faculties.GetById(id));

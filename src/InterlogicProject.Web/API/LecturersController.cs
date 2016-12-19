@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace InterlogicProject.API
 	[Route("api/[controller]")]
 	public class LecturersController : Controller
 	{
-		private IRepository<Lecturer> groups;
+		private IRepository<Lecturer> lecturers;
 
 		/// <summary>
 		/// Initializes a new instance of the LecturersController class.
@@ -30,7 +31,7 @@ namespace InterlogicProject.API
 		/// </param>
 		public LecturersController(IRepository<Lecturer> repo)
 		{
-			this.groups = repo;
+			this.lecturers = repo;
 		}
 
 		/// <summary>
@@ -41,16 +42,40 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> Get()
-			=> this.groups.GetAll().ProjectTo<LecturerDto>();
+			=> this.lecturers.GetAll().ProjectTo<LecturerDto>();
 
 		/// <summary>
 		/// Gets a lecturer with the specified ID.
 		/// </summary>
 		/// <param name="id">The ID of the lecturer to get.</param>
 		/// <returns>A lecturer with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
 		public LecturerDto Get(int id)
-			=> Mapper.Map<LecturerDto>(this.groups.GetById(id));
+			=> Mapper.Map<LecturerDto>(this.lecturers.GetById(id));
+
+		/// <summary>
+		/// Gets a lecturer with the specified user ID.
+		/// </summary>
+		/// <param name="id">The ID of the user.</param>
+		/// <returns>A lecturer with the specified user ID.</returns>
+		[HttpGet("userId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		public LecturerDto GetByUser(string id)
+			=> Mapper.Map<LecturerDto>(
+				this.lecturers.GetAll()
+							  .FirstOrDefault(l => l.UserId == id));
+
+		/// <summary>
+		/// Gets a lecturer with the specified email.
+		/// </summary>
+		/// <param name="email">The email of the lecturer.</param>
+		/// <returns>A lecturer with the specified email.</returns>
+		[HttpGet("email/{email}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		public LecturerDto GetByEmail(string email)
+			=> Mapper.Map<LecturerDto>(
+				this.lecturers.GetAll()
+							  .FirstOrDefault(l => l.User.Email == email));
 	}
 }

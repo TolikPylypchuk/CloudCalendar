@@ -13,6 +13,16 @@
 </head>
 
 <body>
-	@RenderBody()
+	<div>
+		@RenderBody()
+	</div>
+	
+	<hr class="m-x-1" />
+
+	<footer>
+		<p class="m-x-1" >Created by Anatoliy Pylypchuk.</p>
+	</footer>
+	
+	@RenderSection("scripts", false);
 </body>
 </html>

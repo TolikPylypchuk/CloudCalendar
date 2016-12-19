@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterlogicProject.DAL.Models
@@ -29,6 +30,9 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(DepartmentId))]
 		public Department Department { get; set; }
+
+		public virtual ICollection<LecturerClass> Classes { get; set; } =
+			new HashSet<LecturerClass>();
 
 		public override string ToString() => this.User.FullName;
 	}

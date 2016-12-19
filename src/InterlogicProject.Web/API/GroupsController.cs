@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +49,22 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the group to get.</param>
 		/// <returns>A group with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(GroupDto))]
 		public GroupDto Get(int id)
 			=> Mapper.Map<GroupDto>(this.groups.GetById(id));
+
+		/// <summary>
+		/// Gets all groups with the specified department.
+		/// </summary>
+		/// <param name="id">The ID of the department.</param>
+		/// <returns>All groups with the specified department.</returns>
+		[HttpGet("departmentId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> GetByDepartment(int id)
+			=> this.groups.GetAll()
+						  .Where(g => g.Curator.DepartmentId == id)
+						  .ProjectTo<GroupDto>();
 	}
 }

@@ -39,6 +39,12 @@
 	<a asp-action="Index" class="btn btn-primary btn-sm m-a-1">Назад</a>
 </div>
 
-<script asp-src-include="~/lib/jquery/dist/*.min.js"></script>
-<script asp-src-include="~/lib/tether/dist/js/*.min.js"></script>
-<script asp-src-include="~/lib/bootstrap/dist/js/*.min.js"></script>
+@section scripts {
+	<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
+
+	<script asp-src-include="~/lib/tether/dist/js/*.js"></script>
+	<script asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
+
+	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"></script>
+	<script asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
+}

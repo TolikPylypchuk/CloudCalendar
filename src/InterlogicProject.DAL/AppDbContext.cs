@@ -20,7 +20,7 @@ namespace InterlogicProject.DAL
 		public DbSet<Subject> Subjects { get; set; }
 		public DbSet<Class> Classes { get; set; }
 		public DbSet<ClassPlace> ClassPlaces { get; set; }
-		public DbSet<LecturerToClass> LecturersToClasses { get; set; }
+		public DbSet<LecturerClass> LecturersClasses { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

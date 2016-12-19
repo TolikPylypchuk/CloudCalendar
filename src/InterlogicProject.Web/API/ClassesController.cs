@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,9 +50,24 @@ namespace InterlogicProject.API
 		/// </summary>
 		/// <param name="id">The ID of the class to get.</param>
 		/// <returns>A class with the specified ID.</returns>
-		[HttpGet("{id}")]
+		[HttpGet("id/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(ClassDto))]
 		public ClassDto Get(int id)
 			=> Mapper.Map<ClassDto>(this.classes.GetById(id));
+
+		/// <summary>
+		/// Gets all classes between the specified dates.
+		/// </summary>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>All classes between the specified dates.</returns>
+		[HttpGet("range/{start}/{end}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetWithRange(DateTime start, DateTime end)
+			=> this.classes.GetAll()
+						   .Where(c => c.DateTime >= start.Date &&
+									   c.DateTime <= end.Date)
+						   .ProjectTo<ClassDto>();
 	}
 }
