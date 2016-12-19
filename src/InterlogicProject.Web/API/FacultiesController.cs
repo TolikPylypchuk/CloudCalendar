@@ -40,7 +40,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<Faculty>))]
 		public IEnumerable<Faculty> Get()
-			=> this.faculties.GetAll().ProjectTo<Faculty>();
+			=> this.faculties.GetAll()?.ProjectTo<Faculty>();
 
 		/// <summary>
 		/// Gets a faculty with the specified ID.

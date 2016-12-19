@@ -28,8 +28,8 @@ namespace InterlogicProject.Controllers
 		{
 			this.groups = groups;
 
-			var userId = accessor.HttpContext.User
-				.FindFirst(ClaimTypes.NameIdentifier).Value;
+			var userId = accessor.HttpContext.User.FindFirst(
+				ClaimTypes.NameIdentifier).Value;
 
 			this.currentLecturer = lecturers.GetAll()
 				.First(l => l.UserId == userId);

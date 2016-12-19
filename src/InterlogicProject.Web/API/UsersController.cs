@@ -57,7 +57,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<UserDto>))]
 		public IEnumerable<UserDto> Get()
-			=> this.context.Users.ProjectTo<UserDto>();
+			=> this.context.Users?.ProjectTo<UserDto>();
 
 		/// <summary>
 		/// Gets a user with the specified ID.
@@ -77,8 +77,8 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
 		public async Task<UserDto> GetCurrent()
 		{
-			var id = accessor.HttpContext.User
-				.FindFirst(ClaimTypes.NameIdentifier).Value;
+			var id = accessor.HttpContext.User.FindFirst(
+				ClaimTypes.NameIdentifier)?.Value;
 			return Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
 		}
 	}

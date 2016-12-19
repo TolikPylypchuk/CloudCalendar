@@ -43,7 +43,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> Get()
-			=> this.classes.GetAll().ProjectTo<ClassDto>();
+			=> this.classes.GetAll()?.ProjectTo<ClassDto>();
 
 		/// <summary>
 		/// Gets a class with the specified ID.
@@ -66,7 +66,7 @@ namespace InterlogicProject.API
 			Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetWithRange(DateTime start, DateTime end)
 			=> this.classes.GetAll()
-						   .Where(c => c.DateTime >= start.Date &&
+						  ?.Where(c => c.DateTime >= start.Date &&
 									   c.DateTime <= end.Date)
 						   .ProjectTo<ClassDto>();
 	}

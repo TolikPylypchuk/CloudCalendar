@@ -44,7 +44,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> Get()
-			=> this.lecturersClasses.GetAll().ProjectTo<LecturerClassDto>();
+			=> this.lecturersClasses.GetAll()?.ProjectTo<LecturerClassDto>();
 
 		/// <summary>
 		/// Gets a lecturer-class relationship with the specified ID.
@@ -64,7 +64,7 @@ namespace InterlogicProject.API
 		[HttpGet("classId/{id}")]
 		public IEnumerable<LecturerClassDto> GetByClass(int id)
 			=> this.lecturersClasses.GetAll()
-									.Where(lc => lc.ClassId == id)
+								   ?.Where(lc => lc.ClassId == id)
 									.ProjectTo<LecturerClassDto>();
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace InterlogicProject.API
 		[HttpGet("lecturerId/{id}")]
 		public IEnumerable<LecturerClassDto> GetByLecturer(int id)
 			=> this.lecturersClasses.GetAll()
-									.Where(lc => lc.LecturerId == id)
+								   ?.Where(lc => lc.LecturerId == id)
 									.ProjectTo<LecturerClassDto>();
 	}
 }

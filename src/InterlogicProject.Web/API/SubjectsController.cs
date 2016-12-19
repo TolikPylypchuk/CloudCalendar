@@ -40,7 +40,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<Subject>))]
 		public IEnumerable<Subject> Get()
-			=> this.subjects.GetAll().ProjectTo<Subject>();
+			=> this.subjects.GetAll()?.ProjectTo<Subject>();
 
 		/// <summary>
 		/// Gets a subject with the specified ID.

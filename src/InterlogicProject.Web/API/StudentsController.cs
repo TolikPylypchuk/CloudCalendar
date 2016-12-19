@@ -42,7 +42,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<StudentDto>))]
 		public IEnumerable<StudentDto> Get()
-			=> this.students.GetAll().ProjectTo<StudentDto>();
+			=> this.students.GetAll()?.ProjectTo<StudentDto>();
 
 		/// <summary>
 		/// Gets a student with the specified ID.
@@ -64,7 +64,7 @@ namespace InterlogicProject.API
 		public StudentDto GetByUser(string id)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
-							 .FirstOrDefault(s => s.UserId == id));
+							?.FirstOrDefault(s => s.UserId == id));
 
 		/// <summary>
 		/// Gets a student with the specified email.
@@ -76,6 +76,6 @@ namespace InterlogicProject.API
 		public StudentDto GetByEmail(string email)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
-							  .FirstOrDefault(s => s.User.Email == email));
+							?.FirstOrDefault(s => s.User.Email == email));
 	}
 }

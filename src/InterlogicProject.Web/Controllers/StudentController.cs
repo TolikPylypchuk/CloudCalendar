@@ -33,8 +33,8 @@ namespace InterlogicProject.Controllers
 			this.groups = groups;
 			this.manager = manager;
 
-			var userId = accessor.HttpContext.User
-				.FindFirst(ClaimTypes.NameIdentifier).Value;
+			var userId = accessor.HttpContext.User.FindFirst(
+				ClaimTypes.NameIdentifier).Value;
 
 			this.currentStudent = students.GetAll()
 				.FirstOrDefault(l => l.UserId == userId);
@@ -157,7 +157,7 @@ namespace InterlogicProject.Controllers
 						MiddleName = model.MiddleName,
 						LastName = model.LastName,
 						Email = model.Email,
-						NormalizedEmail = model.Email.ToUpper()
+						NormalizedEmail = model.Email?.ToUpper()
 					},
 					Group = group,
 					TranscriptNumber = model.TranscriptNumber,

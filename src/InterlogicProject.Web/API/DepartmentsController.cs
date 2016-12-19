@@ -42,7 +42,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<DepartmentDto>))]
 		public IEnumerable<DepartmentDto> Get()
-			=> this.departments.GetAll().ProjectTo<DepartmentDto>();
+			=> this.departments.GetAll()?.ProjectTo<DepartmentDto>();
 
 		/// <summary>
 		/// Gets a department with the specified ID.
@@ -64,7 +64,7 @@ namespace InterlogicProject.API
 			Type = typeof(IEnumerable<DepartmentDto>))]
 		public IEnumerable<DepartmentDto> GetByFaculty(int id)
 			=> this.departments.GetAll()
-							   .Where(d => d.FacultyId == id)
+							  ?.Where(d => d.FacultyId == id)
 							   .ProjectTo<DepartmentDto>();
 	}
 }

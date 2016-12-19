@@ -42,7 +42,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> Get()
-			=> this.groups.GetAll().ProjectTo<GroupDto>();
+			=> this.groups.GetAll()?.ProjectTo<GroupDto>();
 
 		/// <summary>
 		/// Gets a group with the specified ID.
@@ -64,7 +64,7 @@ namespace InterlogicProject.API
 			Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetByDepartment(int id)
 			=> this.groups.GetAll()
-						  .Where(g => g.Curator.DepartmentId == id)
+						 ?.Where(g => g.Curator.DepartmentId == id)
 						  .ProjectTo<GroupDto>();
 	}
 }

@@ -42,7 +42,7 @@ namespace InterlogicProject.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<ClassPlaceDto>))]
 		public IEnumerable<ClassPlaceDto> Get()
-			=> this.places.GetAll().ProjectTo<ClassPlaceDto>();
+			=> this.places.GetAll()?.ProjectTo<ClassPlaceDto>();
 
 		/// <summary>
 		/// Gets a class place with the specified ID.
@@ -64,7 +64,7 @@ namespace InterlogicProject.API
 			Type = typeof(IEnumerable<ClassPlaceDto>))]
 		public IEnumerable<ClassPlaceDto> GetByClass(int id)
 			=> this.places.GetAll()
-						  .Where(p => p.ClassId == id)
+						 ?.Where(p => p.ClassId == id)
 						  .ProjectTo<ClassPlaceDto>();
 	}
 }

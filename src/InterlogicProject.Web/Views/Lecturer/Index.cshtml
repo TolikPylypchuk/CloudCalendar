@@ -7,25 +7,25 @@
 }
 
 <div class="panel-body m-a-1">
-	<div id="calendar"></div>
+	<div id="calendar" class="p-b-1"></div>
 </div>
 
 @section scripts {
 	<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
 
-	<script asp-src-include="~/lib/tether/dist/js/*.js"></script>
-	<script asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/tether/dist/js/*.js"
+	        asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
 
-	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"></script>
-	<script asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"
+	        asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
 
-	<script asp-src-include="~/lib/moment/min/*.js"></script>
-	<script asp-src-exclude="~/lib/moment/min/*.min.js"></script>
+	<script asp-src-include="~/lib/moment/min/*.js"
+	        asp-src-exclude="~/lib/moment/min/*.min.js"></script>
 
 	<script asp-src-include="~/lib/moment/locale/uk.js"></script>
 
-	<script asp-src-include="~/lib/fullcalendar/dist/*.js"></script>
-	<script asp-src-exclude="~/lib/fullcalendar/dist/*.min.js"></script>
+	<script asp-src-include="~/lib/fullcalendar/dist/*.js"
+	        asp-src-exclude="~/lib/fullcalendar/dist/*.min.js"></script>
 
 	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
 
