@@ -1,66 +1,44 @@
 ﻿declare var moment: any;
 
 $(document).ready(() => {
-	const classes = getClasses(
-		moment().startOf("week"),
-		moment().endOf("week"));
-
-	const events = classes.map(classToEvent);
-
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
 		defaultView: "agendaWeek",
 		eventClick: eventClicked,
 		eventColor: "#0275D8",
-		events: events,
+		events: getEvents,
 		weekends: false,
 		weekNumbers: true
 	});
-	/*{
-		allDaySlot: false,
-		defaultView: "agendaWeek",
-		eventClick: eventClicked,
-		eventColor: "#0275d8",
-		eventLimit: 5,
-		events: events,
-		header: {
-			left: "title",
-			right: "today,month,agendaDay,agendaWeek prev,next"
-		},
-		height: "auto",
-		minTime: "08:00:00",
-		maxTime: "21:00:00",
-		selectable: true,
-		weekends: false,
-		weekNumbers: true
-	});*/
+
+	$("#calendar").fullCalendar("option", "height", "auto");
+	$("#calendar").fullCalendar("option", "minTime", "08:00:00");
+	$("#calendar").fullCalendar("option", "maxTime", "21:00:00");
 });
 
-function getClasses(start: any, end: any): any[] {
+function getEvents(start: any, end: any, timezone: any, callback: any): void {
 	"use strict";
-
-	const result: any[] = [];
 
 	$.get({
 		url: "http://localhost:8000/api/classes/range/" +
 			 `${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
-		async: false,
 		success: (data: any) => {
-			for (let item of data) {
-				result.push(item);
-			}
-		},
-		error: () => { return true; }
-	});
+			const classes: any[] = [];
 
-	return result;
+			for (let item of data) {
+				classes.push(item);
+			}
+
+			callback(classes.map(classToEvent));
+		}
+	});
 }
 
-function eventClicked(): void {
+function eventClicked(event: any): void {
 	"use strict";
 
 	$.get({
-		url: "http://localhost:8000/api/users/current",
+		url: `http://localhost:8000/api/classes/id/${event.id}`,
 		async: true,
 		success: (data: any) => {
 			let displayData = "";
@@ -71,16 +49,20 @@ function eventClicked(): void {
 				}
 			}
 
-			alert(`Current user:\n${displayData}`);
+			alert(displayData);
 		}});
 }
 
-function classToEvent(classInfo: any): any {
+function classToEvent(classDto: any): any {
 	"use strict";
 
 	return {
-		title: `${classInfo.subjectName}: ${classInfo.type}`,
-		start: classInfo.dateTime,
-		end: moment.utc(classInfo.dateTime).add(1, "hours").add(20, "minutes").format()
+		id: classDto.id,
+		title: `${classDto.subjectName}: ${classDto.type}`,
+		start: moment.utc(classDto.dateTime),
+		end: moment.utc(classDto.dateTime)
+				   .add(1, "hours")
+				   .add(20, "minutes")
+				   .format()
 	};
 }

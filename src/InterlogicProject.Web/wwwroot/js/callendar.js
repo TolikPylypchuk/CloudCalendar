@@ -1,55 +1,36 @@
 $(document).ready(function () {
-    var classes = getClasses(moment().startOf("week"), moment().endOf("week"));
-    var events = classes.map(classToEvent);
     $("#calendar").fullCalendar({
         allDaySlot: false,
         defaultView: "agendaWeek",
         eventClick: eventClicked,
         eventColor: "#0275D8",
-        events: events,
+        events: getEvents,
         weekends: false,
         weekNumbers: true
     });
-    /*{
-        allDaySlot: false,
-        defaultView: "agendaWeek",
-        eventClick: eventClicked,
-        eventColor: "#0275d8",
-        eventLimit: 5,
-        events: events,
-        header: {
-            left: "title",
-            right: "today,month,agendaDay,agendaWeek prev,next"
-        },
-        height: "auto",
-        minTime: "08:00:00",
-        maxTime: "21:00:00",
-        selectable: true,
-        weekends: false,
-        weekNumbers: true
-    });*/
+    $("#calendar").fullCalendar("option", "height", "auto");
+    $("#calendar").fullCalendar("option", "minTime", "08:00:00");
+    $("#calendar").fullCalendar("option", "maxTime", "21:00:00");
 });
-function getClasses(start, end) {
+function getEvents(start, end, timezone, callback) {
     "use strict";
-    var result = [];
     $.get({
         url: "http://localhost:8000/api/classes/range/" +
             (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
-        async: false,
         success: function (data) {
+            var classes = [];
             for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
                 var item = data_1[_i];
-                result.push(item);
+                classes.push(item);
             }
-        },
-        error: function () { return true; }
+            callback(classes.map(classToEvent));
+        }
     });
-    return result;
 }
-function eventClicked() {
+function eventClicked(event) {
     "use strict";
     $.get({
-        url: "http://localhost:8000/api/users/current",
+        url: "http://localhost:8000/api/classes/id/" + event.id,
         async: true,
         success: function (data) {
             var displayData = "";
@@ -58,16 +39,20 @@ function eventClicked() {
                     displayData += key + ": " + data[key] + "\n";
                 }
             }
-            alert("Current user:\n" + displayData);
+            alert(displayData);
         }
     });
 }
-function classToEvent(classInfo) {
+function classToEvent(classDto) {
     "use strict";
     return {
-        title: classInfo.subjectName + ": " + classInfo.type,
-        start: classInfo.dateTime,
-        end: moment.utc(classInfo.dateTime).add(1, "hours").add(20, "minutes").format()
+        id: classDto.id,
+        title: classDto.subjectName + ": " + classDto.type,
+        start: moment.utc(classDto.dateTime),
+        end: moment.utc(classDto.dateTime)
+            .add(1, "hours")
+            .add(20, "minutes")
+            .format()
     };
 }
 //# sourceMappingURL=callendar.js.map
