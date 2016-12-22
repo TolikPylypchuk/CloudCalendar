@@ -5,13 +5,14 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
+		"module": "commonjs",
 		"noImplicitAny": true,
 		"noEmitOnError": true,
+		"outDir": "./wwwroot/js/dist",
 		"removeComments": false,
 		"sourceMap": true,
 		"target": "es5",
 		"typeRoots": [
-			"./wwwroot/lib/moment/moment",
 			"./node_modules/@types"
 		]
 	},

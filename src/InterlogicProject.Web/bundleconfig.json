@@ -1,8 +1,8 @@
 [
 	{
-		"outputFileName": "wwwroot/js/callendar.min.js",
+		"outputFileName": "wwwroot/js/dist/callendar.min.js",
 		"inputFiles": [
-			"wwwroot/js/callendar.js"
+			"wwwroot/js/dist/callendar.js"
 		]
 	},
 	{

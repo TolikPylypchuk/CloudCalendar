@@ -1,3 +1,4 @@
+/// <reference path="interfaces.ts" />
 $(document).ready(function () {
     $("#calendar").fullCalendar({
         allDaySlot: false,
@@ -18,12 +19,7 @@ function getEvents(start, end, timezone, callback) {
         url: "http://localhost:8000/api/classes/range/" +
             (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
         success: function (data) {
-            var classes = [];
-            for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
-                var item = data_1[_i];
-                classes.push(item);
-            }
-            callback(classes.map(classToEvent));
+            callback(data.map(classToEvent));
         }
     });
 }
@@ -33,23 +29,21 @@ function eventClicked(event) {
         url: "http://localhost:8000/api/classes/id/" + event.id,
         async: true,
         success: function (data) {
-            var displayData = "";
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    displayData += key + ": " + data[key] + "\n";
-                }
-            }
-            alert(displayData);
+            $("#classTitle").text(data.subjectName);
+            $("#classType").text(data.type);
+            $("#classTime").text(moment.utc(data.dateTime)
+                .format("DD.MM.YYYY, dddd, HH:mm"));
+            $("#classInfoModal").modal("show");
         }
     });
 }
-function classToEvent(classDto) {
+function classToEvent(classInfo) {
     "use strict";
     return {
-        id: classDto.id,
-        title: classDto.subjectName + ": " + classDto.type,
-        start: moment.utc(classDto.dateTime),
-        end: moment.utc(classDto.dateTime)
+        id: classInfo.id,
+        title: classInfo.subjectName + ": " + classInfo.type,
+        start: moment.utc(classInfo.dateTime).format(),
+        end: moment.utc(classInfo.dateTime)
             .add(1, "hours")
             .add(20, "minutes")
             .format()
