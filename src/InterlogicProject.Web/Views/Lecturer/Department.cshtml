@@ -5,16 +5,16 @@
 }
 
 <div class="panel-heading">
-	<h1 class="m-a-1">@Model.Name</h1>
+	<h1 class="m-1">@Model.Name</h1>
 
-	<p class="h2 m-a-1">@Model.Faculty.Name</p>
+	<p class="h2 m-1">@Model.Faculty.Name</p>
 
-	<p class="h3 m-a-1">
+	<p class="h3 m-1">
 		Завідувач: @Model.Lecturers.First(l => l.IsHead).User.FullName
 	</p>
 </div>
 
-<div class="panel-body p-a-1">
+<div class="panel-body p-1">
 	<table class="table table-bordered table-striped">
 		<caption>Викладачі</caption>
 		<thead>
@@ -36,7 +36,7 @@
 		</tbody>
 	</table>
 
-	<a asp-action="Index" class="btn btn-primary btn-sm m-a-1">Назад</a>
+	<a asp-action="Index" class="btn btn-primary btn-sm m-1">Назад</a>
 </div>
 
 @section scripts {

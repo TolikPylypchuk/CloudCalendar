@@ -1,35 +1,45 @@
-﻿/// <reference path="interfaces.ts" />
+﻿require(["../lib/moment/moment"], () => {
+	if (document.readyState !== "complete") {
+		$(document).ready(() => {
+			initCallendar();
+		});
+	} else {
+		initCallendar();
+	}
+});
 
-// import * as moment from "moment";
-declare var moment: any;
+import * as models from "./models";
+import * as moment from "../lib/moment/moment";
 
-$(document).ready(() => {
+function initCallendar(): void {
+	"use strict";
+
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
 		defaultView: "agendaWeek",
 		eventClick: eventClicked,
 		eventColor: "#0275D8",
 		events: getEvents,
+		minTime: moment.duration("08:00:00"),
+		maxTime: moment.duration("21:00:00"),
 		weekends: false,
 		weekNumbers: true
 	});
 
 	$("#calendar").fullCalendar("option", "height", "auto");
-	$("#calendar").fullCalendar("option", "minTime", "08:00:00");
-	$("#calendar").fullCalendar("option", "maxTime", "21:00:00");
-});
+}
 
 function getEvents(
-	start: any,
-	end: any,
+	start: moment.Moment,
+	end: moment.Moment,
 	timezone: string | boolean,
 	callback: (data: FC.EventObject[]) => void): void {
 	"use strict";
 
 	$.get({
 		url: "http://localhost:8000/api/classes/range/" +
-			 `${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
-		success: (data: Class[]) => {
+		`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
+		success: (data: models.Class[]) => {
 			callback(data.map(classToEvent));
 		}
 	});
@@ -40,8 +50,7 @@ function eventClicked(event: FC.EventObject): void {
 
 	$.get({
 		url: `http://localhost:8000/api/classes/id/${event.id}`,
-		async: true,
-		success: (data: Class) => {
+		success: (data: models.Class) => {
 			$("#classTitle").text(data.subjectName);
 			$("#classType").text(data.type);
 			$("#classTime").text(moment.utc(data.dateTime)
@@ -51,7 +60,7 @@ function eventClicked(event: FC.EventObject): void {
 		}});
 }
 
-function classToEvent(classInfo: Class): FC.EventObject {
+function classToEvent(classInfo: models.Class): FC.EventObject {
 	"use strict";
 
 	return {

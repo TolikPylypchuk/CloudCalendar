@@ -1,18 +1,29 @@
-/// <reference path="interfaces.ts" />
-$(document).ready(function () {
+require(["../lib/moment/moment"], function () {
+    if (document.readyState !== "complete") {
+        $(document).ready(function () {
+            initCallendar();
+        });
+    }
+    else {
+        initCallendar();
+    }
+});
+var moment = require("../lib/moment/moment");
+function initCallendar() {
+    "use strict";
     $("#calendar").fullCalendar({
         allDaySlot: false,
         defaultView: "agendaWeek",
         eventClick: eventClicked,
         eventColor: "#0275D8",
         events: getEvents,
+        minTime: moment.duration("08:00:00"),
+        maxTime: moment.duration("21:00:00"),
         weekends: false,
         weekNumbers: true
     });
     $("#calendar").fullCalendar("option", "height", "auto");
-    $("#calendar").fullCalendar("option", "minTime", "08:00:00");
-    $("#calendar").fullCalendar("option", "maxTime", "21:00:00");
-});
+}
 function getEvents(start, end, timezone, callback) {
     "use strict";
     $.get({
@@ -27,7 +38,6 @@ function eventClicked(event) {
     "use strict";
     $.get({
         url: "http://localhost:8000/api/classes/id/" + event.id,
-        async: true,
         success: function (data) {
             $("#classTitle").text(data.subjectName);
             $("#classType").text(data.type);

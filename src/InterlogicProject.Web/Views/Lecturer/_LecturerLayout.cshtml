@@ -6,11 +6,16 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" type="text/css"
-	      asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+		  asp-href-include="~/lib/tether/dist/css/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-	      asp-href-include="~/lib/fullcalendar/dist/*.min.css" />
+		  asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-	      asp-href-include="~/css/dist/style.min.css" />
+		  asp-href-include="~/lib/fullcalendar/dist/*.min.css"
+		  asp-href-exclude="~/lib/fullcalendar/dist/*.print.min.css" />
+	<link rel="stylesheet" type="text/css" media="print"
+		  asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
+	<link rel="stylesheet" type="text/css"
+		  asp-href-include="~/css/dist/style.min.css" />
 	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
 </head>
 
@@ -33,14 +38,14 @@
 					Групи в кафедрі
 				</a>
 			</li>
-			<li class="nav-item dropdown pull-lg-right
-			           pull-md-right pull-sm-right pull-xs-right">
+			<li class="nav-item dropdown float-lg-right float-md-right
+			           float-sm-right float-xs-right">
 				<a id="dropdownItem" class="nav-link dropdown-toggle"
 				   data-toggle="dropdown" role="button"
 				   aria-haspopup="true" aria-expanded="false">
 					@ViewBag.Account
 				</a>
-				<div class="dropdown-menu">
+				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item"
 					   asp-controller="Account"
 					   asp-action="Logout">
@@ -55,7 +60,7 @@
 		@RenderBody()
 	</div>
 
-	<footer class="p-a-1 m-t-1">
+	<footer class="p-1 mt-1">
 		<p>Created by Anatoliy Pylypchuk</p>
 	</footer>
 

@@ -7,8 +7,8 @@
 		$"{Model.Student.User.FirstName} {Model.Student.User.LastName}";
 }
 
-<div class="panel-body m-a-1">
-	<div id="calendar" class="p-b-1"></div>
+<div class="panel-body m-1">
+	<div id="calendar" class="pb-1"></div>
 </div>
 
 <div id="classInfoModal" class="modal fade">
@@ -43,16 +43,18 @@
 
 	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"
 	        asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
-
-	<script asp-src-include="~/lib/moment/min/*.js"
-	        asp-src-exclude="~/lib/moment/min/*.min.js"></script>
-
+	
+	<script asp-src-include="~/lib/moment/*.js"
+	        asp-src-exclude="~/lib/moment/*.min.js"></script>
+	
 	<script asp-src-include="~/lib/moment/locale/uk.js"></script>
-
+		
 	<script asp-src-include="~/lib/fullcalendar/dist/*.js"
 	        asp-src-exclude="~/lib/fullcalendar/dist/*.min.js"></script>
 
 	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
+
+	<script asp-src-include="~/lib/requirejs/require.js"></script>
 	
 	<script asp-src-include="~/js/dist/callendar.js"></script>
 }
