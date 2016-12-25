@@ -15,7 +15,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close"
-						data-dismiss="modal" aria-label="Close">
+				        data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 id="classTitle" class="modal-title"></h4>
@@ -26,7 +26,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary"
-						data-dismiss="modal">
+				        data-dismiss="modal">
 					OK
 				</button>
 			</div>
@@ -53,7 +53,10 @@
 
 	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
 
-	<script asp-src-include="~/lib/requirejs/require.js"></script>
+	<script asp-src-include="~/lib/requirejs/require.js"
+	        data-main="js/dist/callendar.js"></script>
+
+	<script asp-src-include="~/js/dist/requireConfig.js"></script>
 
 	<script asp-src-include="~/js/dist/callendar.js"></script>
 }

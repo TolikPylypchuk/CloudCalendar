@@ -1,15 +1,15 @@
-﻿require(["../lib/moment/moment"], () => {
-	if (document.readyState !== "complete") {
-		$(document).ready(() => {
-			initCallendar();
-		});
-	} else {
-		initCallendar();
-	}
-});
+﻿/// <amd-module name="callendar" />
 
 import * as models from "./models";
 import * as moment from "../lib/moment/moment";
+
+if (document.readyState !== "complete") {
+	$(document).ready(() => {
+		initCallendar();
+	});
+} else {
+	initCallendar();
+}
 
 function initCallendar(): void {
 	"use strict";

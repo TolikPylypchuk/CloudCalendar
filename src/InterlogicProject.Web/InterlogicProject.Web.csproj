@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <NoWarn>1701;1702;1705;CS1591;IDE1006</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>InterlogicProject.Web</AssemblyName>
@@ -69,6 +69,15 @@
     </DotNetCliToolReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Update=".bowerrc">
+      <DependentUpon>bower.json</DependentUpon>
+    </Content>
+    <Content Update="bundleconfig.json.bindings">
+      <DependentUpon>bundleconfig.json</DependentUpon>
+    </Content>
+    <Content Update="project.lock.json">
+      <DependentUpon>project.json</DependentUpon>
+    </Content>
     <Content Update="wwwroot\css\dist\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
@@ -80,6 +89,9 @@
     </Content>
     <Content Update="wwwroot\js\dist\models.js.map">
       <DependentUpon>models.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\js\dist\requireConfig.min.js">
+      <DependentUpon>requireConfig.js</DependentUpon>
     </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

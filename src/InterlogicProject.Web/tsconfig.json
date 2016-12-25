@@ -5,6 +5,7 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
+		"module": "amd",
 		"noImplicitAny": true,
 		"noEmitOnError": false,
 		"outDir": "./wwwroot/js/dist",
