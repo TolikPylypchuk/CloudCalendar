@@ -78,14 +78,23 @@
     <Content Update="project.lock.json">
       <DependentUpon>project.json</DependentUpon>
     </Content>
+    <Content Update="runtimeconfig.template.json">
+      <DependentUpon>project.json</DependentUpon>
+    </Content>
     <Content Update="wwwroot\css\dist\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Update="wwwroot\js\dist\callendar.js.map">
-      <DependentUpon>callendar.js</DependentUpon>
+    <Content Update="wwwroot\js\dist\callendarLecturer.js.map">
+      <DependentUpon>callendarLecturer.js</DependentUpon>
     </Content>
-    <Content Update="wwwroot\js\dist\callendar.min.js">
-      <DependentUpon>callendar.js</DependentUpon>
+    <Content Update="wwwroot\js\dist\callendarLecturer.min.js">
+      <DependentUpon>callendarLecturer.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\js\dist\callendarStudent.js.map">
+      <DependentUpon>callendarStudent.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\js\dist\callendarStudent.min.js">
+      <DependentUpon>callendarStudent.js</DependentUpon>
     </Content>
     <Content Update="wwwroot\js\dist\models.js.map">
       <DependentUpon>models.js</DependentUpon>

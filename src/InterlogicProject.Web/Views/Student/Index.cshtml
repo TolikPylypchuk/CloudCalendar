@@ -55,9 +55,10 @@
 	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
 
 	<script asp-src-include="~/lib/requirejs/require.js"
-	        data-main="js/dist/callendar.js"></script>
+	        data-main="js/dist/callendarStudent.js"></script>
 	
 	<script asp-src-include="~/js/dist/requireConfig.js"></script>
 	
-	<script asp-src-include="~/js/dist/callendar.js"></script>
+	<script id="callendarScript" asp-src-include="~/js/dist/callendarStudent.js"
+	        data-student-id="@Model.Student.Id"></script>
 }

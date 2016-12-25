@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -68,6 +69,84 @@ namespace InterlogicProject.API
 			=> this.classes.GetAll()
 						  ?.Where(c => c.DateTime >= start.Date &&
 									   c.DateTime <= end.Date)
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified group.
+		/// </summary>
+		/// <param name="id">The ID of the group.</param>
+		/// <returns>All classes of the specified group.</returns>
+		[HttpGet("groupId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForGroup(int id)
+			=> this.classes.GetAll()
+						  ?.Where(c => c.GroupId == id)
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified group
+		/// between the specified dates.
+		/// </summary>
+		/// <param name="id">The ID of the group.</param>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>
+		/// All classes of the specified group
+		/// between the specified dates.
+		/// </returns>
+		[HttpGet("groupId/{id}/range/{start}/{end}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForGroupWithRange(
+			int id,
+			DateTime start,
+			DateTime end)
+			=> this.classes.GetAll()
+						  ?.Where(c => c.GroupId == id &&
+									   c.DateTime >= start.Date &&
+									   c.DateTime <= end.Date)
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified lecturer.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer.</param>
+		/// <returns>All classes of the specified lecturer.</returns>
+		[HttpGet("lecturerId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForLecturer(int id)
+			=> this.classes.GetAll()
+						   .Include(c => c.Lecturers)
+						  ?.Where(c => c.Lecturers.Any(
+									lc => lc.LecturerId == id))
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified lecturer
+		/// between the specified dates.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer.</param>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>
+		/// All classes of the specified lecturer.
+		/// between the specified dates.
+		/// </returns>
+		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForLecturerWithRange(
+			int id,
+			DateTime start,
+			DateTime end)
+			=> this.classes.GetAll()
+						   .Where(c => c.DateTime >= start.Date &&
+									   c.DateTime <= end.Date)
+						   .Include(c => c.Lecturers)
+						  ?.Where(c => c.Lecturers.Any(
+									lc => lc.LecturerId == id))
 						   .ProjectTo<ClassDto>();
 	}
 }

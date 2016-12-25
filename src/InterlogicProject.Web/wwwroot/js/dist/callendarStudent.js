@@ -1,21 +1,37 @@
-/// <amd-module name="callendar" />
-define("callendar", ["require", "exports", "../lib/moment/moment"], function (require, exports, moment) {
+/// <amd-module name="callendarStudent" />
+define("callendarStudent", ["require", "exports", "../lib/moment/moment"], function (require, exports, moment) {
+    "use strict";
+    var currentStudentId = $("#callendarScript").data("student-id");
+    var currentStudent;
     if (document.readyState !== "complete") {
         $(document).ready(function () {
-            initCallendar();
+            init();
         });
     }
     else {
-        initCallendar();
+        init();
+    }
+    function init() {
+        $.get({
+            url: "http://localhost:8000/api/students/id/" + currentStudentId,
+            success: function (student) {
+                currentStudent = student;
+                initCallendar();
+            }
+        });
     }
     function initCallendar() {
-        "use strict";
         $("#calendar").fullCalendar({
             allDaySlot: false,
             defaultView: "agendaWeek",
             eventClick: eventClicked,
             eventColor: "#0275D8",
             events: getEvents,
+            header: {
+                right: "today,prev,next",
+                left: "title",
+                center: ""
+            },
             minTime: moment.duration("08:00:00"),
             maxTime: moment.duration("21:00:00"),
             weekends: false,
@@ -24,9 +40,9 @@ define("callendar", ["require", "exports", "../lib/moment/moment"], function (re
         $("#calendar").fullCalendar("option", "height", "auto");
     }
     function getEvents(start, end, timezone, callback) {
-        "use strict";
         $.get({
-            url: "http://localhost:8000/api/classes/range/" +
+            url: "http://localhost:8000/api/classes/groupId/" +
+                (currentStudent.groupId + "/range/") +
                 (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
             success: function (data) {
                 callback(data.map(classToEvent));
@@ -34,7 +50,6 @@ define("callendar", ["require", "exports", "../lib/moment/moment"], function (re
         });
     }
     function eventClicked(event) {
-        "use strict";
         $.get({
             url: "http://localhost:8000/api/classes/id/" + event.id,
             success: function (data) {
@@ -47,7 +62,6 @@ define("callendar", ["require", "exports", "../lib/moment/moment"], function (re
         });
     }
     function classToEvent(classInfo) {
-        "use strict";
         return {
             id: classInfo.id,
             title: classInfo.subjectName + ": " + classInfo.type,
@@ -59,4 +73,4 @@ define("callendar", ["require", "exports", "../lib/moment/moment"], function (re
         };
     }
 });
-//# sourceMappingURL=callendar.js.map
+//# sourceMappingURL=callendarStudent.js.map

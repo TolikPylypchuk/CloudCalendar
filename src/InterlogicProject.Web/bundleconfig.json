@@ -16,5 +16,17 @@
     "inputFiles": [
       "wwwroot/js/dist/requireConfig.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dist/callendarStudent.min.js",
+    "inputFiles": [
+      "wwwroot/js/dist/callendarStudent.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dist/callendarLecturer.min.js",
+    "inputFiles": [
+      "wwwroot/js/dist/callendarLecturer.js"
+    ]
   }
 ]

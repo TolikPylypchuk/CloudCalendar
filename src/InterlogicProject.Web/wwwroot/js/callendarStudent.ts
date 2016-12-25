@@ -1,25 +1,43 @@
-﻿/// <amd-module name="callendar" />
+﻿/// <amd-module name="callendarStudent" />
+
+"use strict";
 
 import * as models from "./models";
 import * as moment from "../lib/moment/moment";
 
+var currentStudentId = $("#callendarScript").data("student-id") as number;
+var currentStudent: models.Student;
+
 if (document.readyState !== "complete") {
 	$(document).ready(() => {
-		initCallendar();
+		init();
 	});
 } else {
-	initCallendar();
+	init();
+}
+
+function init(): void {
+	$.get({
+		url: `http://localhost:8000/api/students/id/${currentStudentId}`,
+		success: (student: models.Student) => {
+			currentStudent = student;
+			initCallendar();
+		}
+	});
 }
 
 function initCallendar(): void {
-	"use strict";
-
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
 		defaultView: "agendaWeek",
 		eventClick: eventClicked,
 		eventColor: "#0275D8",
 		events: getEvents,
+		header: {
+			right: "today,prev,next",
+			left: "title",
+			center: ""
+		},
 		minTime: moment.duration("08:00:00"),
 		maxTime: moment.duration("21:00:00"),
 		weekends: false,
@@ -34,11 +52,11 @@ function getEvents(
 	end: moment.Moment,
 	timezone: string | boolean,
 	callback: (data: FC.EventObject[]) => void): void {
-	"use strict";
 
 	$.get({
-		url: "http://localhost:8000/api/classes/range/" +
-		`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
+		url: "http://localhost:8000/api/classes/groupId/" +
+			 `${currentStudent.groupId}/range/` +
+			 `${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 		success: (data: models.Class[]) => {
 			callback(data.map(classToEvent));
 		}
@@ -46,8 +64,6 @@ function getEvents(
 }
 
 function eventClicked(event: FC.EventObject): void {
-	"use strict";
-
 	$.get({
 		url: `http://localhost:8000/api/classes/id/${event.id}`,
 		success: (data: models.Class) => {
@@ -61,8 +77,6 @@ function eventClicked(event: FC.EventObject): void {
 }
 
 function classToEvent(classInfo: models.Class): FC.EventObject {
-	"use strict";
-
 	return {
 		id: classInfo.id,
 		title: `${classInfo.subjectName}: ${classInfo.type}`,
