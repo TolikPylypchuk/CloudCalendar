@@ -102,6 +102,18 @@
     <Content Update="wwwroot\js\dist\requireConfig.min.js">
       <DependentUpon>requireConfig.js</DependentUpon>
     </Content>
+    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css">
+      <DependentUpon>fullcalendar.css</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.js">
+      <DependentUpon>fullcalendar.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.print.min.css">
+      <DependentUpon>fullcalendar.print.css</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\fullcalendar\dist\gcal.min.js">
+      <DependentUpon>gcal.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>

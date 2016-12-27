@@ -6,6 +6,7 @@
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"module": "amd",
+		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noEmitOnError": false,
 		"outDir": "./wwwroot/js/dist",

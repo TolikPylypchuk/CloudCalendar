@@ -1,12 +1,10 @@
 /// <amd-module name="callendarStudent" />
-define("callendarStudent", ["require", "exports", "../lib/moment/moment"], function (require, exports, moment) {
+define("callendarStudent", ["require", "exports", "moment"], function (require, exports, moment) {
     "use strict";
     var currentStudentId = $("#callendarScript").data("student-id");
     var currentStudent;
     if (document.readyState !== "complete") {
-        $(document).ready(function () {
-            init();
-        });
+        $(document).ready(init);
     }
     else {
         init();
@@ -41,9 +39,9 @@ define("callendarStudent", ["require", "exports", "../lib/moment/moment"], funct
     }
     function getEvents(start, end, timezone, callback) {
         $.get({
-            url: "http://localhost:8000/api/classes/groupId/" +
-                (currentStudent.groupId + "/range/") +
-                (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
+            url: "http://localhost:8000/api/classes/" +
+                ("groupId/" + currentStudent.groupId + "/") +
+                ("range/" + start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
             success: function (data) {
                 callback(data.map(classToEvent));
             }
@@ -55,8 +53,7 @@ define("callendarStudent", ["require", "exports", "../lib/moment/moment"], funct
             success: function (data) {
                 $("#classTitle").text(data.subjectName);
                 $("#classType").text(data.type);
-                $("#classTime").text(moment.utc(data.dateTime)
-                    .format("DD.MM.YYYY, dddd, HH:mm"));
+                $("#classTime").text(moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm"));
                 $("#classInfoModal").modal("show");
             }
         });

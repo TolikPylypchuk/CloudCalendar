@@ -3,15 +3,13 @@
 "use strict";
 
 import * as models from "./models";
-import * as moment from "../lib/moment/moment";
+import * as moment from "moment";
 
-var currentLecturerId = $("#callendarScript").data("lecturer-id") as number;
-var currentLecturer: models.Lecturer;
+const currentLecturerId = $("#callendarScript").data("lecturer-id") as number;
+let currentLecturer: models.Lecturer;
 
 if (document.readyState !== "complete") {
-	$(document).ready(() => {
-		init();
-	});
+	$(document).ready(init);
 } else {
 	init();
 }
@@ -54,9 +52,9 @@ function getEvents(
 	callback: (data: FC.EventObject[]) => void): void {
 
 	$.get({
-		url: "http://localhost:8000/api/classes/lecturerId/" +
-			 `${currentLecturerId}/range/` +
-			 `${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
+		url: "http://localhost:8000/api/classes/" +
+			 `lecturerId/${currentLecturerId}/` +
+			 `range/${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 		success: (data: models.Class[]) => {
 			callback(data.map(classToEvent));
 		}

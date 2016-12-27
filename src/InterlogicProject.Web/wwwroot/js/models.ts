@@ -1,5 +1,14 @@
-﻿export interface Entity {
+﻿/// <amd-module name="callendarModels" />
+
+export interface Entity {
 	id: number;
+}
+
+export interface User extends Entity {
+	email: string;
+	firstName: string;
+	middleName: string;
+	lastName: string;
 }
 
 export interface EntityWithUser extends Entity {
@@ -51,11 +60,4 @@ export interface Student extends EntityWithUser {
 	groupName: string;
 	isGroupLeader: boolean;
 	transcriptNumber: string;
-}
-
-export interface User extends Entity {
-	email: string;
-	firstName: string;
-	middleName: string;
-	lastName: string;
 }

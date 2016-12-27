@@ -1,12 +1,10 @@
 /// <amd-module name="callendarLecturer" />
-define("callendarLecturer", ["require", "exports", "../lib/moment/moment"], function (require, exports, moment) {
+define("callendarLecturer", ["require", "exports", "moment"], function (require, exports, moment) {
     "use strict";
     var currentLecturerId = $("#callendarScript").data("lecturer-id");
     var currentLecturer;
     if (document.readyState !== "complete") {
-        $(document).ready(function () {
-            init();
-        });
+        $(document).ready(init);
     }
     else {
         init();
@@ -41,9 +39,9 @@ define("callendarLecturer", ["require", "exports", "../lib/moment/moment"], func
     }
     function getEvents(start, end, timezone, callback) {
         $.get({
-            url: "http://localhost:8000/api/classes/lecturerId/" +
-                (currentLecturerId + "/range/") +
-                (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
+            url: "http://localhost:8000/api/classes/" +
+                ("lecturerId/" + currentLecturerId + "/") +
+                ("range/" + start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
             success: function (data) {
                 callback(data.map(classToEvent));
             }

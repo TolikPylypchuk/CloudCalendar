@@ -3,15 +3,13 @@
 "use strict";
 
 import * as models from "./models";
-import * as moment from "../lib/moment/moment";
+import * as moment from "moment";
 
-var currentStudentId = $("#callendarScript").data("student-id") as number;
-var currentStudent: models.Student;
+const currentStudentId = $("#callendarScript").data("student-id") as number;
+let currentStudent: models.Student;
 
 if (document.readyState !== "complete") {
-	$(document).ready(() => {
-		init();
-	});
+	$(document).ready(init);
 } else {
 	init();
 }
@@ -54,9 +52,9 @@ function getEvents(
 	callback: (data: FC.EventObject[]) => void): void {
 
 	$.get({
-		url: "http://localhost:8000/api/classes/groupId/" +
-			 `${currentStudent.groupId}/range/` +
-			 `${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
+		url: "http://localhost:8000/api/classes/" +
+			 `groupId/${currentStudent.groupId}/` +
+			 `range/${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 		success: (data: models.Class[]) => {
 			callback(data.map(classToEvent));
 		}
@@ -69,8 +67,8 @@ function eventClicked(event: FC.EventObject): void {
 		success: (data: models.Class) => {
 			$("#classTitle").text(data.subjectName);
 			$("#classType").text(data.type);
-			$("#classTime").text(moment.utc(data.dateTime)
-				.format("DD.MM.YYYY, dddd, HH:mm"));
+			$("#classTime").text(
+				moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm"));
 
 			$("#classInfoModal").modal("show");
 		}});
