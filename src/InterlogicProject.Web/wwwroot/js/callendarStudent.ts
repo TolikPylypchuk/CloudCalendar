@@ -15,6 +15,8 @@ if (document.readyState !== "complete") {
 }
 
 function init(): void {
+	moment.locale("uk");
+
 	$.get({
 		url: `http://localhost:8000/api/students/id/${currentStudentId}`,
 		success: (student: models.Student) => {
@@ -67,8 +69,8 @@ function eventClicked(event: FC.EventObject): void {
 		success: (data: models.Class) => {
 			$("#classTitle").text(data.subjectName);
 			$("#classType").text(data.type);
-			$("#classTime").text(
-				moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm"));
+			const time = moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+			$("#classTime").text(time);
 
 			$("#classInfoModal").modal("show");
 		}});

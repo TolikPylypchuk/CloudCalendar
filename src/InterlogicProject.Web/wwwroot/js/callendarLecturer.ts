@@ -15,6 +15,8 @@ if (document.readyState !== "complete") {
 }
 
 function init(): void {
+	moment.locale("uk");
+
 	$.get({
 		url: `http://localhost:8000/api/lecturers/id/${currentLecturerId}`,
 		success: (lecturer: models.Lecturer) => {

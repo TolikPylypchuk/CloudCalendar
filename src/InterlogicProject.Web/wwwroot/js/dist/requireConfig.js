@@ -1,5 +1,5 @@
 ﻿requirejs.config({
 	"paths": {
-		"moment": "../../lib/moment/moment"
+		"moment": "../../lib/moment/min/moment-with-locales"
 	}
 });

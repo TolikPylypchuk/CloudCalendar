@@ -10,6 +10,7 @@ define("callendarStudent", ["require", "exports", "moment"], function (require, 
         init();
     }
     function init() {
+        moment.locale("uk");
         $.get({
             url: "http://localhost:8000/api/students/id/" + currentStudentId,
             success: function (student) {
@@ -53,7 +54,8 @@ define("callendarStudent", ["require", "exports", "moment"], function (require, 
             success: function (data) {
                 $("#classTitle").text(data.subjectName);
                 $("#classType").text(data.type);
-                $("#classTime").text(moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm"));
+                var time = moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+                $("#classTime").text(time);
                 $("#classInfoModal").modal("show");
             }
         });

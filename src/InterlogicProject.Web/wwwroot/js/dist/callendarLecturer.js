@@ -10,6 +10,7 @@ define("callendarLecturer", ["require", "exports", "moment"], function (require,
         init();
     }
     function init() {
+        moment.locale("uk");
         $.get({
             url: "http://localhost:8000/api/lecturers/id/" + currentLecturerId,
             success: function (lecturer) {
