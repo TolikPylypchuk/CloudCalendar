@@ -1,6 +1,6 @@
 ﻿using InterlogicProject.DAL.Models;
 
-namespace InterlogicProject.Models.ViewModels
+namespace InterlogicProject.Web.Models.ViewModels
 {
 	public class StudentModel
 	{

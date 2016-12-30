@@ -9,24 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Models.Dto;
-using InterlogicProject.Models.ViewModels;
+using InterlogicProject.Web.Models.Dto;
+using InterlogicProject.Web.Models.ViewModels;
 
-namespace InterlogicProject.Controllers
+namespace InterlogicProject.Web.Controllers
 {
 	[Authorize(Roles = "Lecturer")]
 	public class LecturerController : Controller
 	{
-		private IRepository<Group> groups;
+		private IRepository<Faculty> faculties;
 
 		private Lecturer currentLecturer;
 
 		public LecturerController(
-			IRepository<Group> groups,
+			IRepository<Faculty> faculties,
 			IRepository<Lecturer> lecturers,
 			IHttpContextAccessor accessor)
 		{
-			this.groups = groups;
+			this.faculties = faculties;
 
 			var userId = accessor.HttpContext.User.FindFirst(
 				ClaimTypes.NameIdentifier).Value;
@@ -45,12 +45,10 @@ namespace InterlogicProject.Controllers
 			return this.View(model);
 		}
 
-		public IActionResult Department()
-			=> this.View(this.currentLecturer.Department);
+		public IActionResult Faculties()
+			=> this.View(new FacultiesModel { Faculties = faculties.GetAll() });
 
 		public IActionResult Groups()
-			=> this.View(this.groups.GetAll()
-				.Where(g => g.Curator.Department ==
-							this.currentLecturer.Department));
+			=> this.View(new FacultiesModel { Faculties = faculties.GetAll() });
 	}
 }

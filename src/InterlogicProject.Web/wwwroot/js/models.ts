@@ -1,4 +1,4 @@
-﻿/// <amd-module name="callendarModels" />
+﻿/// <amd-module name="calendarModels" />
 
 export interface Entity {
 	id: number;
@@ -21,6 +21,8 @@ export interface EntityWithUser extends Entity {
 export interface Class extends Entity {
 	subjectId: number;
 	subjectName: string;
+	groupId: number;
+	groupName: string;
 	dateTime: string;
 	type: string;
 }

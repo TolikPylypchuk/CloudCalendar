@@ -6,19 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 using InterlogicProject.DAL.Models;
 
-namespace InterlogicProject.Infrastructure
+namespace InterlogicProject.Web.Infrastructure
 {
-	/// <summary>
-	/// Validates user names.
-	/// </summary>
 	public class CustomUserValidator : UserValidator<User>
 	{
-		/// <summary>
-		/// Validates a user name.
-		/// </summary>
-		/// <param name="manager">A user manager used for validation.</param>
-		/// <param name="user">The user that is being validated.</param>
-		/// <returns></returns>
 		public override async Task<IdentityResult> ValidateAsync(
 			UserManager<User> manager,
 			User user)

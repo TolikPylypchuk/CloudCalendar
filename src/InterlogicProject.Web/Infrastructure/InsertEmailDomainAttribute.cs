@@ -1,8 +1,8 @@
-﻿using InterlogicProject.Models.ViewModels;
+﻿using InterlogicProject.Web.Models.ViewModels;
 
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace InterlogicProject.Infrastructure
+namespace InterlogicProject.Web.Infrastructure
 {
 	public class InsertEmailDomainAttribute : ActionFilterAttribute
 	{

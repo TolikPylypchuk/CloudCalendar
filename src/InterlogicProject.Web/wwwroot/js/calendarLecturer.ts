@@ -1,11 +1,11 @@
-﻿/// <amd-module name="callendarLecturer" />
+﻿/// <amd-module name="calendarLecturer" />
 
 "use strict";
 
 import * as models from "./models";
 import * as moment from "moment";
 
-const currentLecturerId = $("#callendarScript").data("lecturer-id") as number;
+const currentLecturerId = $("#calendarScript").data("lecturer-id") as number;
 let currentLecturer: models.Lecturer;
 
 if (document.readyState !== "complete") {
@@ -29,19 +29,25 @@ function init(): void {
 function initCallendar(): void {
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
+		columnFormat: "dd, DD.MM",
 		defaultView: "agendaWeek",
 		eventClick: eventClicked,
 		eventColor: "#0275D8",
 		events: getEvents,
 		header: {
-			right: "today,prev,next",
 			left: "title",
-			center: ""
+			center: "today,prev,next",
+			right: "agendaWeek,listWeek"
 		},
 		minTime: moment.duration("08:00:00"),
 		maxTime: moment.duration("21:00:00"),
+		slotDuration: moment.duration("00:30:00"),
+		slotLabelFormat: "HH:mm",
+		slotLabelInterval: moment.duration("01:00:00"),
+		titleFormat: "DD MMM YYYY",
 		weekends: false,
-		weekNumbers: true
+		weekNumbers: true,
+		weekNumberTitle: "Тиж "
 	});
 
 	$("#calendar").fullCalendar("option", "height", "auto");
@@ -71,6 +77,7 @@ function eventClicked(event: FC.EventObject): void {
 			$("#classType").text(data.type);
 			$("#classTime").text(moment.utc(data.dateTime)
 				.format("DD.MM.YYYY, dddd, HH:mm"));
+			$("#classGroup").text(`Група: ${data.groupName}`);
 
 			$("#classInfoModal").modal("show");
 		}

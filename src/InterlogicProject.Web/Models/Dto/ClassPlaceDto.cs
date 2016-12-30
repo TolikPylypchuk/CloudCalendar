@@ -1,4 +1,4 @@
-﻿namespace InterlogicProject.Models.Dto
+﻿namespace InterlogicProject.Web.Models.Dto
 {
 	public class ClassPlaceDto
 	{

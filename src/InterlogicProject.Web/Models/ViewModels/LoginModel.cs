@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InterlogicProject.Models.ViewModels
+namespace InterlogicProject.Web.Models.ViewModels
 {
 	public class LoginModel
 	{

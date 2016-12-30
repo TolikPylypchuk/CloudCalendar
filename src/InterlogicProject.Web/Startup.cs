@@ -14,10 +14,10 @@ using Swashbuckle.Swagger.Model;
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Infrastructure;
-using InterlogicProject.Models.Dto;
+using InterlogicProject.Web.Infrastructure;
+using InterlogicProject.Web.Models.Dto;
 
-namespace InterlogicProject
+namespace InterlogicProject.Web
 {
 	public class Startup
 	{

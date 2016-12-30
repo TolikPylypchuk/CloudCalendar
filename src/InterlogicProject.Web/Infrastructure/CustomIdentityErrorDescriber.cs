@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace InterlogicProject.Infrastructure
+namespace InterlogicProject.Web.Infrastructure
 {
 	public class CustomIdentityErrorDescriber : IdentityErrorDescriber
 	{

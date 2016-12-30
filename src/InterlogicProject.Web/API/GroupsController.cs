@@ -11,9 +11,9 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Models.Dto;
+using InterlogicProject.Web.Models.Dto;
 
-namespace InterlogicProject.API
+namespace InterlogicProject.Web.API
 {
 	/// <summary>
 	/// An API for groups.

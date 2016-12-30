@@ -84,17 +84,11 @@
     <Content Update="wwwroot\css\dist\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Update="wwwroot\js\dist\callendarLecturer.js.map">
-      <DependentUpon>callendarLecturer.js</DependentUpon>
+    <Content Update="wwwroot\js\dist\calendarLecturer.js.map">
+      <DependentUpon>calendarLecturer.js</DependentUpon>
     </Content>
-    <Content Update="wwwroot\js\dist\callendarLecturer.min.js">
-      <DependentUpon>callendarLecturer.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\callendarStudent.js.map">
-      <DependentUpon>callendarStudent.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\callendarStudent.min.js">
-      <DependentUpon>callendarStudent.js</DependentUpon>
+    <Content Update="wwwroot\js\dist\calendarStudent.js.map">
+      <DependentUpon>calendarStudent.js</DependentUpon>
     </Content>
     <Content Update="wwwroot\js\dist\models.js.map">
       <DependentUpon>models.js</DependentUpon>
@@ -113,6 +107,12 @@
     </Content>
     <Content Update="wwwroot\lib\fullcalendar\dist\gcal.min.js">
       <DependentUpon>gcal.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\moment\min\locales.min.js">
+      <DependentUpon>locales.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\moment\min\moment-with-locales.min.js">
+      <DependentUpon>moment-with-locales.js</DependentUpon>
     </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

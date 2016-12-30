@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Hosting;
 
-namespace InterlogicProject
+namespace InterlogicProject.Web
 {
 	public class Program
 	{

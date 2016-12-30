@@ -18,8 +18,6 @@
 				<th>Прізвище</th>
 				<th>Ім'я</th>
 				<th>По-батькові</th>
-				<th></th>
-				<th></th>
 			</tr>
 		</thead>
 
@@ -31,31 +29,11 @@
 					<td>@student.User.LastName</td>
 					<td>@student.User.FirstName</td>
 					<td>@student.User.MiddleName</td>
-					<td>
-						<a asp-action="Edit" class="btn btn-sm btn-primary"
-						   asp-route-id="@student.Id">
-							Редагувати
-						</a>
-					</td>
-					@if (student != Model.Student)
-					{
-						<td>
-							<form asp-action="Delete" method="post">
-								<input type="hidden" name="id"
-									   value="@student.Id" />
-								<button type="submit"
-										class="btn btn-sm btn-danger">
-									Видалити
-								</button>
-							</form>
-						</td>
-					}
 				</tr>
 			}
 		</tbody>
 	</table>
 	
-	<a asp-action="Create" class="btn btn-info m-1">Додати</a>
 	<a asp-action="Index" class="btn btn-primary m-1">Назад</a>
 </div>
 

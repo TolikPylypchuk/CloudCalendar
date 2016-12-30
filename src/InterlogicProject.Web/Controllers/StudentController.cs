@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
-using InterlogicProject.Models.ViewModels;
+using InterlogicProject.Web.Models.ViewModels;
 
 using Microsoft.AspNetCore.Http;
 
-namespace InterlogicProject.Controllers
+namespace InterlogicProject.Web.Controllers
 {
 	[Authorize(Roles = "Student")]
 	public class StudentController : Controller

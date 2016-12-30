@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
-using InterlogicProject.Infrastructure;
-using InterlogicProject.Models.ViewModels;
+using InterlogicProject.Web.Infrastructure;
+using InterlogicProject.Web.Models.ViewModels;
 
-namespace InterlogicProject.Controllers
+namespace InterlogicProject.Web.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller

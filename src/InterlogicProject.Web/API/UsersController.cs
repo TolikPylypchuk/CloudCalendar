@@ -3,6 +3,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -12,10 +13,9 @@ using Swashbuckle.SwaggerGen.Annotations;
 
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
-using InterlogicProject.Models.Dto;
-using Microsoft.AspNetCore.Http;
+using InterlogicProject.Web.Models.Dto;
 
-namespace InterlogicProject.API
+namespace InterlogicProject.Web.API
 {
 	/// <summary>
 	/// An API for users.

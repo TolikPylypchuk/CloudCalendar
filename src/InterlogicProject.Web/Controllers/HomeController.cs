@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
 
-namespace InterlogicProject.Controllers
+namespace InterlogicProject.Web.Controllers
 {
 	public class HomeController : Controller
 	{

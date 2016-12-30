@@ -11,7 +11,7 @@ using Swashbuckle.SwaggerGen.Annotations;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 
-namespace InterlogicProject.API
+namespace InterlogicProject.Web.API
 {
 	/// <summary>
 	/// An API for subjects.

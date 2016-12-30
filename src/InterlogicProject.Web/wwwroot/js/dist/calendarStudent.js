@@ -1,8 +1,8 @@
-/// <amd-module name="callendarLecturer" />
-define("callendarLecturer", ["require", "exports", "moment"], function (require, exports, moment) {
+/// <amd-module name="calendarStudent" />
+define("calendarStudent", ["require", "exports", "moment"], function (require, exports, moment) {
     "use strict";
-    var currentLecturerId = $("#callendarScript").data("lecturer-id");
-    var currentLecturer;
+    var currentStudentId = $("#calendarScript").data("student-id");
+    var currentStudent;
     if (document.readyState !== "complete") {
         $(document).ready(init);
     }
@@ -12,9 +12,9 @@ define("callendarLecturer", ["require", "exports", "moment"], function (require,
     function init() {
         moment.locale("uk");
         $.get({
-            url: "http://localhost:8000/api/lecturers/id/" + currentLecturerId,
-            success: function (lecturer) {
-                currentLecturer = lecturer;
+            url: "http://localhost:8000/api/students/id/" + currentStudentId,
+            success: function (student) {
+                currentStudent = student;
                 initCallendar();
             }
         });
@@ -22,26 +22,32 @@ define("callendarLecturer", ["require", "exports", "moment"], function (require,
     function initCallendar() {
         $("#calendar").fullCalendar({
             allDaySlot: false,
+            columnFormat: "dd, DD.MM",
             defaultView: "agendaWeek",
             eventClick: eventClicked,
             eventColor: "#0275D8",
             events: getEvents,
             header: {
-                right: "today,prev,next",
                 left: "title",
-                center: ""
+                center: "today,prev,next",
+                right: "agendaWeek,listWeek"
             },
             minTime: moment.duration("08:00:00"),
             maxTime: moment.duration("21:00:00"),
+            slotDuration: moment.duration("00:30:00"),
+            slotLabelFormat: "HH:mm",
+            slotLabelInterval: moment.duration("01:00:00"),
+            titleFormat: "DD MMM YYYY",
             weekends: false,
-            weekNumbers: true
+            weekNumbers: true,
+            weekNumberTitle: "Тиж "
         });
         $("#calendar").fullCalendar("option", "height", "auto");
     }
     function getEvents(start, end, timezone, callback) {
         $.get({
             url: "http://localhost:8000/api/classes/" +
-                ("lecturerId/" + currentLecturerId + "/") +
+                ("groupId/" + currentStudent.groupId + "/") +
                 ("range/" + start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")),
             success: function (data) {
                 callback(data.map(classToEvent));
@@ -54,8 +60,8 @@ define("callendarLecturer", ["require", "exports", "moment"], function (require,
             success: function (data) {
                 $("#classTitle").text(data.subjectName);
                 $("#classType").text(data.type);
-                $("#classTime").text(moment.utc(data.dateTime)
-                    .format("DD.MM.YYYY, dddd, HH:mm"));
+                var time = moment.utc(data.dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+                $("#classTime").text(time);
                 $("#classInfoModal").modal("show");
             }
         });
@@ -72,4 +78,4 @@ define("callendarLecturer", ["require", "exports", "moment"], function (require,
         };
     }
 });
-//# sourceMappingURL=callendarLecturer.js.map
+//# sourceMappingURL=calendarStudent.js.map

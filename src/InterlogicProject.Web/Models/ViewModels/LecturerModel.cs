@@ -1,6 +1,6 @@
-﻿using InterlogicProject.Models.Dto;
+﻿using InterlogicProject.Web.Models.Dto;
 
-namespace InterlogicProject.Models.ViewModels
+namespace InterlogicProject.Web.Models.ViewModels
 {
 	public class LecturerModel
 	{
