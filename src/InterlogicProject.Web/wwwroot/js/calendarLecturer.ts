@@ -36,8 +36,8 @@ function initCallendar(): void {
 		events: getEvents,
 		header: {
 			left: "title",
-			center: "today,prev,next",
-			right: "agendaWeek,listWeek"
+			center: "agendaWeek,listWeek",
+			right: "today,prev,next"
 		},
 		minTime: moment.duration("08:00:00"),
 		maxTime: moment.duration("21:00:00"),

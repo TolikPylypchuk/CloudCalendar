@@ -29,8 +29,8 @@ define("calendarStudent", ["require", "exports", "moment"], function (require, e
             events: getEvents,
             header: {
                 left: "title",
-                center: "today,prev,next",
-                right: "agendaWeek,listWeek"
+                center: "agendaWeek,listWeek",
+                right: "today,prev,next"
             },
             minTime: moment.duration("08:00:00"),
             maxTime: moment.duration("21:00:00"),

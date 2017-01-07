@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Interlogic Project DAL")]
+[assembly: AssemblyProduct("Interlogic Project Data Access Layer")]
 [assembly: AssemblyTrademark("")]
 
 [assembly: ComVisible(false)]
