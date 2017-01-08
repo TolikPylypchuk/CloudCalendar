@@ -2,8 +2,7 @@
 	"name": "asp.net",
 	"private": true,
 	"dependencies": {
-		"angular2": "1.6.1",
-		"bootstrap": "v4.0.0-alpha.5",
+		"bootstrap": "v4.0.0-alpha.6",
 		"fontawesome": "4.7.0",
 		"fullcalendar": "3.1.0",
 		"requirejs": "2.3.2"
