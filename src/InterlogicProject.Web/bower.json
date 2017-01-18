@@ -1,5 +1,6 @@
 {
-	"name": "asp.net",
+	"version": "1.0.0",
+	"name": "interlogicproject",
 	"private": true,
 	"dependencies": {
 		"bootstrap": "v4.0.0-alpha.6",
