@@ -18,6 +18,9 @@ namespace InterlogicProject.DAL.Repositories
 			 => base.GetAll()
 					.Include(f => f.Departments)
 						.ThenInclude(d => d.Lecturers)
-							.ThenInclude(lecturer => lecturer.User);
+							.ThenInclude(lecturer => lecturer.User)
+					.Include(f => f.Building)
+						.ThenInclude(b => b.Faculties)
+							.ThenInclude(f => f.Departments);
 	}
 }

@@ -15,11 +15,11 @@ define("calendarStudent", ["require", "exports", "moment"], function (require, e
             url: "http://localhost:8000/api/students/id/" + currentStudentId,
             success: function (student) {
                 currentStudent = student;
-                initCallendar();
+                initCalendar();
             }
         });
     }
-    function initCallendar() {
+    function initCalendar() {
         $("#calendar").fullCalendar({
             allDaySlot: false,
             columnFormat: "dd, DD.MM",

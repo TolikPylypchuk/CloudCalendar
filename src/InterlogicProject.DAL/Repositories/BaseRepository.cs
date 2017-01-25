@@ -89,11 +89,10 @@ namespace InterlogicProject.DAL.Repositories
 		}
 
 		public virtual TEntity GetById(int id)
-			=> this.GetAll().FirstOrDefault(e => e.Id == id);
+			=> this.table.Find(id);
 
 		public virtual Task<TEntity> GetByIdAsync(int id)
-			=> Task.Factory.StartNew(
-				() => this.GetAll().FirstOrDefault(e => e.Id == id));
+			=> this.table.FindAsync(id);
 
 		public virtual IQueryable<TEntity> GetAll() => this.table;
 	}

@@ -15,11 +15,11 @@ define("calendarLecturer", ["require", "exports", "moment"], function (require, 
             url: "http://localhost:8000/api/lecturers/id/" + currentLecturerId,
             success: function (lecturer) {
                 currentLecturer = lecturer;
-                initCallendar();
+                initCalendar();
             }
         });
     }
-    function initCallendar() {
+    function initCalendar() {
         $("#calendar").fullCalendar({
             allDaySlot: false,
             columnFormat: "dd, DD.MM",

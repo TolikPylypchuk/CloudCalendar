@@ -21,12 +21,12 @@ function init(): void {
 		url: `http://localhost:8000/api/lecturers/id/${currentLecturerId}`,
 		success: (lecturer: models.Lecturer) => {
 			currentLecturer = lecturer;
-			initCallendar();
+			initCalendar();
 		}
 	});
 }
 
-function initCallendar(): void {
+function initCalendar(): void {
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
 		columnFormat: "dd, DD.MM",
@@ -90,8 +90,8 @@ function classToEvent(classInfo: models.Class): FC.EventObject {
 		title: `${classInfo.subjectName}: ${classInfo.type}`,
 		start: moment.utc(classInfo.dateTime).format(),
 		end: moment.utc(classInfo.dateTime)
-			.add(1, "hours")
-			.add(20, "minutes")
-			.format()
+				   .add(1, "hours")
+				   .add(20, "minutes")
+				   .format()
 	};
 }

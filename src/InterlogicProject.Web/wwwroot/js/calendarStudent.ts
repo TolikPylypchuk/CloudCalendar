@@ -21,12 +21,12 @@ function init(): void {
 		url: `http://localhost:8000/api/students/id/${currentStudentId}`,
 		success: (student: models.Student) => {
 			currentStudent = student;
-			initCallendar();
+			initCalendar();
 		}
 	});
 }
 
-function initCallendar(): void {
+function initCalendar(): void {
 	$("#calendar").fullCalendar({
 		allDaySlot: false,
 		columnFormat: "dd, DD.MM",

@@ -24,6 +24,7 @@ namespace InterlogicProject.DAL.Repositories
 						.ThenInclude(group => group.Curator)
 							.ThenInclude(curator => curator.Department)
 								.ThenInclude(d => d.Faculty)
+									.ThenInclude(f => f.Building)
 					.Include(s => s.Group)
 						.ThenInclude(group => group.Students)
 							.ThenInclude(student => student.User);

@@ -8,9 +8,10 @@ using InterlogicProject.DAL;
 namespace InterlogicProject.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170125203015_RestructuredClassPlaces")]
+    partial class RestructuredClassPlaces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -29,12 +30,6 @@ namespace InterlogicProject.DAL.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Address")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Buildings");
                 });
@@ -98,32 +93,6 @@ namespace InterlogicProject.DAL.Migrations
                     b.HasIndex("BuildingId");
 
                     b.ToTable("Classrooms");
-                });
-
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClassId");
-
-                    b.Property<DateTime>("DateTime");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(300);
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
@@ -483,19 +452,6 @@ namespace InterlogicProject.DAL.Migrations
                     b.HasOne("InterlogicProject.DAL.Models.Building", "Building")
                         .WithMany()
                         .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

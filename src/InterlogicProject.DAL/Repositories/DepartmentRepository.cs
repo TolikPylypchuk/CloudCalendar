@@ -17,6 +17,9 @@ namespace InterlogicProject.DAL.Repositories
 		public override IQueryable<Department> GetAll()
 			 => base.GetAll()
 					.Include(d => d.Faculty)
+						.ThenInclude(f => f.Building)
+							.ThenInclude(b => b.Faculties)
+								.ThenInclude(f => f.Departments)
 					.Include(d => d.Lecturers)
 						.ThenInclude(lecturer => lecturer.User);
 	}

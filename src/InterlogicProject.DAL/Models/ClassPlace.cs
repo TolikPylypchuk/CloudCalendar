@@ -9,16 +9,16 @@ namespace InterlogicProject.DAL.Models
 		[Required(ErrorMessage = "Вкажіть пару")]
 		public int ClassId { get; set; }
 
-		[Required(ErrorMessage = "Вкажіть корпус")]
-		public string Building { get; set; }
-
-		[Required(ErrorMessage = "Вкажіть кабінет")]
-		public string Classroom { get; set; }
+		[Required(ErrorMessage = "Вкажіть аудиторію")]
+		public int ClassroomId { get; set; }
+		
+		[ForeignKey(nameof(ClassroomId))]
+		public Classroom Classroom { get; set; }
 
 		[ForeignKey(nameof(ClassId))]
 		public Class Class { get; set; }
 
 		public override string ToString()
-			=> $"{this.Building}, {this.Classroom}";
+			=> $"{this.Class}, {this.Classroom}";
 	}
 }
