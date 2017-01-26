@@ -4,7 +4,9 @@
 	{
 		public int Id { get; set; }
 		public int ClassId { get; set; }
-		public string Building { get; set; }
-		public string Classroom { get; set; }
+		public int ClassroomId { get; set; }
+
+		public override string ToString()
+			=> $"{this.ClassId}, {this.ClassroomId}";
 	}
 }

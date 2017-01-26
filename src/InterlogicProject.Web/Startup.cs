@@ -97,14 +97,19 @@ namespace InterlogicProject.Web
 
 			Mapper.Initialize(config =>
 			{
-				config.CreateMap<User, UserDto>();
-				config.CreateMap<Student, StudentDto>();
-				config.CreateMap<Lecturer, LecturerDto>();
-				config.CreateMap<Group, GroupDto>();
-				config.CreateMap<Department, DepartmentDto>();
+				config.CreateMap<Building, BuildingDto>();
 				config.CreateMap<Class, ClassDto>();
 				config.CreateMap<ClassPlace, ClassPlaceDto>();
+				config.CreateMap<Classroom, ClassroomDto>();
+				config.CreateMap<Comment, CommentDto>();
+				config.CreateMap<Department, DepartmentDto>();
+				config.CreateMap<Faculty, FacultyDto>();
+				config.CreateMap<Group, GroupDto>();
+				config.CreateMap<Lecturer, LecturerDto>();
 				config.CreateMap<LecturerClass, LecturerClassDto>();
+				config.CreateMap<Student, StudentDto>();
+				config.CreateMap<Subject, SubjectDto>();
+				config.CreateMap<User, UserDto>();
 			});
 			
 			services.AddSwaggerGen(options =>

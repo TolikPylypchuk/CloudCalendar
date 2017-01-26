@@ -62,7 +62,7 @@ namespace InterlogicProject.Web.API
 		[HttpGet("facultyId/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<DepartmentDto>))]
-		public IEnumerable<DepartmentDto> GetByFaculty(int id)
+		public IEnumerable<DepartmentDto> GetForFaculty(int id)
 			=> this.departments.GetAll()
 							  ?.Where(d => d.FacultyId == id)
 							   .ProjectTo<DepartmentDto>();

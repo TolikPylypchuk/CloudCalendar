@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -62,7 +63,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All relationships with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		public IEnumerable<LecturerClassDto> GetByClass(int id)
+		public IEnumerable<LecturerClassDto> GetForClass(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.ClassId == id)
 									.ProjectTo<LecturerClassDto>();
@@ -73,9 +74,31 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the lecturer.</param>
 		/// <returns>All relationships with the specified lecturer.</returns>
 		[HttpGet("lecturerId/{id}")]
-		public IEnumerable<LecturerClassDto> GetByLecturer(int id)
+		public IEnumerable<LecturerClassDto> GetForLecturer(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.LecturerId == id)
+									.ProjectTo<LecturerClassDto>();
+
+		/// <summary>
+		/// Gets all lecturer-class relationships with the specified lecturer
+		/// between the specified dates.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer.</param>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>
+		/// All relationships with the specified lecturer
+		/// between the specified dates.
+		/// </returns>
+		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
+		public IEnumerable<LecturerClassDto> GetForLecturerWithRange(
+			int id,
+			DateTime start,
+			DateTime end)
+			=> this.lecturersClasses.GetAll()
+								   ?.Where(lc => lc.LecturerId == id &&
+												 lc.Class.DateTime >= start &&
+												 lc.Class.DateTime <= end)
 									.ProjectTo<LecturerClassDto>();
 	}
 }

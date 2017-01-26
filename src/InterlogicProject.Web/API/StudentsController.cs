@@ -77,5 +77,30 @@ namespace InterlogicProject.Web.API
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
 							?.FirstOrDefault(s => s.User.Email == email));
+
+		/// <summary>
+		/// Gets a student with the specified transcript number.
+		/// </summary>
+		/// <param name="number">The transcript number.</param>
+		/// <returns>A student with the specified transcript number.</returns>
+		[HttpGet("transcript/{number}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		public StudentDto GetByTranscript(string number)
+			=> Mapper.Map<StudentDto>(
+				this.students.GetAll().FirstOrDefault(
+					s => s.TranscriptNumber == number));
+
+		/// <summary>
+		/// Gets all students with the specified group.
+		/// </summary>
+		/// <param name="id">The ID of the group.</param>
+		/// <returns>All students with the specified group.</returns>
+		[HttpGet("groupId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<StudentDto>))]
+		public IEnumerable<StudentDto> GetForGroup(int id)
+			=> this.students.GetAll()
+						   ?.Where(s => s.GroupId == id)
+							.ProjectTo<StudentDto>();
 	}
 }

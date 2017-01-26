@@ -77,5 +77,31 @@ namespace InterlogicProject.Web.API
 			=> Mapper.Map<LecturerDto>(
 				this.lecturers.GetAll()
 							 ?.FirstOrDefault(l => l.User.Email == email));
+
+		/// <summary>
+		/// Gets all lecturers with the specified department.
+		/// </summary>
+		/// <param name="id">The ID of the department.</param>
+		/// <returns>All lecturers with the specified department.</returns>
+		[HttpGet("departmentId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerDto>))]
+		public IEnumerable<LecturerDto> GetForDepartment(int id)
+			=> this.lecturers.GetAll()
+							?.Where(l => l.DepartmentId == id)
+							 .ProjectTo<LecturerDto>();
+
+		/// <summary>
+		/// Gets all lecturers with the specified faculty.
+		/// </summary>
+		/// <param name="id">The ID of the faculty.</param>
+		/// <returns>All lecturers with the specified faculty.</returns>
+		[HttpGet("faculty/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerDto>))]
+		public IEnumerable<LecturerDto> GetForFaculty(int id)
+			=> this.lecturers.GetAll()
+							?.Where(l => l.Department.FacultyId == id)
+							 .ProjectTo<LecturerDto>();
 	}
 }

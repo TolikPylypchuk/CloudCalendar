@@ -70,6 +70,16 @@ namespace InterlogicProject.Web.API
 			=> Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
 
 		/// <summary>
+		/// Gets a user with the specified email.
+		/// </summary>
+		/// <param name="email">The email of the user to get.</param>
+		/// <returns>A user with the specified email.</returns>
+		[HttpGet("email/{email}")]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
+		public async Task<UserDto> GetByEmail(string email)
+			=> Mapper.Map<UserDto>(await this.manager.FindByEmailAsync(email));
+
+		/// <summary>
 		/// Gets the currently logged in user.
 		/// </summary>
 		/// <returns>The currently logged in user.</returns>

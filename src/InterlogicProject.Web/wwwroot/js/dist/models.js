@@ -1,4 +1,4 @@
-/// <amd-module name="calendarModels" />
-define("calendarModels", ["require", "exports"], function (require, exports) {
+/// <amd-module name="models" />
+define("models", ["require", "exports"], function (require, exports) {
 });
 //# sourceMappingURL=models.js.map

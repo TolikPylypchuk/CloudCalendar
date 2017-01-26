@@ -8,6 +8,7 @@
 		public string UserFirstName { get; set; }
 		public string UserMiddleName { get; set; }
 		public string UserLastName { get; set; }
+		public string UserFullName { get; set; }
 
 		public string DepartmentId { get; set; }
 		public string DepartmentName { get; set; }
@@ -15,5 +16,7 @@
 		public bool IsDean { get; set; }
 		public bool IsHead { get; set; }
 		public bool IsAdmin { get; set; }
+
+		public override string ToString() => this.UserFullName;
 	}
 }

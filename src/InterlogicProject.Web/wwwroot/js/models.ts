@@ -1,4 +1,4 @@
-﻿/// <amd-module name="calendarModels" />
+﻿/// <amd-module name="models" />
 
 export interface Entity {
 	id: number;
@@ -9,6 +9,7 @@ export interface User extends Entity {
 	firstName: string;
 	middleName: string;
 	lastName: string;
+	fullName: string;
 }
 
 export interface EntityWithUser extends Entity {
@@ -16,6 +17,12 @@ export interface EntityWithUser extends Entity {
 	userFirstName: string;
 	userMiddleName: string;
 	userLastName: string;
+	userFullName: string;
+}
+
+export interface Building extends Entity {
+	name: string;
+	address: string;
 }
 
 export interface Class extends Entity {
@@ -29,13 +36,32 @@ export interface Class extends Entity {
 
 export interface ClassPlace extends Entity {
 	classId: number;
-	building: string;
-	classroom: string;
+	classroomId: number;
+}
+
+export interface Classroom extends Entity {
+	name: string;
+	buildingId: number;
+	buildingName: string;
+	buildingAddress: string;
+}
+
+export interface Comment extends EntityWithUser {
+	classId: number;
+	text: string;
+	dateTime: string;
 }
 
 export interface Department extends Entity {
 	name: string;
 	facultyId: number;
+}
+
+export interface Faculty extends Entity {
+	name: string;
+	buildingId: number;
+	buildingName: string;
+	buildingAddress: string;
 }
 
 export interface Group extends Entity {
@@ -62,4 +88,8 @@ export interface Student extends EntityWithUser {
 	groupName: string;
 	isGroupLeader: boolean;
 	transcriptNumber: string;
+}
+
+export interface Subject extends Entity {
+	name: string;
 }

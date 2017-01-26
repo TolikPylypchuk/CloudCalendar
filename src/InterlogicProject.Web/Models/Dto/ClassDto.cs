@@ -11,5 +11,7 @@ namespace InterlogicProject.Web.Models.Dto
 		public string GroupName { get; set; }
 		public DateTime DateTime { get; set; }
 		public string Type { get; set; }
+
+		public override string ToString() => this.SubjectName;
 	}
 }

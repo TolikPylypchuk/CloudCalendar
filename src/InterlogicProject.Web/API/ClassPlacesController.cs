@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -62,9 +63,46 @@ namespace InterlogicProject.Web.API
 		[HttpGet("classId/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<ClassPlaceDto>))]
-		public IEnumerable<ClassPlaceDto> GetByClass(int id)
+		public IEnumerable<ClassPlaceDto> GetForClass(int id)
 			=> this.places.GetAll()
 						 ?.Where(p => p.ClassId == id)
+						  .ProjectTo<ClassPlaceDto>();
+
+		/// <summary>
+		/// Gets all class places with the specified classroom.
+		/// </summary>
+		/// <param name="id">The ID of the classroom.</param>
+		/// <returns>All class places with the specified classroom.</returns>
+		[HttpGet("classroomId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassPlaceDto>))]
+		public IEnumerable<ClassPlaceDto> GetForClassroom(int id)
+			=> this.places.GetAll()
+						 ?.Where(p => p.ClassroomId == id)
+						  .ProjectTo<ClassPlaceDto>();
+
+		/// <summary>
+		/// Gets all class places with the specified classroom
+		/// beetween the specified dates.
+		/// </summary>
+		/// <param name="id">The ID of the classroom.</param>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>
+		/// All class places with the specified classroom
+		/// beetween the specified dates.
+		/// </returns>
+		[HttpGet("classroomId/{id}/range/{start}/{end}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassPlaceDto>))]
+		public IEnumerable<ClassPlaceDto> GetForClassroom(
+			int id,
+			DateTime start,
+			DateTime end)
+			=> this.places.GetAll()
+						 ?.Where(p => p.ClassroomId == id &&
+									  p.Class.DateTime >= start &&
+									  p.Class.DateTime <= end)
 						  .ProjectTo<ClassPlaceDto>();
 	}
 }

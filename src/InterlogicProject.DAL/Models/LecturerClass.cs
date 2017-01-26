@@ -19,6 +19,6 @@ namespace InterlogicProject.DAL.Models
 		public Class Class { get; set; }
 
 		public override string ToString()
-			=> $"{Lecturer}, {Class}";
+			=> $"{this.Lecturer}, {this.Class}";
 	}
 }

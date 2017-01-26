@@ -62,9 +62,52 @@ namespace InterlogicProject.Web.API
 		[HttpGet("departmentId/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetByDepartment(int id)
+		public IEnumerable<GroupDto> GetForDepartment(int id)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Curator.DepartmentId == id)
+						  .ProjectTo<GroupDto>();
+
+		/// <summary>
+		/// Gets all groups with the specified faculty.
+		/// </summary>
+		/// <param name="id">The ID of the faculty.</param>
+		/// <returns>All groups with the specified faculty.</returns>
+		[HttpGet("facultyId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> GetForFaculty(int id)
+			=> this.groups.GetAll()
+						 ?.Where(g => g.Curator.Department.FacultyId == id)
+						  .ProjectTo<GroupDto>();
+
+		/// <summary>
+		/// Gets all groups with the specified enrollment year.
+		/// </summary>
+		/// <param name="year">The enrollment year.</param>
+		/// <returns>All groups with the specified  enrollment year.</returns>
+		[HttpGet("year/{year}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> GetForYear(int year)
+			=> this.groups.GetAll()
+						 ?.Where(g => g.Year == year)
+						  .ProjectTo<GroupDto>();
+
+		/// <summary>
+		/// Gets all groups with the specified faculty and enrollment year.
+		/// </summary>
+		/// <param name="id">The ID of the faculty.</param>
+		/// <param name="year">The enrollment year.</param>
+		/// <returns>
+		/// All groups with the specified faculty and enrollment year.
+		/// </returns>
+		[HttpGet("facultyId/{id}/year/{year}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> GetForFaculty(int id, int year)
+			=> this.groups.GetAll()
+						 ?.Where(g => g.Year == year &&
+									  g.Curator.Department.FacultyId == id)
 						  .ProjectTo<GroupDto>();
 	}
 }

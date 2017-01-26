@@ -25,5 +25,11 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(UserId))]
 		public User User { get; set; }
+
+		public override string ToString()
+			=> this.Text.Length <= 20
+				? $"{this.Text}; {this.User.LastName} {this.User.FirstName}"
+				: $"{this.Text.Substring(20)}...; {this.User.LastName} " +
+				  $"{this.User.FirstName}";
 	}
 }
