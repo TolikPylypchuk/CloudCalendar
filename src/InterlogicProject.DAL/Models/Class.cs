@@ -18,6 +18,7 @@ namespace InterlogicProject.DAL.Models
 		public DateTime DateTime { get; set; }
 		
 		[Required(ErrorMessage = "Вкажіть тип пари")]
+		[StringLength(15)]
 		public string Type { get; set; }
 
 		[ForeignKey(nameof(SubjectId))]
@@ -31,6 +32,9 @@ namespace InterlogicProject.DAL.Models
 
 		public virtual ICollection<LecturerClass> Lecturers { get; set; } =
 			new HashSet<LecturerClass>();
+
+		public virtual ICollection<Comment> Comments { get; set; } =
+			new HashSet<Comment>();
 
 		public override string ToString() => this.Subject.Name;
 	}

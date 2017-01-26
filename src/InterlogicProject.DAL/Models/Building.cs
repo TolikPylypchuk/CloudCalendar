@@ -8,9 +8,11 @@ namespace InterlogicProject.DAL.Models
 	public class Building : EntityBase
 	{
 		[Required(ErrorMessage = "Введіть назву корпусу")]
+		[StringLength(60)]
 		public string Name { get; set; }
 		
 		[Required(ErrorMessage = "Введіть адресу корпусу")]
+		[StringLength(30)]
 		public string Address { get; set; }
 
 		public virtual ICollection<Faculty> Faculties { get; set; } =

@@ -22,6 +22,8 @@ namespace InterlogicProject.DAL.Repositories
 						.ThenInclude(p => p.Classroom)
 							.ThenInclude(c => c.Building)
 					.Include(c => c.Lecturers)
-						.ThenInclude(l => l.Lecturer);
+						.ThenInclude(l => l.Lecturer)
+					.Include(c => c.Comments)
+						.ThenInclude(c => c.User);
 	}
 }

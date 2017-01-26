@@ -8,7 +8,7 @@ namespace InterlogicProject.DAL.Models
 	public class Department : EntityBase
 	{
 		[Required(ErrorMessage = "Введіть назву кафедри")]
-		[StringLength(50)]
+		[StringLength(100)]
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Вкажіть факультет кафедри")]

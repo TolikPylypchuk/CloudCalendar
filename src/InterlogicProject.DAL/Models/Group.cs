@@ -8,6 +8,7 @@ namespace InterlogicProject.DAL.Models
 	public class Group : EntityBase
 	{
 		[Required(ErrorMessage = "Введіть назву групи")]
+		[StringLength(10)]
 		public string Name { get; set; }
 		
 		[Required(ErrorMessage = "Введіть рік вступу групи")]

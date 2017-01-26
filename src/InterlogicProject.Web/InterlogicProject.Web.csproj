@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <NoWarn>1701;1702;1705;CS1591;IDE1006</NoWarn>
@@ -12,10 +12,6 @@
     <Content Include="wwwroot\**\*;web.config">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="project.json" />
-    <Content Remove="project.lock.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />

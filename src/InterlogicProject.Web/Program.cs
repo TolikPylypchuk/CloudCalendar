@@ -7,6 +7,7 @@ namespace InterlogicProject.Web
 	public class Program
 	{
 		public static string EmailDomain { get; set; }
+		public static string DefaultPassword { get; set; }
 
 		public static void Main(string[] args)
 		{

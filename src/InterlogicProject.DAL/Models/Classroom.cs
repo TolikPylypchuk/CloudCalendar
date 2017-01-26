@@ -7,6 +7,7 @@ namespace InterlogicProject.DAL.Models
 	public class Classroom : EntityBase
 	{
 		[Required(ErrorMessage = "Вкажіть назву або номер аудиторії")]
+		[StringLength(10)]
 		public string Name { get; set; }
 
 		[Required(ErrorMessage =

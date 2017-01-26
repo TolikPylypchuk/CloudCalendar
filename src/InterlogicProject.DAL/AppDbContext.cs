@@ -40,11 +40,7 @@ namespace InterlogicProject.DAL
 			builder.Entity<Building>()
 				   .HasIndex(b => b.Address)
 				   .IsUnique();
-
-			builder.Entity<Department>()
-				   .HasIndex(d => d.Name)
-				   .IsUnique();
-
+			
 			builder.Entity<Group>()
 				   .HasIndex(g => g.Name)
 				   .IsUnique();

@@ -22,5 +22,7 @@ namespace InterlogicProject.DAL.Models
 		[NotMapped]
 		public string FullName
 			=> $"{this.LastName} {this.FirstName} {this.MiddleName}";
+
+		public override string ToString() => this.FullName;
 	}
 }

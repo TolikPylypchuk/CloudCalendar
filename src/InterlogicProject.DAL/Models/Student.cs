@@ -13,6 +13,7 @@ namespace InterlogicProject.DAL.Models
 		public int GroupId { get; set; }
 		
 		[Required(ErrorMessage = "Вкажіть номер залікової книжки")]
+		[StringLength(10)]
 		public string TranscriptNumber { get; set; }
 
 		[Required(ErrorMessage =

@@ -25,7 +25,9 @@ namespace InterlogicProject.Web
 		{
 			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json").Build();
+				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+				.AddJsonFile("appsettings.json")
+				.Build();
 		}
 
 		public IConfigurationRoot Configuration { get; }
@@ -33,6 +35,7 @@ namespace InterlogicProject.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 			Program.EmailDomain = this.Configuration["EmailDomain"];
+			Program.DefaultPassword = this.Configuration["DefaultPassword"];
 
 			services.AddDbContext<AppDbContext>(
 				options =>
@@ -57,7 +60,17 @@ namespace InterlogicProject.Web
 			}).AddEntityFrameworkStores<AppDbContext>()
 			  .AddUserValidator<CustomUserValidator>()
 			  .AddErrorDescriber<CustomIdentityErrorDescriber>();
-			
+
+			services.AddScoped<IRepository<Building>,
+				BuildingRepository>();
+			services.AddScoped<IRepository<Class>,
+				ClassRepository>();
+			services.AddScoped<IRepository<ClassPlace>,
+				ClassPlaceRepository>();
+			services.AddScoped<IRepository<Classroom>,
+				ClassroomRepository>();
+			services.AddScoped<IRepository<Comment>,
+				CommentRepository>();
 			services.AddScoped<IRepository<Department>,
 				DepartmentRepository>();
 			services.AddScoped<IRepository<Faculty>,
@@ -66,16 +79,12 @@ namespace InterlogicProject.Web
 				GroupRepository>();
 			services.AddScoped<IRepository<Lecturer>,
 				LecturerRepository>();
+			services.AddScoped<IRepository<LecturerClass>,
+				LecturerClassRepository>();
 			services.AddScoped<IRepository<Student>,
 				StudentRepository>();
 			services.AddScoped<IRepository<Subject>,
 				SubjectRepository>();
-			services.AddScoped<IRepository<Class>,
-				ClassRepository>();
-			services.AddScoped<IRepository<ClassPlace>,
-				ClassPlaceRepository>();
-			services.AddScoped<IRepository<LecturerClass>,
-				LecturerClassRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -104,7 +113,7 @@ namespace InterlogicProject.Web
 				{
 					Version = "v1",
 					Title = "Interlogic Project API",
-					Description = "A simple API for the Interlogic project",
+					Description = "A simple API for the Interlogic Project",
 					TermsOfService = "None"
 				});
 				options.IncludeXmlComments(this.Configuration["Swagger:Path"]);
@@ -117,10 +126,20 @@ namespace InterlogicProject.Web
 			IHostingEnvironment env,
 			ILoggerFactory loggerFactory)
 		{
-			app.UseDeveloperExceptionPage();
-			app.UseStatusCodePages();
 			app.UseStaticFiles();
 			app.UseIdentity();
+
+			if (env.EnvironmentName == "Development")
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseStatusCodePages();
+				
+				app.UseSwagger();
+				app.UseSwaggerUi();
+
+				DataInitializer.InitializeDatabaseAsync(
+					app.ApplicationServices).Wait();
+			}
 
 			app.UseMvc(routes =>
 			{
@@ -128,12 +147,6 @@ namespace InterlogicProject.Web
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-
-			app.UseSwagger();
-			app.UseSwaggerUi();
-			
-			DataInitializer.InitializeDatabaseAsync(
-				app.ApplicationServices).Wait();
 		}
 	}
 }
