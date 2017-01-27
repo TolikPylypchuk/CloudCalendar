@@ -69,6 +69,7 @@ namespace InterlogicProject.Web.API
 			=> this.classes.GetAll()
 						  ?.Where(c => c.DateTime >= start &&
 									   c.DateTime <= end)
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -82,6 +83,7 @@ namespace InterlogicProject.Web.API
 		public IEnumerable<ClassDto> GetForGroup(int id)
 			=> this.classes.GetAll()
 						  ?.Where(c => c.GroupId == id)
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -106,6 +108,7 @@ namespace InterlogicProject.Web.API
 						  ?.Where(c => c.GroupId == id &&
 									   c.DateTime >= start &&
 									   c.DateTime <= end)
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -121,6 +124,7 @@ namespace InterlogicProject.Web.API
 						  ?.Include(c => c.Lecturers)
 						   .Where(c => c.Lecturers.Any(
 									lc => lc.LecturerId == id))
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -147,6 +151,7 @@ namespace InterlogicProject.Web.API
 						   .Include(c => c.Lecturers)
 						   .Where(c => c.Lecturers.Any(
 									lc => lc.LecturerId == id))
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -166,6 +171,7 @@ namespace InterlogicProject.Web.API
 						   .Where(c => c.GroupId == groupId)
 						   .Where(c => c.Lecturers.Any(
 									lc => lc.LecturerId == lecturerId))
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -195,6 +201,7 @@ namespace InterlogicProject.Web.API
 									lc => lc.LecturerId == lecturerId))
 						   .Where(c => c.DateTime >= start &&
 									   c.DateTime <= end)
+						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 	}
 }

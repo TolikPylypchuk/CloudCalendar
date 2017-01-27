@@ -44,7 +44,7 @@ namespace InterlogicProject.Web.API
 			=> this.buildings.GetAll()?.ProjectTo<BuildingDto>();
 
 		/// <summary>
-		/// Gets a buildings with the specified ID.
+		/// Gets a building with the specified ID.
 		/// </summary>
 		/// <param name="id">The ID of the building to get.</param>
 		/// <returns>A building with the specified ID.</returns>
