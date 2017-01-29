@@ -1,6 +1,7 @@
 {
-	"version": "1.0.0",
 	"name": "interlogicproject",
+	"version": "1.0.0",
+	"authors": [ "Tolik Pylypchuk" ],
 	"private": true,
 	"dependencies": {
 		"bootstrap": "v4.0.0-alpha.6",
