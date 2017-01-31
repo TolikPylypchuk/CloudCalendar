@@ -9,6 +9,14 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="wwwroot\js\calendar-lecturer.ts" />
+    <Content Include="wwwroot\js\calendar-student.ts" />
+    <Content Include="wwwroot\js\dist\require-config.js" />
+    <Content Include="wwwroot\js\dist\require-config.min.js">
+      <DependentUpon>require-config.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -39,12 +47,6 @@
     </Content>
     <Content Update="wwwroot\css\dist\style.min.css">
       <DependentUpon>style.css</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\calendarLecturer.js.map">
-      <DependentUpon>calendarLecturer.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\calendarStudent.js.map">
-      <DependentUpon>calendarStudent.js</DependentUpon>
     </Content>
     <Content Update="wwwroot\js\dist\models.js.map">
       <DependentUpon>models.js</DependentUpon>

@@ -4,9 +4,8 @@
 	"author": "Tolik Pylypchuk",
 	"private": true,
 	"devDependencies": {
-		"@types/bootstrap": "3.3.32",
 		"@types/fullcalendar": "2.7.36",
-		"@types/jquery": "2.0.34",
+		"@types/jquery": "2.0.40",
 		"@types/requirejs": "2.1.28",
 		"@types/tether": "1.4.0",
 		"gulp": "3.9.1",

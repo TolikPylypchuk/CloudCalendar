@@ -11,7 +11,12 @@ gulp.task("compile-sass", () => {
 
 gulp.task("copy-angular-bundles", () => {
 	return gulp.src("./node_modules/@angular/**/bundles/**")
-			   .pipe(gulp.dest("./wwwroot/lib/angular2/"));
+			   .pipe(gulp.dest("./wwwroot/lib/angular/"));
+});
+
+gulp.task("copy-rxjs-bundle", () => {
+	return gulp.src("./node_modules/rxjs/bundles/*")
+		.pipe(gulp.dest("./wwwroot/lib/rxjs/"));
 });
 
 gulp.task("default", [ "compile-sass" ]);
