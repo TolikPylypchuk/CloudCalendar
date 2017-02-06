@@ -9,12 +9,27 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="wwwroot\js\calendar-lecturer.ts" />
-    <Content Include="wwwroot\js\calendar-student.ts" />
-    <Content Include="wwwroot\js\dist\require-config.js" />
-    <Content Include="wwwroot\js\dist\require-config.min.js">
-      <DependentUpon>require-config.js</DependentUpon>
-    </Content>
+    <Compile Remove="wwwroot\css\dist\**" />
+    <Compile Remove="wwwroot\js\**" />
+    <Compile Remove="wwwroot\scss\dist\**" />
+    <Content Remove="wwwroot\css\dist\**" />
+    <Content Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\scss\dist\**" />
+    <EmbeddedResource Remove="wwwroot\css\dist\**" />
+    <EmbeddedResource Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\scss\dist\**" />
+    <None Remove="wwwroot\css\dist\**" />
+    <None Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\scss\dist\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\app\calendar-lecturer.ts" />
+    <Content Include="wwwroot\app\calendar-student.ts" />
+    <Content Include="wwwroot\app\models.ts" />
+    <Content Include="wwwroot\calendar-lecturer.ts" />
+    <Content Include="wwwroot\calendar-student.ts" />
+    <Content Include="wwwroot\models.ts" />
+    <Content Include="wwwroot\systemjs - Copy.config.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
@@ -45,15 +60,6 @@
     <Content Update="bundleconfig.json.bindings">
       <DependentUpon>bundleconfig.json</DependentUpon>
     </Content>
-    <Content Update="wwwroot\css\dist\style.min.css">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\models.js.map">
-      <DependentUpon>models.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\js\dist\requireConfig.min.js">
-      <DependentUpon>requireConfig.js</DependentUpon>
-    </Content>
     <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css">
       <DependentUpon>fullcalendar.css</DependentUpon>
     </Content>
@@ -72,6 +78,15 @@
     <Content Update="wwwroot\lib\moment\min\moment-with-locales.min.js">
       <DependentUpon>moment-with-locales.js</DependentUpon>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\app\common\" />
+    <Folder Include="wwwroot\dist\common\" />
+    <Folder Include="wwwroot\dist\css\" />
+    <Folder Include="wwwroot\dist\lecturer\" />
+    <Folder Include="wwwroot\dist\student\" />
+    <Folder Include="wwwroot\app\lecturer\" />
+    <Folder Include="wwwroot\app\student\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>

@@ -1,0 +1,14 @@
+{
+  "name": "system.js",
+  "homepage": "https://github.com/systemjs/systemjs",
+  "version": "0.20.5",
+  "_release": "0.20.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.20.5",
+    "commit": "d22f3664d5e4963d9b18b3bb64e66a526e8c046d"
+  },
+  "_source": "https://github.com/systemjs/systemjs.git",
+  "_target": "0.20.5",
+  "_originalSource": "system.js"
+}

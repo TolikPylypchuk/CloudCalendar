@@ -6,7 +6,15 @@
 		$"{Model.Lecturer.UserFirstName} {Model.Lecturer.UserLastName}";
 }
 
-<div class="panel-body m-1">
+@section links {
+	<link rel="stylesheet" type="text/css"
+	      asp-href-include="~/lib/fullcalendar/dist/*.min.css"
+	      asp-href-exclude="~/lib/fullcalendar/dist/*.print.min.css" />
+	<link rel="stylesheet" type="text/css" media="print"
+	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
+}
+
+<div class="m-1">
 	<div id="calendar" class="pb-1"></div>
 </div>
 

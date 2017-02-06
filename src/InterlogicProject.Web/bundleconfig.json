@@ -1,32 +1,20 @@
 [
-  {
-    "outputFileName": "wwwroot/js/dist/callendar.min.js",
-    "inputFiles": [
-      "wwwroot/js/dist/callendar.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/css/dist/style.min.css",
-    "inputFiles": [
-      "wwwroot/css/dist/style.css"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/dist/requireConfig.min.js",
-    "inputFiles": [
-      "wwwroot/js/dist/requireConfig.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/dist/callendarStudent.min.js",
-    "inputFiles": [
-      "wwwroot/js/dist/callendarStudent.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/dist/callendarLecturer.min.js",
-    "inputFiles": [
-      "wwwroot/js/dist/callendarLecturer.js"
-    ]
-  }
+	{
+		"outputFileName": "wwwroot/dist/calendar-lecturer.min.js",
+		"inputFiles": [
+			"wwwroot/dist/calendar-lecturer.js"
+		]
+	},
+	{
+		"outputFileName": "wwwroot/dist/calendar-student.min.js",
+			"inputFiles": [
+				"wwwroot/dist/calendar-student.js"
+			]
+	},
+	{
+		"outputFileName": "wwwroot/dist/css/style.min.css",
+		"inputFiles": [
+			"wwwroot/dist/css/style.css"
+		]
+	}
 ]

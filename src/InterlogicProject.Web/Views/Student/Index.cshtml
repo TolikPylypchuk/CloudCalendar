@@ -7,7 +7,15 @@
 		$"{Model.Student.User.FirstName} {Model.Student.User.LastName}";
 }
 
-<div class="panel-body m-1">
+@section links {
+	<link rel="stylesheet" type="text/css"
+	      asp-href-include="~/lib/fullcalendar/dist/*.min.css"
+	      asp-href-exclude="~/lib/fullcalendar/dist/*.print.min.css" />
+	<link rel="stylesheet" type="text/css" media="print"
+	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
+}
+
+<div class="m-1">
 	<div id="calendar" class="pb-1"></div>
 </div>
 
@@ -48,22 +56,18 @@
 @section scripts {
 	<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
 
-	<script asp-src-include="~/lib/tether/dist/js/*.js"
-	        asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/tether/dist/js/tether.js"></script>
+	<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
-	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"
-	        asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
+	<script asp-src-include="~/lib/zone.js/dist/zone.js"></script>
+	<script asp-src-include="~/lib/reflect-metadata/Reflect.js"></script>
+	<script asp-src-include="~/lib/system.js/dist/system.js"></script>
+	<script asp-src-include="~/lib/rxjs/bundles/Rx.js"></script>
 
-	<script asp-src-include="~/lib/moment/moment.js"></script>
-	
-	<script asp-src-include="~/lib/fullcalendar/dist/fullcalendar.js"></script>
-	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
-	
-	<script asp-src-include="~/lib/requirejs/require.js"
-	        data-main="js/dist/calendar-student.js"></script>
-	
-	<script asp-src-include="~/js/dist/require-config.js"></script>
-	
-	<script id="calendarScript" asp-src-include="~/js/dist/calendar-student.js"
-	        data-student-id="@Model.Student.Id"></script>
+	<script asp-src-include="~/systemjs.config.js"></script>
+	<script>
+		System.import("dist/calendar-student")
+			.then(null, console.error.bind(console));
+	</script>
 }

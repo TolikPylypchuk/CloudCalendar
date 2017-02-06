@@ -2,14 +2,18 @@
 	"name": "interlogicproject",
 	"version": "1.0.0",
 	"authors": [ "Tolik Pylypchuk" ],
+	"license": "ISC", 
 	"private": true,
 	"dependencies": {
-		"bootstrap": "v4.0.0-alpha.6",
+		"bootstrap": "4.0.0-alpha.6",
 		"es6-shim": "0.35.3",
 		"fontawesome": "4.7.0",
 		"fullcalendar": "3.1.0",
+		"jquery": "3.1.1",
+		"moment": "2.17.1", 
 		"reflect-metadata": "0.1.9",
-		"requirejs": "2.3.2",
+		"system.js": "0.20.5",
+		"tether": "1.4.0", 
 		"zone.js": "0.5.8"
 	}
 }

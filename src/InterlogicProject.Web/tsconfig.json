@@ -1,18 +1,20 @@
 {
 	"include": [
-		"wwwroot/js/*.ts"
+		"wwwroot/app/**/*.ts"
 	],
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"module": "amd",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"module": "system",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noEmitOnError": false,
-		"outDir": "./wwwroot/js/dist",
+		"outDir": "./wwwroot/dist",
 		"removeComments": false,
 		"sourceMap": true,
-		"noImplicitUseStrict": true,
+		"noImplicitUseStrict": false,
 		"skipDefaultLibCheck": true,
 		"target": "es5",
 		"typeRoots": [
@@ -20,8 +22,9 @@
 		]
 	},
 	"exclude": [
-		"node_modules",
-		"wwwroot/lib/rxjs/**",
-		"**/*.spec.ts"
+		"./node_modules/**",
+		"./wwwroot/lib/**",
+		"./wwwroot/lib/rxjs/**",
+		"./**/*.spec.ts"
 	]
 }

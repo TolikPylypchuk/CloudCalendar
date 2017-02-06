@@ -10,13 +10,14 @@
 	<link rel="stylesheet" type="text/css"
 	      asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
 	<link rel="stylesheet" type="text/css"
-	      asp-href-include="~/lib/fullcalendar/dist/*.min.css"
-	      asp-href-exclude="~/lib/fullcalendar/dist/*.print.min.css" />
-	<link rel="stylesheet" type="text/css" media="print"
-	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
+	      asp-href-include="~/lib/fontawesome/css/*.min.css" />
+
 	<link rel="stylesheet" type="text/css"
-	      asp-href-include="~/css/dist/style.min.css" />
+	      asp-href-include="~/dist/css/style.min.css" />
+
 	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+	
+	@RenderSection("links", false)
 </head>
 
 <body>
