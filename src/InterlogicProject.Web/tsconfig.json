@@ -1,28 +1,30 @@
 {
 	"include": [
-		"./wwwroot/app"
+		"wwwroot/app/**/*"
 	],
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
+		"alwaysStrict": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"module": "system",
 		"moduleResolution": "node",
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"noEmitOnError": false,
-		"outDir": "wwwroot/dist",
+		"outDir": "wwwroot/dist/",
 		"removeComments": false,
 		"sourceMap": true,
 		"noImplicitUseStrict": false,
 		"skipDefaultLibCheck": true,
 		"target": "es5",
 		"typeRoots": [
-			"node_modules/@types"
+			"./node_modules/@types/"
 		]
 	},
 	"exclude": [
 		"./node_modules/**",
+		"./wwwroot/lib/**",
 		"**/*.spec.ts"
 	]
 }

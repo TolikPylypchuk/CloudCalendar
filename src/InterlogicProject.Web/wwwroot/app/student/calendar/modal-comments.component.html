@@ -1,0 +1,21 @@
+﻿<h5>Коментарі</h5>
+
+<div [ngSwitch]="comments.length">
+	<div *ngSwitchCase="0">
+		<p>Коментарів до цієї пари немає.</p>
+	</div>
+	<div *ngSwitchDefault>
+		<div *ngFor="let comment of comments">
+			<p>
+				<small>
+					{{ comment.userFirstName }} {{ comment.userLastName }} -
+					{{ moment.utc(comment.dateTime).format("DD.MM.YYYY, HH:mm") }}
+				</small>
+			</p>
+			<p>{{ comment.text }}</p>
+		</div>
+	</div>
+</div>
+
+<input type="text" class=" form-control mt-3" placeholder="Написати коментар..." />
+

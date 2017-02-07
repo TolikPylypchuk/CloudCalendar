@@ -8,24 +8,27 @@ import { CalendarComponent as ImportedCalendarComponent } from
 
 import CalendarComponent from "./calendar.component";
 import ModalContentComponent from "./modal-content.component";
+import ModalCommentsComponent from "./modal-comments.component";
 
 @NgModule({
 	declarations: [
 		ImportedCalendarComponent,
 		CalendarComponent,
-		ModalContentComponent
+		ModalContentComponent,
+		ModalCommentsComponent
 	],
 	entryComponents: [
 		ModalContentComponent
 	],
 	imports: [
-		HttpModule,
 		BrowserModule,
+		HttpModule,
 		NgbModalModule.forRoot()
 	],
 	exports: [
 		CalendarComponent,
-		ModalContentComponent
+		ModalContentComponent,
+		ModalCommentsComponent
 	]
 })
 class CalendarModule { }
@@ -33,6 +36,7 @@ class CalendarModule { }
 export {
 	CalendarComponent,
 	ModalContentComponent,
+	ModalCommentsComponent,
 
 	CalendarModule
 }

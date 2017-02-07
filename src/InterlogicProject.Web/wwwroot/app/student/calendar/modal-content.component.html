@@ -1,5 +1,5 @@
 ﻿<div class="modal-header">
-	<h4 class="modal-title">Hi there!</h4>
+	<h4 class="modal-title">{{ currentClass.subjectName }}</h4>
 	<button type="button" class="close" aria-label="Close"
 	        (click)="activeModal.dismiss('')">
 		<span aria-hidden="true">&times;</span>
@@ -7,9 +7,24 @@
 </div>
 
 <div class="modal-body">
+	<h5>{{ currentClass.type }}</h5>
+	<p>{{ moment.utc(currentClass.dateTime).format("DD.MM.YYYY, dddd, HH:mm") }}</p>
+	<hr />
+
+	<h5>Домашнє завдання</h5>
+	<p>Домашнього завдання, яке потрібно виконати на цю пару, немає.</p>
+	<hr />
+
+	<h5>Матеріали</h5>
+	<p>Матеріалів до цієї пари немає.</p>
+	<hr />
+
+	<student-modal-comments [currentStudent]="currentStudent"
+	                        [currentClass]="currentClass">
+	</student-modal-comments>
 </div>
 
 <div class="modal-footer">
 	<button type="button" class="btn btn-secondary"
-	        (click)="activeModal.close('')">Close</button>
+	        (click)="activeModal.close('')">Закрити</button>
 </div>

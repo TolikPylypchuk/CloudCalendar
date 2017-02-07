@@ -96,12 +96,25 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the faculty.</param>
 		/// <returns>All lecturers with the specified faculty.</returns>
-		[HttpGet("faculty/{id}")]
+		[HttpGet("facultyId/{id}")]
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> GetForFaculty(int id)
 			=> this.lecturers.GetAll()
 							?.Where(l => l.Department.FacultyId == id)
+							 .ProjectTo<LecturerDto>();
+
+		/// <summary>
+		/// Gets all lecturers with the specified class.
+		/// </summary>
+		/// <param name="id">The ID of the class.</param>
+		/// <returns>All lecturers with the specified class.</returns>
+		[HttpGet("classId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerDto>))]
+		public IEnumerable<LecturerDto> GetForClass(int id)
+			=> this.lecturers.GetAll()
+							?.Where(l => l.Classes.Any(c => c.ClassId == id))
 							 .ProjectTo<LecturerDto>();
 	}
 }

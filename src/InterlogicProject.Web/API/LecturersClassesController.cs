@@ -63,6 +63,8 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All relationships with the specified class.</returns>
 		[HttpGet("classId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForClass(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.ClassId == id)
@@ -74,6 +76,8 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the lecturer.</param>
 		/// <returns>All relationships with the specified lecturer.</returns>
 		[HttpGet("lecturerId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForLecturer(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.LecturerId == id)
@@ -91,6 +95,8 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForLecturerWithRange(
 			int id,
 			DateTime start,

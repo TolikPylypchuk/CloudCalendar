@@ -3,10 +3,17 @@
 @Component({
 	selector: "student-app",
 	template: `
-		<student-calendar [studentId]="studentId">
+		<student-calendar [studentId]="getStudentId()"
+		                  [groupId]="getGroupId()">
 		<student-calendar>
 	`
 })
 export default class AppComponent {
-	@Input() studentId: number;
+	getStudentId(): number {
+		return $("student-app").data("student-id") as number;
+	}
+
+	getGroupId(): number {
+		return $("student-app").data("group-id") as number;
+	}
 }

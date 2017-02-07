@@ -15,8 +15,9 @@
 	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
 }
 
-<student-app studentId="@Model.Student.Id">
-	Розклад завантажується...
+<student-app data-student-id="@Model.Student.Id"
+             data-group-id="@Model.Student.GroupId">
+	<p class="m-3">Розклад завантажується...</p>
 </student-app>
 
 <!--

@@ -1,5 +1,5 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http } from "@angular/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 
@@ -10,19 +10,23 @@ import { Student, Class } from "../../common/models";
 @Component({
 	selector: "student-calendar",
 	template: `
-		<angular2-fullcalendar [options]="options" class="m-1 pb-1">
-		</angular2-fullcalendar>
+		<div class="m-3">
+			<angular2-fullcalendar [options]="options" class="pb-1">
+			</angular2-fullcalendar>
 		
-		<template ngbModalContainer></template>
+			<template ngbModalContainer></template>
+		</div>
 	`
 })
 export default class CalendarComponent implements OnInit {
 	@Input() studentId: number;
+	@Input() groupId: number;
 
 	options: FC.Options;
 
 	private http: Http;
 	private modalService: NgbModal;
+
 	private currentStudent: Student;
 
 	constructor(http: Http, modalService: NgbModal) {
@@ -33,10 +37,10 @@ export default class CalendarComponent implements OnInit {
 			allDaySlot: false,
 			columnFormat: "dd, DD.MM",
 			defaultView: "agendaWeek",
-			// eventClick: eventClicked,
+			eventClick: this.eventClicked.bind(this),
 			eventColor: "#0275D8",
 			eventDurationEditable: false,
-			events: this.getEvents,
+			events: this.getEvents.bind(this),
 			header: {
 				left: "title",
 				center: "agendaWeek,listWeek",
@@ -59,8 +63,10 @@ export default class CalendarComponent implements OnInit {
 		const request = this.http.get(
 			`/api/students/id/${this.studentId}`);
 
-		request.map(res => res.json())
-			   .subscribe(data => this.currentStudent = data as Student);
+		request.map(response => response.json())
+			   .subscribe(student => {
+				   this.currentStudent = student as Student;
+			   });
 	}
 
 	private getEvents(
@@ -68,16 +74,24 @@ export default class CalendarComponent implements OnInit {
 		end: moment.Moment,
 		timezone: string | boolean,
 		callback: (data: FC.EventObject[]) => void): void {
-
+		
 		const request = this.http.get(
-			`/api/classes/groupId/${this.currentStudent.groupId}` +
-			`range/${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`);
+			`/api/classes/groupId/${this.groupId}` +
+			`/range/${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`);
 
-		request.map(res => res.json())
+		request.map(response => response.json())
 			   .subscribe(data => {
 					const classes = data as Class[];
 					callback(classes.map(this.classToEvent));
 			   });
+	}
+
+	private eventClicked(event: FC.EventObject): void {
+		const modalRef = this.modalService.open(ModalContentComponent);
+		const modal = modalRef.componentInstance as ModalContentComponent;
+
+		modal.currentStudent = this.currentStudent;
+		modal.classId = event.id;
 	}
 
 	private classToEvent(classInfo: Class): FC.EventObject {
