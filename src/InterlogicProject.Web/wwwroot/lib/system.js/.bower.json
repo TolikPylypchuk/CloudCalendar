@@ -1,14 +1,28 @@
 {
   "name": "system.js",
+  "main": "./dist/system.js",
+  "ignore": [
+    ".agignore",
+    ".gitignore",
+    ".travis.yml",
+    "index.js",
+    "lib/",
+    "package.json",
+    "Makefile",
+    "test"
+  ],
+  "devDependencies": {
+    "qunit": "~1.12.0"
+  },
   "homepage": "https://github.com/systemjs/systemjs",
-  "version": "0.20.5",
-  "_release": "0.20.5",
+  "version": "0.19.46",
+  "_release": "0.19.46",
   "_resolution": {
     "type": "version",
-    "tag": "0.20.5",
-    "commit": "d22f3664d5e4963d9b18b3bb64e66a526e8c046d"
+    "tag": "0.19.46",
+    "commit": "e38941d64f3883b463fc7b4580265128910de6b3"
   },
   "_source": "https://github.com/systemjs/systemjs.git",
-  "_target": "0.20.5",
+  "_target": "0.19.46",
   "_originalSource": "system.js"
 }

@@ -1,4 +1,4 @@
-System.register(["moment"], function (exports_1, context_1) {
+System.register(["moment", "fullcalendar", "fullcalendar/dist/locale/uk"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     function init() {
@@ -75,10 +75,14 @@ System.register(["moment"], function (exports_1, context_1) {
         setters: [
             function (moment_1) {
                 moment = moment_1;
+            },
+            function (_1) {
+            },
+            function (_2) {
             }
         ],
         execute: function () {
-            currentLecturerId = $("#calendarScript").data("lecturer-id");
+            currentLecturerId = 1;
             if (document.readyState !== "complete") {
                 $(document).ready(init);
             }

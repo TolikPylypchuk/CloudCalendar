@@ -1,7 +1,8 @@
-﻿import { Student, Class } from "./models";
-import * as moment from "moment";
+﻿import * as moment from "moment";
 import "fullcalendar";
-import "uk";
+import "fullcalendar/dist/locale/uk";
+
+import { Student, Class } from "./common/models";
 
 const currentStudentId = 1;
 let currentStudent: Student;

@@ -25,11 +25,17 @@
   <ItemGroup>
     <Content Include="wwwroot\app\calendar-lecturer.ts" />
     <Content Include="wwwroot\app\calendar-student.ts" />
-    <Content Include="wwwroot\app\models.ts" />
-    <Content Include="wwwroot\calendar-lecturer.ts" />
-    <Content Include="wwwroot\calendar-student.ts" />
-    <Content Include="wwwroot\models.ts" />
-    <Content Include="wwwroot\systemjs - Copy.config.js" />
+    <Content Include="wwwroot\app\common\models.ts" />
+    <Content Include="wwwroot\app\lecturer\main.ts" />
+    <Content Include="wwwroot\app\student\app.component.ts" />
+    <Content Include="wwwroot\app\student\app.module.ts" />
+    <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\calendar.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal-content.component.html" />
+    <Content Include="wwwroot\app\student\calendar\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\main.ts" />
+    <Content Include="wwwroot\dist\css\style.css" />
+    <Content Include="wwwroot\dist\css\style.min.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
@@ -80,13 +86,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\app\common\" />
-    <Folder Include="wwwroot\dist\common\" />
+    <Folder Include="wwwroot\app\lecturer\calendar\" />
     <Folder Include="wwwroot\dist\css\" />
     <Folder Include="wwwroot\dist\lecturer\" />
     <Folder Include="wwwroot\dist\student\" />
-    <Folder Include="wwwroot\app\lecturer\" />
-    <Folder Include="wwwroot\app\student\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>

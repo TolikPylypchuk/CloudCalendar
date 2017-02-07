@@ -10,10 +10,10 @@
 		"fontawesome": "4.7.0",
 		"fullcalendar": "3.1.0",
 		"jquery": "3.1.1",
-		"moment": "2.17.1", 
+		"moment": "2.17.1",
 		"reflect-metadata": "0.1.9",
-		"system.js": "0.20.5",
-		"tether": "1.4.0", 
-		"zone.js": "0.5.8"
+		"system.js": "0.19.46",
+		"tether": "1.4.0",
+		"zone": "0.7.6"
 	}
 }

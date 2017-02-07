@@ -19,8 +19,13 @@ gulp.task("copy-ng-bootstrap", () => {
 		.pipe(gulp.dest("./wwwroot/lib/ng-bootstrap/"));
 });
 
-gulp.task("copy-rxjs-bundle", () => {
-	return gulp.src("./node_modules/rxjs/bundles/*")
+gulp.task("copy-angular2-fullcalendar", () => {
+	return gulp.src("./node_modules/angular2-fullcalendar/**")
+		.pipe(gulp.dest("./wwwroot/lib/angular2-fullcalendar/"));
+});
+
+gulp.task("copy-rxjs", () => {
+	return gulp.src("./node_modules/rxjs/**")
 		.pipe(gulp.dest("./wwwroot/lib/rxjs/"));
 });
 

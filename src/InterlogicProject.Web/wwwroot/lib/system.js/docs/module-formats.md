@@ -2,11 +2,11 @@
 
 The following module formats are supported:
 
-* `esm`: [ECMAScript Module](#es-modules)
+* `esm`: ECMAScript Module (previously referred to as `es6`)
 * `cjs`: [CommonJS](#commonjs)
 * `amd`: [Asynchronous Module Definition](#amd)
 * `global`: [Global shim module format](#globals)
-* `system`: [System.register](system-api.md#systemregister-name-deps-declare) or [System.registerDynamic](system-api.md#systemregisterdynamic-name-deps-executingrequire-declare) compatibility module format
+* `register`: [System.register](system-api.md#systemregister-name-deps-declare) or [System.registerDynamic](system-api.md#systemregisterdynamic-name-deps-executingrequire-declare) compatibility module format
 
 The module format can be set via meta configuration:
 
@@ -20,16 +20,6 @@ SystemJS.config({
 });
 ```
 
-SystemJS 0.20 also comes with experimental support for Web Assembly. This can be enabled via:
-
-```javascript
-SystemJS.config({
-  wasm: true
-});
-```
-
-Web Assembly binaries can then be loaded alongside SystemJS modules normally.
-
 #### Module format detection
 
 When the module format is not set, automatic regular-expression-based detection is used.
@@ -37,25 +27,21 @@ This module format detection is never completely accurate, but caters well for t
 
 The module format detection happens in the following order:
 * _System.register / System.registerDynamic_
-  If the source code starts with any number of comments, followed by `System.register` or `System.registerDynamic` as the first line of code.
+  If the source code starts with a number of comments, followed by `System.register` or `System.registerDynamic` as the first line of code.
 * _ES modules_
   The source is only detected as an ES module if it contains explicit module syntax - valid `import` or `export` statements.
-  his detection does not do comment removal, so comments in the code containing valid ES module syntax will trigger this detection.
 * _AMD modules_
-  The presence of a valid AMD `define` statement in the code, with all forms of the define statement supported.
+  The presence of a valid AMD `define` statement in the code.
 * _CommonJS modules_
-  The presence of `require(...)` or `exports` / `module.exports` assigments.
+  The presence of `require(...)` or `exports` / `module.exports` assigments
 * _Global_
   This is the fallback module format after all the above fail.
-
-When Web Assembly is enabled, Web Assembly modules are automatically detected from their binary header.
-This is the same detection process that will likely be implemented in browsers.
 
 > Note that ES6 modules are detected via the presence of `import` and `export` module syntax and no other features at all. This is because the transpilation applies to the module format specifically, not the language.
 
 #### Inter-Format Dependencies
 
-Any module type can be loaded from any other type with full support.
+Any module type can be loaded from any other type with full support thanks to [zebra-striping](https://github.com/ModuleLoader/es6-module-loader/blob/v0.17.0/docs/circular-references-bindings.md#zebra-striping).
 
 When loading CommonJS, AMD or Global modules from within ES6, the full module is available at the `default` export which can be loaded with the default import syntax.
 
@@ -70,10 +56,9 @@ import _ from './underscore.js';
 import {map} from './underscore.js';
 ```
 
-### ES Modules
+### ES6
 
 ES6 modules are automatically transpiled as they are loaded, using the loader [transpiler option](config-api.md#transpiler) set.
-A transpiler plugin must be configured for this to work.
 
 Circular references and bindings are implemented to the ES6 specification.
 
@@ -87,21 +72,18 @@ SystemJS.import('./local-module', __moduleName);
 
 In due course this will be entirely replaced by the contextual loader once this has been specified.
 
-_ES modules are loaded via XHR making it incompatible with `scriptLoad: true`.
-ES modules should always be built for production to avoid transpiler costs, making this a development-only feature._
+_ES6 is loaded via XHR making it non-[CSP](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) compatible. ES6 should always be built for production to avoid transpiler costs, making this a development-only feature._
 
 ### CommonJS
 
-* The `module`, `exports`, `require`, `global`, `GLOBAL`, `__dirname` and `__filename` variables are all declared in scope.
+* The `module`, `exports`, `require`, `global`, `__dirname` and `__filename` variables are all provided.
 * `module.id` is set.
-* `require.resolve` is provided.
 
-When executing CommonJS any global `define` is temporarily removed from the global object, before being reverted after synchronous module
-execution has completed. This ensures that any UMD patterns trigger the CommonJS path.
+When executing CommonJS any global `define` is temporarily removed.
 
 For comprehensive handling of NodeJS modules, a conversion process is needed to make them SystemJS-compatible, such as the one used by jspm.
 
-_CommonJS is loaded via XHR making it incompatible with `scriptLoad: true` unless pre-compiling with SystemJS Builder._
+_CommonJS is loaded via XHR making it non-[CSP](http://www.html5rocks.com/en/tutorials/security/content-security-policy/) compatible._
 
 Note that CommonJS modules on npm, loaded as CommonJS may well not load correctly through SystemJS. This is because SystemJS
 does not implement the NodeJS loading algorithm.
@@ -134,8 +116,8 @@ window.require = window.requirejs = SystemJS.amdRequire;
 
 ### Globals
 
-The `global` format loads globals identically to if they were included via `<script>` tags
-but with some extra features including the ability to [shim dependencies](#shim-dependencies),
+The `global` format loads globals identically to if they were included via `<script>` tags 
+but with some extra features including the ability to [shim dependencies](#shim-dependencies), 
 set [custom globals](#custom-globals), and [define the exports](#exports) of the global module.
 
 By default, the exports of a global are calculated as the diff of the environment global from before to after execution.
@@ -168,7 +150,7 @@ var x = 'global'; // detected as a global
 y = 'global';     // detected as a global
 ```
 
-These two cases fail in WebWorkers, so do need to have their [exports explicitly declared](#exports) if compatibility is desired.
+These two cases fail in IE8 and WebWorkers, so do need to have their [exports explicitly declared](#exports) if compatibility is desired.
 
 > Globals are not removed from the global object for shim compatibility, but this could become possible in future if all globals
 use the [globals](#globals) meta for shims instead of [deps](#shim-dependencies).
@@ -218,11 +200,11 @@ SystemJS.config({
 SystemJS.import('vendor/angular-ui-router.js');
 ```
 
-In the above scenario, a globally scoped `angular` will be set to the module value for the Angular ES6 module only for the duration of execution of the global plugin. They will be reverted to whatever they where before after execution, if they didn't exist they're removed. This doesn't influence the globals that might already be generated by the referenced package.
+In the above scenario, a globally scoped `angular` will be set to the module value for the Angular ES6 module only for the duration of execution of the global plugin. They will be reverted to whatever they where before after execution, if they didn't exist they're removed. This doesn't influence the globals that might already be generated by the referenced package. 
 
 > **The globals meta-configuration option is only available for the `global` and `cjs` module formats.** as these are the only formats that are source-code-transformation based.
 
-Referenced packages automatically becomes dependencies.
+Referenced packages automatically becomes dependencies. 
 
 #### Exports
 
@@ -243,3 +225,4 @@ For example, `angular` or `jQuery.fn.pluginName`.
     }
   });
   ```
+

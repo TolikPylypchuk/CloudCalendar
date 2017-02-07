@@ -1,6 +1,6 @@
 {
 	"include": [
-		"wwwroot/app/**/*.ts"
+		"./wwwroot/app"
 	],
 	"compileOnSave": true,
 	"compilerOptions": {
@@ -11,20 +11,18 @@
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noEmitOnError": false,
-		"outDir": "./wwwroot/dist",
+		"outDir": "wwwroot/dist",
 		"removeComments": false,
 		"sourceMap": true,
 		"noImplicitUseStrict": false,
 		"skipDefaultLibCheck": true,
 		"target": "es5",
 		"typeRoots": [
-			"./node_modules/@types"
+			"node_modules/@types"
 		]
 	},
 	"exclude": [
 		"./node_modules/**",
-		"./wwwroot/lib/**",
-		"./wwwroot/lib/rxjs/**",
-		"./**/*.spec.ts"
+		"**/*.spec.ts"
 	]
 }

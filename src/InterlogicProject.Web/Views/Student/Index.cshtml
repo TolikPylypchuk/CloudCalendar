@@ -15,6 +15,11 @@
 	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
 }
 
+<student-app studentId="@Model.Student.Id">
+	Розклад завантажується...
+</student-app>
+
+<!--
 <div class="m-1">
 	<div id="calendar" class="pb-1"></div>
 </div>
@@ -52,6 +57,7 @@
 		</div>
 	</div>
 </div>
+-->
 
 @section scripts {
 	<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
@@ -60,14 +66,14 @@
 	<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 	<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
-	<script asp-src-include="~/lib/zone.js/dist/zone.js"></script>
+	<script asp-src-include="~/lib/zone/dist/zone.js"></script>
 	<script asp-src-include="~/lib/reflect-metadata/Reflect.js"></script>
 	<script asp-src-include="~/lib/system.js/dist/system.js"></script>
 	<script asp-src-include="~/lib/rxjs/bundles/Rx.js"></script>
 
 	<script asp-src-include="~/systemjs.config.js"></script>
 	<script>
-		System.import("dist/calendar-student")
-			.then(null, console.error.bind(console));
+		System.import("dist/student/main")
+			  .then(null, console.error.bind(console));
 	</script>
 }

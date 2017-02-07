@@ -1,7 +1,10 @@
-﻿import { Lecturer, Class } from "./models";
-import * as moment from "moment";
+﻿import * as moment from "moment";
+import "fullcalendar";
+import "fullcalendar/dist/locale/uk";
 
-const currentLecturerId = $("#calendarScript").data("lecturer-id") as number;
+import { Lecturer, Class } from "./common/models";
+
+const currentLecturerId = 1;
 let currentLecturer: Lecturer;
 
 if (document.readyState !== "complete") {
