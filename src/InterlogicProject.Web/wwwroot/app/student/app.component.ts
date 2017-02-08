@@ -2,18 +2,6 @@
 
 @Component({
 	selector: "student-app",
-	template: `
-		<student-calendar [studentId]="getStudentId()"
-		                  [groupId]="getGroupId()">
-		<student-calendar>
-	`
+	template: "<student-calendar><student-calendar>"
 })
-export default class AppComponent {
-	getStudentId(): number {
-		return $("student-app").data("student-id") as number;
-	}
-
-	getGroupId(): number {
-		return $("student-app").data("group-id") as number;
-	}
-}
+export default class AppComponent { }

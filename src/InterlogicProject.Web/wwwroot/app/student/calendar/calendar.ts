@@ -6,6 +6,8 @@ import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { CalendarComponent as ImportedCalendarComponent } from
 	"angular2-fullcalendar/src/calendar/calendar";
 
+import { CommonModule } from "../common/common";
+
 import CalendarComponent from "./calendar.component";
 import ModalContentComponent from "./modal-content.component";
 import ModalCommentsComponent from "./modal-comments.component";
@@ -23,7 +25,8 @@ import ModalCommentsComponent from "./modal-comments.component";
 	imports: [
 		BrowserModule,
 		HttpModule,
-		NgbModalModule.forRoot()
+		NgbModalModule.forRoot(),
+		CommonModule
 	],
 	exports: [
 		CalendarComponent,

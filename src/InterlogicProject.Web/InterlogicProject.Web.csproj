@@ -39,6 +39,9 @@
     <Content Include="wwwroot\app\student\calendar\modal-comments.component.ts" />
     <Content Include="wwwroot\app\student\calendar\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\common\common.ts" />
+    <Content Include="wwwroot\app\student\common\services.ts" />
+    <Content Include="wwwroot\app\student\common\services\student.service.ts" />
     <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />
     <Content Include="wwwroot\dist\css\style.min.css" />

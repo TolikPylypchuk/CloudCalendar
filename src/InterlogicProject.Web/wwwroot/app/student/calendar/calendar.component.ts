@@ -1,37 +1,42 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 import { Http } from "@angular/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs/Subscription";
 import * as moment from "moment";
 
 import ModalContentComponent from "./modal-content.component";
 
 import { Student, Class } from "../../common/models";
 
+import { StudentService } from "../common/common";
+
 @Component({
 	selector: "student-calendar",
 	template: `
-		<div class="m-3">
-			<angular2-fullcalendar [options]="options" class="pb-1">
+		<div class="m-3 pb-3">
+			<angular2-fullcalendar [options]="options">
 			</angular2-fullcalendar>
 		
 			<template ngbModalContainer></template>
 		</div>
 	`
 })
-export default class CalendarComponent implements OnInit {
-	@Input() studentId: number;
-	@Input() groupId: number;
-
+export default class CalendarComponent {
 	options: FC.Options;
 
 	private http: Http;
 	private modalService: NgbModal;
+	private studentService: StudentService;
 
-	private currentStudent: Student;
-
-	constructor(http: Http, modalService: NgbModal) {
+	private currentSubscription: Subscription = null;
+	
+	constructor(
+		http: Http,
+		modalService: NgbModal,
+		studentService: StudentService) {
 		this.http = http;
 		this.modalService = modalService;
+		this.studentService = studentService;
 
 		this.options = {
 			allDaySlot: false,
@@ -58,40 +63,36 @@ export default class CalendarComponent implements OnInit {
 			weekNumberTitle: "Тиж "
 		};
 	}
-
-	ngOnInit(): void {
-		const request = this.http.get(
-			`/api/students/id/${this.studentId}`);
-
-		request.map(response => response.json())
-			   .subscribe(student => {
-				   this.currentStudent = student as Student;
-			   });
-	}
-
+	
 	private getEvents(
 		start: moment.Moment,
 		end: moment.Moment,
 		timezone: string | boolean,
 		callback: (data: FC.EventObject[]) => void): void {
-		
-		const request = this.http.get(
-			`/api/classes/groupId/${this.groupId}` +
-			`/range/${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`);
 
-		request.map(response => response.json())
-			   .subscribe(data => {
-					const classes = data as Class[];
-					callback(classes.map(this.classToEvent));
-			   });
+		if (this.currentSubscription !== null) {
+			this.currentSubscription.unsubscribe();
+		}
+		
+		this.currentSubscription = this.studentService.getCurrentGroup()
+			.subscribe(group => {
+				if (group) {
+					const request = this.http.get(
+						`/api/classes/groupId/${group.id}` +
+						`/range/${start.format("YYYY-MM-DD")}` +
+						`/${end.format("YYYY-MM-DD")}`);
+
+					request.map(response => response.json())
+						.subscribe(data => {
+							const classes = data as Class[];
+							callback(classes.map(this.classToEvent));
+						});
+				}
+			});
 	}
 
 	private eventClicked(event: FC.EventObject): void {
-		const modalRef = this.modalService.open(ModalContentComponent);
-		const modal = modalRef.componentInstance as ModalContentComponent;
-
-		modal.currentStudent = this.currentStudent;
-		modal.classId = event.id;
+		this.modalService.open(ModalContentComponent);
 	}
 
 	private classToEvent(classInfo: Class): FC.EventObject {

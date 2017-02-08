@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap", "moment", "./modal-content.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap", "moment", "./modal-content.component", "../common/common"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap",
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, ng_bootstrap_1, moment, modal_content_component_1, CalendarComponent;
+    var core_1, http_1, ng_bootstrap_1, moment, modal_content_component_1, common_1, CalendarComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -27,13 +27,18 @@ System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap",
             },
             function (modal_content_component_1_1) {
                 modal_content_component_1 = modal_content_component_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             }
         ],
         execute: function () {
             CalendarComponent = (function () {
-                function CalendarComponent(http, modalService) {
+                function CalendarComponent(http, modalService, studentService) {
+                    this.currentSubscription = null;
                     this.http = http;
                     this.modalService = modalService;
+                    this.studentService = studentService;
                     this.options = {
                         allDaySlot: false,
                         columnFormat: "dd, DD.MM",
@@ -59,29 +64,27 @@ System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap",
                         weekNumberTitle: "Тиж "
                     };
                 }
-                CalendarComponent.prototype.ngOnInit = function () {
-                    var _this = this;
-                    var request = this.http.get("/api/students/id/" + this.studentId);
-                    request.map(function (response) { return response.json(); })
-                        .subscribe(function (student) {
-                        _this.currentStudent = student;
-                    });
-                };
                 CalendarComponent.prototype.getEvents = function (start, end, timezone, callback) {
                     var _this = this;
-                    var request = this.http.get("/api/classes/groupId/" + this.groupId +
-                        ("/range/" + start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")));
-                    request.map(function (response) { return response.json(); })
-                        .subscribe(function (data) {
-                        var classes = data;
-                        callback(classes.map(_this.classToEvent));
+                    if (this.currentSubscription !== null) {
+                        this.currentSubscription.unsubscribe();
+                    }
+                    this.currentSubscription = this.studentService.getCurrentGroup()
+                        .subscribe(function (group) {
+                        if (group) {
+                            var request = _this.http.get("/api/classes/groupId/" + group.id +
+                                ("/range/" + start.format("YYYY-MM-DD")) +
+                                ("/" + end.format("YYYY-MM-DD")));
+                            request.map(function (response) { return response.json(); })
+                                .subscribe(function (data) {
+                                var classes = data;
+                                callback(classes.map(_this.classToEvent));
+                            });
+                        }
                     });
                 };
                 CalendarComponent.prototype.eventClicked = function (event) {
-                    var modalRef = this.modalService.open(modal_content_component_1.default);
-                    var modal = modalRef.componentInstance;
-                    modal.currentStudent = this.currentStudent;
-                    modal.classId = event.id;
+                    this.modalService.open(modal_content_component_1.default);
                 };
                 CalendarComponent.prototype.classToEvent = function (classInfo) {
                     return {
@@ -96,20 +99,14 @@ System.register(["@angular/core", "@angular/http", "@ng-bootstrap/ng-bootstrap",
                 };
                 return CalendarComponent;
             }());
-            __decorate([
-                core_1.Input(),
-                __metadata("design:type", Number)
-            ], CalendarComponent.prototype, "studentId", void 0);
-            __decorate([
-                core_1.Input(),
-                __metadata("design:type", Number)
-            ], CalendarComponent.prototype, "groupId", void 0);
             CalendarComponent = __decorate([
                 core_1.Component({
                     selector: "student-calendar",
-                    template: "\n\t\t<div class=\"m-3\">\n\t\t\t<angular2-fullcalendar [options]=\"options\" class=\"pb-1\">\n\t\t\t</angular2-fullcalendar>\n\t\t\n\t\t\t<template ngbModalContainer></template>\n\t\t</div>\n\t"
+                    template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<angular2-fullcalendar [options]=\"options\">\n\t\t\t</angular2-fullcalendar>\n\t\t\n\t\t\t<template ngbModalContainer></template>\n\t\t</div>\n\t"
                 }),
-                __metadata("design:paramtypes", [http_1.Http, ng_bootstrap_1.NgbModal])
+                __metadata("design:paramtypes", [http_1.Http,
+                    ng_bootstrap_1.NgbModal,
+                    common_1.StudentService])
             ], CalendarComponent);
             exports_1("default", CalendarComponent);
         }

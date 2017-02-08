@@ -7,7 +7,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, AppComponent;
+    var core_1, StudentService;
     return {
         setters: [
             function (core_1_1) {
@@ -15,19 +15,16 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             }
         ],
         execute: function () {
-            AppComponent = (function () {
-                function AppComponent() {
+            StudentService = (function () {
+                function StudentService() {
                 }
-                return AppComponent;
+                return StudentService;
             }());
-            AppComponent = __decorate([
-                core_1.Component({
-                    selector: "student-app",
-                    template: "<student-calendar><student-calendar>"
-                })
-            ], AppComponent);
-            exports_1("default", AppComponent);
+            StudentService = __decorate([
+                core_1.Injectable()
+            ], StudentService);
+            exports_1("default", StudentService);
         }
     };
 });
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=student.service.js.map

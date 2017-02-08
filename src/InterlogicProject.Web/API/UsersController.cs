@@ -87,7 +87,7 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
 		public async Task<UserDto> GetCurrent()
 		{
-			var id = accessor.HttpContext.User.FindFirst(
+			string id = accessor.HttpContext.User.FindFirst(
 				ClaimTypes.NameIdentifier)?.Value;
 			return Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
 		}
