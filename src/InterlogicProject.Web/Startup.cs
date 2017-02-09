@@ -77,6 +77,8 @@ namespace InterlogicProject.Web
 				FacultyRepository>();
 			services.AddScoped<IRepository<Group>,
 				GroupRepository>();
+			services.AddScoped<IRepository<GroupClass>,
+				GroupClassRepository>();
 			services.AddScoped<IRepository<Lecturer>,
 				LecturerRepository>();
 			services.AddScoped<IRepository<LecturerClass>,
@@ -105,6 +107,7 @@ namespace InterlogicProject.Web
 				config.CreateMap<Department, DepartmentDto>();
 				config.CreateMap<Faculty, FacultyDto>();
 				config.CreateMap<Group, GroupDto>();
+				config.CreateMap<GroupClass, GroupClassDto>();
 				config.CreateMap<Lecturer, LecturerDto>();
 				config.CreateMap<LecturerClass, LecturerClassDto>();
 				config.CreateMap<Student, StudentDto>();

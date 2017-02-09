@@ -82,7 +82,7 @@ namespace InterlogicProject.Web.API
 			Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroup(int id)
 			=> this.classes.GetAll()
-						  ?.Where(c => c.GroupId == id)
+						  ?.Where(c => c.Groups.Any(g => g.GroupId == id))
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
@@ -105,7 +105,7 @@ namespace InterlogicProject.Web.API
 			DateTime start,
 			DateTime end)
 			=> this.classes.GetAll()
-						  ?.Where(c => c.GroupId == id &&
+						  ?.Where(c => c.Groups.Any(g => g.GroupId == id) &&
 									   c.DateTime >= start &&
 									   c.DateTime <= end)
 						   .OrderBy(c => c.DateTime)
@@ -168,7 +168,7 @@ namespace InterlogicProject.Web.API
 			int lecturerId)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
-						   .Where(c => c.GroupId == groupId)
+						   .Where(c => c.Groups.Any(g => g.GroupId == groupId))
 						   .Where(c => c.Lecturers.Any(
 									lc => lc.LecturerId == lecturerId))
 						   .OrderBy(c => c.DateTime)
@@ -196,7 +196,7 @@ namespace InterlogicProject.Web.API
 			DateTime end)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
-						   .Where(c => c.GroupId == groupId)
+						   .Where(c => c.Groups.Any(g => g.GroupId == groupId))
 						   .Where(c => c.Lecturers.Any(
 									lc => lc.LecturerId == lecturerId))
 						   .Where(c => c.DateTime >= start &&

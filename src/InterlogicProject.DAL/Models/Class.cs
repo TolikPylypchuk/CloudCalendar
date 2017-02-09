@@ -10,10 +10,7 @@ namespace InterlogicProject.DAL.Models
 	{
 		[Required(ErrorMessage = "Вкажіть назву предмету")]
 		public int SubjectId { get; set; }
-
-		[Required(ErrorMessage = "Вкажіть групу")]
-		public int GroupId { get; set; }
-
+		
 		[Required(ErrorMessage = "Вкажіть дату і час пари")]
 		public DateTime DateTime { get; set; }
 		
@@ -24,8 +21,8 @@ namespace InterlogicProject.DAL.Models
 		[ForeignKey(nameof(SubjectId))]
 		public Subject Subject { get; set; }
 
-		[ForeignKey(nameof(GroupId))]
-		public Group Group { get; set; }
+		public virtual ICollection<GroupClass> Groups { get; set; } =
+			new HashSet<GroupClass>();
 
 		public virtual ICollection<ClassPlace> Places { get; set; } =
 			new HashSet<ClassPlace>();

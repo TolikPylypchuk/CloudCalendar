@@ -53,7 +53,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the relationship to get.</param>
 		/// <returns>A relationship with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(ClassDto))]
+		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerClassDto))]
 		public LecturerClassDto Get(int id)
 			=> Mapper.Map<LecturerClassDto>(this.lecturersClasses.GetById(id));
 

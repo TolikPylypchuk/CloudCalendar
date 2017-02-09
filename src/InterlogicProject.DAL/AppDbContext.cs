@@ -12,18 +12,19 @@ namespace InterlogicProject.DAL
 		{
 		}
 
-		public DbSet<Department> Departments { get; set; }
-		public DbSet<Group> Groups { get; set; }
-		public DbSet<Faculty> Faculties { get; set; }
 		public DbSet<Building> Buildings { get; set; }
+		public DbSet<Class> Classes { get; set; }
+		public DbSet<ClassPlace> ClassPlaces { get; set; }
+		public DbSet<Classroom> Classrooms { get; set; }
+		public DbSet<Comment> Comments { get; set; }
+		public DbSet<Department> Departments { get; set; }
+		public DbSet<Faculty> Faculties { get; set; }
+		public DbSet<Group> Groups { get; set; }
+		public DbSet<GroupClass> GroupsClasses { get; set; }
 		public DbSet<Lecturer> Lecturers { get; set; }
+		public DbSet<LecturerClass> LecturersClasses { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
-		public DbSet<Class> Classes { get; set; }
-		public DbSet<Classroom> Classrooms { get; set; }
-		public DbSet<ClassPlace> ClassPlaces { get; set; }
-		public DbSet<LecturerClass> LecturersClasses { get; set; }
-		public DbSet<Comment> Comments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

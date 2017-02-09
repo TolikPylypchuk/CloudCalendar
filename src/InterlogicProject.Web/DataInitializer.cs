@@ -54,7 +54,7 @@ namespace InterlogicProject.Web
 			{
 				return;
 			}
-			
+
 			var buildings = ReadBuildings();
 			var classrooms = ReadClassrooms(buildings);
 			var faculties = ReadFaculties(buildings);
@@ -64,10 +64,13 @@ namespace InterlogicProject.Web
 			var lecturers = ReadLecturers(departments, users);
 			var groups = ReadGroups(lecturers);
 			var students = ReadStudents(groups, users);
-			var classes = ReadClasses(groups, subjects);
-			var places = ReadClassPlaces(classes, classrooms);
-			var lecturersClasses = ReadLecturersClasses(lecturers, classes);
-			
+			var classes = ReadClasses(subjects, out int classesInWeek);
+			var places = ReadClassPlaces(classes, classrooms, classesInWeek);
+			var lecturersClasses = ReadLecturersClasses(
+				lecturers, classes, classesInWeek);
+			var groupsClasses = ReadGroupsClasses(
+				groups, classes, classesInWeek);
+
 			foreach (var user in users)
 			{
 				user.Id = null;
@@ -92,7 +95,8 @@ namespace InterlogicProject.Web
 				students,
 				classes,
 				places,
-				lecturersClasses
+				lecturersClasses,
+				groupsClasses
 			};
 
 			foreach (var collection in collections)
@@ -114,6 +118,7 @@ namespace InterlogicProject.Web
 			context.AddRange(classes);
 			context.AddRange(places);
 			context.AddRange(lecturersClasses);
+			context.AddRange(groupsClasses);
 
 			context.SaveChanges();
 		}
@@ -377,8 +382,8 @@ namespace InterlogicProject.Web
 		}
 
 		private static IList<Class> ReadClasses(
-			IEnumerable<Group> groups,
-			IEnumerable<Subject> subjects)
+			IEnumerable<Subject> subjects,
+			out int classesInWeek)
 		{
 			string data = null;
 
@@ -391,25 +396,49 @@ namespace InterlogicProject.Web
 				new[] { Environment.NewLine },
 				StringSplitOptions.RemoveEmptyEntries);
 
-			return classesData.Select(
+			var tempClasses = classesData.Select(
 				classData => classData.Split(
 					new[] { '\t' },
 					StringSplitOptions.RemoveEmptyEntries))
-				.Select(tokens => new Class
+				.Select(tokens => new
 				{
 					Id = Int32.Parse(tokens[0]),
 					Subject = subjects.First(
 						s => s.Id.ToString() == tokens[1]),
-					Group = groups.First(
-						g => g.Id.ToString() == tokens[2]),
-					DateTime = DateTime.Parse(tokens[3]),
-					Type = tokens[4]
+					DateTime = DateTime.Parse(tokens[2]),
+					Type = tokens[3],
+					Repeat = Int32.Parse(tokens[4])
 				}).ToList();
+
+			var result = new List<Class>();
+
+			classesInWeek = tempClasses.Count;
+
+			foreach (var item in tempClasses)
+			{
+				var end = new DateTime(2017, 6, 1);
+
+				for ((TimeSpan span, int i) = (TimeSpan.Zero, 0);
+					 item.DateTime + span < end;
+					 span += TimeSpan.FromDays(7 * item.Repeat), i++)
+				{
+					result.Add(new Class
+					{
+						Id = item.Id + classesInWeek * i,
+						DateTime = item.DateTime + span,
+						Subject = item.Subject,
+						Type = item.Type
+					});
+				}
+			}
+
+			return result;
 		}
 
 		private static IList<ClassPlace> ReadClassPlaces(
 			IEnumerable<Class> classes,
-			IEnumerable<Classroom> classrooms)
+			IEnumerable<Classroom> classrooms,
+			int classesInWeek)
 		{
 			string data = null;
 
@@ -422,7 +451,7 @@ namespace InterlogicProject.Web
 				new[] { Environment.NewLine },
 				StringSplitOptions.RemoveEmptyEntries);
 
-			return classPlacesData.Select(
+			var tempClassPlaces = classPlacesData.Select(
 				classPlaceData => classPlaceData.Split(
 					new[] { '\t' },
 					StringSplitOptions.RemoveEmptyEntries))
@@ -434,11 +463,30 @@ namespace InterlogicProject.Web
 					Classroom = classrooms.First(
 						c => c.Id.ToString() == tokens[2])
 				}).ToList();
+
+			var result = new List<ClassPlace>();
+
+			foreach (var item in tempClassPlaces)
+			{
+				for (int id = item.Class.Id;
+					 classes.Any(c => c.Id == id);
+					 id += classesInWeek)
+				{
+					result.Add(new ClassPlace
+					{
+						Class = classes.First(c => c.Id == id),
+						Classroom = item.Classroom
+					});
+				}
+			}
+			
+			return result;
 		}
 
 		private static IList<LecturerClass> ReadLecturersClasses(
 			IEnumerable<Lecturer> lecturers,
-			IEnumerable<Class> classes)
+			IEnumerable<Class> classes,
+			int classesInWeek)
 		{
 			string data = null;
 
@@ -451,7 +499,7 @@ namespace InterlogicProject.Web
 				new[] { Environment.NewLine },
 				StringSplitOptions.RemoveEmptyEntries);
 
-			return lecturersClassesData.Select(
+			var tempLecturersClasses = lecturersClassesData.Select(
 				lecturerClassData => lecturerClassData.Split(
 					new[] { '\t' },
 					StringSplitOptions.RemoveEmptyEntries))
@@ -463,6 +511,72 @@ namespace InterlogicProject.Web
 					Class = classes.First(
 						c => c.Id.ToString() == tokens[2])
 				}).ToList();
+
+			var result = new List<LecturerClass>();
+
+			foreach (var item in tempLecturersClasses)
+			{
+				for (int id = item.Class.Id;
+					 classes.Any(c => c.Id == id);
+					 id += classesInWeek)
+				{
+					result.Add(new LecturerClass
+					{
+						Lecturer = item.Lecturer,
+						Class = classes.First(c => c.Id == id)
+					});
+				}
+			}
+
+			return result;
+		}
+
+		private static IList<GroupClass> ReadGroupsClasses(
+			IEnumerable<Group> groups,
+			IEnumerable<Class> classes,
+			int classesInWeek)
+		{
+			string data = null;
+
+			using (var reader = File.OpenText(@"Data\GroupsClasses.txt"))
+			{
+				data = reader.ReadToEnd();
+			}
+
+			var groupsClassesData = data.Split(
+				new[] { Environment.NewLine },
+				StringSplitOptions.RemoveEmptyEntries);
+
+			var tempGroupsClasses = groupsClassesData.Select(
+				groupClassData => groupClassData.Split(
+					new[] { '\t' },
+					StringSplitOptions.RemoveEmptyEntries))
+				.Select(tokens => new GroupClass
+				{
+					Id = Int32.Parse(tokens[0]),
+					Group = groups.First(
+						g => g.Id.ToString() == tokens[1]),
+					Class = classes.First(
+						c => c.Id.ToString() == tokens[2])
+				}).ToList();
+
+			var result = new List<GroupClass>();
+
+			foreach (var item in tempGroupsClasses)
+			{
+				for (int id = item.Class.Id;
+					 classes.Any(c => c.Id == id);
+					 id += classesInWeek)
+				{
+					result.Add(new GroupClass
+					{
+						Group = item.Group,
+						Class = classes.First(c => c.Id == id)
+					});
+				}
+			}
+
+			return result;
 		}
 	}
 }

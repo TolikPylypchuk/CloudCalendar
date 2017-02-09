@@ -26,7 +26,6 @@ export interface Building extends Entity {
 export interface Class extends Entity {
 	subjectId: number;
 	subjectName: string;
-	groupId: number;
 	groupName: string;
 	dateTime: string;
 	type: string;
@@ -66,6 +65,11 @@ export interface Group extends Entity {
 	name: string;
 	year: number;
 	curatorId: number;
+}
+
+export interface GroupClass extends Entity {
+	groupId: number;
+	classId: number;
 }
 
 export interface Lecturer extends EntityWithUser {
