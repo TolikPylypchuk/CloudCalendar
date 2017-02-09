@@ -1,7 +1,8 @@
 ﻿import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
 import { Student, Group, User } from "../../../common/models";
 
@@ -18,6 +19,7 @@ export default class StudentService {
 
 		this.http.get("/api/users/current")
 			.map(response => response.json())
+			.catch(this.handleError)
 			.subscribe(data => this.initUser(data as User));
 	}
 	
@@ -38,6 +40,7 @@ export default class StudentService {
 
 		this.http.get(`/api/students/userId/${user.id}`)
 			.map(response => response.json())
+			.catch(this.handleError)
 			.subscribe(data => this.initStudent(data as Student));
 	}
 
@@ -46,10 +49,27 @@ export default class StudentService {
 
 		this.http.get(`/api/groups/id/${student.groupId}`)
 			.map(response => response.json())
+			.catch(this.handleError)
 			.subscribe(data => this.initGroup(data as Group));
 	}
 
 	private initGroup(group: Group) {
 		this.currentGroupSource.next(group);
+	}
+
+	private handleError(error: Response | any): ErrorObservable<string> {
+		let message: string;
+
+		if (error instanceof Response) {
+			const body = error.json() || "";
+			const err = body.error || JSON.stringify(body);
+			message = `${error.status} - ${error.statusText || ""} ${err}`;
+		} else {
+			message = error.message ? error.message : error.toString();
+		}
+
+		console.error(message);
+
+		return Observable.throw(message);
 	}
 }

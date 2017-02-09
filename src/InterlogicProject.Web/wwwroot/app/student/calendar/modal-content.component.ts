@@ -1,42 +1,74 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 import { Http } from "@angular/http";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Observable } from "rxjs/Observable";
 
-import { Student, Lecturer, Class } from "../../common/models";
+import * as moment from "moment";
+
+import {
+	Student, Lecturer, Class, Classroom, Group
+} from "../../common/models";
+
+import { ClassService } from "../common/common";
 
 @Component({
 	selector: "student-modal-content",
 	templateUrl: "app/student/calendar/modal-content.component.html"
 })
 export default class ModalContentComponent implements OnInit {
-	activeModal: NgbActiveModal;
-	http: Http;
+	@Input() classId: number;
 
-	classId: number;
+	private activeModal: NgbActiveModal;
+	private http: Http;
 
-	currentStudent: Student;
-	currentLecturers: Lecturer[];
-	currentClass: Class;
+	private classService: ClassService;
 
-	constructor(activeModal: NgbActiveModal, http: Http) {
+	subjectName: string;
+	type: string;
+	dateTime: string;
+	classrooms: Classroom[];
+	lecturers: Lecturer[];
+	
+	constructor(
+		activeModal: NgbActiveModal,
+		http: Http,
+		classService: ClassService) {
 		this.activeModal = activeModal;
 		this.http = http;
+		this.classService = classService;
 	}
 
-	ngOnInit(): void {
-		const classRequest = this.http.get(`/api/classes/id/${this.classId}`);
-
-		classRequest.map(response => response.json())
+	ngOnInit() {
+		this.classService.getClass(this.classId)
 			.subscribe(data => {
-				this.currentClass = data as Class;
+				this.subjectName = data.subjectName;
+				this.type = data.type;
+				this.dateTime = data.dateTime;
 			});
 
-		const lecturersRequest = this.http.get(
-			`/api/lecturers/classId/${this.classId}`);
+		this.classService.getPlaces(this.classId)
+			.subscribe(data => this.classrooms = data);
+		
+		this.classService.getLecturers(this.classId)
+			.subscribe(data => this.lecturers = data);
+	}
 
-		lecturersRequest.map(response => response.json())
-			.subscribe(data => {
-				this.currentLecturers = data as Lecturer[];
-			});
+	formatDateTime(dateTime: string): string {
+		return moment.utc(dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+	}
+
+	formatClassrooms(classrooms: Classroom[]): string {
+		return classrooms
+			? classrooms.reduce((a, c) => `${a}, ${c.name}`, "").substring(2)
+			: "";
+	}
+
+	formatLecturers(lecturers: Lecturer[]): string {
+		return lecturers
+			? lecturers.reduce(
+				(a, l) => `${a}, ${l.userLastName} ${l.userFirstName[0]}. ` +
+					`${l.userMiddleName[0]}.`,
+				"").substring(2)
+			: "";
 	}
 }

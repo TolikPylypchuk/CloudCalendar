@@ -26,7 +26,6 @@ export interface Building extends Entity {
 export interface Class extends Entity {
 	subjectId: number;
 	subjectName: string;
-	groupName: string;
 	dateTime: string;
 	type: string;
 }

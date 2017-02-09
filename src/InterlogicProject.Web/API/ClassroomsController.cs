@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -64,6 +65,19 @@ namespace InterlogicProject.Web.API
 		public IEnumerable<ClassroomDto> GetForBuilding(int id)
 			=> this.classrooms.GetAll()
 							 ?.Where(c => c.BuildingId == id)
+							  .ProjectTo<ClassroomDto>();
+
+		/// <summary>
+		/// Gets all classrooms with the specified class.
+		/// </summary>
+		/// <returns>All classrooms with the specified class.</returns>
+		[HttpGet("classId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<ClassroomDto>))]
+		public IEnumerable<ClassroomDto> GetForClass(int id)
+			=> this.classrooms.GetAll()
+							 ?.Include(r => r.Classes)
+							  .Where(r => r.Classes.Any(c => c.ClassId == id))
 							  .ProjectTo<ClassroomDto>();
 	}
 }

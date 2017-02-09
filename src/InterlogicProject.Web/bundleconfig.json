@@ -1,17 +1,5 @@
 [
 	{
-		"outputFileName": "wwwroot/dist/calendar-lecturer.min.js",
-		"inputFiles": [
-			"wwwroot/dist/calendar-lecturer.js"
-		]
-	},
-	{
-		"outputFileName": "wwwroot/dist/calendar-student.min.js",
-			"inputFiles": [
-				"wwwroot/dist/calendar-student.js"
-			]
-	},
-	{
 		"outputFileName": "wwwroot/dist/css/style.min.css",
 		"inputFiles": [
 			"wwwroot/dist/css/style.css"

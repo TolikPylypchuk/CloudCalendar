@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,29 @@ namespace InterlogicProject.DAL.Repositories
 		public GroupRepository(AppDbContext context)
 			: base(context)
 		{
-			this.table = this.Context.Groups;
+			this.Table = this.Context.Groups;
+		}
+
+		public override Group GetById(int id)
+		{
+			var result = base.GetById(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(g => g.Curator).Load();
+			entry.Collection(g => g.Students).Load();
+
+			return result;
+		}
+
+		public override async Task<Group> GetByIdAsync(int id)
+		{
+			var result = await base.GetByIdAsync(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(g => g.Curator).Load();
+			entry.Collection(g => g.Students).Load();
+
+			return result;
 		}
 
 		public override IQueryable<Group> GetAll()

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject", "rxjs/Observable"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], func
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, BehaviorSubject_1, StudentService;
+    var core_1, http_1, BehaviorSubject_1, Observable_1, StudentService;
     return {
         setters: [
             function (core_1_1) {
@@ -21,6 +21,9 @@ System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], func
             },
             function (BehaviorSubject_1_1) {
                 BehaviorSubject_1 = BehaviorSubject_1_1;
+            },
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             }
         ],
         execute: function () {
@@ -33,6 +36,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], func
                     this.http = http;
                     this.http.get("/api/users/current")
                         .map(function (response) { return response.json(); })
+                        .catch(this.handleError)
                         .subscribe(function (data) { return _this.initUser(data); });
                 }
                 StudentService.prototype.getCurrentUser = function () {
@@ -49,6 +53,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], func
                     this.currentUserSource.next(user);
                     this.http.get("/api/students/userId/" + user.id)
                         .map(function (response) { return response.json(); })
+                        .catch(this.handleError)
                         .subscribe(function (data) { return _this.initStudent(data); });
                 };
                 StudentService.prototype.initStudent = function (student) {
@@ -56,10 +61,24 @@ System.register(["@angular/core", "@angular/http", "rxjs/BehaviorSubject"], func
                     this.currentStudentSource.next(student);
                     this.http.get("/api/groups/id/" + student.groupId)
                         .map(function (response) { return response.json(); })
+                        .catch(this.handleError)
                         .subscribe(function (data) { return _this.initGroup(data); });
                 };
                 StudentService.prototype.initGroup = function (group) {
                     this.currentGroupSource.next(group);
+                };
+                StudentService.prototype.handleError = function (error) {
+                    var message;
+                    if (error instanceof http_1.Response) {
+                        var body = error.json() || "";
+                        var err = body.error || JSON.stringify(body);
+                        message = error.status + " - " + (error.statusText || "") + " " + err;
+                    }
+                    else {
+                        message = error.message ? error.message : error.toString();
+                    }
+                    console.error(message);
+                    return Observable_1.Observable.throw(message);
                 };
                 return StudentService;
             }());

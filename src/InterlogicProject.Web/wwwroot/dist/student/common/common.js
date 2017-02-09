@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "./services/student.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "./services/student.service", "./services/class.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/http", "./services/student.service"]
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, student_service_1, CommonModule;
+    var core_1, http_1, student_service_1, class_service_1, CommonModule;
     return {
         setters: [
             function (core_1_1) {
@@ -18,10 +18,14 @@ System.register(["@angular/core", "@angular/http", "./services/student.service"]
             },
             function (student_service_1_1) {
                 student_service_1 = student_service_1_1;
+            },
+            function (class_service_1_1) {
+                class_service_1 = class_service_1_1;
             }
         ],
         execute: function () {
             exports_1("StudentService", student_service_1.default);
+            exports_1("ClassService", class_service_1.default);
             CommonModule = (function () {
                 function CommonModule() {
                 }
@@ -30,7 +34,8 @@ System.register(["@angular/core", "@angular/http", "./services/student.service"]
             CommonModule = __decorate([
                 core_1.NgModule({
                     providers: [
-                        student_service_1.default
+                        student_service_1.default,
+                        class_service_1.default
                     ],
                     imports: [
                         http_1.HttpModule

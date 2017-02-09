@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -113,8 +114,9 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(HttpStatusCode.OK,
 			Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> GetForClass(int id)
-			=> this.lecturers.GetAll()
-							?.Where(l => l.Classes.Any(c => c.ClassId == id))
-							 .ProjectTo<LecturerDto>();
+		=> this.lecturers.GetAll()
+						?.Include(l => l.Classes)
+						 .Where(l => l.Classes.Any(c => c.ClassId == id))
+						 .ProjectTo<LecturerDto>();
 	}
 }

@@ -7,7 +7,7 @@ namespace InterlogicProject.DAL.Repositories
 		public SubjectRepository(AppDbContext context)
 			: base(context)
 		{
-			this.table = this.Context.Subjects;
+			this.Table = this.Context.Subjects;
 		}
 	}
 }

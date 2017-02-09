@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -108,6 +109,20 @@ namespace InterlogicProject.Web.API
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Year == year &&
 									  g.Curator.Department.FacultyId == id)
+						  .ProjectTo<GroupDto>();
+
+		/// <summary>
+		/// Gets all groups with the specified class.
+		/// </summary>
+		/// <param name="id">The ID of the class.</param>
+		/// <returns>All groups with the specified class.</returns>
+		[HttpGet("classId/{id}")]
+		[SwaggerResponse(HttpStatusCode.OK,
+			Type = typeof(IEnumerable<GroupDto>))]
+		public IEnumerable<GroupDto> GetForClass(int id)
+			=> this.groups.GetAll()
+						 ?.Include(g => g.Classes)
+						  .Where(g => g.Classes.Any(c => c.ClassId == id))
 						  .ProjectTo<GroupDto>();
 	}
 }

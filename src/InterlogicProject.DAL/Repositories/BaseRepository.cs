@@ -11,7 +11,7 @@ namespace InterlogicProject.DAL.Repositories
 	public abstract class BaseRepository<TEntity> : IRepository<TEntity>
 		where TEntity : EntityBase, new()
 	{
-		protected DbSet<TEntity> table;
+		protected DbSet<TEntity> Table;
 
 		protected BaseRepository(AppDbContext context)
 		{
@@ -22,25 +22,25 @@ namespace InterlogicProject.DAL.Repositories
 
 		public virtual int Add(TEntity entity)
 		{
-			this.table.Add(entity);
+			this.Table.Add(entity);
 			return this.Context.SaveChanges();
 		}
 
 		public virtual Task<int> AddAsync(TEntity entity)
 		{
-			this.table.Add(entity);
+			this.Table.Add(entity);
 			return this.Context.SaveChangesAsync();
 		}
 
 		public virtual int AddRange(IEnumerable<TEntity> entities)
 		{
-			this.table.AddRange(entities);
+			this.Table.AddRange(entities);
 			return this.Context.SaveChanges();
 		}
 
 		public virtual Task<int> AddRangeAsync(IEnumerable<TEntity> enitities)
 		{
-			this.table.AddRange(enitities);
+			this.Table.AddRange(enitities);
 			return this.Context.SaveChangesAsync();
 		}
 
@@ -89,11 +89,11 @@ namespace InterlogicProject.DAL.Repositories
 		}
 
 		public virtual TEntity GetById(int id)
-			=> this.table.Find(id);
+			=> this.Table.Find(id);
 
 		public virtual Task<TEntity> GetByIdAsync(int id)
-			=> this.table.FindAsync(id);
+			=> this.Table.FindAsync(id);
 
-		public virtual IQueryable<TEntity> GetAll() => this.table;
+		public virtual IQueryable<TEntity> GetAll() => this.Table;
 	}
 }

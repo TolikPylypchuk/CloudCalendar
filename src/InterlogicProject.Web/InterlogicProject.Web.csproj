@@ -27,8 +27,6 @@
     <None Remove="wwwroot\scss\dist\**" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\app\calendar-lecturer.ts" />
-    <Content Include="wwwroot\app\calendar-student.ts" />
     <Content Include="wwwroot\app\common\models.ts" />
     <Content Include="wwwroot\app\lecturer\main.ts" />
     <Content Include="wwwroot\app\student\app.component.ts" />
@@ -40,7 +38,7 @@
     <Content Include="wwwroot\app\student\calendar\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal-content.component.ts" />
     <Content Include="wwwroot\app\student\common\common.ts" />
-    <Content Include="wwwroot\app\student\common\services.ts" />
+    <Content Include="wwwroot\app\student\common\services\class.service.ts" />
     <Content Include="wwwroot\app\student\common\services\student.service.ts" />
     <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />

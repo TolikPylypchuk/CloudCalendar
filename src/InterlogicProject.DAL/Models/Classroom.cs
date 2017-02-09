@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InterlogicProject.DAL.Models
@@ -16,6 +17,9 @@ namespace InterlogicProject.DAL.Models
 
 		[ForeignKey(nameof(BuildingId))]
 		public Building Building { get; set; }
+
+		public virtual ICollection<ClassPlace> Classes { get; set; } =
+			new HashSet<ClassPlace>();
 
 		public override string ToString() => this.Name;
 	}

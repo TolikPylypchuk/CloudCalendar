@@ -2,10 +2,12 @@
 import { HttpModule } from "@angular/http";
 
 import StudentService from "./services/student.service";
+import ClassService from "./services/class.service";
 
 @NgModule({
 	providers: [
-		StudentService
+		StudentService,
+		ClassService
 	],
 	imports: [
 		HttpModule
@@ -15,6 +17,7 @@ class CommonModule { }
 
 export {
 	StudentService,
+	ClassService,
 
 	CommonModule
 }

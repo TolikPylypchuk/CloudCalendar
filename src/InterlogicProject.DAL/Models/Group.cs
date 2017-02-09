@@ -23,6 +23,9 @@ namespace InterlogicProject.DAL.Models
 		public virtual ICollection<Student> Students { get; set; } =
 			new HashSet<Student>();
 
+		public virtual ICollection<GroupClass> Classes { get; set; } =
+			new HashSet<GroupClass>();
+
 		public override string ToString() => this.Name;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,29 @@ namespace InterlogicProject.DAL.Repositories
 		public ClassPlaceRepository(AppDbContext context)
 			: base(context)
 		{
-			this.table = this.Context.ClassPlaces;
+			this.Table = this.Context.ClassPlaces;
+		}
+
+		public override ClassPlace GetById(int id)
+		{
+			var result = base.GetById(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(p => p.Class).Load();
+			entry.Reference(p => p.Classroom).Load();
+
+			return result;
+		}
+
+		public override async Task<ClassPlace> GetByIdAsync(int id)
+		{
+			var result = await base.GetByIdAsync(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(p => p.Class).Load();
+			entry.Reference(p => p.Classroom).Load();
+
+			return result;
 		}
 
 		public override IQueryable<ClassPlace> GetAll()

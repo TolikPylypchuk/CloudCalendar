@@ -92,7 +92,9 @@ export default class CalendarComponent {
 	}
 
 	private eventClicked(event: FC.EventObject): void {
-		this.modalService.open(ModalContentComponent);
+		const modalRef = this.modalService.open(ModalContentComponent);
+		const modal = modalRef.componentInstance as ModalContentComponent;
+		modal.classId = event.id;
 	}
 
 	private classToEvent(classInfo: Class): FC.EventObject {

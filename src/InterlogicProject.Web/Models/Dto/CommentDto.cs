@@ -6,7 +6,7 @@ namespace InterlogicProject.Web.Models.Dto
 	{
 		public int Id { get; set; }
 		public int ClassId { get; set; }
-		public int UserId { get; set; }
+		public string UserId { get; set; }
 		public string UserFirstName { get; set; }
 		public string UserMiddleName { get; set; }
 		public string UserLastName { get; set; }

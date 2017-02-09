@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,29 @@ namespace InterlogicProject.DAL.Repositories
 		public LecturerClassRepository(AppDbContext context)
 			: base(context)
 		{
-			this.table = this.Context.LecturersClasses;
+			this.Table = this.Context.LecturersClasses;
+		}
+
+		public override LecturerClass GetById(int id)
+		{
+			var result = base.GetById(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(lc => lc.Lecturer).Load();
+			entry.Reference(lc => lc.Class).Load();
+
+			return result;
+		}
+
+		public override async Task<LecturerClass> GetByIdAsync(int id)
+		{
+			var result = await base.GetByIdAsync(id);
+			var entry = this.Context.Entry(result);
+
+			entry.Reference(lc => lc.Lecturer).Load();
+			entry.Reference(lc => lc.Class).Load();
+
+			return result;
 		}
 
 		public override IQueryable<LecturerClass> GetAll()
