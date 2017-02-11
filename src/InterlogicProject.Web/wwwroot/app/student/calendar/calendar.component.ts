@@ -4,7 +4,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 import * as moment from "moment";
 
-import ModalContentComponent from "./modal-content.component";
+import ModalContentComponent from "./modal/modal-content.component";
 
 import { Student, Class } from "../../common/models";
 

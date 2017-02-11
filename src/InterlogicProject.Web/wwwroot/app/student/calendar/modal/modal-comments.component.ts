@@ -2,9 +2,9 @@
 import { Http } from "@angular/http";
 import { Observable } from "rxjs";
 
-import { Student, Class, Comment } from "../../common/models";
+import { Student, Class, Comment } from "../../../common/models";
 
-import { ClassService } from "../common/common";
+import { ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-comments",

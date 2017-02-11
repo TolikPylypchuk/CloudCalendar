@@ -7,9 +7,9 @@ import * as moment from "moment";
 
 import {
 	Student, Lecturer, Class, Classroom, Group
-} from "../../common/models";
+} from "../../../common/models";
 
-import { ClassService } from "../common/common";
+import { ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-content",
@@ -18,16 +18,16 @@ import { ClassService } from "../common/common";
 export default class ModalContentComponent implements OnInit {
 	@Input() classId: number;
 
-	private activeModal: NgbActiveModal;
-	private http: Http;
-
-	private classService: ClassService;
-
 	subjectName: string;
 	type: string;
 	dateTime: string;
 	classrooms: Classroom[];
 	lecturers: Lecturer[];
+
+	private activeModal: NgbActiveModal;
+	private http: Http;
+
+	private classService: ClassService;
 	
 	constructor(
 		activeModal: NgbActiveModal,

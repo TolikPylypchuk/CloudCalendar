@@ -32,11 +32,17 @@
     <Content Include="wwwroot\app\student\app.component.ts" />
     <Content Include="wwwroot\app\student\app.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
     <Content Include="wwwroot\app\student\calendar\modal-comments.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal-comments.component.ts" />
     <Content Include="wwwroot\app\student\calendar\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\common\common.module.ts" />
     <Content Include="wwwroot\app\student\common\common.ts" />
     <Content Include="wwwroot\app\student\common\services\class.service.ts" />
     <Content Include="wwwroot\app\student\common\services\student.service.ts" />

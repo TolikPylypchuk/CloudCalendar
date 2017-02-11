@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "@angular/platform-browser", "@ng-bootstrap/ng-bootstrap", "angular2-fullcalendar/src/calendar/calendar", "../common/common", "./calendar.component", "./modal-content.component", "./modal-comments.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "@angular/platform-browser", "@ng-bootstrap/ng-bootstrap", "angular2-fullcalendar/src/calendar/calendar", "../common/common", "./calendar.component", "./modal/modal-content.component", "./modal/modal-comments.component"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -39,9 +39,6 @@ System.register(["@angular/core", "@angular/http", "@angular/platform-browser", 
             }
         ],
         execute: function () {
-            exports_1("CalendarComponent", calendar_component_1.default);
-            exports_1("ModalContentComponent", modal_content_component_1.default);
-            exports_1("ModalCommentsComponent", modal_comments_component_1.default);
             CalendarModule = (function () {
                 function CalendarModule() {
                 }
@@ -71,8 +68,8 @@ System.register(["@angular/core", "@angular/http", "@angular/platform-browser", 
                     ]
                 })
             ], CalendarModule);
-            exports_1("CalendarModule", CalendarModule);
+            exports_1("default", CalendarModule);
         }
     };
 });
-//# sourceMappingURL=calendar.js.map
+//# sourceMappingURL=calendar.module.js.map

@@ -1,4 +1,4 @@
-System.register(["rxjs/add/operator/map", "rxjs/add/operator/catch", "rxjs/add/observable/throw", "moment", "fullcalendar", "fullcalendar/dist/locale/uk", "@angular/platform-browser-dynamic", "./app.module"], function (exports_1, context_1) {
+System.register(["rxjs/add/observable/throw", "rxjs/add/operator/map", "rxjs/add/operator/catch", "moment", "fullcalendar", "fullcalendar/dist/locale/uk", "@angular/platform-browser-dynamic", "./app.module"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var moment, platform_browser_dynamic_1, app_module_1;

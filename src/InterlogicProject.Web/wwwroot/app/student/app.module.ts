@@ -2,6 +2,7 @@
 
 import { CalendarModule } from "./calendar/calendar";
 import { CommonModule } from "./common/common";
+
 import AppComponent from "./app.component";
 
 @NgModule({
@@ -9,6 +10,7 @@ import AppComponent from "./app.component";
 		AppComponent
 	],
 	imports: [
+		CommonModule,
 		CalendarModule
 	],
 	bootstrap: [
