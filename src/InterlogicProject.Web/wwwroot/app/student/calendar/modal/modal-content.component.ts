@@ -13,14 +13,14 @@ import { ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-content",
-	templateUrl: "app/student/calendar/modal-content.component.html"
+	templateUrl: "app/student/calendar/modal/modal-content.component.html"
 })
 export default class ModalContentComponent implements OnInit {
 	@Input() classId: number;
 
-	subjectName: string;
-	type: string;
-	dateTime: string;
+	subjectName = "Завантаження...";
+	type = "Завантаження...";
+	dateTime = "Завантаження...";
 	classrooms: Classroom[];
 	lecturers: Lecturer[];
 

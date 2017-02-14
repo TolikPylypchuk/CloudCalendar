@@ -45,6 +45,9 @@ export default class CalendarComponent {
 			eventClick: this.eventClicked.bind(this),
 			eventColor: "#0275D8",
 			eventDurationEditable: false,
+			eventRender: (event: FC.EventObject, element: HTMLDivElement) => {
+				$(element).css("cursor", "pointer");
+			},
 			events: this.getEvents.bind(this),
 			header: {
 				left: "title",

@@ -36,10 +36,12 @@
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
     <Content Include="wwwroot\app\student\calendar\modal-comments.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal-comments.component.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal-content.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal-content.component.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
     <Content Include="wwwroot\app\student\common\common.module.ts" />
