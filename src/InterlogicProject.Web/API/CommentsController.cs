@@ -197,31 +197,12 @@ namespace InterlogicProject.Web.API
 			}
 
 			var commentToUpdate = this.comments.GetById(id);
-			commentToUpdate.Text = comment.Text;
-			this.comments.Update(commentToUpdate);
 
-			return this.NoContent();
-		}
-
-		/// <summary>
-		/// Updates a comment.
-		/// </summary>
-		/// <param name="id">The ID of the comment to update.</param>
-		/// <param name="comment">The comment to update.</param>
-		/// <returns>
-		/// The action result that represents the status code 204.
-		/// </returns>
-		[HttpPatch("{id}")]
-		[SwaggerResponse(HttpStatusCode.NoContent,
-			Type = typeof(IActionResult))]
-		public IActionResult Patch(int id, [FromBody] CommentDto comment)
-		{
-			if (comment?.Text == null)
+			if (commentToUpdate == null)
 			{
-				return this.BadRequest();
+				return this.NotFound();
 			}
 
-			var commentToUpdate = this.comments.GetById(id);
 			commentToUpdate.Text = comment.Text;
 			this.comments.Update(commentToUpdate);
 

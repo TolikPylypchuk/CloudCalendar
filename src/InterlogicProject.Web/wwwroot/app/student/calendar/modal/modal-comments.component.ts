@@ -9,14 +9,19 @@ import { StudentService, ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-comments",
-	templateUrl: "app/student/calendar/modal/modal-comments.component.html"
+	templateUrl: "app/student/calendar/modal/modal-comments.component.html",
+	styleUrls: [ "app/student/calendar/modal/modal-comments.component.css" ]
 })
 export default class ModalCommentsComponent implements OnInit {
 	@Input() classId: number;
 
 	comments: Comment[] = [];
 
-	currentComment: Comment = {};
+	currentComment: Comment = {
+		text: ""
+	};
+
+	editedCommentId = 0;
 
 	private http: Http;
 	private studentService: StudentService;
@@ -32,9 +37,6 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.classService.getComments(this.classId)
-			.subscribe(data => this.comments = data);
-
 		this.studentService.getCurrentUser()
 			.subscribe(user => {
 				if (user) {
@@ -46,14 +48,22 @@ export default class ModalCommentsComponent implements OnInit {
 					this.currentComment.classId = this.classId;
 				}
 			});
+
+		this.classService.getComments(this.classId)
+			.subscribe(data => this.comments = data);
 	}
 
 	formatDateTime(dateTime: string, format: string): string {
 		return moment.utc(dateTime).format(format);
 	}
 
+	getCommentId(index: number, comment: Comment): number {
+		return comment.id;
+	}
+
 	addComment(): void {
-		this.currentComment.dateTime = moment().utc().add(2, "hours").toISOString();
+		this.currentComment.dateTime = moment().utc()
+			.add(2, "hours").toISOString();
 
 		this.http.post(
 			"api/comments",
@@ -62,16 +72,52 @@ export default class ModalCommentsComponent implements OnInit {
 				headers: new Headers({ "Content-Type": "application/json" })
 			})
 			.subscribe(response => {
-				this.comments.push(response.json() as Comment);
-				
-				this.currentComment = {
-					userId: this.currentComment.userId,
-					userFirstName: this.currentComment.userFirstName,
-					userMiddleName: this.currentComment.userMiddleName,
-					userLastName: this.currentComment.userLastName,
-					userFullName: this.currentComment.userFullName,
-					classId: this.currentComment.classId
-				};
+				if (response.status === 201) {
+					this.comments.push(response.json() as Comment);
+
+					this.currentComment = {
+						userId: this.currentComment.userId,
+						userFirstName: this.currentComment.userFirstName,
+						userMiddleName: this.currentComment.userMiddleName,
+						userLastName: this.currentComment.userLastName,
+						userFullName: this.currentComment.userFullName,
+						classId: this.currentComment.classId,
+						text: ""
+					};
+				}
+			});
+	}
+
+	editComment(id: number): void {
+		this.editedCommentId = id;
+	}
+
+	updateComment(comment: Comment): void {
+		this.http.put(
+			`api/comments/${comment.id}`,
+			JSON.stringify(comment),
+			{
+				headers: new Headers({ "Content-Type": "application/json" })
+			})
+			.subscribe(response => {
+				if (response.status === 204) {
+					this.editedCommentId = 0;
+				}
+			});
+	}
+
+	cancelEditing(): void {
+		this.editedCommentId = 0;
+	}
+
+	deleteComment(id: number): void {
+		this.http.delete(
+			`api/comments/${id}`)
+			.subscribe(response => {
+				if (response.status === 204) {
+					this.comments = this.comments.filter(
+						comment => comment.id !== id);
+				}
 			});
 	}
 }

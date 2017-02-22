@@ -1,19 +1,63 @@
 ﻿<h5>Коментарі</h5>
 
-<div [ngSwitch]="comments.length">
-	<div *ngSwitchCase="0">
-		<p>Коментарів до цієї пари немає.</p>
-	</div>
-	<div *ngSwitchDefault>
-		<div *ngFor="let comment of comments">
-			<template #commentDateTimeTooltip>
-				{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
-			</template>
-			<small [ngbTooltip]="commentDateTimeTooltip"
-			       placement="right" style="cursor: default">
-				{{ comment.userFirstName }} {{ comment.userLastName }}
-			</small>
-			<p>{{ comment.text }}</p>
+<div *ngIf="comments.length === 0">
+	<p>Коментарів до цієї пари немає.</p>
+</div>
+
+<div *ngIf="comments.length !== 0">
+	<div *ngFor="let comment of comments; trackBy:getCommentId">
+		<div class="card mt-3">
+			<div class="card-header">
+				<template #commentDateTimeTooltip>
+					{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
+				</template>
+
+				<span [ngbTooltip]="commentDateTimeTooltip"
+					    placement="right" style="cursor: default">
+					{{ comment.userFirstName }} {{ comment.userLastName }}
+				</span>
+					
+				<span *ngIf="comment.userId === currentComment.userId"
+					    style="cursor: pointer" aria-hidden="true"
+					    ngbTooltip="Видалити" placement="right"
+					    (mouseup)="deleteComment(comment.id)"
+						class="float-right">
+					<i class="fa fa-remove"></i>
+				</span>
+
+				<span *ngIf="comment.userId === currentComment.userId"
+					    style="cursor: pointer" aria-hidden="true"
+					    ngbTooltip="Редагувати" placement="left"
+					    (mouseup)="editComment(comment.id)"
+						class="mr-3 float-right">
+					<i class="fa fa-edit"></i>
+				</span>
+			</div>
+
+			<div class="card-block" *ngIf="comment.id !== editedCommentId">
+				<p>{{ comment.text }}</p>
+			</div>
+				
+			<div class="card-block" *ngIf="comment.id === editedCommentId">
+				<form class="mt-3" (ngSubmit)="updateComment(comment)">
+					<textarea type="text" class=" form-control"
+								placeholder="Коментувати..."
+								[(ngModel)]="comment.text"
+								name="text" maxlength="300"
+								required>
+					</textarea>
+
+					<button type="submit" class="btn btn-primary mt-3"
+						    [disabled]="comment.text === ''">
+						Зберегти
+					</button>
+						
+					<button type="button" class="btn btn-secondary mt-3"
+							(click)="cancelEditing()">
+						Скасувати
+					</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
@@ -25,7 +69,9 @@
 	       name="text" maxlength="300"
 		   required>
 	</textarea>
-	<button type="submit" class="btn btn-primary mt-3">
+
+	<button type="submit" class="btn btn-primary mt-3"
+	        [disabled]="currentComment.text === ''">
 		Надіслати
 	</button>
 </form>

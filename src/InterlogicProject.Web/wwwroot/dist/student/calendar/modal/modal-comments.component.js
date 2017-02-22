@@ -15,15 +15,16 @@ var common_1 = require("../../common/common");
 var ModalCommentsComponent = (function () {
     function ModalCommentsComponent(http, studentService, classService) {
         this.comments = [];
-        this.currentComment = {};
+        this.currentComment = {
+            text: ""
+        };
+        this.editedCommentId = 0;
         this.http = http;
         this.studentService = studentService;
         this.classService = classService;
     }
     ModalCommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.classService.getComments(this.classId)
-            .subscribe(function (data) { return _this.comments = data; });
         this.studentService.getCurrentUser()
             .subscribe(function (user) {
             if (user) {
@@ -35,26 +36,61 @@ var ModalCommentsComponent = (function () {
                 _this.currentComment.classId = _this.classId;
             }
         });
+        this.classService.getComments(this.classId)
+            .subscribe(function (data) { return _this.comments = data; });
     };
     ModalCommentsComponent.prototype.formatDateTime = function (dateTime, format) {
         return moment.utc(dateTime).format(format);
     };
+    ModalCommentsComponent.prototype.getCommentId = function (index, comment) {
+        return comment.id;
+    };
     ModalCommentsComponent.prototype.addComment = function () {
         var _this = this;
-        this.currentComment.dateTime = moment().utc().add(2, "hours").toISOString();
+        this.currentComment.dateTime = moment().utc()
+            .add(2, "hours").toISOString();
         this.http.post("api/comments", JSON.stringify(this.currentComment), {
             headers: new http_1.Headers({ "Content-Type": "application/json" })
         })
             .subscribe(function (response) {
-            _this.comments.push(response.json());
-            _this.currentComment = {
-                userId: _this.currentComment.userId,
-                userFirstName: _this.currentComment.userFirstName,
-                userMiddleName: _this.currentComment.userMiddleName,
-                userLastName: _this.currentComment.userLastName,
-                userFullName: _this.currentComment.userFullName,
-                classId: _this.currentComment.classId
-            };
+            if (response.status === 201) {
+                _this.comments.push(response.json());
+                _this.currentComment = {
+                    userId: _this.currentComment.userId,
+                    userFirstName: _this.currentComment.userFirstName,
+                    userMiddleName: _this.currentComment.userMiddleName,
+                    userLastName: _this.currentComment.userLastName,
+                    userFullName: _this.currentComment.userFullName,
+                    classId: _this.currentComment.classId,
+                    text: ""
+                };
+            }
+        });
+    };
+    ModalCommentsComponent.prototype.editComment = function (id) {
+        this.editedCommentId = id;
+    };
+    ModalCommentsComponent.prototype.updateComment = function (comment) {
+        var _this = this;
+        this.http.put("api/comments/" + comment.id, JSON.stringify(comment), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .subscribe(function (response) {
+            if (response.status === 204) {
+                _this.editedCommentId = 0;
+            }
+        });
+    };
+    ModalCommentsComponent.prototype.cancelEditing = function () {
+        this.editedCommentId = 0;
+    };
+    ModalCommentsComponent.prototype.deleteComment = function (id) {
+        var _this = this;
+        this.http.delete("api/comments/" + id)
+            .subscribe(function (response) {
+            if (response.status === 204) {
+                _this.comments = _this.comments.filter(function (comment) { return comment.id !== id; });
+            }
         });
     };
     return ModalCommentsComponent;
@@ -66,7 +102,8 @@ __decorate([
 ModalCommentsComponent = __decorate([
     core_1.Component({
         selector: "student-modal-comments",
-        templateUrl: "app/student/calendar/modal/modal-comments.component.html"
+        templateUrl: "app/student/calendar/modal/modal-comments.component.html",
+        styleUrls: ["app/student/calendar/modal/modal-comments.component.css"]
     }),
     __metadata("design:paramtypes", [http_1.Http,
         common_1.StudentService,
