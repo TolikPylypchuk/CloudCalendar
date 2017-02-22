@@ -2,7 +2,7 @@
 import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
-import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModalModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CalendarComponent as FullcalendarComponent } from
 	"angular2-fullcalendar/src/calendar/calendar";
@@ -28,6 +28,7 @@ import ModalCommentsComponent from "./modal/modal-comments.component";
 		HttpModule,
 		FormsModule,
 		NgbModalModule,
+		NgbTooltipModule,
 		CommonModule
 	],
 	exports: [

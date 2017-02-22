@@ -45,9 +45,9 @@ var ModalCommentsComponent = (function () {
         this.http.post("api/comments", JSON.stringify(this.currentComment), {
             headers: new http_1.Headers({ "Content-Type": "application/json" })
         })
-            .subscribe(function () {
-            _this.comments.push(_this.currentComment);
-            var tempComment = {
+            .subscribe(function (response) {
+            _this.comments.push(response.json());
+            _this.currentComment = {
                 userId: _this.currentComment.userId,
                 userFirstName: _this.currentComment.userFirstName,
                 userMiddleName: _this.currentComment.userMiddleName,
@@ -55,7 +55,6 @@ var ModalCommentsComponent = (function () {
                 userFullName: _this.currentComment.userFullName,
                 classId: _this.currentComment.classId
             };
-            _this.currentComment = tempComment;
         });
     };
     return ModalCommentsComponent;

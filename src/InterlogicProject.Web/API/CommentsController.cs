@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -148,27 +149,107 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="comment">The comment to add.</param>
 		/// <returns>
-		/// The action result that represents the 201 status code.
+		/// The action result that represents the status code 201.
 		/// </returns>
 		[HttpPost]
-		[SwaggerResponse(HttpStatusCode.Created, Type = typeof(IActionResult))]
+		[SwaggerResponse(HttpStatusCode.Created,
+			Type = typeof(IActionResult))]
 		public IActionResult Post([FromBody] CommentDto comment)
 		{
-			if (comment == null)
+			if (comment?.Text == null || comment.UserId == null ||
+				comment.ClassId == 0 || comment.DateTime == default(DateTime))
 			{
 				return this.BadRequest();
 			}
 
-			this.comments.Add(new Comment
+			var commentToAdd = new Comment
 			{
 				ClassId = comment.ClassId,
 				UserId = comment.UserId,
 				Text = comment.Text,
 				DateTime = comment.DateTime
-			});
+			};
+
+			this.comments.Add(commentToAdd);
+
+			comment.Id = commentToAdd.Id;
 
 			return this.CreatedAtRoute(
 				"GetById", new { id = comment.Id }, comment);
+		}
+
+		/// <summary>
+		/// Updates a comment.
+		/// </summary>
+		/// <param name="id">The ID of the comment to update.</param>
+		/// <param name="comment">The comment to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(HttpStatusCode.NoContent,
+			Type = typeof(IActionResult))]
+		public IActionResult Put(int id, [FromBody] CommentDto comment)
+		{
+			if (comment?.Text == null)
+			{
+				return this.BadRequest();
+			}
+
+			var commentToUpdate = this.comments.GetById(id);
+			commentToUpdate.Text = comment.Text;
+			this.comments.Update(commentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a comment.
+		/// </summary>
+		/// <param name="id">The ID of the comment to update.</param>
+		/// <param name="comment">The comment to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(HttpStatusCode.NoContent,
+			Type = typeof(IActionResult))]
+		public IActionResult Patch(int id, [FromBody] CommentDto comment)
+		{
+			if (comment?.Text == null)
+			{
+				return this.BadRequest();
+			}
+
+			var commentToUpdate = this.comments.GetById(id);
+			commentToUpdate.Text = comment.Text;
+			this.comments.Update(commentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a comment.
+		/// </summary>
+		/// <param name="id">The ID of the comment to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(HttpStatusCode.NoContent,
+			Type = typeof(IActionResult))]
+		public IActionResult Delete(int id)
+		{
+			var commentToDelete = this.comments.GetById(id);
+
+			if (commentToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.comments.Delete(commentToDelete);
+
+			return this.NoContent();
 		}
 	}
 }

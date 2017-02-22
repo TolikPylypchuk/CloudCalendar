@@ -6,9 +6,12 @@
 	</div>
 	<div *ngSwitchDefault>
 		<div *ngFor="let comment of comments">
-			<small>
-				{{ comment.userFirstName }} {{ comment.userLastName }} -
+			<template #commentDateTimeTooltip>
 				{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
+			</template>
+			<small [ngbTooltip]="commentDateTimeTooltip"
+			       placement="right" style="cursor: default">
+				{{ comment.userFirstName }} {{ comment.userLastName }}
 			</small>
 			<p>{{ comment.text }}</p>
 		</div>
@@ -16,11 +19,12 @@
 </div>
 
 <form class="mt-3" (ngSubmit)="addComment()">
-	<input type="text" class=" form-control"
+	<textarea type="text" class=" form-control"
 	       placeholder="Коментувати..."
 	       [(ngModel)]="currentComment.text"
-	       name="text"
-		   required />
+	       name="text" maxlength="300"
+		   required>
+	</textarea>
 	<button type="submit" class="btn btn-primary mt-3">
 		Надіслати
 	</button>

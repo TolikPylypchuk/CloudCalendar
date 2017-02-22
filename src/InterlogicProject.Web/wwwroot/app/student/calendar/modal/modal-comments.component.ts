@@ -61,9 +61,10 @@ export default class ModalCommentsComponent implements OnInit {
 			{
 				headers: new Headers({ "Content-Type": "application/json" })
 			})
-			.subscribe(() => {
-				this.comments.push(this.currentComment);
-				const tempComment: Comment = {
+			.subscribe(response => {
+				this.comments.push(response.json() as Comment);
+				
+				this.currentComment = {
 					userId: this.currentComment.userId,
 					userFirstName: this.currentComment.userFirstName,
 					userMiddleName: this.currentComment.userMiddleName,
@@ -71,7 +72,6 @@ export default class ModalCommentsComponent implements OnInit {
 					userFullName: this.currentComment.userFullName,
 					classId: this.currentComment.classId
 				};
-				this.currentComment = tempComment;
 			});
 	}
 }

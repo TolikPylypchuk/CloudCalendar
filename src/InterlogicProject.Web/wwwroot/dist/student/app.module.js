@@ -7,7 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var ng_bootstrap_2 = require("@ng-bootstrap/ng-bootstrap");
 var calendar_1 = require("./calendar/calendar");
 var common_1 = require("./common/common");
 var app_component_1 = require("./app.component");
@@ -24,7 +23,6 @@ AppModule = __decorate([
         imports: [
             common_1.CommonModule,
             ng_bootstrap_1.NgbModule.forRoot(),
-            ng_bootstrap_2.NgbModalModule.forRoot(),
             calendar_1.CalendarModule
         ],
         bootstrap: [

@@ -36,6 +36,7 @@ CalendarModule = __decorate([
             http_1.HttpModule,
             forms_1.FormsModule,
             ng_bootstrap_1.NgbModalModule,
+            ng_bootstrap_1.NgbTooltipModule,
             common_1.CommonModule
         ],
         exports: [
