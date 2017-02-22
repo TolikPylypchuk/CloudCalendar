@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var platform_browser_1 = require("@angular/platform-browser");
+var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var calendar_1 = require("angular2-fullcalendar/src/calendar/calendar");
 var common_1 = require("../common/common");
@@ -33,7 +34,8 @@ CalendarModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
-            ng_bootstrap_1.NgbModalModule.forRoot(),
+            forms_1.FormsModule,
+            ng_bootstrap_1.NgbModalModule,
             common_1.CommonModule
         ],
         exports: [

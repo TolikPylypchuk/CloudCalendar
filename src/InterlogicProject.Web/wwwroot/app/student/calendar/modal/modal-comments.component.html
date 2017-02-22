@@ -6,20 +6,21 @@
 	</div>
 	<div *ngSwitchDefault>
 		<div *ngFor="let comment of comments">
-			<p>
-				<small>
-					{{ comment.userFirstName }} {{ comment.userLastName }} -
-					{{ moment.utc(comment.dateTime).format("DD.MM.YYYY, HH:mm") }}
-				</small>
-			</p>
+			<small>
+				{{ comment.userFirstName }} {{ comment.userLastName }} -
+				{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
+			</small>
 			<p>{{ comment.text }}</p>
 		</div>
 	</div>
 </div>
 
-<form class="mt-3">
+<form class="mt-3" (ngSubmit)="addComment()">
 	<input type="text" class=" form-control"
-	       placeholder="Коментувати..." />
+	       placeholder="Коментувати..."
+	       [(ngModel)]="currentComment.text"
+	       name="text"
+		   required />
 	<button type="submit" class="btn btn-primary mt-3">
 		Надіслати
 	</button>

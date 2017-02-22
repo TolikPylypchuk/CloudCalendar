@@ -20,7 +20,7 @@ export default class ModalContentComponent implements OnInit {
 
 	subjectName = "Завантаження...";
 	type = "Завантаження...";
-	dateTime = "Завантаження...";
+	dateTime = "";
 	classrooms: Classroom[];
 	lecturers: Lecturer[];
 
@@ -54,7 +54,9 @@ export default class ModalContentComponent implements OnInit {
 	}
 
 	formatDateTime(dateTime: string): string {
-		return moment.utc(dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+		return dateTime === ""
+			? "Завантаження..."
+			: moment.utc(dateTime).format("DD.MM.YYYY, dddd, HH:mm");
 	}
 
 	formatClassrooms(classrooms: Classroom[]): string {

@@ -34,8 +34,6 @@
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal-comments.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal-comments.component.ts" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

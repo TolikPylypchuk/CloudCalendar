@@ -10,17 +10,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var moment = require("moment");
 var common_1 = require("../../common/common");
 var ModalCommentsComponent = (function () {
-    function ModalCommentsComponent(http, classService) {
+    function ModalCommentsComponent(http, studentService, classService) {
         this.comments = [];
+        this.currentComment = {};
         this.http = http;
+        this.studentService = studentService;
         this.classService = classService;
     }
     ModalCommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.classService.getComments(this.classId)
             .subscribe(function (data) { return _this.comments = data; });
+        this.studentService.getCurrentUser()
+            .subscribe(function (user) {
+            if (user) {
+                _this.currentComment.userId = user.id;
+                _this.currentComment.userFirstName = user.firstName;
+                _this.currentComment.userMiddleName = user.middleName;
+                _this.currentComment.userLastName = user.lastName;
+                _this.currentComment.userFullName = user.fullName;
+                _this.currentComment.classId = _this.classId;
+            }
+        });
+    };
+    ModalCommentsComponent.prototype.formatDateTime = function (dateTime, format) {
+        return moment.utc(dateTime).format(format);
+    };
+    ModalCommentsComponent.prototype.addComment = function () {
+        var _this = this;
+        this.currentComment.dateTime = moment().utc().add(2, "hours").toISOString();
+        this.http.post("api/comments", JSON.stringify(this.currentComment), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .subscribe(function () {
+            _this.comments.push(_this.currentComment);
+            var tempComment = {
+                userId: _this.currentComment.userId,
+                userFirstName: _this.currentComment.userFirstName,
+                userMiddleName: _this.currentComment.userMiddleName,
+                userLastName: _this.currentComment.userLastName,
+                userFullName: _this.currentComment.userFullName,
+                classId: _this.currentComment.classId
+            };
+            _this.currentComment = tempComment;
+        });
     };
     return ModalCommentsComponent;
 }());
@@ -33,7 +69,9 @@ ModalCommentsComponent = __decorate([
         selector: "student-modal-comments",
         templateUrl: "app/student/calendar/modal/modal-comments.component.html"
     }),
-    __metadata("design:paramtypes", [http_1.Http, common_1.ClassService])
+    __metadata("design:paramtypes", [http_1.Http,
+        common_1.StudentService,
+        common_1.ClassService])
 ], ModalCommentsComponent);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ModalCommentsComponent;

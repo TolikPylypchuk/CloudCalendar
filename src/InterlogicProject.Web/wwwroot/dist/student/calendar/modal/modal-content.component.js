@@ -17,7 +17,7 @@ var ModalContentComponent = (function () {
     function ModalContentComponent(activeModal, http, classService) {
         this.subjectName = "Завантаження...";
         this.type = "Завантаження...";
-        this.dateTime = "Завантаження...";
+        this.dateTime = "";
         this.activeModal = activeModal;
         this.http = http;
         this.classService = classService;
@@ -36,7 +36,9 @@ var ModalContentComponent = (function () {
             .subscribe(function (data) { return _this.lecturers = data; });
     };
     ModalContentComponent.prototype.formatDateTime = function (dateTime) {
-        return moment.utc(dateTime).format("DD.MM.YYYY, dddd, HH:mm");
+        return dateTime === ""
+            ? "Завантаження..."
+            : moment.utc(dateTime).format("DD.MM.YYYY, dddd, HH:mm");
     };
     ModalContentComponent.prototype.formatClassrooms = function (classrooms) {
         return classrooms
