@@ -2,13 +2,16 @@
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using AutoMapper;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
+using InterlogicProject.Web.Models.Dto;
 using InterlogicProject.Web.Models.ViewModels;
 
-using Microsoft.AspNetCore.Http;
 
 namespace InterlogicProject.Web.Controllers
 {
@@ -31,13 +34,13 @@ namespace InterlogicProject.Web.Controllers
 		public IActionResult Index()
 			=> this.View(new StudentModel
 			{
-				Student = this.currentStudent
+				Student = Mapper.Map<StudentDto>(this.currentStudent)
 			});
 
 		public IActionResult Group()
 			=> this.View(new StudentModel
 			{
-				Student = this.currentStudent
+				Student = Mapper.Map<StudentDto>(this.currentStudent)
 			});
 	}
 }

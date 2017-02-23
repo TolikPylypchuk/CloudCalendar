@@ -2,9 +2,9 @@
 
 @{
 	ViewBag.Title = "Розклад";
-	ViewBag.Group = Model.Student.Group.Name;
+	ViewBag.Group = Model.Student.GroupName;
 	ViewBag.Account =
-		$"{Model.Student.User.FirstName} {Model.Student.User.LastName}";
+		$"{Model.Student.UserFirstName} {Model.Student.UserLastName}";
 }
 
 @section links {

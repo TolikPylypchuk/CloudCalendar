@@ -2,13 +2,13 @@
 
 @{
 	ViewBag.Title = "Група";
-	ViewBag.Group = Model.Student.Group.Name;
+	ViewBag.Group = Model.Student.GroupName;
 	ViewBag.Account =
-		$"{Model.Student.User.FirstName} {Model.Student.User.LastName}";
+		$"{Model.Student.UserFirstName} {Model.Student.UserLastName}";
 }
 
 <div class="m-3">
-	<h1>@Model.Student.Group.Name</h1>
+	<h1>@Model.Student.GroupName</h1>
 </div>
 
 <div class="m-3">
@@ -22,15 +22,7 @@
 		</thead>
 
 		<tbody>
-			@foreach (var student in
-				Model.Student.Group.Students.OrderBy(s => s.User.LastName))
-			{
-				<tr>
-					<td>@student.User.LastName</td>
-					<td>@student.User.FirstName</td>
-					<td>@student.User.MiddleName</td>
-				</tr>
-			}
+			
 		</tbody>
 	</table>
 	

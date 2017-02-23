@@ -1,13 +1,4 @@
-﻿/// <binding BeforeBuild='compile-sass' />
-
-var gulp = require("gulp");
-var gulpSass = require("gulp-sass");
-
-gulp.task("compile-scss", () => {
-	return gulp.src("./wwwroot/scss/*")
-			   .pipe(gulpSass())
-			   .pipe(gulp.dest("./wwwroot/dist/css"));
-});
+﻿var gulp = require("gulp");
 
 gulp.task("copy-angular-bundles", () => {
 	return gulp.src("./node_modules/@angular/**/bundles/**")
@@ -29,4 +20,11 @@ gulp.task("copy-rxjs", () => {
 		.pipe(gulp.dest("./wwwroot/lib/rxjs/"));
 });
 
-gulp.task("default", [ "compile-scss" ]);
+gulp.task(
+	"default",
+	[
+		"copy-angular-bundles",
+		"copy-ng-bootstrap",
+		"copy-angular2-fullcalendar",
+		"copy-rxjs"
+	]);

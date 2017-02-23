@@ -1,7 +1,7 @@
 ﻿@model LecturerModel
 
 @{
-	ViewBag.Title = "Головна";
+	ViewBag.Title = "Розклад";
 	ViewBag.Account =
 		$"{Model.Lecturer.UserFirstName} {Model.Lecturer.UserLastName}";
 }
@@ -14,64 +14,25 @@
 	      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
 }
 
-<div class="m-1">
-	<div id="calendar" class="pb-1"></div>
-</div>
-
-<div id="classInfoModal" class="modal fade">
-	<div class="modal-dialog" role="contentinfo">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close"
-				        data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 id="classTitle" class="modal-title"></h4>
-			</div>
-			<div class="modal-body">
-				<h5 id="classType"></h5>
-				<p id="classGroup"></p>
-				<p id="classTime"></p>
-				<hr />
-				<h5>Домашнє завдання</h5>
-				<p>Домашнього завдання, яке потрібно виконати на цю пару, немає.</p>
-				<hr />
-				<h5>Матеріали</h5>
-				<p>Матеріалів до цієї пари немає.</p>
-				<hr />
-				<h5>Коментарі</h5>
-				<p>Коментарів до цієї пари немає.</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-				        data-dismiss="modal">
-					OK
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
+<lecturer-app>
+	<p class="m-3">Розклад завантажується...</p>
+</lecturer-app>
 
 @section scripts {
 	<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
 
-	<script asp-src-include="~/lib/tether/dist/js/*.js"
-	        asp-src-exclude="~/lib/tether/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/tether/dist/js/tether.js"></script>
+	<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
-	<script asp-src-include="~/lib/bootstrap/dist/js/*.js"
-	        asp-src-exclude="~/lib/bootstrap/dist/js/*.min.js"></script>
+	<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
+	<script asp-src-include="~/lib/zone/dist/zone.js"></script>
+	<script asp-src-include="~/lib/reflect-metadata/Reflect.js"></script>
+	<script asp-src-include="~/lib/system.js/dist/system.js"></script>
+	<script asp-src-include="~/lib/rxjs/bundles/Rx.js"></script>
 
-	<script asp-src-include="~/lib/moment/moment.js"></script>
-
-	<script asp-src-include="~/lib/fullcalendar/dist/fullcalendar.js"></script>
-
-	<script asp-src-include="~/lib/fullcalendar/dist/locale/uk.js"></script>
-
-	<script asp-src-include="~/lib/requirejs/require.js"
-	        data-main="js/dist/calendar-lecturer.js"></script>
-
-	<script asp-src-include="~/js/dist/require-config.js"></script>
-
-	<script id="calendarScript" asp-src-include="~/js/dist/calendar-lecturer.js"
-	        data-lecturer-id="@Model.Lecturer.Id"></script>
+	<script asp-src-include="~/systemjs.config.js"></script>
+	<script>
+		System.import("dist/lecturer/main")
+			  .then(null, console.error.bind(console));
+	</script>
 }

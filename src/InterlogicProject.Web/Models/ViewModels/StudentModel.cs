@@ -1,9 +1,9 @@
-﻿using InterlogicProject.DAL.Models;
+﻿using InterlogicProject.Web.Models.Dto;
 
 namespace InterlogicProject.Web.Models.ViewModels
 {
 	public class StudentModel
 	{
-		public Student Student { get; set; }
+		public StudentDto Student { get; set; }
 	}
 }

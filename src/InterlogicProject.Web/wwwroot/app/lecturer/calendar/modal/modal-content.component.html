@@ -9,19 +9,19 @@
 <div class="modal-body">
 	<h5>{{ type }}</h5>
 	<p>{{ formatDateTime(dateTime) }}, ауд. {{ formatClassrooms(classrooms) }}</p>
-	<p>{{ formatLecturers(lecturers) }}</p>
+	<p>{{ formatGroups(groups) }}</p>
 	<hr />
 
 	<h5>Домашнє завдання</h5>
-	<p>Домашнього завдання, яке потрібно виконати на цю пару, немає.</p>
+	<p>Немає домашнього завдання.</p>
 	<hr />
 
 	<h5>Матеріали</h5>
 	<p>Матеріалів до цієї пари немає.</p>
 	<hr />
 
-	<student-modal-comments [classId]="classId">
-	</student-modal-comments>
+	<lecturer-modal-comments [classId]="classId">
+	</lecturer-modal-comments>
 </div>
 
 <div class="modal-footer">
