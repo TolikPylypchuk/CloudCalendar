@@ -22,6 +22,7 @@ export default class ModalCommentsComponent implements OnInit {
 	};
 
 	editedCommentId = 0;
+	editedCommentOriginalText = "";
 
 	private http: Http;
 	private studentService: StudentService;
@@ -88,8 +89,9 @@ export default class ModalCommentsComponent implements OnInit {
 			});
 	}
 
-	editComment(id: number): void {
-		this.editedCommentId = id;
+	editComment(comment: Comment): void {
+		this.editedCommentId = comment.id;
+		this.editedCommentOriginalText = comment.text;
 	}
 
 	updateComment(comment: Comment): void {
@@ -106,17 +108,20 @@ export default class ModalCommentsComponent implements OnInit {
 			});
 	}
 
-	cancelEditing(): void {
+	cancelEditing(comment: Comment): void {
+		comment.text = this.editedCommentOriginalText;
+
 		this.editedCommentId = 0;
+		this.editedCommentOriginalText = "";
 	}
 
-	deleteComment(id: number): void {
+	deleteComment(comment: Comment): void {
 		this.http.delete(
-			`api/comments/${id}`)
+			`api/comments/${comment.id}`)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.comments = this.comments.filter(
-						comment => comment.id !== id);
+						c => c.id !== comment.id);
 				}
 			});
 	}

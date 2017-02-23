@@ -19,6 +19,7 @@ var ModalCommentsComponent = (function () {
             text: ""
         };
         this.editedCommentId = 0;
+        this.editedCommentOriginalText = "";
         this.http = http;
         this.studentService = studentService;
         this.classService = classService;
@@ -67,8 +68,9 @@ var ModalCommentsComponent = (function () {
             }
         });
     };
-    ModalCommentsComponent.prototype.editComment = function (id) {
-        this.editedCommentId = id;
+    ModalCommentsComponent.prototype.editComment = function (comment) {
+        this.editedCommentId = comment.id;
+        this.editedCommentOriginalText = comment.text;
     };
     ModalCommentsComponent.prototype.updateComment = function (comment) {
         var _this = this;
@@ -81,15 +83,17 @@ var ModalCommentsComponent = (function () {
             }
         });
     };
-    ModalCommentsComponent.prototype.cancelEditing = function () {
+    ModalCommentsComponent.prototype.cancelEditing = function (comment) {
+        comment.text = this.editedCommentOriginalText;
         this.editedCommentId = 0;
+        this.editedCommentOriginalText = "";
     };
-    ModalCommentsComponent.prototype.deleteComment = function (id) {
+    ModalCommentsComponent.prototype.deleteComment = function (comment) {
         var _this = this;
-        this.http.delete("api/comments/" + id)
+        this.http.delete("api/comments/" + comment.id)
             .subscribe(function (response) {
             if (response.status === 204) {
-                _this.comments = _this.comments.filter(function (comment) { return comment.id !== id; });
+                _this.comments = _this.comments.filter(function (c) { return c.id !== comment.id; });
             }
         });
     };
