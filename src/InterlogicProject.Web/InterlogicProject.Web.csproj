@@ -27,6 +27,10 @@
     <None Remove="wwwroot\scss\dist\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="wwwroot/scss\style.css" />
+    <Content Remove="wwwroot/scss\style.min.css" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="wwwroot\app\common\models.ts" />
     <Content Include="wwwroot\app\lecturer\main.ts" />
     <Content Include="wwwroot\app\student\app.component.ts" />
@@ -50,6 +54,8 @@
     <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />
     <Content Include="wwwroot\dist\css\style.min.css" />
+    <Content Include="wwwroot\scss\style.css" />
+    <Content Include="wwwroot\scss\style.min.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
@@ -67,8 +73,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.0" />
     <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="1.2.0" />
-    <PackageReference Include="Swashbuckle.SwaggerGen" Version="6.0.0-beta901" />
-    <PackageReference Include="Swashbuckle.SwaggerUi" Version="6.0.0-beta901" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0-rc1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0-rc1" />
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -20,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// An API for lecturer-class relationships.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class LecturersClassesController : Controller
 	{
 		private IRepository<LecturerClass> lecturersClasses;
@@ -42,8 +42,7 @@ namespace InterlogicProject.Web.API
 		/// All lecturer-class relationships from the database.
 		/// </returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> Get()
 			=> this.lecturersClasses.GetAll()?.ProjectTo<LecturerClassDto>();
 
@@ -53,7 +52,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the relationship to get.</param>
 		/// <returns>A relationship with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerClassDto))]
+		[SwaggerResponse(200, Type = typeof(LecturerClassDto))]
 		public LecturerClassDto Get(int id)
 			=> Mapper.Map<LecturerClassDto>(this.lecturersClasses.GetById(id));
 
@@ -63,8 +62,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All relationships with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForClass(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.ClassId == id)
@@ -76,8 +74,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the lecturer.</param>
 		/// <returns>All relationships with the specified lecturer.</returns>
 		[HttpGet("lecturerId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForLecturer(int id)
 			=> this.lecturersClasses.GetAll()
 								   ?.Where(lc => lc.LecturerId == id)
@@ -95,8 +92,7 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForLecturerWithRange(
 			int id,
 			DateTime start,

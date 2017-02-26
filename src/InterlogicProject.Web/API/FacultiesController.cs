@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -19,6 +18,7 @@ namespace InterlogicProject.Web.API
 	/// An API for faculties.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class FacultiesController : Controller
 	{
 		private IRepository<Faculty> faculties;
@@ -39,8 +39,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All faculties from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<FacultyDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<FacultyDto>))]
 		public IEnumerable<FacultyDto> Get()
 			=> this.faculties.GetAll()?.ProjectTo<FacultyDto>();
 
@@ -50,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the faculty to get.</param>
 		/// <returns>A faculty with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(FacultyDto))]
+		[SwaggerResponse(200, Type = typeof(FacultyDto))]
 		public FacultyDto Get(int id)
 			=> Mapper.Map<FacultyDto>(this.faculties.GetById(id));
 
@@ -60,8 +59,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the building.</param>
 		/// <returns>All faculties with the specified building.</returns>
 		[HttpGet("buildingId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<FacultyDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<FacultyDto>))]
 		public IEnumerable<FacultyDto> GetForBuilding(int id)
 			=> this.faculties.GetAll()
 							?.Where(f => f.BuildingId == id)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -20,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// An API for classrooms.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class ClassroomsController : Controller
 	{
 		private IRepository<Classroom> classrooms;
@@ -40,8 +40,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All classrooms from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassroomDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
 		public IEnumerable<ClassroomDto> Get()
 			=> this.classrooms.GetAll()?.ProjectTo<ClassroomDto>();
 
@@ -51,7 +50,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the classroom to get.</param>
 		/// <returns>A classroom with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(ClassroomDto))]
+		[SwaggerResponse(200, Type = typeof(ClassroomDto))]
 		public ClassroomDto Get(int id)
 			=> Mapper.Map<ClassroomDto>(this.classrooms.GetById(id));
 
@@ -60,8 +59,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All classrooms with the specified building.</returns>
 		[HttpGet("buildingId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassroomDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
 		public IEnumerable<ClassroomDto> GetForBuilding(int id)
 			=> this.classrooms.GetAll()
 							 ?.Where(c => c.BuildingId == id)
@@ -72,8 +70,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All classrooms with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassroomDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
 		public IEnumerable<ClassroomDto> GetForClass(int id)
 			=> this.classrooms.GetAll()
 							 ?.Include(r => r.Classes)

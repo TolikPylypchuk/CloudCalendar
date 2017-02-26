@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -40,8 +39,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All lecturers from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> Get()
 			=> this.lecturers.GetAll()?.ProjectTo<LecturerDto>();
 
@@ -51,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the lecturer to get.</param>
 		/// <returns>A lecturer with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		[SwaggerResponse(200, Type = typeof(LecturerDto))]
 		public LecturerDto Get(int id)
 			=> Mapper.Map<LecturerDto>(this.lecturers.GetById(id));
 
@@ -61,7 +59,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the user.</param>
 		/// <returns>A lecturer with the specified user ID.</returns>
 		[HttpGet("userId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		[SwaggerResponse(200, Type = typeof(LecturerDto))]
 		public LecturerDto GetByUser(string id)
 			=> Mapper.Map<LecturerDto>(
 				this.lecturers.GetAll()
@@ -73,7 +71,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="email">The email of the lecturer.</param>
 		/// <returns>A lecturer with the specified email.</returns>
 		[HttpGet("email/{email}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(LecturerDto))]
+		[SwaggerResponse(200, Type = typeof(LecturerDto))]
 		public LecturerDto GetByEmail(string email)
 			=> Mapper.Map<LecturerDto>(
 				this.lecturers.GetAll()
@@ -85,8 +83,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the department.</param>
 		/// <returns>All lecturers with the specified department.</returns>
 		[HttpGet("departmentId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> GetForDepartment(int id)
 			=> this.lecturers.GetAll()
 							?.Where(l => l.DepartmentId == id)
@@ -98,8 +95,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the faculty.</param>
 		/// <returns>All lecturers with the specified faculty.</returns>
 		[HttpGet("facultyId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> GetForFaculty(int id)
 			=> this.lecturers.GetAll()
 							?.Where(l => l.Department.FacultyId == id)
@@ -111,8 +107,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All lecturers with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
 		public IEnumerable<LecturerDto> GetForClass(int id)
 		=> this.lecturers.GetAll()
 						?.Include(l => l.Classes)

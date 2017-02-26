@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -20,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// An API for group-class relationships.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class GroupsClassesController : Controller
 	{
 		private IRepository<GroupClass> groupsClasses;
@@ -42,8 +42,7 @@ namespace InterlogicProject.Web.API
 		/// All group-class relationships from the database.
 		/// </returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupClassDto>))]
 		public IEnumerable<GroupClassDto> Get()
 			=> this.groupsClasses.GetAll()?.ProjectTo<GroupClassDto>();
 
@@ -53,7 +52,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the relationship to get.</param>
 		/// <returns>A relationship with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(GroupClassDto))]
+		[SwaggerResponse(200, Type = typeof(GroupClassDto))]
 		public GroupClassDto Get(int id)
 			=> Mapper.Map<GroupClassDto>(this.groupsClasses.GetById(id));
 
@@ -63,8 +62,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All relationships with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupClassDto>))]
 		public IEnumerable<GroupClassDto> GetForClass(int id)
 			=> this.groupsClasses.GetAll()
 								?.Where(gc => gc.ClassId == id)
@@ -76,8 +74,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the group.</param>
 		/// <returns>All relationships with the specified group.</returns>
 		[HttpGet("groupId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupClassDto>))]
 		public IEnumerable<GroupClassDto> GetForLecturer(int id)
 			=> this.groupsClasses.GetAll()
 								?.Where(lc => lc.GroupId == id)
@@ -95,8 +92,7 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("groupId/{id}/range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<LecturerClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerClassDto>))]
 		public IEnumerable<LecturerClassDto> GetForLecturerWithRange(
 			int id,
 			DateTime start,

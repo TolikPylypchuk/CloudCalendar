@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 using AutoMapper;
 
-using Swashbuckle.Swagger.Model;
+using Swashbuckle.AspNetCore.Swagger;
 
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
@@ -117,13 +119,14 @@ namespace InterlogicProject.Web
 			
 			services.AddSwaggerGen(options =>
 			{
-				options.SingleApiVersion(new Info
+				options.SwaggerDoc("v1", new Info
 				{
 					Version = "v1",
 					Title = "Interlogic Project API",
 					Description = "A simple API for the Interlogic Project",
 					TermsOfService = "None"
 				});
+
 				options.IncludeXmlComments(this.Configuration["Swagger:Path"]);
 				options.DescribeAllEnumsAsStrings();
 			});
@@ -142,9 +145,6 @@ namespace InterlogicProject.Web
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
 				
-				app.UseSwagger();
-				app.UseSwaggerUi();
-
 				DataInitializer.InitializeDatabaseAsync(
 					app.ApplicationServices).Wait();
 			}
@@ -155,6 +155,25 @@ namespace InterlogicProject.Web
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
+
+			if (env.EnvironmentName == "Development")
+			{
+				app.UseSwagger(c =>
+				{
+					c.PreSerializeFilters.Add(
+						(swagger, httpReq) =>
+						{
+							swagger.Host = httpReq.Host.Value;
+							swagger.Schemes = new List<string> { "http" };
+						});
+
+				});
+
+				app.UseSwaggerUi(c =>
+				{
+					c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+				});
+			}
 		}
 	}
 }

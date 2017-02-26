@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
@@ -21,6 +21,7 @@ namespace InterlogicProject.Web.API
 	/// An API for users.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class UsersController : Controller
 	{
 		private UserManager<User> manager;
@@ -54,8 +55,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All users from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<UserDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<UserDto>))]
 		public IEnumerable<UserDto> Get()
 			=> this.context.Users?.ProjectTo<UserDto>();
 
@@ -65,7 +65,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the user to get.</param>
 		/// <returns>A user with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
+		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> Get(string id)
 			=> Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
 
@@ -75,7 +75,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="email">The email of the user to get.</param>
 		/// <returns>A user with the specified email.</returns>
 		[HttpGet("email/{email}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
+		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> GetByEmail(string email)
 			=> Mapper.Map<UserDto>(await this.manager.FindByEmailAsync(email));
 
@@ -84,7 +84,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>The currently logged in user.</returns>
 		[HttpGet("current")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(UserDto))]
+		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> GetCurrent()
 		{
 			string id = accessor.HttpContext.User.FindFirst(

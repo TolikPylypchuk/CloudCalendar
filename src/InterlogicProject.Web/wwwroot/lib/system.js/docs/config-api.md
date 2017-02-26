@@ -1,55 +1,46 @@
 ## Configuration API
 
-### Setting Configuration
-
-Once SystemJS has loaded, configuration can be set on SystemJS by using the configuration function `SystemJS.config`:
-
-```javascript
-SystemJS.config({
-  configA: {},
-  configB: 'value'
-});
-```
-
-This is a helper function which normalizes configuration and sets configuration properties on the SystemJS instance.
-
-`SystemJS.config({ prop: 'value' })` is mostly equivalent to `SystemJS.prop = value` except that it will extend configuration objects,
-and certain properties will be normalized to be stored correctly.
-
-For this reason it is usually advisable to use `SystemJS.config` instead of setting instance properties directly.
-
 ### Configuration Options
 
-* [babelOptions](#babeloptions)
-* [bundle](#bundle)
-* [defaultJSExtensions](#defaultjsextensions)
+* [baseURL](#baseurl)
+* [bundles](#bundles)
 * [depCache](#depcache)
 * [map](#map)
 * [meta](#meta)
 * [packages](#packages)
+* [packageConfigPaths](#packageconfigpaths)
+* [pluginFirst](#pluginFirst)
+* [production](#production)
 * [paths](#paths)
-* [traceurOptions](#traceuroptions)
 * [transpiler](#transpiler)
-* [typescriptOptions](#typescriptoptions)
+* [warnings](#warnings)
 
-#### babelOptions
-Type: `Object`
-Default: `{}`
+#### baseURL
+Type: `String`
+Default: Environment baseURI
 
-Set the Babel transpiler options when [SystemJS.transpiler](#transpiler) is set to `babel`:
+The _baseURL_ provides a mechanism for knowing where to load plain modules names from, regardless of which parent module they
+are being loaded from.
+
+For example:
 
 ```javascript
 SystemJS.config({
-  babelOptions: {
-    presets: ['es2015']
-  }
+  baseURL: '/modules'
 });
+
+System.import('x');
 ```
 
-A list of options is available in the [Babel project documentation](https://babeljs.io/docs/usage/options/).
+will load `x` from `/modules/x`.
 
-#### bundle
+Plain modules are module names like the above, which do not begin with `/`, `./`, `../` and are not absolute URLs.
+
+Relative URLs are still resolved relative to the parent module, or for a top-level import, relative to the environment baseURI.
+
+#### bundles
 Type: `Object`
+Default: `{}`
 
 Bundles allow a collection of modules to be downloaded together as a package whenever any module from that collection is requested.
 Useful for splitting an application into sub-modules for production. Use with the [SystemJS Builder](https://github.com/systemjs/builder).
@@ -68,25 +59,11 @@ It is an alternative to including a script tag for a bundle in the page, useful 
 
 The bundle itself is a module which contains named System.register and define calls as an output of the builder. The dependency names the bundles config lists should be the same names that are explicitly defined in the bundle.
 
-#### defaultJSExtensions
-
-Backwards-compatibility mode for the loader to automatically add '.js' extensions when not present to module requests.
-
-This allows code written for SystemJS 0.16 or less to work easily in the latest version:
-
-```javascript
-SystemJS.defaultJSExtensions = true;
-
-// requests ./some/module.js instead
-SystemJS.import('./some/module');
-```
-
-Note that this is a compatibility property for transitioning to using explicit extensions and will be deprecated in future.
-
 #### depCache
 Type: `Object`
+Default: `{}`
 
-An alternative to bundling providing a solution to the latency issue of progressively loading dependencies.
+The `depCache` option is an alternative to bundling, providing a solution to the latency issue of progressively loading dependencies.
 When a module specified in depCache is loaded, asynchronous loading of its pre-cached dependency list begins in parallel.
 
 ```javascript
@@ -106,6 +83,7 @@ Over HTTP/2 this approach may be preferable as it allows files to be individuall
 
 #### map
 Type: `Object`
+Default: `{}`
 
 The map option is similar to paths, but acts very early in the normalization process. It allows you to map a module alias to a
 location or package:
@@ -120,8 +98,9 @@ SystemJS.config({
 
 ```javascript
 import $ from 'jquery';
-
 ```
+
+Map configuration only applies to plain names, as described in the baseURL section above, although maps can contain `/` separators.
 
 In addition, a map also applies to any subpaths, making it suitable for package folders as well:
 
@@ -138,7 +117,25 @@ SystemJS.config({
 SystemJS.import('package/path.js');
 ```
 
-> Note map configuration used to support contextual submaps but this has been deprecated for package configuration.
+Contexual map configuration allows mappings to only apply to certain packages:
+
+```javascript
+SystemJS.config({
+  map: {
+    'local/package': {
+      x: 'vendor/x.js'
+    },
+    'another/package': {
+      x: 'vendor/y.js'
+    }
+  }
+});
+```
+
+Means that `import "x"` within the file `local/package/index.js` will load from `vendor/x.js`, while the same import in `another/package/file.js`
+will load `vendor/y.js`. This type of configuration enables multi-version support.
+
+Contextual map configuration is equivalent to the package map configuration.
 
 #### meta
 Type: `Object`
@@ -175,36 +172,37 @@ SystemJS.config({
 });
 ```
 
-* [`format`](module-formats.md):
-  Sets in what format the module is loaded.
-* [`exports`](module-formats.md#exports):
-  For the `global` format, when automatic detection of exports is not enough, a custom exports meta value can be set.
-  This tells the loader what global name to use as the module's export value.
-* [`deps`](module-formats.md#shim-dependencies): 
-  Dependencies to load before this module. Goes through regular paths and map normalization. Only supported for the `cjs`, `amd` and `global` formats.
-* [`globals`](module-formats.md#custom-globals):
-  A map of global names to module names that should be defined only for the execution of this module. 
-    Enables use of legacy code that expects certain globals to be present. 
-    Referenced modules automatically becomes dependencies. Only supported for the `cjs` and `global` formats.
-* [`loader`](overview.md#plugin-loaders):
-  Set a loader for this meta path.
-* [`sourceMap`](creating-plugins.md):
-  For plugin transpilers to set the source map of their transpilation.
-* `scriptLoad`: Set to `true` to load the module using `<script>` tag injection (`importScript()` in a worker context) instead of using `fetch` and `eval`. This enables [CSP](https://www.w3.org/TR/CSP2/) support but disables the native loading of CommonJS modules and global modules where the export name is not declared via metadata.
-* `nonce`: The [nonce](https://www.w3.org/TR/CSP2/#script-src-the-nonce-attribute) attribute to use when loading the script as a way to enable CSP.
-  This should correspond to the "nonce-" attribute set in the Content-Security-Policy header.
-* `integrity`: The [subresource integrity](http://www.w3.org/TR/SRI/#the-integrity-attribute) attribute corresponding to the script integrity, describing the expected hash of the final code to be executed.
-  For example, `SystemJS.config({ meta: { 'src/example.js': { integrity: 'sha256-e3b0c44...' }});` would throw an error if the translated source of `src/example.js` doesn't match the expected hash.
+* [`authorization`]: This can be a custom authorization header string for XHR requests made by SystemJS.
 * `crossOrigin`: When scripts are loaded from a different domain (e.g. CDN) the global error handler (`window.onerror`)
   has very limited information about errors to [prevent unintended leaking]
   (https://developer.mozilla.org/en/docs/Web/API/GlobalEventHandlers/onerror#Notes).
   In order to mitigate this, the `<script>` tags need to set [`crossorigin` attribute]
   (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-crossorigin) and the server needs to
   [enable CORS](http://enable-cors.org/).
-  The [valid values](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) are 
+  The [valid values](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) are
   `"anonymous"` and `"use-credentials"`.
-* `esmExports`: When loading a module that is not an ECMAScript Module, we set the module as the `default` export, but then also 
-  iterate the module object and copy named exports for it a well. Use this option to disable this iteration and copying of the exports.
+* [`deps`](module-formats.md#shim-dependencies):
+  Dependencies to load before this module. Goes through regular paths and map normalization. Only supported for the `cjs`, `amd` and `global` formats.
+* `esModule`: When loading a legacy module (non-ES module), this informs SystemJS to allow that module to be loaded with named imports (`import {name} from 'cjs.js'`),
+  the same as if the module had an `exports.__esModule = true` flag.
+* [`exports`](module-formats.md#exports):
+  For the `global` format, when automatic detection of exports is not enough, a custom exports meta value can be set.
+  This tells the loader what global name to use as the module's export value.
+* [`format`](module-formats.md):
+  Sets in what format the module is loaded.
+* [`globals`](module-formats.md#custom-globals):
+  A map of global names to module names that should be defined only for the execution of this module.
+    Enables use of legacy code that expects certain globals to be present.
+    Referenced modules automatically becomes dependencies. Only supported for the `cjs` and `global` formats.
+* `integrity`: The [subresource integrity](http://www.w3.org/TR/SRI/#the-integrity-attribute) attribute corresponding to the script integrity, describing the expected hash of the final code to be executed.
+  For example, `SystemJS.config({ meta: { 'src/example.js': { integrity: 'sha256-e3b0c44...' }});` would throw an error if the translated source of `src/example.js` doesn't match the expected hash.
+* [`loader`](getting-started.md#plugin-loaders):
+  Set a loader for this meta path.
+* `nonce`: The [nonce](https://www.w3.org/TR/CSP2/#script-src-the-nonce-attribute) attribute to use when loading the script as a way to enable CSP.
+  This should correspond to the "nonce-" attribute set in the Content-Security-Policy header.
+* [`sourceMap`](creating-plugins.md):
+  For plugin transpilers to set the source map of their transpilation.
+* `scriptLoad`: Set to `true` to load the module using `<script>` tag injection (`importScript()` in a worker context) instead of using `fetch` and `eval`. This enables [CSP](https://www.w3.org/TR/CSP2/) support but disables the native loading of CommonJS modules and global modules where the export name is not declared via metadata. _Note that scriptLoad is not supported in IE<11._
 
 #### packages
 Type: `Object`
@@ -212,8 +210,8 @@ Default: `{}`
 
 Packages provide a convenience for setting meta and map configuration that is specific to a common path.
 
-In addition packages allow for setting contextual map configuration which only applies within the package itself.
-This allows for full dependency encapsulation without always needing to have all dependencies in a global namespace.
+In particular, packages allow for setting contextual `map` configuration which only applies within the package itself.
+This allows for full dependency encapsulation, removing the need to have all dependencies in a global namespace.
 
 ```javascript
 SystemJS.config({
@@ -242,51 +240,91 @@ SystemJS.config({
 });
 ```
 
-* `main`: The main entry point of the package (so `import 'local/package'` is equivalent to `import 'local/package/index.js'`)
-* `format`: The module format of the package. See [Module Formats](https://github.com/systemjs/systemjs/blob/master/docs/module-formats.md).
-* `defaultExtension`: The default extension to add to modules requested within the package.
-  Takes preference over defaultJSExtensions.
-  Can be set to `defaultExtension: false` to optionally opt-out of extension-adding when `defaultJSExtensions` is enabled.
-* `map`: Local and relative map configurations scoped to the package. Apply for subpaths as well.
-* `meta`: Package-scoped meta configuration with wildcard support. Modules are subpaths within the package path.
+* `defaultExtension` (Type: `String | Boolean`): The default extension to add to modules requested within the package.
+* `format` (Type: `String`): The module format of the package. See [Module Formats](https://github.com/systemjs/systemjs/blob/master/docs/module-formats.md).
+* `main` (Type: `String`): The main entry point of the package (so `import 'local/package'` is equivalent to `import 'local/package/index.js'`)
+* `map` (Type: `Object`): Local and relative map configurations scoped to the package. Apply for subpaths as well.
+* `meta` (Type: `Object`): Package-scoped meta configuration with wildcard support. Modules are subpaths within the package path.
   This also provides an opt-out mechanism for `defaultExtension`, by adding modules here that should skip extension adding.
 
-#### paths
-Type: `Object`
+#### packageConfigPaths
+Type: `Array`
+Default: `[]`
 
-The [ES6 Module Loader](https://github.com/systemjs/systemjs/blob/master/docs/es6-modules-overview.md) paths implementation, applied after normalization and supporting subpaths via wildcards.
+Instead of providing package configuration information in the `packages` argument for `System.config()`,
+this option allows specifying where a config file can be loaded to get the configuration for a package.
 
-_It is usually advisable to use map configuration over paths unless you need strict control over normalized module names._
-
-#### traceurOptions
-Type: `Object`
-Default: `{}`
-
-Set the Traceur compilation options.
+For example:
 
 ```javascript
 SystemJS.config({
-    traceurOptions: {
-    }
+  packageConfigPaths: [
+    'packages/*.json',
+    'packages/abc/*/package.json',
+    'packages/abc/def/*/config.json'
+  ]
 });
 ```
 
-A list of options is available in the [Traceur project documentation](https://github.com/google/traceur-compiler/wiki/Options-for-Compiling).
+Will result in the following cases applying from least to most specific:
 
-#### transpiler
-Type: `String`
-Default: `traceur`
+* `SystemJS.import('packages')` will not load any package configuration.
+* `SystemJS.import('packages/x')` will load its package configuration from the file `packages/x.json`.
+* `SystemJS.import('packages/abc/d')` loading its package configuration from the file `packages/abc/d/package.json`.
+* `SystemJS.import('packages/abc/def/g')` loading its package configuration from the file `pacakge/abc/def/g/config.json`.
 
-Sets the module name of the transpiler to be used for loading ES6 modules.
+The package configuration is loaded as a standard JSON file, with the configuration then applied
+before continuing with the resolution of the original import.
 
-Represents a module name for `SystemJS.import` that must resolve to either Traceur, Babel or TypeScript.
-
-When set to `traceur`, `babel` or `typescript`, loading will be automatically configured as far as possible.
-
-#### typescriptOptions
+#### paths
 Type: `Object`
 Default: `{}`
 
-Sets the TypeScript transpiler options.
+Paths allow creating mappings that apply after `map` configuration:
 
-A list of options is available in the [TypeScript project documentation](https://www.typescriptlang.org/docs/handbook/compiler-options.html).
+```javascript
+SystemJS.config({
+  paths: {
+    'app/': 'https://code.mycdn.com/app-1.2.3/'
+  }
+});
+```
+
+`paths` is similar to [map](#map), but acts as the final step in the normalization process.
+A token is first processed by `map`. If, after this step, it is preluded by path information,
+it's getting normalized (i.e. transformed into an absolute URL, considering [baseURL](#baseurl)).
+Finally, if the token is not an absolute URL yet, it is getting matched against `paths`.
+
+_It is usually advisable to use map configuration over paths unless you need strict control
+ +over normalized module names._
+
+#### pluginFirst
+Type: `Boolean`
+Default: `false`
+
+Plugins may be loaded via plugin syntax `some/file.txt!text`
+
+AMD and Webpack however use a different plug-in syntax, which is in reverse to SystemJS - `text!some/file.txt`.
+
+Setting the `pluginFirst` property to `true` makes SystemJS follow the AMD-style plugin rules.
+
+#### transpiler
+Type: `String`
+Default: `undefined`
+
+Sets the module name of the transpiler plugin to be used for loading ES6 modules.
+
+Represents a module name for `SystemJS.import` that must resolve to a valid plugin that supports transpilation of ES modules.
+
+### warnings
+Type: `Boolean`
+Default: `false`
+
+Enables the output of warnings to the console, including deprecation messages.
+
+#### wasm
+Type: `Boolean`
+Default: `false`
+
+When enabled, and in a browser that supports WebAssembly, all module loads will first be checked for Web Assembly binary headers
+and executed as WebAssembly in browsers if so.

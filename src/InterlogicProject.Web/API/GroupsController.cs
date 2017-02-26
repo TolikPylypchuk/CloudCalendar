@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -20,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// An API for groups.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class GroupsController : Controller
 	{
 		private IRepository<Group> groups;
@@ -40,8 +40,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All groups from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> Get()
 			=> this.groups.GetAll()?.ProjectTo<GroupDto>();
 
@@ -51,7 +50,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the group to get.</param>
 		/// <returns>A group with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(GroupDto))]
+		[SwaggerResponse(200, Type = typeof(GroupDto))]
 		public GroupDto Get(int id)
 			=> Mapper.Map<GroupDto>(this.groups.GetById(id));
 
@@ -61,8 +60,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the department.</param>
 		/// <returns>All groups with the specified department.</returns>
 		[HttpGet("departmentId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetForDepartment(int id)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Curator.DepartmentId == id)
@@ -74,8 +72,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the faculty.</param>
 		/// <returns>All groups with the specified faculty.</returns>
 		[HttpGet("facultyId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetForFaculty(int id)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Curator.Department.FacultyId == id)
@@ -87,8 +84,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="year">The enrollment year.</param>
 		/// <returns>All groups with the specified  enrollment year.</returns>
 		[HttpGet("year/{year}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetForYear(int year)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Year == year)
@@ -103,8 +99,7 @@ namespace InterlogicProject.Web.API
 		/// All groups with the specified faculty and enrollment year.
 		/// </returns>
 		[HttpGet("facultyId/{id}/year/{year}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetForFaculty(int id, int year)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Year == year &&
@@ -117,8 +112,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All groups with the specified class.</returns>
 		[HttpGet("classId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<GroupDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
 		public IEnumerable<GroupDto> GetForClass(int id)
 			=> this.groups.GetAll()
 						 ?.Include(g => g.Classes)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -21,6 +20,7 @@ namespace InterlogicProject.Web.API
 	/// An API for classes.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class ClassesController : Controller
 	{
 		private IRepository<Class> classes;
@@ -41,8 +41,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All classes from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> Get()
 			=> this.classes.GetAll()?.ProjectTo<ClassDto>();
 
@@ -52,7 +51,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the class to get.</param>
 		/// <returns>A class with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(ClassDto))]
+		[SwaggerResponse(200, Type = typeof(ClassDto))]
 		public ClassDto Get(int id)
 			=> Mapper.Map<ClassDto>(this.classes.GetById(id));
 
@@ -63,8 +62,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="end">The end of the range.</param>
 		/// <returns>All classes between the specified dates.</returns>
 		[HttpGet("range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetWithRange(DateTime start, DateTime end)
 			=> this.classes.GetAll()
 						  ?.Where(c => c.DateTime >= start &&
@@ -78,8 +76,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the group.</param>
 		/// <returns>All classes of the specified group.</returns>
 		[HttpGet("groupId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroup(int id)
 			=> this.classes.GetAll()
 						  ?.Where(c => c.Groups.Any(g => g.GroupId == id))
@@ -98,8 +95,7 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("groupId/{id}/range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupWithRange(
 			int id,
 			DateTime start,
@@ -117,8 +113,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the lecturer.</param>
 		/// <returns>All classes of the specified lecturer.</returns>
 		[HttpGet("lecturerId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForLecturer(int id)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
@@ -139,8 +134,7 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForLecturerWithRange(
 			int id,
 			DateTime start,
@@ -161,8 +155,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="lecturerId">The ID of the lecturer.</param>
 		/// <returns>All classes of the specified group and lecturer.</returns>
 		[HttpGet("groupId/{groupId}/lecturerId/{lecturerId}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupAndLecturer(
 			int groupId,
 			int lecturerId)
@@ -187,8 +180,7 @@ namespace InterlogicProject.Web.API
 		/// between the specified dates.
 		/// </returns>
 		[HttpGet("groupId/{groupId}/lecturerId/{lecturerId}/range/{start}/{end}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<ClassDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupAndLecturerWithRange(
 			int groupId,
 			int lecturerId,

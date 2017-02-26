@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -18,7 +17,8 @@ namespace InterlogicProject.Web.API
 	/// An API for subjects.
 	/// </summary>
     [Route("api/[controller]")]
-    public class SubjectsController : Controller
+	[Produces("application/json")]
+	public class SubjectsController : Controller
     {
 		private IRepository<Subject> subjects;
 
@@ -38,8 +38,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All subjects from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<SubjectDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<SubjectDto>))]
 		public IEnumerable<SubjectDto> Get()
 			=> this.subjects.GetAll()?.ProjectTo<SubjectDto>();
 
@@ -49,7 +48,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the subject to get.</param>
 		/// <returns>A subject with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(SubjectDto))]
+		[SwaggerResponse(200, Type = typeof(SubjectDto))]
 		public SubjectDto Get(int id)
 			=> Mapper.Map<SubjectDto>(this.subjects.GetById(id));
     }

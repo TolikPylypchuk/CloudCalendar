@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -19,6 +18,7 @@ namespace InterlogicProject.Web.API
 	/// An API for students.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class StudentsController : Controller
 	{
 		private IRepository<Student> students;
@@ -39,8 +39,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All students from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<StudentDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<StudentDto>))]
 		public IEnumerable<StudentDto> Get()
 			=> this.students.GetAll()?.ProjectTo<StudentDto>();
 
@@ -50,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the student to get.</param>
 		/// <returns>A student with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto Get(int id)
 			=> Mapper.Map<StudentDto>(this.students.GetById(id));
 
@@ -60,7 +59,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the user.</param>
 		/// <returns>A student with the specified user ID.</returns>
 		[HttpGet("userId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto GetByUser(string id)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
@@ -72,7 +71,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="email">The email of the student.</param>
 		/// <returns>A student with the specified email.</returns>
 		[HttpGet("email/{email}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto GetByEmail(string email)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
@@ -84,7 +83,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="number">The transcript number.</param>
 		/// <returns>A student with the specified transcript number.</returns>
 		[HttpGet("transcript/{number}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(StudentDto))]
+		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto GetByTranscript(string number)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll().FirstOrDefault(
@@ -96,8 +95,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the group.</param>
 		/// <returns>All students with the specified group.</returns>
 		[HttpGet("groupId/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<StudentDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<StudentDto>))]
 		public IEnumerable<StudentDto> GetForGroup(int id)
 			=> this.students.GetAll()
 						   ?.Where(s => s.GroupId == id)

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-using Swashbuckle.SwaggerGen.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
@@ -18,6 +17,7 @@ namespace InterlogicProject.Web.API
 	/// An API for buildings.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class BuildingsController : Controller
 	{
 		private IRepository<Building> buildings;
@@ -38,8 +38,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <returns>All buildings from the database.</returns>
 		[HttpGet]
-		[SwaggerResponse(HttpStatusCode.OK,
-			Type = typeof(IEnumerable<BuildingDto>))]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<BuildingDto>))]
 		public IEnumerable<BuildingDto> Get()
 			=> this.buildings.GetAll()?.ProjectTo<BuildingDto>();
 
@@ -49,7 +48,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="id">The ID of the building to get.</param>
 		/// <returns>A building with the specified ID.</returns>
 		[HttpGet("id/{id}")]
-		[SwaggerResponse(HttpStatusCode.OK, Type = typeof(BuildingDto))]
+		[SwaggerResponse(200, Type = typeof(BuildingDto))]
 		public BuildingDto Get(int id)
 			=> Mapper.Map<BuildingDto>(this.buildings.GetById(id));
 	}
