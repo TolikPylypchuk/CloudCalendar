@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -22,6 +24,7 @@ namespace InterlogicProject.Web.API
 	public class StudentsController : Controller
 	{
 		private IRepository<Student> students;
+		private UserManager<User> manager;
 
 		/// <summary>
 		/// Initializes a new instance of the StudentsController class.
@@ -29,9 +32,15 @@ namespace InterlogicProject.Web.API
 		/// <param name="repo">
 		/// The repository that this instance will use.
 		/// </param>
-		public StudentsController(IRepository<Student> repo)
+		/// <param name="manager">
+		/// The user manager that this instance will use.
+		/// </param>
+		public StudentsController(
+			IRepository<Student> repo,
+			UserManager<User> manager)
 		{
 			this.students = repo;
+			this.manager = manager;
 		}
 
 		/// <summary>
@@ -48,7 +57,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the student to get.</param>
 		/// <returns>A student with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetStudentById")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto Get(int id)
 			=> Mapper.Map<StudentDto>(this.students.GetById(id));
@@ -100,5 +109,238 @@ namespace InterlogicProject.Web.API
 			=> this.students.GetAll()
 						   ?.Where(s => s.GroupId == id)
 							.ProjectTo<StudentDto>();
+
+		/// <summary>
+		/// Adds a new student to the database.
+		/// </summary>
+		/// <param name="studentDto">The student to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public async Task<IActionResult> Post([FromBody] StudentDto studentDto)
+		{
+			if (studentDto?.UserFirstName == null ||
+				studentDto.UserMiddleName == null ||
+				studentDto.UserLastName == null ||
+				studentDto.UserEmail == null ||
+				studentDto.GroupId == 0 ||
+				studentDto.IsGroupLeader == null ||
+				studentDto.TranscriptNumber == null)
+			{
+				return this.BadRequest();
+			}
+
+			var userToAdd = new User
+			{
+				FirstName = studentDto.UserFirstName,
+				MiddleName = studentDto.UserMiddleName,
+				LastName = studentDto.UserLastName,
+				Email = studentDto.UserEmail,
+				NormalizedEmail = studentDto.UserEmail.ToUpper(),
+				UserName = studentDto.UserEmail,
+				NormalizedUserName = studentDto.UserEmail.ToUpper()
+			};
+
+			await this.manager.CreateAsync(userToAdd);
+			await this.manager.AddToRoleAsync(userToAdd, "Student");
+
+			var studentToAdd = new Student
+			{
+				User = userToAdd,
+				GroupId = studentDto.GroupId,
+				IsGroupLeader = studentDto.IsGroupLeader ?? false,
+				TranscriptNumber = studentDto.TranscriptNumber
+			};
+
+			this.students.Add(studentToAdd);
+
+			studentDto.Id = studentToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetStudentById", new { id = studentDto.Id }, studentDto);
+		}
+
+		/// <summary>
+		/// Updates a student.
+		/// </summary>
+		/// <param name="id">The ID of the student to update.</param>
+		/// <param name="studentDto">The student to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Put(
+			int id,
+			[FromBody] StudentDto studentDto)
+		{
+			if (studentDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var studentToUpdate = this.students.GetById(id);
+
+			if (studentToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (studentDto.GroupId != 0)
+			{
+				studentToUpdate.GroupId = studentDto.GroupId;
+			}
+
+			if (studentDto.IsGroupLeader != null)
+			{
+				studentToUpdate.IsGroupLeader =
+					studentDto.IsGroupLeader ?? false;
+			}
+
+			if (studentDto.TranscriptNumber != null)
+			{
+				studentToUpdate.TranscriptNumber = studentDto.TranscriptNumber;
+			}
+
+			if (studentDto.UserFirstName != null ||
+			    studentDto.UserMiddleName != null ||
+			    studentDto.UserLastName != null ||
+			    studentDto.UserEmail != null)
+			{
+				var userToUpdate = await this.manager.FindByIdAsync(
+					studentToUpdate.UserId);
+
+				if (studentDto.UserFirstName != null)
+				{
+					userToUpdate.FirstName = studentDto.UserFirstName;
+				}
+
+				if (studentDto.UserMiddleName != null)
+				{
+					userToUpdate.MiddleName = studentDto.UserMiddleName;
+				}
+
+				if (studentDto.UserLastName != null)
+				{
+					userToUpdate.LastName = studentDto.UserLastName;
+				}
+
+				if (studentDto.UserEmail != null)
+				{
+					userToUpdate.Email = studentDto.UserEmail;
+				}
+
+				await this.manager.UpdateAsync(userToUpdate);
+			}
+
+			this.students.Update(studentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a student.
+		/// </summary>
+		/// <param name="id">The ID of the student to update.</param>
+		/// <param name="studentDto">The student to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Patch(
+			int id,
+			[FromBody] StudentDto studentDto)
+		{
+			if (studentDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var studentToUpdate = this.students.GetById(id);
+
+			if (studentToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (studentDto.GroupId != 0)
+			{
+				studentToUpdate.GroupId = studentDto.GroupId;
+			}
+
+			if (studentDto.IsGroupLeader != null)
+			{
+				studentToUpdate.IsGroupLeader =
+					studentDto.IsGroupLeader ?? false;
+			}
+
+			if (studentDto.TranscriptNumber != null)
+			{
+				studentToUpdate.TranscriptNumber = studentDto.TranscriptNumber;
+			}
+
+			if (studentDto.UserFirstName != null ||
+				studentDto.UserMiddleName != null ||
+				studentDto.UserLastName != null ||
+				studentDto.UserEmail != null)
+			{
+				var userToUpdate = await this.manager.FindByIdAsync(
+					studentToUpdate.UserId);
+
+				if (studentDto.UserFirstName != null)
+				{
+					userToUpdate.FirstName = studentDto.UserFirstName;
+				}
+
+				if (studentDto.UserMiddleName != null)
+				{
+					userToUpdate.MiddleName = studentDto.UserMiddleName;
+				}
+
+				if (studentDto.UserLastName != null)
+				{
+					userToUpdate.LastName = studentDto.UserLastName;
+				}
+
+				if (studentDto.UserEmail != null)
+				{
+					userToUpdate.Email = studentDto.UserEmail;
+				}
+
+				await this.manager.UpdateAsync(userToUpdate);
+			}
+
+			this.students.Update(studentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a student.
+		/// </summary>
+		/// <param name="id">The ID of the student to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var studentToDelete = this.students.GetById(id);
+
+			if (studentToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.students.Delete(studentToDelete);
+
+			await this.manager.DeleteAsync(studentToDelete.User);
+
+			return this.NoContent();
+		}
 	}
 }

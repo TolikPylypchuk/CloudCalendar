@@ -47,7 +47,7 @@ export default class StudentService {
 	private initStudent(student: Student) {
 		this.currentStudentSource.next(student);
 
-		this.http.get(`/api/groups/id/${student.groupId}`)
+		this.http.get(`/api/groups/${student.groupId}`)
 			.map(response => response.json())
 			.catch(this.handleError)
 			.subscribe(data => this.initGroup(data as Group));

@@ -49,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the classroom to get.</param>
 		/// <returns>A classroom with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetClassroomById")]
 		[SwaggerResponse(200, Type = typeof(ClassroomDto))]
 		public ClassroomDto Get(int id)
 			=> Mapper.Map<ClassroomDto>(this.classrooms.GetById(id));
@@ -76,5 +76,121 @@ namespace InterlogicProject.Web.API
 							 ?.Include(r => r.Classes)
 							  .Where(r => r.Classes.Any(c => c.ClassId == id))
 							  .ProjectTo<ClassroomDto>();
+
+		/// <summary>
+		/// Adds a new classroom to the database.
+		/// </summary>
+		/// <param name="classroomDto">The classroom to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post([FromBody] ClassroomDto classroomDto)
+		{
+			if (classroomDto?.Name == null ||
+				classroomDto.BuildingId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var classroomToAdd = new Classroom
+			{
+				Name = classroomDto.Name,
+				BuildingId = classroomDto.BuildingId
+			};
+
+			this.classrooms.Add(classroomToAdd);
+
+			classroomDto.Id = classroomToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetClassroomById", new { id = classroomDto.Id }, classroomDto);
+		}
+
+		/// <summary>
+		/// Updates a classroom.
+		/// </summary>
+		/// <param name="id">The ID of the classroom to update.</param>
+		/// <param name="classroomDto">The classroom to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] ClassroomDto classroomDto)
+		{
+			if (classroomDto?.Name == null ||
+				classroomDto.BuildingId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var classroomToUpdate = this.classrooms.GetById(id);
+
+			if (classroomToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			classroomToUpdate.Name = classroomDto.Name;
+			this.classrooms.Update(classroomToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a classroom.
+		/// </summary>
+		/// <param name="id">The ID of the classroom to update.</param>
+		/// <param name="classroomDto">The classroom to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] ClassroomDto classroomDto)
+		{
+			if (classroomDto?.Name == null ||
+				classroomDto.BuildingId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var classroomToUpdate = this.classrooms.GetById(id);
+
+			if (classroomToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			classroomToUpdate.Name = classroomDto.Name;
+			this.classrooms.Update(classroomToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a classroom.
+		/// </summary>
+		/// <param name="id">The ID of the classroom to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var classroomToDelete = this.classrooms.GetById(id);
+
+			if (classroomToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.classrooms.Delete(classroomToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

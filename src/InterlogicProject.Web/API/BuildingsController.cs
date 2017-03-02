@@ -47,9 +47,118 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the building to get.</param>
 		/// <returns>A building with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetBuildingById")]
 		[SwaggerResponse(200, Type = typeof(BuildingDto))]
 		public BuildingDto Get(int id)
 			=> Mapper.Map<BuildingDto>(this.buildings.GetById(id));
+
+		/// <summary>
+		/// Adds a new building to the database.
+		/// </summary>
+		/// <param name="buildingDto">The building to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post([FromBody] BuildingDto buildingDto)
+		{
+			if (buildingDto?.Name == null)
+			{
+				return this.BadRequest();
+			}
+
+			var buildingToAdd = new Building { Name = buildingDto.Name };
+
+			this.buildings.Add(buildingToAdd);
+
+			buildingDto.Id = buildingToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetBuildingById", new { id = buildingDto.Id }, buildingDto);
+		}
+
+		/// <summary>
+		/// Updates a building.
+		/// </summary>
+		/// <param name="id">The ID of the building to update.</param>
+		/// <param name="buildingDto">The building to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] BuildingDto buildingDto)
+		{
+			if (buildingDto?.Name == null)
+			{
+				return this.BadRequest();
+			}
+
+			var buildingToUpdate = this.buildings.GetById(id);
+
+			if (buildingToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			buildingToUpdate.Name = buildingDto.Name;
+			this.buildings.Update(buildingToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a building.
+		/// </summary>
+		/// <param name="id">The ID of the building to update.</param>
+		/// <param name="buildingDto">The building to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] BuildingDto buildingDto)
+		{
+			if (buildingDto?.Name == null)
+			{
+				return this.BadRequest();
+			}
+
+			var buildingToUpdate = this.buildings.GetById(id);
+
+			if (buildingToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			buildingToUpdate.Name = buildingDto.Name;
+			this.buildings.Update(buildingToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a building.
+		/// </summary>
+		/// <param name="id">The ID of the building to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var buildingToDelete = this.buildings.GetById(id);
+
+			if (buildingToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.buildings.Delete(buildingToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

@@ -24,16 +24,35 @@ namespace InterlogicProject.Web.API
 	public class ClassesController : Controller
 	{
 		private IRepository<Class> classes;
+		private IRepository<ClassPlace> classPlaces;
+		private IRepository<GroupClass> groupClasses;
+		private IRepository<LecturerClass> lecturerClasses;
 
 		/// <summary>
 		/// Initializes a new instance of the ClassesController class.
 		/// </summary>
-		/// <param name="repo">
+		/// <param name="classes">
 		/// The repository that this instance will use.
 		/// </param>
-		public ClassesController(IRepository<Class> repo)
+		/// <param name="classPlaces">
+		/// The repository that this instance will use.
+		/// </param>
+		/// <param name="groupClasses">
+		/// The repository that this instance will use.
+		/// </param>
+		/// <param name="lecturerClasses">
+		/// The repository that this instance will use.
+		/// </param>
+		public ClassesController(
+			IRepository<Class> classes,
+			IRepository<ClassPlace> classPlaces,
+			IRepository<GroupClass> groupClasses,
+			IRepository<LecturerClass> lecturerClasses)
 		{
-			this.classes = repo;
+			this.classes = classes;
+			this.classPlaces = classPlaces;
+			this.groupClasses = groupClasses;
+			this.lecturerClasses = lecturerClasses;
 		}
 
 		/// <summary>
@@ -50,7 +69,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the class to get.</param>
 		/// <returns>A class with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetClassById")]
 		[SwaggerResponse(200, Type = typeof(ClassDto))]
 		public ClassDto Get(int id)
 			=> Mapper.Map<ClassDto>(this.classes.GetById(id));
@@ -195,5 +214,206 @@ namespace InterlogicProject.Web.API
 									   c.DateTime <= end)
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified classroom.
+		/// </summary>
+		/// <param name="classroomId">The ID of the classroom.</param>
+		/// <returns>All classes of the specified classroom.</returns>
+		[HttpGet("classroomId/{classroomId}")]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForClassroom(int classroomId)
+			=> this.classes.GetAll()
+						  ?.Include(c => c.Places)
+						   .Where(c => c.Places.Any(
+							   p => p.ClassroomId == classroomId))
+						   .OrderBy(c => c.DateTime)
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets all classes of the specified classroom
+		/// between the specified dates.
+		/// </summary>
+		/// <param name="classroomId">The ID of the classroom.</param>
+		/// <param name="start">The start of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns>
+		/// All classes of the specified classroom
+		/// between the specified dates.
+		/// </returns>
+		[HttpGet("classroomId/{classroomId}/range/{start}/{end}")]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
+		public IEnumerable<ClassDto> GetForClassroomWithRange(
+			int classroomId,
+			DateTime start,
+			DateTime end)
+			=> this.classes.GetAll()
+						  ?.Include(c => c.Places)
+						   .Where(c => c.Places.Any(
+							   p => p.ClassroomId == classroomId))
+						   .Where(c => c.DateTime >= start &&
+									   c.DateTime <= end)
+						   .OrderBy(c => c.DateTime)
+						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Adds a new class to the database.
+		/// </summary>
+		/// <param name="classDto">The class to add.</param>
+		/// <param name="groupIds">
+		/// The IDs of the groups of the class.
+		/// </param>
+		/// <param name="lecturerIds">
+		/// The IDs of the lecturers of the class.
+		/// </param>
+		/// <param name="classroomIds">
+		/// The IDs of the classrooms of the class.
+		/// </param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post(
+			[FromBody] ClassDto classDto,
+			[FromQuery] int[] classroomIds,
+			[FromQuery] int[] groupIds,
+			[FromQuery] int[] lecturerIds)
+		{
+			if (classDto?.Type == null ||
+				classDto.DateTime == default(DateTime) ||
+				classDto.SubjectId == 0 || groupIds == null ||
+				lecturerIds == null || classroomIds == null ||
+				groupIds.Length == 0 || lecturerIds.Length == 0 ||
+				classroomIds.Length == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var classToAdd = new Class
+			{
+				Type = classDto.Type,
+				SubjectId = classDto.SubjectId,
+				DateTime = classDto.DateTime
+			};
+
+			this.classes.Add(classToAdd);
+
+			this.classPlaces.AddRange(
+				classroomIds.Select(
+					id => new ClassPlace
+					{
+						ClassId = classToAdd.Id,
+						ClassroomId = id
+					}));
+
+			this.groupClasses.AddRange(
+				groupIds.Select(
+					id => new GroupClass
+					{
+						ClassId = classToAdd.Id,
+						GroupId = id
+					}));
+
+			this.lecturerClasses.AddRange(
+				lecturerIds.Select(
+					id => new LecturerClass
+					{
+						ClassId = classToAdd.Id,
+						LecturerId = id
+					}));
+
+			classDto.Id = classToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetClassById", new { id = classDto.Id }, classDto);
+		}
+
+		/// <summary>
+		/// Updates a class.
+		/// </summary>
+		/// <param name="id">The ID of the class to update.</param>
+		/// <param name="classDto">The class to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] ClassDto classDto)
+		{
+			if (classDto?.Type == null ||
+				classDto.DateTime == default(DateTime))
+			{
+				return this.BadRequest();
+			}
+
+			var classToUpdate = this.classes.GetById(id);
+
+			if (classToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			classToUpdate.Type = classDto.Type;
+			classToUpdate.DateTime = classDto.DateTime;
+			this.classes.Update(classToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a class.
+		/// </summary>
+		/// <param name="id">The ID of the class to update.</param>
+		/// <param name="classDto">The class to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] ClassDto classDto)
+		{
+			if (classDto?.Type == null ||
+				classDto.DateTime == default(DateTime))
+			{
+				return this.BadRequest();
+			}
+
+			var classToUpdate = this.classes.GetById(id);
+
+			if (classToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			classToUpdate.Type = classDto.Type;
+			classToUpdate.DateTime = classDto.DateTime;
+			this.classes.Update(classToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a class.
+		/// </summary>
+		/// <param name="id">The ID of the class to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var commentToDelete = this.classes.GetById(id);
+
+			if (commentToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.classes.Delete(commentToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

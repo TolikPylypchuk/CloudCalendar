@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
@@ -22,6 +24,7 @@ namespace InterlogicProject.Web.API
 	public class LecturersController : Controller
 	{
 		private IRepository<Lecturer> lecturers;
+		private UserManager<User> manager;
 
 		/// <summary>
 		/// Initializes a new instance of the LecturersController class.
@@ -29,9 +32,15 @@ namespace InterlogicProject.Web.API
 		/// <param name="repo">
 		/// The repository that this instance will use.
 		/// </param>
-		public LecturersController(IRepository<Lecturer> repo)
+		/// <param name="manager">
+		/// The user manager that this instance will use.
+		/// </param>
+		public LecturersController(
+			IRepository<Lecturer> repo,
+			UserManager<User> manager)
 		{
 			this.lecturers = repo;
+			this.manager = manager;
 		}
 
 		/// <summary>
@@ -48,7 +57,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the lecturer to get.</param>
 		/// <returns>A lecturer with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetLecturerById")]
 		[SwaggerResponse(200, Type = typeof(LecturerDto))]
 		public LecturerDto Get(int id)
 			=> Mapper.Map<LecturerDto>(this.lecturers.GetById(id));
@@ -113,5 +122,248 @@ namespace InterlogicProject.Web.API
 						?.Include(l => l.Classes)
 						 .Where(l => l.Classes.Any(c => c.ClassId == id))
 						 .ProjectTo<LecturerDto>();
+
+		/// <summary>
+		/// Adds a new lecturer to the database.
+		/// </summary>
+		/// <param name="lecturerDto">The lecturer to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public async Task<IActionResult> Post([FromBody] LecturerDto lecturerDto)
+		{
+			if (lecturerDto?.UserFirstName == null ||
+				lecturerDto.UserMiddleName == null ||
+				lecturerDto.UserLastName == null ||
+				lecturerDto.UserEmail == null ||
+				lecturerDto.DepartmentId == 0 ||
+				lecturerDto.IsAdmin == null ||
+				lecturerDto.IsDean == null ||
+				lecturerDto.IsHead == null)
+			{
+				return this.BadRequest();
+			}
+
+			var userToAdd = new User
+			{
+				FirstName = lecturerDto.UserFirstName,
+				MiddleName = lecturerDto.UserMiddleName,
+				LastName = lecturerDto.UserLastName,
+				Email = lecturerDto.UserEmail,
+				NormalizedEmail = lecturerDto.UserEmail.ToUpper(),
+				UserName = lecturerDto.UserEmail,
+				NormalizedUserName = lecturerDto.UserEmail.ToUpper()
+			};
+
+			await this.manager.CreateAsync(userToAdd);
+			await this.manager.AddToRoleAsync(userToAdd, "Lecturer");
+
+			var lecturerToAdd = new Lecturer
+			{
+				User = userToAdd,
+				DepartmentId = lecturerDto.DepartmentId,
+				IsAdmin = lecturerDto.IsAdmin ?? false,
+				IsDean = lecturerDto.IsDean ?? false,
+				IsHead = lecturerDto.IsHead ?? false
+			};
+
+			this.lecturers.Add(lecturerToAdd);
+
+			lecturerDto.Id = lecturerToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetLecturerById", new { id = lecturerDto.Id }, lecturerDto);
+		}
+
+		/// <summary>
+		/// Updates a lecturer.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer to update.</param>
+		/// <param name="lecturerDto">The lecturer to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Put(
+			int id,
+			[FromBody] LecturerDto lecturerDto)
+		{
+			if (lecturerDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var lecturerToUpdate = this.lecturers.GetById(id);
+
+			if (lecturerToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (lecturerDto.DepartmentId != 0)
+			{
+				lecturerToUpdate.DepartmentId = lecturerDto.DepartmentId;
+			}
+
+			if (lecturerDto.IsAdmin != null)
+			{
+				lecturerToUpdate.IsAdmin = lecturerDto.IsAdmin ?? false;
+			}
+
+			if (lecturerDto.IsDean != null)
+			{
+				lecturerToUpdate.IsDean = lecturerDto.IsDean ?? false;
+			}
+
+			if (lecturerDto.IsHead != null)
+			{
+				lecturerToUpdate.IsHead = lecturerDto.IsHead ?? false;
+			}
+
+			if (lecturerDto.UserFirstName != null ||
+				lecturerDto.UserMiddleName != null ||
+				lecturerDto.UserLastName != null ||
+				lecturerDto.UserEmail != null)
+			{
+				var userToUpdate = await this.manager.FindByIdAsync(
+					lecturerToUpdate.UserId);
+
+				if (lecturerDto.UserFirstName != null)
+				{
+					userToUpdate.FirstName = lecturerDto.UserFirstName;
+				}
+
+				if (lecturerDto.UserMiddleName != null)
+				{
+					userToUpdate.MiddleName = lecturerDto.UserMiddleName;
+				}
+
+				if (lecturerDto.UserLastName != null)
+				{
+					userToUpdate.LastName = lecturerDto.UserLastName;
+				}
+
+				if (lecturerDto.UserEmail != null)
+				{
+					userToUpdate.Email = lecturerDto.UserEmail;
+				}
+
+				await this.manager.UpdateAsync(userToUpdate);
+			}
+
+			this.lecturers.Update(lecturerToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a lecturer.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer to update.</param>
+		/// <param name="lecturerDto">The lecturer to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Patch(
+			int id,
+			[FromBody] LecturerDto lecturerDto)
+		{
+			if (lecturerDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var lecturerToUpdate = this.lecturers.GetById(id);
+
+			if (lecturerToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (lecturerDto.DepartmentId != 0)
+			{
+				lecturerToUpdate.DepartmentId = lecturerDto.DepartmentId;
+			}
+
+			if (lecturerDto.IsAdmin != null)
+			{
+				lecturerToUpdate.IsAdmin = lecturerDto.IsAdmin ?? false;
+			}
+
+			if (lecturerDto.IsDean != null)
+			{
+				lecturerToUpdate.IsDean = lecturerDto.IsDean ?? false;
+			}
+
+			if (lecturerDto.IsHead != null)
+			{
+				lecturerToUpdate.IsHead = lecturerDto.IsHead ?? false;
+			}
+
+			if (lecturerDto.UserFirstName != null ||
+				lecturerDto.UserMiddleName != null ||
+				lecturerDto.UserLastName != null ||
+				lecturerDto.UserEmail != null)
+			{
+				var userToUpdate = await this.manager.FindByIdAsync(
+					lecturerToUpdate.UserId);
+
+				if (lecturerDto.UserFirstName != null)
+				{
+					userToUpdate.FirstName = lecturerDto.UserFirstName;
+				}
+
+				if (lecturerDto.UserMiddleName != null)
+				{
+					userToUpdate.MiddleName = lecturerDto.UserMiddleName;
+				}
+
+				if (lecturerDto.UserLastName != null)
+				{
+					userToUpdate.LastName = lecturerDto.UserLastName;
+				}
+
+				if (lecturerDto.UserEmail != null)
+				{
+					userToUpdate.Email = lecturerDto.UserEmail;
+				}
+
+				await this.manager.UpdateAsync(userToUpdate);
+			}
+
+			this.lecturers.Update(lecturerToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a lecturer.
+		/// </summary>
+		/// <param name="id">The ID of the lecturer to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var lecturerToDelete = this.lecturers.GetById(id);
+
+			if (lecturerToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.lecturers.Delete(lecturerToDelete);
+
+			await this.manager.DeleteAsync(lecturerToDelete.User);
+
+			return this.NoContent();
+		}
 	}
 }

@@ -16,7 +16,7 @@ export default class ClassService {
 	}
 
 	getClass(id: number): Observable<Class> {
-		return this.http.get(`api/classes/id/${id}`)
+		return this.http.get(`api/classes/${id}`)
 						.map(response => response.json() as Class)
 						.catch(this.handleError);
 	}

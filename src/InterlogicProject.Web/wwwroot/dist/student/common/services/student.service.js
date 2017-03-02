@@ -44,7 +44,7 @@ var StudentService = (function () {
     StudentService.prototype.initStudent = function (student) {
         var _this = this;
         this.currentStudentSource.next(student);
-        this.http.get("/api/groups/id/" + student.groupId)
+        this.http.get("/api/groups/" + student.groupId)
             .map(function (response) { return response.json(); })
             .catch(this.handleError)
             .subscribe(function (data) { return _this.initGroup(data); });

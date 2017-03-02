@@ -16,7 +16,7 @@ var ClassService = (function () {
         this.http = http;
     }
     ClassService.prototype.getClass = function (id) {
-        return this.http.get("api/classes/id/" + id)
+        return this.http.get("api/classes/" + id)
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };

@@ -38,7 +38,7 @@ namespace InterlogicProject.Web.API
 		/// Gets all comments from the database.
 		/// </summary>
 		/// <returns>All comments from the database.</returns>
-		[HttpGet(Name = "GetAll")]
+		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> Get()
 			=> this.comments.GetAll()?.ProjectTo<CommentDto>();
@@ -48,7 +48,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the comment to get.</param>
 		/// <returns>A comment with the specified ID.</returns>
-		[HttpGet("id/{id}", Name = "GetById")]
+		[HttpGet("{id}", Name = "GetCommentById")]
 		[SwaggerResponse(200, Type = typeof(CommentDto))]
 		public CommentDto Get(int id)
 			=> Mapper.Map<CommentDto>(this.comments.GetById(id));
@@ -58,7 +58,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the class.</param>
 		/// <returns>All comments with the specified class.</returns>
-		[HttpGet("classId/{id}", Name = "GetByClass")]
+		[HttpGet("classId/{id}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClass(int id)
 			=> this.comments.GetAll()
@@ -74,7 +74,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>
 		/// The specified amount of comments with the specified class.
 		/// </returns>
-		[HttpGet("classId/{id}/take/{num}", Name = "GetSomeByClass")]
+		[HttpGet("classId/{id}/take/{num}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClass(int id, int num)
 			=> this.comments.GetAll()
@@ -88,7 +88,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the user.</param>
 		/// <returns>All comments with the specified user.</returns>
-		[HttpGet("userId/{id}", Name = "GetByUser")]
+		[HttpGet("userId/{id}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForUser(string id)
 			=> this.comments.GetAll()
@@ -101,8 +101,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="classId">The ID of the class.</param>
 		/// <param name="userId">The ID of the user.</param>
 		/// <returns>All comments with the specified class and user.</returns>
-		[HttpGet("classId/{classId}/userId/{userId}",
-			Name = "GetByClassAndUser")]
+		[HttpGet("classId/{classId}/userId/{userId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClassAndUser(
 			int classId,
@@ -123,8 +122,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>
 		/// The specified amount of comments with the specified class and user.
 		/// </returns>
-		[HttpGet("classId/{classId}/userId/{userId}/take/{num}",
-			Name = "GetSomeByClassAndUser")]
+		[HttpGet("classId/{classId}/userId/{userId}/take/{num}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClassAndUser(
 			int classId,
@@ -140,49 +138,51 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Adds a new comment to the database.
 		/// </summary>
-		/// <param name="comment">The comment to add.</param>
+		/// <param name="commentDto">The comment to add.</param>
 		/// <returns>
 		/// The action result that represents the status code 201.
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
-		public IActionResult Post([FromBody] CommentDto comment)
+		public IActionResult Post([FromBody] CommentDto commentDto)
 		{
-			if (comment?.Text == null || comment.UserId == null ||
-				comment.ClassId == 0 || comment.DateTime == default(DateTime))
+			if (commentDto?.Text == null ||
+				commentDto.UserId == null ||
+				commentDto.ClassId == 0 ||
+				commentDto.DateTime == default(DateTime))
 			{
 				return this.BadRequest();
 			}
 
 			var commentToAdd = new Comment
 			{
-				ClassId = comment.ClassId,
-				UserId = comment.UserId,
-				Text = comment.Text,
-				DateTime = comment.DateTime
+				ClassId = commentDto.ClassId,
+				UserId = commentDto.UserId,
+				Text = commentDto.Text,
+				DateTime = commentDto.DateTime
 			};
 
 			this.comments.Add(commentToAdd);
 
-			comment.Id = commentToAdd.Id;
+			commentDto.Id = commentToAdd.Id;
 
 			return this.CreatedAtRoute(
-				"GetById", new { id = comment.Id }, comment);
+				"GetCommentById", new { id = commentDto.Id }, commentDto);
 		}
 
 		/// <summary>
 		/// Updates a comment.
 		/// </summary>
 		/// <param name="id">The ID of the comment to update.</param>
-		/// <param name="comment">The comment to update.</param>
+		/// <param name="commentDto">The comment to update.</param>
 		/// <returns>
 		/// The action result that represents the status code 204.
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] CommentDto comment)
+		public IActionResult Put(int id, [FromBody] CommentDto commentDto)
 		{
-			if (comment?.Text == null)
+			if (commentDto?.Text == null)
 			{
 				return this.BadRequest();
 			}
@@ -194,7 +194,37 @@ namespace InterlogicProject.Web.API
 				return this.NotFound();
 			}
 
-			commentToUpdate.Text = comment.Text;
+			commentToUpdate.Text = commentDto.Text;
+			this.comments.Update(commentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a comment.
+		/// </summary>
+		/// <param name="id">The ID of the comment to update.</param>
+		/// <param name="commentDto">The comment to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] CommentDto commentDto)
+		{
+			if (commentDto?.Text == null)
+			{
+				return this.BadRequest();
+			}
+
+			var commentToUpdate = this.comments.GetById(id);
+
+			if (commentToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			commentToUpdate.Text = commentDto.Text;
 			this.comments.Update(commentToUpdate);
 
 			return this.NoContent();

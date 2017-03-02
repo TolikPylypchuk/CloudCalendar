@@ -49,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the group to get.</param>
 		/// <returns>A group with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetGroupById")]
 		[SwaggerResponse(200, Type = typeof(GroupDto))]
 		public GroupDto Get(int id)
 			=> Mapper.Map<GroupDto>(this.groups.GetById(id));
@@ -118,5 +118,139 @@ namespace InterlogicProject.Web.API
 						 ?.Include(g => g.Classes)
 						  .Where(g => g.Classes.Any(c => c.ClassId == id))
 						  .ProjectTo<GroupDto>();
+
+		/// <summary>
+		/// Adds a new group to the database.
+		/// </summary>
+		/// <param name="groupDto">The group to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post([FromBody] GroupDto groupDto)
+		{
+			if (groupDto?.Name == null ||
+				groupDto.Year == 0 ||
+				groupDto.CuratorId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var groupToAdd = new Group
+			{
+				Name = groupDto.Name,
+				Year = groupDto.Year,
+				CuratorId = groupDto.CuratorId
+			};
+
+			this.groups.Add(groupToAdd);
+
+			groupDto.Id = groupToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetGroupById", new { id = groupDto.Id }, groupDto);
+		}
+
+		/// <summary>
+		/// Updates a group.
+		/// </summary>
+		/// <param name="id">The ID of the group to update.</param>
+		/// <param name="groupDto">The group to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] GroupDto groupDto)
+		{
+			if (groupDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var groupToUpdate = this.groups.GetById(id);
+
+			if (groupToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (groupDto.Name != null)
+			{
+				groupToUpdate.Name = groupDto.Name;
+			}
+			
+			if (groupDto.CuratorId != 0)
+			{
+				groupToUpdate.CuratorId = groupDto.CuratorId;
+			}
+
+			this.groups.Update(groupToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a group.
+		/// </summary>
+		/// <param name="id">The ID of the group to update.</param>
+		/// <param name="groupDto">The group to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] GroupDto groupDto)
+		{
+			if (groupDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var groupToUpdate = this.groups.GetById(id);
+
+			if (groupToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (groupDto.Name != null)
+			{
+				groupToUpdate.Name = groupDto.Name;
+			}
+			
+			if (groupDto.CuratorId != 0)
+			{
+				groupToUpdate.CuratorId = groupDto.CuratorId;
+			}
+
+			this.groups.Update(groupToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a group.
+		/// </summary>
+		/// <param name="id">The ID of the group to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var groupToDelete = this.groups.GetById(id);
+
+			if (groupToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.groups.Delete(groupToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

@@ -48,7 +48,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the department to get.</param>
 		/// <returns>A department with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetDepartmentById")]
 		[SwaggerResponse(200, Type = typeof(DepartmentDto))]
 		public DepartmentDto Get(int id)
 			=> Mapper.Map<DepartmentDto>(this.departments.GetById(id));
@@ -64,5 +64,137 @@ namespace InterlogicProject.Web.API
 			=> this.departments.GetAll()
 							  ?.Where(d => d.FacultyId == id)
 							   .ProjectTo<DepartmentDto>();
+
+		/// <summary>
+		/// Adds a new department to the database.
+		/// </summary>
+		/// <param name="departmentDto">The department to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post([FromBody] DepartmentDto departmentDto)
+		{
+			if (departmentDto?.Name == null ||
+				departmentDto.FacultyId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var departmentToAdd = new Department
+			{
+				Name = departmentDto.Name,
+				FacultyId = departmentDto.FacultyId
+			};
+
+			this.departments.Add(departmentToAdd);
+
+			departmentDto.Id = departmentToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetDepartmentById", new { id = departmentDto.Id }, departmentDto);
+		}
+
+		/// <summary>
+		/// Updates a department.
+		/// </summary>
+		/// <param name="id">The ID of the department to update.</param>
+		/// <param name="departmentDto">The department to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] DepartmentDto departmentDto)
+		{
+			if (departmentDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var departmentToUpdate = this.departments.GetById(id);
+
+			if (departmentToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (departmentDto.Name != null)
+			{
+				departmentToUpdate.Name = departmentDto.Name;
+			}
+
+			if (departmentDto.FacultyId != 0)
+			{
+				departmentToUpdate.FacultyId = departmentDto.FacultyId;
+			}
+
+			this.departments.Update(departmentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a department.
+		/// </summary>
+		/// <param name="id">The ID of the department to update.</param>
+		/// <param name="departmentDto">The department to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] DepartmentDto departmentDto)
+		{
+			if (departmentDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var departmentToUpdate = this.departments.GetById(id);
+
+			if (departmentToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (departmentDto.Name != null)
+			{
+				departmentToUpdate.Name = departmentDto.Name;
+			}
+
+			if (departmentDto.FacultyId != 0)
+			{
+				departmentToUpdate.FacultyId = departmentDto.FacultyId;
+			}
+
+			this.departments.Update(departmentToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a department.
+		/// </summary>
+		/// <param name="id">The ID of the department to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var departmentToDelete = this.departments.GetById(id);
+
+			if (departmentToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.departments.Delete(departmentToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

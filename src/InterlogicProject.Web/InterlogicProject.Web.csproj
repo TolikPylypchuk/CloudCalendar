@@ -47,6 +47,7 @@
     </Content>
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\common\calendar.ts" />
     <Content Include="wwwroot\app\student\common\common.module.ts" />
     <Content Include="wwwroot\app\student\common\common.ts" />
     <Content Include="wwwroot\app\student\common\services\class.service.ts" />

@@ -48,7 +48,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the faculty to get.</param>
 		/// <returns>A faculty with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}", Name = "GetFacultyById")]
 		[SwaggerResponse(200, Type = typeof(FacultyDto))]
 		public FacultyDto Get(int id)
 			=> Mapper.Map<FacultyDto>(this.faculties.GetById(id));
@@ -64,5 +64,137 @@ namespace InterlogicProject.Web.API
 			=> this.faculties.GetAll()
 							?.Where(f => f.BuildingId == id)
 							 .ProjectTo<FacultyDto>();
+
+		/// <summary>
+		/// Adds a new faculty to the database.
+		/// </summary>
+		/// <param name="facultyDto">The faculty to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
+		[HttpPost]
+		[SwaggerResponse(201)]
+		public IActionResult Post([FromBody] FacultyDto facultyDto)
+		{
+			if (facultyDto?.Name == null ||
+				facultyDto.BuildingId == 0)
+			{
+				return this.BadRequest();
+			}
+
+			var facultyToAdd = new Faculty
+			{
+				Name = facultyDto.Name,
+				BuildingId = facultyDto.BuildingId
+			};
+
+			this.faculties.Add(facultyToAdd);
+
+			facultyDto.Id = facultyToAdd.Id;
+
+			return this.CreatedAtRoute(
+				"GetFacultyById", new { id = facultyDto.Id }, facultyDto);
+		}
+
+		/// <summary>
+		/// Updates a faculty.
+		/// </summary>
+		/// <param name="id">The ID of the faculty to update.</param>
+		/// <param name="facultyDto">The faculty to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] FacultyDto facultyDto)
+		{
+			if (facultyDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var facultyToUpdate = this.faculties.GetById(id);
+
+			if (facultyToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (facultyDto.Name != null)
+			{
+				facultyToUpdate.Name = facultyDto.Name;
+			}
+
+			if (facultyDto.BuildingId != 0)
+			{
+				facultyToUpdate.BuildingId = facultyDto.BuildingId;
+			}
+
+			this.faculties.Update(facultyToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a faculty.
+		/// </summary>
+		/// <param name="id">The ID of the faculty to update.</param>
+		/// <param name="facultyDto">The faculty to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] FacultyDto facultyDto)
+		{
+			if (facultyDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var facultyToUpdate = this.faculties.GetById(id);
+
+			if (facultyToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			if (facultyDto.Name != null)
+			{
+				facultyToUpdate.Name = facultyDto.Name;
+			}
+
+			if (facultyDto.BuildingId != 0)
+			{
+				facultyToUpdate.BuildingId = facultyDto.BuildingId;
+			}
+
+			this.faculties.Update(facultyToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Deletes a faculty.
+		/// </summary>
+		/// <param name="id">The ID of the faculty to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Delete(int id)
+		{
+			var facultyToDelete = this.faculties.GetById(id);
+
+			if (facultyToDelete == null)
+			{
+				return this.NotFound();
+			}
+
+			this.faculties.Delete(facultyToDelete);
+
+			return this.NoContent();
+		}
 	}
 }

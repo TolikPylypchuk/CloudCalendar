@@ -11,7 +11,6 @@ using AutoMapper.QueryableExtensions;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.Web.Models.Dto;
 
@@ -25,7 +24,6 @@ namespace InterlogicProject.Web.API
 	public class UsersController : Controller
 	{
 		private UserManager<User> manager;
-		private AppDbContext context;
 		private IHttpContextAccessor accessor;
 
 		/// <summary>
@@ -34,19 +32,14 @@ namespace InterlogicProject.Web.API
 		/// <param name="manager">
 		/// The manager that this instance will use.
 		/// </param>
-		/// <param name="context">
-		/// The DB context that this instance will use.
-		/// </param>
 		/// <param name="accessor">
 		/// The HTTP context accessor that this instance will use.
 		/// </param>
 		public UsersController(
 			UserManager<User> manager,
-			AppDbContext context,
 			IHttpContextAccessor accessor)
 		{
 			this.manager = manager;
-			this.context = context;
 			this.accessor = accessor;
 		}
 
@@ -57,14 +50,14 @@ namespace InterlogicProject.Web.API
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<UserDto>))]
 		public IEnumerable<UserDto> Get()
-			=> this.context.Users?.ProjectTo<UserDto>();
+			=> this.manager.Users.ProjectTo<UserDto>();
 
 		/// <summary>
 		/// Gets a user with the specified ID.
 		/// </summary>
 		/// <param name="id">The ID of the user to get.</param>
 		/// <returns>A user with the specified ID.</returns>
-		[HttpGet("id/{id}")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> Get(string id)
 			=> Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));

@@ -97,7 +97,10 @@ namespace InterlogicProject.Web
 				options.LowercaseUrls = true;
 			});
 
-			services.AddMvc();
+			services.AddMvc(options =>
+			{
+				options.UseCommaDelimitedArrayModelBinding();
+			});
 
 			Mapper.Initialize(config =>
 			{

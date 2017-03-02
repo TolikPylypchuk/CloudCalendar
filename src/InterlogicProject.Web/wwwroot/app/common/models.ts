@@ -16,6 +16,7 @@ export interface EntityWithUser extends Entity {
 	userMiddleName?: string;
 	userLastName?: string;
 	userFullName?: string;
+	userEmail?: string;
 }
 
 export interface Building extends Entity {
