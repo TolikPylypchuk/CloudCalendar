@@ -45,7 +45,7 @@ export default class ClassService {
 						.catch(this.handleError);
 	}
 	
-	private handleError(error: Response | any): ErrorObservable<string> {
+	private handleError(error: Response | any): ErrorObservable {
 		let message: string;
 
 		if (error instanceof Response) {

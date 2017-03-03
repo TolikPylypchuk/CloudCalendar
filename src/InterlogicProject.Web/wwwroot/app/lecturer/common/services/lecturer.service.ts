@@ -43,7 +43,7 @@ export default class LecturerService {
 		this.currentLecturerSource.next(lecturer);
 	}
 
-	private handleError(error: Response | any): ErrorObservable<string> {
+	private handleError(error: Response | any): ErrorObservable {
 		let message: string;
 
 		if (error instanceof Response) {

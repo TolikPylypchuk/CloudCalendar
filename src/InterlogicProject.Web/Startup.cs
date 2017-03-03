@@ -172,7 +172,7 @@ namespace InterlogicProject.Web
 
 				});
 
-				app.UseSwaggerUi(c =>
+				app.UseSwaggerUI(c =>
 				{
 					c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
 				});

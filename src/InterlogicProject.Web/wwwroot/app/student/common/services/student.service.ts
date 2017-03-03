@@ -57,7 +57,7 @@ export default class StudentService {
 		this.currentGroupSource.next(group);
 	}
 
-	private handleError(error: Response | any): ErrorObservable<string> {
+	private handleError(error: Response | any): ErrorObservable {
 		let message: string;
 
 		if (error instanceof Response) {
