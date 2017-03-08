@@ -21,8 +21,10 @@ namespace InterlogicProject.DAL
 		public DbSet<Faculty> Faculties { get; set; }
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<GroupClass> GroupsClasses { get; set; }
+		public DbSet<Homework> Homeworks { get; set; }
 		public DbSet<Lecturer> Lecturers { get; set; }
 		public DbSet<LecturerClass> LecturersClasses { get; set; }
+		public DbSet<Material> Materials { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
 
@@ -44,6 +46,14 @@ namespace InterlogicProject.DAL
 			
 			builder.Entity<Group>()
 				   .HasIndex(g => g.Name)
+				   .IsUnique();
+
+			builder.Entity<Homework>()
+				   .HasIndex(h => h.FileName)
+				   .IsUnique();
+
+			builder.Entity<Material>()
+				   .HasIndex(m => m.FileName)
 				   .IsUnique();
 
 			builder.Entity<Student>()

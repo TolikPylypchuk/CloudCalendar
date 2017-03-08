@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using InterlogicProject.DAL;
 
 namespace InterlogicProject.DAL.Migrations
 {
@@ -208,6 +210,36 @@ namespace InterlogicProject.DAL.Migrations
                     b.ToTable("GroupsClasses");
                 });
 
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("Accepted");
+
+                    b.Property<int>("ClassId");
+
+                    b.Property<DateTime>("DateTime");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("StudentId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("FileName")
+                        .IsUnique();
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Homeworks");
+                });
+
             modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
                 {
                     b.Property<int>("Id")
@@ -251,6 +283,28 @@ namespace InterlogicProject.DAL.Migrations
                     b.HasIndex("LecturerId");
 
                     b.ToTable("LecturersClasses");
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClassId");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("FileName")
+                        .IsUnique();
+
+                    b.ToTable("Materials");
                 });
 
             modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
@@ -485,7 +539,7 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("InterlogicProject.DAL.Models.Classroom", "Classroom")
-                        .WithMany()
+                        .WithMany("Classes")
                         .HasForeignKey("ClassroomId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -543,8 +597,21 @@ namespace InterlogicProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
-                        .WithMany()
+                        .WithMany("Classes")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
+                {
+                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("InterlogicProject.DAL.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -571,6 +638,14 @@ namespace InterlogicProject.DAL.Migrations
                     b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Lecturer")
                         .WithMany("Classes")
                         .HasForeignKey("LecturerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
+                {
+                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

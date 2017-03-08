@@ -16,16 +16,17 @@ System.config({
 		"fullcalendar/dist/locale/uk": "lib/fullcalendar/dist/locale/uk.js",
 		"jquery": "lib/jquery/dist/jquery.js",
 		"moment": "lib/moment/moment.js",
+		"ng2-file-upload": "lib/ng2-file-upload/ng2-file-upload.umd.js",
 		"reflect-metadata": "lib/reflect-metadata/Reflect.js",
 		"rxjs": "lib/rxjs",
 		"zone.js": "lib/zone.js/dist/zone.js"
 	},
 	packages: {
-		rxjs: {
+		"rxjs": {
 			defaultExtension: "js",
 			main: "index.js"
 		},
-		dist: {
+		"dist": {
 			defaultExtension: "js",
 			main: "index.js"
 		}

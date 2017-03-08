@@ -72,6 +72,13 @@ export interface GroupClass extends Entity {
 	classId?: number;
 }
 
+export interface Homework extends Entity {
+	studentId?: number;
+	classId?: number;
+	dateTime?: string;
+	accepted?: boolean;
+}
+
 export interface Lecturer extends EntityWithUser {
 	departmentId?: number;
 	departmentName?: string;
@@ -82,6 +89,10 @@ export interface Lecturer extends EntityWithUser {
 
 export interface LecturerClass extends Entity {
 	lecturerId?: number;
+	classId?: number;
+}
+
+export interface Material extends Entity {
 	classId?: number;
 }
 

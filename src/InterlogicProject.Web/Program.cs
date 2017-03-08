@@ -9,6 +9,9 @@ namespace InterlogicProject.Web
 		public static string EmailDomain { get; set; }
 		public static string DefaultPassword { get; set; }
 
+		public static string MaterialsPath { get; set; }
+		public static string HomeworksPath { get; set; }
+
 		public static void Main(string[] args)
 		{
 			var host = new WebHostBuilder()

@@ -25,7 +25,7 @@ var CalendarComponent = (function () {
             columnFormat: "dd, DD.MM",
             defaultView: "agendaWeek",
             eventClick: this.eventClicked.bind(this),
-            eventColor: "#0275D8",
+            eventColor: "#428BCA",
             eventDurationEditable: false,
             eventRender: function (event, element) {
                 $(element).css("cursor", "pointer");
@@ -68,7 +68,7 @@ var CalendarComponent = (function () {
         });
     };
     CalendarComponent.prototype.eventClicked = function (event) {
-        var modalRef = this.modalService.open(modal_content_component_1.default);
+        var modalRef = this.modalService.open(modal_content_component_1.default, { size: "lg" });
         var modal = modalRef.componentInstance;
         modal.classId = event.id;
     };

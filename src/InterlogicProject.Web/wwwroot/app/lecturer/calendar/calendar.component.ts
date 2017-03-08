@@ -43,7 +43,7 @@ export default class CalendarComponent {
 			columnFormat: "dd, DD.MM",
 			defaultView: "agendaWeek",
 			eventClick: this.eventClicked.bind(this),
-			eventColor: "#0275D8",
+			eventColor: "#428BCA",
 			eventDurationEditable: false,
 			eventRender: (event: FC.EventObject, element: HTMLDivElement) => {
 				$(element).css("cursor", "pointer");
@@ -95,7 +95,8 @@ export default class CalendarComponent {
 	}
 
 	private eventClicked(event: FC.EventObject): void {
-		const modalRef = this.modalService.open(ModalContentComponent);
+		const modalRef = this.modalService.open(
+			ModalContentComponent, { size: "lg" });
 		const modal = modalRef.componentInstance as ModalContentComponent;
 		modal.classId = event.id;
 	}

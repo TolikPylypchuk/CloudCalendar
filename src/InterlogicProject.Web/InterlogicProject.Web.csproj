@@ -9,20 +9,28 @@
     <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Data\**" />
     <Compile Remove="wwwroot\css\dist\**" />
     <Compile Remove="wwwroot\dist\wwwroot\**" />
+    <Compile Remove="wwwroot\files\**" />
     <Compile Remove="wwwroot\js\**" />
     <Compile Remove="wwwroot\scss\dist\**" />
+    <Content Remove="Data\**" />
     <Content Remove="wwwroot\css\dist\**" />
     <Content Remove="wwwroot\dist\wwwroot\**" />
+    <Content Remove="wwwroot\files\**" />
     <Content Remove="wwwroot\js\**" />
     <Content Remove="wwwroot\scss\dist\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="wwwroot\css\dist\**" />
     <EmbeddedResource Remove="wwwroot\dist\wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\files\**" />
     <EmbeddedResource Remove="wwwroot\js\**" />
     <EmbeddedResource Remove="wwwroot\scss\dist\**" />
+    <None Remove="Data\**" />
     <None Remove="wwwroot\css\dist\**" />
     <None Remove="wwwroot\dist\wwwroot\**" />
+    <None Remove="wwwroot\files\**" />
     <None Remove="wwwroot\js\**" />
     <None Remove="wwwroot\scss\dist\**" />
   </ItemGroup>
@@ -32,13 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="wwwroot\app\common\models.ts" />
+    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />
+    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-content.component.css" />
+    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.css" />
+    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
+    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
     <Content Include="wwwroot\app\lecturer\main.ts" />
     <Content Include="wwwroot\app\student\app.component.ts" />
     <Content Include="wwwroot\app\student\app.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -47,7 +59,6 @@
     </Content>
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
-    <Content Include="wwwroot\app\student\common\calendar.ts" />
     <Content Include="wwwroot\app\student\common\common.module.ts" />
     <Content Include="wwwroot\app\student\common\common.ts" />
     <Content Include="wwwroot\app\student\common\services\class.service.ts" />
@@ -55,23 +66,21 @@
     <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />
     <Content Include="wwwroot\dist\css\style.min.css" />
-    <Content Include="wwwroot\scss\style.css" />
-    <Content Include="wwwroot\scss\style.min.css" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0-preview4-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="1.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc3" />
@@ -109,7 +118,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\app\lecturer\calendar\" />
     <Folder Include="wwwroot\dist\css\" />
     <Folder Include="wwwroot\dist\lecturer\" />
     <Folder Include="wwwroot\dist\student\" />

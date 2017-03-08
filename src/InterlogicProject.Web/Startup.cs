@@ -36,8 +36,15 @@ namespace InterlogicProject.Web
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			Program.EmailDomain = this.Configuration["EmailDomain"];
-			Program.DefaultPassword = this.Configuration["DefaultPassword"];
+			Program.EmailDomain =
+				this.Configuration["Settings:EmailDomain"];
+			Program.DefaultPassword =
+				this.Configuration["Settings:DefaultPassword"];
+
+			Program.HomeworksPath =
+				this.Configuration["Settings:HomeworksPath"];
+			Program.MaterialsPath =
+				this.Configuration["Settings:MaterialsPath"];
 
 			services.AddDbContext<AppDbContext>(
 				options =>
@@ -81,10 +88,14 @@ namespace InterlogicProject.Web
 				GroupRepository>();
 			services.AddScoped<IRepository<GroupClass>,
 				GroupClassRepository>();
+			services.AddScoped<IRepository<Homework>,
+				HomeworkRepository>();
 			services.AddScoped<IRepository<Lecturer>,
 				LecturerRepository>();
 			services.AddScoped<IRepository<LecturerClass>,
 				LecturerClassRepository>();
+			services.AddScoped<IRepository<Material>,
+				MaterialRepository>();
 			services.AddScoped<IRepository<Student>,
 				StudentRepository>();
 			services.AddScoped<IRepository<Subject>,
@@ -113,8 +124,10 @@ namespace InterlogicProject.Web
 				config.CreateMap<Faculty, FacultyDto>();
 				config.CreateMap<Group, GroupDto>();
 				config.CreateMap<GroupClass, GroupClassDto>();
+				config.CreateMap<Homework, HomeworkDto>();
 				config.CreateMap<Lecturer, LecturerDto>();
 				config.CreateMap<LecturerClass, LecturerClassDto>();
+				config.CreateMap<Material, MaterialDto>();
 				config.CreateMap<Student, StudentDto>();
 				config.CreateMap<Subject, SubjectDto>();
 				config.CreateMap<User, UserDto>();
@@ -126,7 +139,7 @@ namespace InterlogicProject.Web
 				{
 					Version = "v1",
 					Title = "Interlogic Project API",
-					Description = "A simple API for the Interlogic Project",
+					Description = "An API for the Interlogic Project",
 					TermsOfService = "None"
 				});
 
@@ -158,25 +171,22 @@ namespace InterlogicProject.Web
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-
-			if (env.EnvironmentName == "Development")
+			
+			app.UseSwagger(c =>
 			{
-				app.UseSwagger(c =>
-				{
-					c.PreSerializeFilters.Add(
-						(swagger, httpReq) =>
-						{
-							swagger.Host = httpReq.Host.Value;
-							swagger.Schemes = new List<string> { "http" };
-						});
+				c.PreSerializeFilters.Add(
+					(swagger, httpReq) =>
+					{
+						swagger.Host = httpReq.Host.Value;
+						swagger.Schemes = new List<string> { "http" };
+					});
 
-				});
+			});
 
-				app.UseSwaggerUI(c =>
-				{
-					c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
-				});
-			}
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+			});
 		}
 	}
 }

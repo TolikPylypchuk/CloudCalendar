@@ -12,11 +12,13 @@
 		"moduleResolution": "node",
 		"noImplicitAny": false,
 		"noEmitOnError": false,
-		"outDir": "wwwroot/dist/",
-		"removeComments": false,
-		"sourceMap": true,
+		"noFallthroughCasesInSwitch": true,
 		"noImplicitUseStrict": false,
+		"outDir": "./wwwroot/dist/",
+		"removeComments": false,
 		"skipDefaultLibCheck": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
 		"target": "es5",
 		"typeRoots": [
 			"./node_modules/@types/"
