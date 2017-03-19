@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
@@ -25,7 +26,7 @@ var CalendarComponent = (function () {
             columnFormat: "dd, DD.MM",
             defaultView: "agendaWeek",
             eventClick: this.eventClicked.bind(this),
-            eventColor: "#428BCA",
+            eventColor: "#0275D8",
             eventDurationEditable: false,
             eventRender: function (event, element) {
                 $(element).css("cursor", "pointer");
@@ -94,6 +95,5 @@ CalendarComponent = __decorate([
         ng_bootstrap_1.NgbModal,
         common_1.LecturerService])
 ], CalendarComponent);
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CalendarComponent;
 //# sourceMappingURL=calendar.component.js.map

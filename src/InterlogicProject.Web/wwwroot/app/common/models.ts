@@ -94,6 +94,7 @@ export interface LecturerClass extends Entity {
 
 export interface Material extends Entity {
 	classId?: number;
+	fileName?: string;
 }
 
 export interface Student extends EntityWithUser {

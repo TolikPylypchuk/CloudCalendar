@@ -1,6 +1,28 @@
 ﻿<h5>Матеріали</h5>
 
-<button class="btn btn-primary my-3" type="button"
+<div *ngIf="materials.length === 0">
+	<p>Матеріалів до цієї пари немає.</p>
+</div>
+
+<div *ngFor="let material of materials">
+	<div class="card my-2">
+		<div class="card-block pl-3 py-2">
+			<span>
+				<a href="/files/materials/{{ material.classId }}_{{ material.fileName }}"
+				   target="_blank">
+					{{ material.fileName }}
+				</a>
+			</span>
+			<span style="cursor: pointer" aria-hidden="true"
+				  ngbTooltip="Видалити" class="float-right"
+				  (mouseup)="deleteMaterial(material)">
+				<i class="fa fa-remove"></i>
+			</span>
+		</div>
+	</div>
+</div>
+
+<button class="btn btn-primary mb-3" type="button"
         data-toggle="collapse" data-target="#collapseMaterials"
         aria-expanded="false" aria-controls="collapseMaterials">
 	Додати матеріали
@@ -24,18 +46,17 @@
 				       style="cursor: pointer">
 					Огляд
 					<input type="file" hidden multiple
-					       ng2FileSelect [uploader]="uploader" >
+					       ng2FileSelect [uploader]="uploader" />
 				</label>
 			</div>
 
 			<div class="col-md-8">
-
 				<h6>Черга завантажень</h6>
 
 				<table class="table table-striped">
 					<thead>
 					<tr>
-						<th width="50%">Назва</th>
+						<th>Назва</th>
 						<th>Розмір</th>
 						<th>Статус</th>
 						<th>Дії</th>
@@ -62,19 +83,19 @@
 							</span>
 						</td>
 						<td nowrap>
-							<button type="button"
+							<button type="button" ngbTooltip="Завантажити"
 							        class="btn btn-success btn-sm m-1"
 							        (click)="item.upload()"
 							        [disabled]="item.isReady || item.isUploading || item.isSuccess">
 								<i class="fa fa-upload"></i>
 							</button>
-							<button type="button"
+							<button type="button" ngbTooltip="Скасувати"
 							        class="btn btn-warning btn-sm m-1"
 							        (click)="item.cancel()"
 							        [disabled]="!item.isUploading">
 								<i class="fa fa-ban"></i>
 							</button>
-							<button type="button"
+							<button type="button" ngbTooltip="Видалити"
 							        class="btn btn-danger btn-sm m-1"
 							        (click)="item.remove()">
 								<i class="fa fa-trash"></i>

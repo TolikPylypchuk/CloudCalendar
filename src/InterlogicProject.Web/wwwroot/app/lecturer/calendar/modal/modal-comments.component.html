@@ -4,59 +4,57 @@
 	<p>Коментарів до цієї пари немає.</p>
 </div>
 
-<div *ngIf="comments.length !== 0">
-	<div *ngFor="let comment of comments; trackBy:getCommentId">
-		<div class="card mt-3">
-			<div class="card-header">
-				<template #commentDateTimeTooltip>
-					{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
-				</template>
+<div *ngFor="let comment of comments; trackBy:getCommentId">
+	<div class="card mt-3">
+		<div class="card-header">
+			<template #commentDateTimeTooltip>
+				{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
+			</template>
 
-				<span [ngbTooltip]="commentDateTimeTooltip"
-					    placement="right" style="cursor: default">
-					{{ comment.userFirstName }} {{ comment.userLastName }}
-				</span>
-					
-				<span *ngIf="comment.userId === currentComment.userId"
-					  style="cursor: pointer" aria-hidden="true"
-					  ngbTooltip="Видалити" placement="right"
-					  (mouseup)="deleteComment(comment)"
-				      class="float-right">
-					<i class="fa fa-remove"></i>
-				</span>
-
-				<span *ngIf="comment.userId === currentComment.userId"
-					  style="cursor: pointer" aria-hidden="true"
-					  ngbTooltip="Редагувати" placement="left"
-					  (mouseup)="editComment(comment)"
-				      class="mr-3 float-right">
-					<i class="fa fa-edit"></i>
-				</span>
-			</div>
-
-			<div class="card-block" *ngIf="comment.id !== editedCommentId">
-				<p>{{ comment.text }}</p>
-			</div>
+			<span [ngbTooltip]="commentDateTimeTooltip"
+				    placement="right" style="cursor: default">
+				{{ comment.userFirstName }} {{ comment.userLastName }}
+			</span>
 				
-			<div class="card-block" *ngIf="comment.id === editedCommentId">
-				<form class="mt-3" (ngSubmit)="updateComment(comment)">
-					<textarea type="text" class=" form-control"
-								placeholder="Коментувати..."
-								[(ngModel)]="comment.text"
-								name="text" maxlength="300">
-					</textarea>
+			<span *ngIf="comment.userId === currentComment.userId"
+					style="cursor: pointer" aria-hidden="true"
+					ngbTooltip="Видалити" placement="right"
+					(mouseup)="deleteComment(comment)"
+				    class="float-right">
+				<i class="fa fa-remove"></i>
+			</span>
 
-					<button type="submit" class="btn btn-primary mt-3"
-						    [disabled]="comment.text === ''">
-						Зберегти
-					</button>
+			<span *ngIf="comment.userId === currentComment.userId"
+					style="cursor: pointer" aria-hidden="true"
+					ngbTooltip="Редагувати" placement="left"
+					(mouseup)="editComment(comment)"
+				    class="mr-3 float-right">
+				<i class="fa fa-edit"></i>
+			</span>
+		</div>
+
+		<div class="card-block" *ngIf="comment.id !== editedCommentId">
+			<p>{{ comment.text }}</p>
+		</div>
+				
+		<div class="card-block" *ngIf="comment.id === editedCommentId">
+			<form class="mt-3" (ngSubmit)="updateComment(comment)">
+				<textarea type="text" class=" form-control"
+							placeholder="Коментувати..."
+							[(ngModel)]="comment.text"
+							name="text" maxlength="300">
+				</textarea>
+
+				<button type="submit" class="btn btn-primary mt-3"
+						[disabled]="comment.text === ''">
+					Зберегти
+				</button>
 						
-					<button type="button" class="btn btn-secondary mt-3"
-							(click)="cancelEditing(comment)">
-						Скасувати
-					</button>
-				</form>
-			</div>
+				<button type="button" class="btn btn-secondary mt-3"
+						(click)="cancelEditing(comment)">
+					Скасувати
+				</button>
+			</form>
 		</div>
 	</div>
 </div>

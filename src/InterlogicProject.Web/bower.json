@@ -9,11 +9,11 @@
 		"es6-shim": "0.35.3",
 		"fontawesome": "4.7.0",
 		"fullcalendar": "3.2.0",
-		"jquery": "3.1.1",
-		"moment": "2.17.1",
+		"jquery": "3.2.0",
+		"moment": "2.18.0",
 		"reflect-metadata": "0.1.10",
-		"system.js": "0.20.9",
+		"system.js": "0.20.10",
 		"tether": "1.4.0",
-		"zone": "0.7.7"
+		"zone": "0.8.4"
 	}
 }

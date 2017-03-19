@@ -31,5 +31,6 @@ gulp.task(
 		"copy-angular-bundles",
 		"copy-ng-bootstrap",
 		"copy-angular2-fullcalendar",
+		"copy-ng2-file-upload",
 		"copy-rxjs"
 	]);

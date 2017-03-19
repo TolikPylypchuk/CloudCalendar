@@ -1,5 +1,4 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
-import { Http, Headers } from "@angular/http";
 import { Observable } from "rxjs";
 import * as moment from "moment";
 
@@ -24,15 +23,12 @@ export default class ModalCommentsComponent implements OnInit {
 	editedCommentId = 0;
 	editedCommentOriginalText = "";
 
-	private http: Http;
 	private lecturerService: LecturerService;
 	private classService: ClassService;
 
 	constructor(
-		http: Http,
 		lecturerService: LecturerService,
 		classService: ClassService) {
-		this.http = http;
 		this.lecturerService = lecturerService;
 		this.classService = classService;
 	}
@@ -66,12 +62,7 @@ export default class ModalCommentsComponent implements OnInit {
 		this.currentComment.dateTime = moment().utc()
 			.add(2, "hours").toISOString();
 
-		this.http.post(
-			"api/comments",
-			JSON.stringify(this.currentComment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
+		this.classService.addComment(this.currentComment)
 			.subscribe(response => {
 				if (response.status === 201) {
 					this.comments.push(response.json() as Comment);
@@ -95,12 +86,7 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	updateComment(comment: Comment): void {
-		this.http.put(
-			`api/comments/${comment.id}`,
-			JSON.stringify(comment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
+		this.classService.updateComment(comment)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.editedCommentId = 0;
@@ -116,8 +102,7 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	deleteComment(comment: Comment): void {
-		this.http.delete(
-			`api/comments/${comment.id}`)
+		this.classService.deleteComment(comment.id)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.comments = this.comments.filter(
