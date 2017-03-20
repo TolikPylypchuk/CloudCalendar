@@ -43,7 +43,8 @@ export default class CalendarComponent {
 			columnFormat: "dd, DD.MM",
 			defaultView: "agendaWeek",
 			eventClick: this.eventClicked.bind(this),
-			eventColor: "#0275D8",
+			eventBackgroundColor: "#0275D8",
+			eventBorderColor: "#0275D8",
 			eventDurationEditable: false,
 			eventRender: (event: FC.EventObject, element: HTMLDivElement) => {
 				$(element).css("cursor", "pointer");

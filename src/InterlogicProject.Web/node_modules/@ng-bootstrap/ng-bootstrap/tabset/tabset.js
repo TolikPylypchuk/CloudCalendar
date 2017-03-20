@@ -67,6 +67,10 @@ export var NgbTab = (function () {
 export var NgbTabset = (function () {
     function NgbTabset(config) {
         /**
+         * Whether the closed tabs should be hidden without destroying them
+         */
+        this.destroyOnHide = true;
+        /**
          * A tab change event fired right before the tab selection happens. See NgbTabChangeEvent for payload details
          */
         this.tabChange = new EventEmitter();
@@ -100,7 +104,8 @@ export var NgbTabset = (function () {
         { type: Component, args: [{
                     selector: 'ngb-tabset',
                     exportAs: 'ngbTabset',
-                    template: "\n    <ul [class]=\"'nav nav-' + type + ' justify-content-' + justify\" role=\"tablist\">\n      <li class=\"nav-item\" *ngFor=\"let tab of tabs\">\n        <a [id]=\"tab.id\" class=\"nav-link\" [class.active]=\"tab.id === activeId\" [class.disabled]=\"tab.disabled\"\n          href (click)=\"!!select(tab.id)\" role=\"tab\" [attr.aria-controls]=\"tab.id + '-panel'\" [attr.aria-expanded]=\"tab.id === activeId\">\n          {{tab.title}}<template [ngTemplateOutlet]=\"tab.titleTpl?.templateRef\"></template>\n        </a>\n      </li>\n    </ul>\n    <div class=\"tab-content\">\n      <template ngFor let-tab [ngForOf]=\"tabs\">\n        <div class=\"tab-pane active\" *ngIf=\"tab.id === activeId\" role=\"tabpanel\" [attr.aria-labelledby]=\"tab.id\" id=\"{{tab.id}}-panel\">\n          <template [ngTemplateOutlet]=\"tab.contentTpl.templateRef\"></template>\n        </div>\n      </template>\n    </div>\n  "
+                    host: { 'role': 'tabpanel' },
+                    template: "\n    <ul [class]=\"'nav nav-' + type + ' justify-content-' + justify\" role=\"tablist\">\n      <li class=\"nav-item\" *ngFor=\"let tab of tabs\">\n        <a [id]=\"tab.id\" class=\"nav-link\" [class.active]=\"tab.id === activeId\" [class.disabled]=\"tab.disabled\"\n          href (click)=\"!!select(tab.id)\" role=\"tab\" [attr.aria-controls]=\"tab.id + '-panel'\" [attr.aria-expanded]=\"tab.id === activeId\">\n          {{tab.title}}<template [ngTemplateOutlet]=\"tab.titleTpl?.templateRef\"></template>\n        </a>\n      </li>\n    </ul>\n    <div class=\"tab-content\">\n      <template ngFor let-tab [ngForOf]=\"tabs\">\n        <div\n          class=\"tab-pane {{tab.id === activeId ? 'active' : null}}\"\n          *ngIf=\"!destroyOnHide || tab.id === activeId\"\n          role=\"tabpanel\"\n          [attr.aria-labelledby]=\"tab.id\" id=\"{{tab.id}}-panel\"\n          [attr.aria-expanded]=\"tab.id === activeId\">\n          <template [ngTemplateOutlet]=\"tab.contentTpl.templateRef\"></template>\n        </div>\n      </template>\n    </div>\n  "
                 },] },
     ];
     /** @nocollapse */
@@ -110,6 +115,7 @@ export var NgbTabset = (function () {
     NgbTabset.propDecorators = {
         'tabs': [{ type: ContentChildren, args: [NgbTab,] },],
         'activeId': [{ type: Input },],
+        'destroyOnHide': [{ type: Input },],
         'justify': [{ type: Input },],
         'type': [{ type: Input },],
         'tabChange': [{ type: Output },],

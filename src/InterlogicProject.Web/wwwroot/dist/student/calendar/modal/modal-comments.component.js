@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var moment = require("moment");
@@ -51,9 +50,7 @@ var ModalCommentsComponent = (function () {
         var _this = this;
         this.currentComment.dateTime = moment().utc()
             .add(2, "hours").toISOString();
-        this.http.post("api/comments", JSON.stringify(this.currentComment), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
+        this.classService.addComment(this.currentComment)
             .subscribe(function (response) {
             if (response.status === 201) {
                 _this.comments.push(response.json());
@@ -75,9 +72,7 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.updateComment = function (comment) {
         var _this = this;
-        this.http.put("api/comments/" + comment.id, JSON.stringify(comment), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
+        this.classService.updateComment(comment)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.editedCommentId = 0;
@@ -91,7 +86,7 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.deleteComment = function (comment) {
         var _this = this;
-        this.http.delete("api/comments/" + comment.id)
+        this.classService.deleteComment(comment.id)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.comments = _this.comments.filter(function (c) { return c.id !== comment.id; });
@@ -113,5 +108,6 @@ ModalCommentsComponent = __decorate([
         common_1.StudentService,
         common_1.ClassService])
 ], ModalCommentsComponent);
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ModalCommentsComponent;
 //# sourceMappingURL=modal-comments.component.js.map

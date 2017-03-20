@@ -5,7 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var platform_browser_1 = require("@angular/platform-browser");
@@ -16,6 +15,7 @@ var common_1 = require("../common/common");
 var calendar_component_1 = require("./calendar.component");
 var modal_content_component_1 = require("./modal/modal-content.component");
 var modal_comments_component_1 = require("./modal/modal-comments.component");
+var modal_materials_component_1 = require("./modal/modal-materials.component");
 var CalendarModule = (function () {
     function CalendarModule() {
     }
@@ -27,7 +27,8 @@ CalendarModule = __decorate([
             calendar_1.CalendarComponent,
             calendar_component_1.default,
             modal_content_component_1.default,
-            modal_comments_component_1.default
+            modal_comments_component_1.default,
+            modal_materials_component_1.default
         ],
         entryComponents: [
             modal_content_component_1.default
@@ -43,9 +44,11 @@ CalendarModule = __decorate([
         exports: [
             calendar_component_1.default,
             modal_content_component_1.default,
-            modal_comments_component_1.default
+            modal_comments_component_1.default,
+            modal_materials_component_1.default
         ]
     })
 ], CalendarModule);
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CalendarModule;
 //# sourceMappingURL=calendar.module.js.map

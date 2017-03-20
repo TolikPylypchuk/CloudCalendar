@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NgbModalContainer } from './modal-container';
 import { NgbModalBackdrop } from './modal-backdrop';
 import { NgbModalWindow } from './modal-window';
 import { NgbModalStack } from './modal-stack';
@@ -13,10 +12,9 @@ export var NgbModalModule = (function () {
     NgbModalModule.forRoot = function () { return { ngModule: NgbModalModule, providers: [NgbModal, NgbModalStack] }; };
     NgbModalModule.decorators = [
         { type: NgModule, args: [{
-                    declarations: [NgbModalContainer, NgbModalBackdrop, NgbModalWindow],
+                    declarations: [NgbModalBackdrop, NgbModalWindow],
                     entryComponents: [NgbModalBackdrop, NgbModalWindow],
-                    providers: [NgbModal],
-                    exports: [NgbModalContainer]
+                    providers: [NgbModal]
                 },] },
     ];
     /** @nocollapse */

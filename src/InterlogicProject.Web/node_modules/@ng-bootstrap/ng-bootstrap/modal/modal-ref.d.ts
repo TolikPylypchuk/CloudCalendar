@@ -1,4 +1,4 @@
-import { ComponentRef, ViewContainerRef } from '@angular/core';
+import { ComponentRef } from '@angular/core';
 import { NgbModalBackdrop } from './modal-backdrop';
 import { NgbModalWindow } from './modal-window';
 import { ContentRef } from '../util/popup';
@@ -20,7 +20,6 @@ export declare class NgbActiveModal {
  * A reference to a newly opened modal.
  */
 export declare class NgbModalRef {
-    private _viewContainerRef;
     private _windowCmptRef;
     private _contentRef;
     private _backdropCmptRef;
@@ -35,7 +34,7 @@ export declare class NgbModalRef {
      * A promise that is resolved when a modal is closed and rejected when a modal is dismissed.
      */
     result: Promise<any>;
-    constructor(_viewContainerRef: ViewContainerRef, _windowCmptRef: ComponentRef<NgbModalWindow>, _contentRef: ContentRef, _backdropCmptRef?: ComponentRef<NgbModalBackdrop>);
+    constructor(_windowCmptRef: ComponentRef<NgbModalWindow>, _contentRef: ContentRef, _backdropCmptRef?: ComponentRef<NgbModalBackdrop>);
     /**
      * Can be used to close a modal, passing an optional result.
      */

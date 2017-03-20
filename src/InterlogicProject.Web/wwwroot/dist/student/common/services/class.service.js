@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
@@ -41,6 +40,27 @@ var ClassService = (function () {
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
+    ClassService.prototype.getMaterials = function (classId) {
+        return this.http.get("api/materials/classId/" + classId)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.addComment = function (comment) {
+        return this.http.post("api/comments", JSON.stringify(comment), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.updateComment = function (comment) {
+        return this.http.put("api/comments/" + comment.id, JSON.stringify(comment), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.deleteComment = function (id) {
+        return this.http.delete("api/comments/" + id)
+            .catch(this.handleError);
+    };
     ClassService.prototype.handleError = function (error) {
         var message;
         if (error instanceof http_1.Response) {
@@ -60,5 +80,6 @@ ClassService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
 ], ClassService);
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ClassService;
 //# sourceMappingURL=class.service.js.map

@@ -20,7 +20,7 @@ export { NgbAlertModule, NgbAlertConfig, NgbAlert } from './alert/alert.module';
 export { NgbButtonsModule, NgbRadioGroup } from './buttons/radio.module';
 export { NgbCarouselModule, NgbCarouselConfig, NgbCarousel, NgbSlide } from './carousel/carousel.module';
 export { NgbCollapseModule, NgbCollapse } from './collapse/collapse.module';
-export { NgbDatepickerModule, NgbDatepickerI18n, NgbDatepickerConfig, NgbDateParserFormatter, NgbDatepicker, NgbInputDatepicker } from './datepicker/datepicker.module';
+export { NgbCalendar, NgbCalendarIslamicCivil, NgbDatepickerModule, NgbDatepickerI18n, NgbDatepickerConfig, NgbDateParserFormatter, NgbDatepicker, NgbInputDatepicker } from './datepicker/datepicker.module';
 export { NgbDropdownModule, NgbDropdownConfig, NgbDropdown } from './dropdown/dropdown.module';
 export { NgbModalModule, NgbModal, NgbActiveModal, NgbModalRef, ModalDismissReasons } from './modal/modal.module';
 export { NgbPaginationModule, NgbPaginationConfig, NgbPagination } from './pagination/pagination.module';

@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 import { NgbDate } from './ngb-date';
 import { Injectable } from '@angular/core';
-import { isNumber } from '../util/util';
+import { isInteger } from '../util/util';
 function fromJSDate(jsDate) {
     return new NgbDate(jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
 }
@@ -80,7 +80,7 @@ export var NgbCalendarGregorian = (function (_super) {
     };
     NgbCalendarGregorian.prototype.getToday = function () { return fromJSDate(new Date()); };
     NgbCalendarGregorian.prototype.isValid = function (date) {
-        return date && isNumber(date.year) && isNumber(date.month) && isNumber(date.day) &&
+        return date && isInteger(date.year) && isInteger(date.month) && isInteger(date.day) &&
             !isNaN(toJSDate(date).getTime());
     };
     NgbCalendarGregorian.decorators = [
