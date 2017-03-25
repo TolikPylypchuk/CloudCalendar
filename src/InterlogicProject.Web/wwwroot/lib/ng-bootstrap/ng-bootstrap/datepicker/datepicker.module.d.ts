@@ -1,6 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 export { NgbDatepicker, NgbDatepickerNavigateEvent } from './datepicker';
 export { NgbInputDatepicker } from './datepicker-input';
+export { NgbCalendar } from './ngb-calendar';
+export { NgbCalendarIslamicCivil } from './hijri/ngb-calendar-islamic-civil';
 export { NgbDatepickerMonthView } from './datepicker-month-view';
 export { NgbDatepickerDayView } from './datepicker-day-view';
 export { NgbDatepickerNavigation } from './datepicker-navigation';

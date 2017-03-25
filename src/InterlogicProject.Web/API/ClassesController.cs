@@ -294,7 +294,8 @@ namespace InterlogicProject.Web.API
 			{
 				Type = classDto.Type,
 				SubjectId = classDto.SubjectId,
-				DateTime = classDto.DateTime
+				DateTime = classDto.DateTime,
+				HomeworkEnabled = classDto.HomeworkEnabled
 			};
 
 			this.classes.Add(classToAdd);
@@ -356,6 +357,7 @@ namespace InterlogicProject.Web.API
 
 			classToUpdate.Type = classDto.Type;
 			classToUpdate.DateTime = classDto.DateTime;
+			classToUpdate.HomeworkEnabled = classDto.HomeworkEnabled;
 			this.classes.Update(classToUpdate);
 
 			return this.NoContent();
@@ -388,6 +390,7 @@ namespace InterlogicProject.Web.API
 
 			classToUpdate.Type = classDto.Type;
 			classToUpdate.DateTime = classDto.DateTime;
+			classToUpdate.HomeworkEnabled = classDto.HomeworkEnabled;
 			this.classes.Update(classToUpdate);
 
 			return this.NoContent();
@@ -404,14 +407,14 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(204)]
 		public IActionResult Delete(int id)
 		{
-			var commentToDelete = this.classes.GetById(id);
+			var classToDelete = this.classes.GetById(id);
 
-			if (commentToDelete == null)
+			if (classToDelete == null)
 			{
 				return this.NotFound();
 			}
 
-			this.classes.Delete(commentToDelete);
+			this.classes.Delete(classToDelete);
 
 			return this.NoContent();
 		}

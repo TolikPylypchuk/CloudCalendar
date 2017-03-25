@@ -1,5 +1,5 @@
 import { TemplateRef, EventEmitter } from '@angular/core';
-import { MonthViewModel, DayViewModel } from './datepicker-view-model';
+import { MonthViewModel, DayViewModel, WeekViewModel } from './datepicker-view-model';
 import { NgbDate } from './ngb-date';
 import { NgbDatepickerI18n } from './datepicker-i18n';
 import { DayTemplateContext } from './datepicker-day-template-context';
@@ -17,6 +17,6 @@ export declare class NgbDatepickerMonthView {
     doSelect(day: DayViewModel): void;
     isDisabled(day: DayViewModel): boolean;
     isSelected(date: NgbDate): boolean;
-    isCollapsed(day: DayViewModel): boolean;
+    isCollapsed(week: WeekViewModel): boolean;
     isHidden(day: DayViewModel): boolean;
 }

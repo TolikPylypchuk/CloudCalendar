@@ -1,4 +1,4 @@
-import { Injectable, ComponentRef, ViewContainerRef } from '@angular/core';
+import { Injectable, ComponentRef } from '@angular/core';
 import { ContentRef } from '../util/popup';
 /**
  * A reference to an active (currently opened) modal. Instances of this class
@@ -26,9 +26,8 @@ export var NgbActiveModal = (function () {
  * A reference to a newly opened modal.
  */
 export var NgbModalRef = (function () {
-    function NgbModalRef(_viewContainerRef, _windowCmptRef, _contentRef, _backdropCmptRef) {
+    function NgbModalRef(_windowCmptRef, _contentRef, _backdropCmptRef) {
         var _this = this;
-        this._viewContainerRef = _viewContainerRef;
         this._windowCmptRef = _windowCmptRef;
         this._contentRef = _contentRef;
         this._backdropCmptRef = _backdropCmptRef;
@@ -73,12 +72,16 @@ export var NgbModalRef = (function () {
         }
     };
     NgbModalRef.prototype._removeModalElements = function () {
-        this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._windowCmptRef.hostView));
+        var windowNativeEl = this._windowCmptRef.location.nativeElement;
+        windowNativeEl.parentNode.removeChild(windowNativeEl);
+        this._windowCmptRef.destroy();
         if (this._backdropCmptRef) {
-            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._backdropCmptRef.hostView));
+            var backdropNativeEl = this._backdropCmptRef.location.nativeElement;
+            backdropNativeEl.parentNode.removeChild(backdropNativeEl);
+            this._backdropCmptRef.destroy();
         }
         if (this._contentRef && this._contentRef.viewRef) {
-            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
+            this._contentRef.viewRef.destroy();
         }
         this._windowCmptRef = null;
         this._backdropCmptRef = null;
@@ -89,7 +92,6 @@ export var NgbModalRef = (function () {
     ];
     /** @nocollapse */
     NgbModalRef.ctorParameters = function () { return [
-        { type: ViewContainerRef, },
         { type: ComponentRef, },
         { type: ContentRef, },
         { type: ComponentRef, },

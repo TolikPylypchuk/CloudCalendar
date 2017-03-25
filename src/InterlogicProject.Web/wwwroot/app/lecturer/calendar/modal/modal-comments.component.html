@@ -7,9 +7,9 @@
 <div *ngFor="let comment of comments; trackBy:getCommentId">
 	<div class="card mt-3">
 		<div class="card-header">
-			<template #commentDateTimeTooltip>
+			<ng-template #commentDateTimeTooltip>
 				{{ formatDateTime(comment.dateTime, "DD.MM.YYYY, HH:mm") }}
-			</template>
+			</ng-template>
 
 			<span [ngbTooltip]="commentDateTimeTooltip"
 			      placement="right" style="cursor: default">

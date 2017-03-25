@@ -1,14 +1,14 @@
 {
   "name": "zone",
   "homepage": "https://github.com/angular/zone.js",
-  "version": "0.7.7",
-  "_release": "0.7.7",
+  "version": "0.8.5",
+  "_release": "0.8.5",
   "_resolution": {
     "type": "version",
-    "tag": "v0.7.7",
-    "commit": "8af21b5a48f647059780cb1721cbb9fc064508c7"
+    "tag": "v0.8.5",
+    "commit": "e11d9ff6c7b0f0bb27d0efd49f03d74e47ea48c9"
   },
   "_source": "https://github.com/angular/zone.js.git",
-  "_target": "0.7.7",
+  "_target": "0.8.5",
   "_originalSource": "zone"
 }

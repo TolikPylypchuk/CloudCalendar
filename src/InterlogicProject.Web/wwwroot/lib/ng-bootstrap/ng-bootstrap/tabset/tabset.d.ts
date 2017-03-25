@@ -60,6 +60,10 @@ export declare class NgbTabset implements AfterContentChecked {
      */
     activeId: string;
     /**
+     * Whether the closed tabs should be hidden without destroying them
+     */
+    destroyOnHide: boolean;
+    /**
      * The horizontal alignment of the nav with flexbox utilities. Can be one of 'start', 'center' or 'end'
      */
     justify: 'start' | 'center' | 'end';

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
@@ -80,6 +81,5 @@ ClassService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
 ], ClassService);
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ClassService;
 //# sourceMappingURL=class.service.js.map

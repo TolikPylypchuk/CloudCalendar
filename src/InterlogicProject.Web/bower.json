@@ -2,18 +2,22 @@
 	"name": "interlogicproject",
 	"version": "1.0.0",
 	"authors": [ "Tolik Pylypchuk" ],
-	"license": "ISC", 
+	"license": "ISC",
 	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TolikPylypchuk/InterlogicProject"
+	},
 	"dependencies": {
 		"bootstrap": "4.0.0-alpha.6",
 		"es6-shim": "0.35.3",
 		"fontawesome": "4.7.0",
-		"fullcalendar": "3.2.0",
-		"jquery": "3.2.0",
-		"moment": "2.18.0",
+		"fullcalendar": "3.3.0",
+		"jquery": "3.2.1",
+		"moment": "2.18.1",
 		"reflect-metadata": "0.1.10",
 		"system.js": "0.20.10",
 		"tether": "1.4.0",
-		"zone": "0.8.4"
+		"zone": "0.8.5"
 	}
 }

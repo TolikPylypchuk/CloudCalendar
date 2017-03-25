@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using InterlogicProject.DAL;
 
 namespace InterlogicProject.DAL.Migrations
 {
@@ -13,14 +11,13 @@ namespace InterlogicProject.DAL.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("InterlogicProject.DAL.Models.Building", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -44,10 +41,11 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateTime");
+
+                    b.Property<bool>("HomeworkEnabled");
 
                     b.Property<int>("SubjectId");
 
@@ -65,8 +63,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.ClassPlace", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassId");
 
@@ -84,8 +81,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Classroom", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BuildingId");
 
@@ -103,8 +99,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassId");
 
@@ -129,8 +124,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("FacultyId");
 
@@ -148,8 +142,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("BuildingId");
 
@@ -170,8 +163,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CuratorId");
 
@@ -194,8 +186,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.GroupClass", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassId");
 
@@ -213,8 +204,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool?>("Accepted");
 
@@ -243,8 +233,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("DepartmentId");
 
@@ -269,8 +258,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.LecturerClass", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassId");
 
@@ -288,8 +276,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClassId");
 
@@ -310,8 +297,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("GroupId");
 
@@ -339,8 +325,7 @@ namespace InterlogicProject.DAL.Migrations
             modelBuilder.Entity("InterlogicProject.DAL.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()

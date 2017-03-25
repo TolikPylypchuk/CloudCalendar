@@ -44,10 +44,15 @@ systemJSPrototype[SystemJSProductionLoader.resolve = RegisterLoader.resolve] = f
     return loader[PLAIN_RESOLVE](key, parentKey);
   })
   .then(function (resolved) {
+    resolved = resolved || key;
+    // if in the registry then we are done
+    if (loader.registry.has(resolved))
+      return resolved;
+
     // then apply paths
     // baseURL is fallback
     var config = loader[CONFIG];
-    return applyPaths(config.baseURL, config.paths, resolved || key);
+    return applyPaths(config.baseURL, config.paths, resolved);
   });
 };
 
@@ -63,11 +68,14 @@ systemJSPrototype.resolveSync = function (key, parentKey) {
     return resolved;
 
   // plain resolution
-  resolved = this[PLAIN_RESOLVE_SYNC](key, parentKey);
+  resolved = this[PLAIN_RESOLVE_SYNC](key, parentKey) || key;
+
+  if (this.registry.has(resolved))
+    return resolved;
 
   // then apply paths
   var config = this[CONFIG];
-  return applyPaths(config.baseURL, config.paths, resolved || key);
+  return applyPaths(config.baseURL, config.paths, resolved);
 };
 
 systemJSPrototype.import = function () {
@@ -156,7 +164,7 @@ systemJSPrototype.config = function (cfg) {
 };
 
 // getConfig configuration cloning
-/* systemJSPrototype.getConfig = function (name) {
+systemJSPrototype.getConfig = function (name) {
   var config = this[CONFIG];
 
   var map = {};
@@ -189,7 +197,7 @@ systemJSPrototype.config = function (cfg) {
     map: map,
     wasm: config.wasm
   };
-}; */
+};
 
 // ensure System.register and System.registerDynamic decanonicalize
 systemJSPrototype.register = function (key, deps, declare) {
@@ -245,14 +253,15 @@ function instantiateIfWasm (loader, url) {
         var deps = [];
         var setters = [];
         var importObj = {};
-        WebAssembly.Module.imports(m).forEach(function (i) {
-          var key = i.module;
-          setters.push(function (m) {
-            importObj[key] = m;
+        if (WebAssembly.Module.imports)
+          WebAssembly.Module.imports(m).forEach(function (i) {
+            var key = i.module;
+            setters.push(function (m) {
+              importObj[key] = m;
+            });
+            if (deps.indexOf(key) === -1)
+              deps.push(key);
           });
-          if (deps.indexOf(key) === -1)
-            deps.push(key);
-        });
         loader.register(deps, function (_export) {
           return {
             setters: setters,

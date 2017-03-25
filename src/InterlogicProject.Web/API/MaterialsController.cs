@@ -88,7 +88,7 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(201)]
 		public async Task<IActionResult> Post(IFormFile file, int classId)
 		{
-			if (file == null || classId == 0)
+			if (file == null || classId <= 0)
 			{
 				return this.BadRequest();
 			}

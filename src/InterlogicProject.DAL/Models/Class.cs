@@ -18,6 +18,10 @@ namespace InterlogicProject.DAL.Models
 		[StringLength(15)]
 		public string Type { get; set; }
 
+		[Required(ErrorMessage =
+			"Вкажіть, чи дозволено завантажувати домашнє завдання")]
+		public bool HomeworkEnabled { get; set; }
+
 		[ForeignKey(nameof(SubjectId))]
 		public Subject Subject { get; set; }
 

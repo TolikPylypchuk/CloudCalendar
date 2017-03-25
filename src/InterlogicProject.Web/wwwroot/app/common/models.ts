@@ -29,6 +29,7 @@ export interface Class extends Entity {
 	subjectName?: string;
 	dateTime?: string;
 	type?: string;
+	homeworkEnabled?: boolean;
 }
 
 export interface ClassPlace extends Entity {

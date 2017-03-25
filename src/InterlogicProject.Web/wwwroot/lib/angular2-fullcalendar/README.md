@@ -1,21 +1,21 @@
 
 # Angular 2: FullCalendar component
 
-An Angular 2 component for fullcalendar
+An Angular 2 component for [fullcalendar](https://fullcalendar.io/).
 
 ## Installation
 ```
-npm install angular2-fullcalendar --save
+npm install ap-angular2-fullcalendar --save
 ```
 ## Usage
-####Import the calendar component
+#### Import the calendar component
 ```
 import {CalendarComponent} from "angular2-fullcalendar/src/calendar/calendar";
-// other imports 
+// other imports
 
 @NgModule({
   declarations: [
-    // other declarations 
+    // other declarations
     CalendarComponent
   ],
   // ...
@@ -103,11 +103,21 @@ export class MyComponent{
 #### Import the fullcalendar css
 If you're using Angular CLI, this is as simple as including one line in your style.css file:
 ```
-@import "fullcalendar/fullcalendar.min.css";
+@import "fullcalendar/dist/fullcalendar.min.css";
 ```
 Alternatively, you can just reference the file directly. This would look something like
 ```
-<link href="node_modules/fullcalendar/fullcalendar.min.css" rel="stylesheet">
+<link href="node_modules/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+```
+
+#### Use CalendarComponent as a ViewChild
+```
+export class MyComponent{
+  @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
+
+  changeCalendarView(view) {
+    this.myCalendar.fullCalendar('changeView', view);
+  }
 ```
 
 ## TODO's

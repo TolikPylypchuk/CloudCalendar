@@ -1,11 +1,11 @@
 {
 	"include": [
-		"wwwroot/app/**/*"
+		"wwwroot/app/"
 	],
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"alwaysStrict": true,
+		"alwaysStrict": false,
 		"declaration":  false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
@@ -26,8 +26,9 @@
 		]
 	},
 	"exclude": [
-		"./node_modules/**",
-		"./wwwroot/lib/**",
-		"**/*.spec.ts"
+		"./node_modules/",
+		"./wwwroot/lib/",
+		"**/*.spec.ts",
+		"**/*.spec.tsx"
 	]
 }

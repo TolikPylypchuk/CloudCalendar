@@ -22,7 +22,7 @@ var NGB_RATING_VALUE_ACCESSOR = {
 export var NgbRating = (function () {
     function NgbRating(config, _changeDetectorRef) {
         this._changeDetectorRef = _changeDetectorRef;
-        this.range = [];
+        this.contexts = [];
         /**
          * An event fired when a user is hovering over a given rating.
          * Event's payload equals to the rating being hovered over.
@@ -43,10 +43,10 @@ export var NgbRating = (function () {
         this.max = config.max;
         this.readonly = config.readonly;
     }
-    NgbRating.prototype.ariaValueText = function () { return this.rate + " out of " + this.max; };
+    NgbRating.prototype.ariaValueText = function () { return this.nextRate + " out of " + this.max; };
     NgbRating.prototype.enter = function (value) {
         if (!this.readonly) {
-            this.rate = value;
+            this._updateState(value);
         }
         this.hover.emit(value);
     };
@@ -71,8 +71,39 @@ export var NgbRating = (function () {
             }
         }
     };
-    NgbRating.prototype.getFillValue = function (index) {
-        var diff = this.rate - index;
+    NgbRating.prototype.ngOnChanges = function (changes) {
+        if (changes['rate']) {
+            this.update(this.rate);
+        }
+    };
+    NgbRating.prototype.ngOnInit = function () {
+        this.contexts = Array.from({ length: this.max }, function () { return ({ fill: 0 }); });
+        this._updateState(this.rate);
+    };
+    NgbRating.prototype.registerOnChange = function (fn) { this.onChange = fn; };
+    NgbRating.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
+    NgbRating.prototype.reset = function () {
+        this.leave.emit(this.nextRate);
+        this._updateState(this.rate);
+    };
+    NgbRating.prototype.update = function (value, internalChange) {
+        if (internalChange === void 0) { internalChange = true; }
+        var newRate = getValueInRange(value, this.max, 0);
+        if (!this.readonly && this.rate !== newRate) {
+            this.rate = newRate;
+            this.rateChange.emit(this.rate);
+        }
+        if (internalChange) {
+            this.onChange(this.rate);
+        }
+        this._updateState(this.rate);
+    };
+    NgbRating.prototype.writeValue = function (value) {
+        this.update(value, false);
+        this._changeDetectorRef.markForCheck();
+    };
+    NgbRating.prototype._getFillValue = function (index) {
+        var diff = this.nextRate - index;
         if (diff >= 1) {
             return 100;
         }
@@ -81,43 +112,27 @@ export var NgbRating = (function () {
         }
         return 0;
     };
-    NgbRating.prototype.ngOnChanges = function (changes) {
-        if (changes['rate']) {
-            this.update(this.rate);
-            this._oldRate = this.rate;
-        }
-    };
-    NgbRating.prototype.ngOnInit = function () { this.range = Array.from({ length: this.max }, function (v, k) { return k + 1; }); };
-    NgbRating.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbRating.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbRating.prototype.reset = function () {
-        this.leave.emit(this.rate);
-        this.rate = this._oldRate;
-    };
-    NgbRating.prototype.update = function (value, internalChange) {
-        if (internalChange === void 0) { internalChange = true; }
-        if (!this.readonly) {
-            var newRate = value ? getValueInRange(value, this.max, 0) : 0;
-            if (this._oldRate !== newRate) {
-                this._oldRate = newRate;
-                this.rate = newRate;
-                this.rateChange.emit(newRate);
-                if (internalChange) {
-                    this.onChange(this.rate);
-                }
-            }
-        }
-    };
-    NgbRating.prototype.writeValue = function (value) {
-        this.update(value, false);
-        this._changeDetectorRef.markForCheck();
+    NgbRating.prototype._updateState = function (nextValue) {
+        var _this = this;
+        this.nextRate = nextValue;
+        this.contexts.forEach(function (context, index) { return context.fill = _this._getFillValue(index); });
     };
     NgbRating.decorators = [
         { type: Component, args: [{
                     selector: 'ngb-rating',
                     changeDetection: ChangeDetectionStrategy.OnPush,
-                    host: { '(keydown)': 'handleKeyDown($event)' },
-                    template: "\n    <template #t let-fill=\"fill\">{{ fill === 100 ? '&#9733;' : '&#9734;' }}</template>\n    <span tabindex=\"0\" (mouseleave)=\"reset()\" role=\"slider\" aria-valuemin=\"0\"\n      [attr.aria-valuemax]=\"max\" [attr.aria-valuenow]=\"rate\" [attr.aria-valuetext]=\"ariaValueText()\">\n      <template ngFor [ngForOf]=\"range\" let-index=\"index\">\n        <span class=\"sr-only\">({{ index < rate ? '*' : ' ' }})</span>\n        <span (mouseenter)=\"enter(index + 1)\" (click)=\"update(index + 1)\" \n        [style.cursor]=\"readonly ? 'default' : 'pointer'\">\n          <template [ngTemplateOutlet]=\"starTemplate || t\" [ngOutletContext]=\"{fill: getFillValue(index)}\"></template>\n        </span>\n      </template>\n    </span>\n  ",
+                    host: {
+                        'class': 'd-inline-flex',
+                        'tabindex': '0',
+                        'role': 'slider',
+                        'attr.aria-valuemin': '0',
+                        '[attr.aria-valuemax]': 'max',
+                        '[attr.aria-valuenow]': 'nextRate',
+                        '[attr.aria-valuetext]': 'ariaValueText()',
+                        '(mouseleave)': 'reset()',
+                        '(keydown)': 'handleKeyDown($event)'
+                    },
+                    template: "\n    <template #t let-fill=\"fill\">{{ fill === 100 ? '&#9733;' : '&#9734;' }}</template>\n    <template ngFor [ngForOf]=\"contexts\" let-index=\"index\">\n      <span class=\"sr-only\">({{ index < nextRate ? '*' : ' ' }})</span>\n      <span (mouseenter)=\"enter(index + 1)\" (click)=\"update(index + 1)\" [style.cursor]=\"readonly ? 'default' : 'pointer'\">\n        <template [ngTemplateOutlet]=\"starTemplate || t\" [ngOutletContext]=\"contexts[index]\"></template>\n      </span>\n    </template>\n  ",
                     providers: [NGB_RATING_VALUE_ACCESSOR]
                 },] },
     ];

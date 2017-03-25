@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
 import {
-	Class, Classroom, Group, Lecturer, Comment, Material
+	Class, Classroom, Group, Lecturer, Comment, Material, Homework
 } from "../../../common/models";
 
 @Injectable()
@@ -53,36 +53,58 @@ export default class ClassService {
 						.catch(this.handleError);
 	}
 
+	getHomeworks(classId: number): Observable<Homework[]> {
+		return this.http.get(`api/materials/classId/${classId}`)
+						.map(response => response.json() as Homework[])
+						.catch(this.handleError);
+	}
+
+	updateClass(c: Class): Observable<Response> {
+		return this.http.put(
+				`api/classes/${c.id}`,
+				JSON.stringify(c),
+				{
+					headers: new Headers({ "Content-Type": "application/json" })
+				})
+			.catch(this.handleError);
+
+	}
+
 	addComment(comment: Comment): Observable<Response> {
 		return this.http.post(
-			"api/comments",
-			JSON.stringify(comment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
+				"api/comments",
+				JSON.stringify(comment),
+				{
+					headers: new Headers({ "Content-Type": "application/json" })
+				})
 			.catch(this.handleError);
 	}
 
 	updateComment(comment: Comment): Observable<Response> {
 		return this.http.put(
-			`api/comments/${comment.id}`,
-			JSON.stringify(comment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
+				`api/comments/${comment.id}`,
+				JSON.stringify(comment),
+				{
+					headers: new Headers({ "Content-Type": "application/json" })
+				})
 			.catch(this.handleError);
 	}
 
 	deleteComment(id: number): Observable<Response> {
 		return this.http.delete(`api/comments/${id}`)
-				   .catch(this.handleError);
+						.catch(this.handleError);
 	}
 
 	deleteMaterial(id: number): Observable<Response> {
 		return this.http.delete(`api/materials/${id}`)
-				   .catch(this.handleError);
+						.catch(this.handleError);
 	}
-	
+
+	deleteHomework(id: number): Observable<Response> {
+		return this.http.delete(`api/homeworks/${id}`)
+						.catch(this.handleError);
+	}
+
 	private handleError(error: Response | any): ErrorObservable {
 		let message: string;
 

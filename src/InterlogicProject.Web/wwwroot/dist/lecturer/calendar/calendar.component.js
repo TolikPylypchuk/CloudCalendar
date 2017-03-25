@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
@@ -89,12 +90,11 @@ var CalendarComponent = (function () {
 CalendarComponent = __decorate([
     core_1.Component({
         selector: "lecturer-calendar",
-        template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<angular2-fullcalendar [options]=\"options\">\n\t\t\t</angular2-fullcalendar>\n\t\t\n\t\t\t<template ngbModalContainer></template>\n\t\t</div>\n\t"
+        template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<angular2-fullcalendar [options]=\"options\">\n\t\t\t</angular2-fullcalendar>\n\t\t\n\t\t\t<ng-template ngbModalContainer></ng-template>\n\t\t</div>\n\t"
     }),
     __metadata("design:paramtypes", [http_1.Http,
         ng_bootstrap_1.NgbModal,
         common_1.LecturerService])
 ], CalendarComponent);
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CalendarComponent;
 //# sourceMappingURL=calendar.component.js.map

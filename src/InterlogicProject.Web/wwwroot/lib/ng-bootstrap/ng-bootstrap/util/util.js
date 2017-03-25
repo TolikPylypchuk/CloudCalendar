@@ -14,6 +14,9 @@ export function isString(value) {
 export function isNumber(value) {
     return !isNaN(toInteger(value));
 }
+export function isInteger(value) {
+    return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
+}
 export function isDefined(value) {
     return value !== undefined && value !== null;
 }

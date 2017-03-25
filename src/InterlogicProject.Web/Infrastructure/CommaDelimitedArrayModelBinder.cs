@@ -21,10 +21,6 @@ namespace InterlogicProject.Web.Infrastructure
 
 		public Task BindModelAsync(ModelBindingContext bindingContext)
 		{
-			if (this.fallbackBinder == null)
-			{
-				throw new ArgumentNullException(nameof(fallbackBinder));
-			}
 			var value = bindingContext.ValueProvider.GetValue(
 				bindingContext.ModelName);
 

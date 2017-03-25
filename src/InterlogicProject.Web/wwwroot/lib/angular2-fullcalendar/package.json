@@ -1,79 +1,91 @@
 {
   "_args": [
     [
-      "angular2-fullcalendar@1.1.1",
+      {
+        "raw": "angular2-fullcalendar",
+        "scope": null,
+        "escapedName": "angular2-fullcalendar",
+        "name": "angular2-fullcalendar",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
       "C:\\Users\\Tolik\\Documents\\Visual Studio 2017\\Projects\\InterlogicProject\\src\\InterlogicProject.Web"
     ]
   ],
-  "_from": "angular2-fullcalendar@1.1.1",
-  "_id": "angular2-fullcalendar@1.1.1",
+  "_from": "angular2-fullcalendar@latest",
+  "_id": "angular2-fullcalendar@1.0.19",
   "_inCache": true,
   "_location": "/angular2-fullcalendar",
-  "_nodeVersion": "6.5.0",
+  "_nodeVersion": "6.9.5",
   "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/angular2-fullcalendar-1.1.1.tgz_1479483347972_0.4272712944075465"
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/angular2-fullcalendar-1.0.19.tgz_1490157153710_0.37043992686085403"
   },
   "_npmUser": {
-    "email": "ken@nekken.ca",
-    "name": "nekken"
+    "name": "nekken",
+    "email": "ken@nekken.ca"
   },
-  "_npmVersion": "3.10.3",
-  "_phantomChildren": {},
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {
+    "jquery": "3.1.1",
+    "moment": "2.18.1"
+  },
   "_requested": {
-    "name": "angular2-fullcalendar",
-    "raw": "angular2-fullcalendar@1.1.1",
-    "rawSpec": "1.1.1",
+    "raw": "angular2-fullcalendar",
     "scope": null,
-    "spec": "1.1.1",
-    "type": "version"
+    "escapedName": "angular2-fullcalendar",
+    "name": "angular2-fullcalendar",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/angular2-fullcalendar/-/angular2-fullcalendar-1.1.1.tgz",
-  "_shasum": "9ce4da69a062a29e1f2ebcee6f4a4bed8947faf2",
+  "_resolved": "https://registry.npmjs.org/angular2-fullcalendar/-/angular2-fullcalendar-1.0.19.tgz",
+  "_shasum": "8e725bd7c0a781d06d41730f78f39f6cd78c59af",
   "_shrinkwrap": null,
-  "_spec": "angular2-fullcalendar@1.1.1",
+  "_spec": "angular2-fullcalendar",
   "_where": "C:\\Users\\Tolik\\Documents\\Visual Studio 2017\\Projects\\InterlogicProject\\src\\InterlogicProject.Web",
   "author": {
-    "email": "ken@nekken.ca",
     "name": "Ken Nguyen",
-    "url": "http://nekken.ca"
+    "email": "ken@nekken.ca"
   },
   "bugs": {
     "url": "https://github.com/nekken/ng2-fullcalendar/issues"
   },
   "dependencies": {
-    "@angular/common": "^2.0.1",
-    "@angular/core": "^2.0.1",
-    "@angular/forms": "^2.0.1",
-    "@types/fullcalendar": "^2.7.35",
-    "@types/jquery": "^2.0.34",
-    "@types/moment": "^2.13.0",
-    "@types/node": "^6.0.42",
-    "fullcalendar": "^3.0.1",
-    "rxjs": "^5.0.0-beta.12"
+    "@angular/common": "2.4.10",
+    "@angular/core": "2.4.10",
+    "@angular/forms": "2.4.10",
+    "@types/fullcalendar": "2.7.38",
+    "@types/jquery": "2.0.41",
+    "@types/moment": "2.13.0",
+    "@types/node": "7.0.8",
+    "fullcalendar": "3.2.0"
   },
   "description": "Angular2 component for FullCalendar",
   "devDependencies": {
-    "@angular/compiler": "^2.0.1",
-    "@angular/platform-browser": "^2.0.1",
-    "typescript": "^2.0.9"
+    "@angular/compiler": "2.4.10",
+    "@angular/platform-browser": "2.4.10",
+    "ng2-datepicker": "2.0.0-dev5",
+    "rxjs": "5.2.0",
+    "typescript": "2.2.1"
   },
   "directories": {},
   "dist": {
-    "shasum": "9ce4da69a062a29e1f2ebcee6f4a4bed8947faf2",
-    "tarball": "https://registry.npmjs.org/angular2-fullcalendar/-/angular2-fullcalendar-1.1.1.tgz"
+    "shasum": "8e725bd7c0a781d06d41730f78f39f6cd78c59af",
+    "tarball": "https://registry.npmjs.org/angular2-fullcalendar/-/angular2-fullcalendar-1.0.19.tgz"
   },
-  "gitHead": "fa7eeb318c68caabd3320735448599b82f11fe4f",
+  "gitHead": "c0a60df36d8af304b3d82485f1562911107f7641",
   "homepage": "https://github.com/nekken/ng2-fullcalendar#readme",
-  "installable": true,
   "keywords": [
-    "angular",
+    "fullcalendar",
     "angular 2",
-    "calendar",
-    "fullcalendar"
+    "angular",
+    "calendar"
   ],
   "license": "MIT",
   "main": "index.js",
@@ -85,6 +97,7 @@
   ],
   "name": "angular2-fullcalendar",
   "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nekken/ng2-fullcalendar.git"
@@ -92,5 +105,5 @@
   "scripts": {
     "prepublish": "node_modules/typescript/bin/tsc"
   },
-  "version": "1.1.1"
+  "version": "1.0.19"
 }

@@ -15,8 +15,8 @@ export interface StarTemplateContext {
  */
 export declare class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
     private _changeDetectorRef;
-    private _oldRate;
-    range: number[];
+    contexts: StarTemplateContext[];
+    nextRate: number;
     /**
      * Maximal rating that can be given using this widget.
      */
@@ -55,7 +55,6 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
     ariaValueText(): string;
     enter(value: number): void;
     handleKeyDown(event: KeyboardEvent): void;
-    getFillValue(index: number): number;
     ngOnChanges(changes: SimpleChanges): void;
     ngOnInit(): void;
     registerOnChange(fn: (value: any) => any): void;
@@ -63,4 +62,6 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
     reset(): void;
     update(value: number, internalChange?: boolean): void;
     writeValue(value: any): void;
+    private _getFillValue(index);
+    private _updateState(nextValue);
 }

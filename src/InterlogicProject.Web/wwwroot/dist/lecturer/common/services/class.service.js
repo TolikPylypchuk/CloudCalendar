@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
@@ -45,6 +46,17 @@ var ClassService = (function () {
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
+    ClassService.prototype.getHomeworks = function (classId) {
+        return this.http.get("api/materials/classId/" + classId)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.updateClass = function (c) {
+        return this.http.put("api/classes/" + c.id, JSON.stringify(c), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .catch(this.handleError);
+    };
     ClassService.prototype.addComment = function (comment) {
         return this.http.post("api/comments", JSON.stringify(comment), {
             headers: new http_1.Headers({ "Content-Type": "application/json" })
@@ -63,6 +75,10 @@ var ClassService = (function () {
     };
     ClassService.prototype.deleteMaterial = function (id) {
         return this.http.delete("api/materials/" + id)
+            .catch(this.handleError);
+    };
+    ClassService.prototype.deleteHomework = function (id) {
+        return this.http.delete("api/homeworks/" + id)
             .catch(this.handleError);
     };
     ClassService.prototype.handleError = function (error) {
@@ -84,6 +100,5 @@ ClassService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
 ], ClassService);
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ClassService;
 //# sourceMappingURL=class.service.js.map

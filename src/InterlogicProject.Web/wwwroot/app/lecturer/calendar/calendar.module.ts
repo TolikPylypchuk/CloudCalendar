@@ -14,6 +14,7 @@ import { CommonModule } from "../common/common";
 import CalendarComponent from "./calendar.component";
 import ModalContentComponent from "./modal/modal-content.component";
 import ModalCommentsComponent from "./modal/modal-comments.component";
+import ModalHomeworkComponent from "./modal/modal-homework.component";
 import ModalMaterialsComponent from "./modal/modal-materials.component";
 
 @NgModule({
@@ -25,6 +26,7 @@ import ModalMaterialsComponent from "./modal/modal-materials.component";
 		CalendarComponent,
 		ModalContentComponent,
 		ModalCommentsComponent,
+		ModalHomeworkComponent,
 		ModalMaterialsComponent
 	],
 	entryComponents: [
@@ -40,8 +42,11 @@ import ModalMaterialsComponent from "./modal/modal-materials.component";
 	],
 	exports: [
 		CalendarComponent,
+
 		ModalContentComponent,
-		ModalCommentsComponent
+		ModalCommentsComponent,
+		ModalHomeworkComponent,
+		ModalMaterialsComponent
 	]
 })
 export default class CalendarModule { }

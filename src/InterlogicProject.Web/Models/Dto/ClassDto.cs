@@ -9,6 +9,7 @@ namespace InterlogicProject.Web.Models.Dto
 		public string SubjectName { get; set; }
 		public DateTime DateTime { get; set; }
 		public string Type { get; set; }
+		public bool HomeworkEnabled { get; set; }
 
 		public override string ToString() => this.SubjectName;
 	}

@@ -17,7 +17,7 @@ import { LecturerService } from "../common/common";
 			<angular2-fullcalendar [options]="options">
 			</angular2-fullcalendar>
 		
-			<template ngbModalContainer></template>
+			<ng-template ngbModalContainer></ng-template>
 		</div>
 	`
 })

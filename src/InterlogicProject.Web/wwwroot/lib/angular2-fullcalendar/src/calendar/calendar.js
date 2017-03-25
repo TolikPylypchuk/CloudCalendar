@@ -18,10 +18,11 @@ require("fullcalendar");
   for more info on Angular 2 Components.
 */
 var CalendarComponent = (function () {
-    function CalendarComponent() {
+    function CalendarComponent(element) {
+        this.element = element;
     }
     CalendarComponent.prototype.ngOnInit = function () {
-        console.log("ngOnInit");
+        // console.log("ngOnInit");
     };
     CalendarComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -34,6 +35,31 @@ var CalendarComponent = (function () {
     };
     CalendarComponent.prototype.ngAfterViewChecked = function () {
     };
+    CalendarComponent.prototype.fullCalendar = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (!args) {
+            return;
+        }
+        switch (args.length) {
+            case 0:
+                return;
+            case 1:
+                return $(this.element.nativeElement).fullCalendar(args[0]);
+            case 2:
+                return $(this.element.nativeElement).fullCalendar(args[0], args[1]);
+            case 3:
+                return $(this.element.nativeElement).fullCalendar(args[0], args[1], args[2]);
+        }
+    };
+    CalendarComponent.prototype.updateEvent = function (event) {
+        return $(this.element.nativeElement).fullCalendar('updateEvent', event);
+    };
+    CalendarComponent.prototype.clientEvents = function (idOrFilter) {
+        return $(this.element.nativeElement).fullCalendar('clientEvents', idOrFilter);
+    };
     return CalendarComponent;
 }());
 __decorate([
@@ -45,7 +71,7 @@ CalendarComponent = __decorate([
         template: '<div></div>',
         selector: 'angular2-fullcalendar'
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [core_1.ElementRef])
 ], CalendarComponent);
 exports.CalendarComponent = CalendarComponent;
 //# sourceMappingURL=calendar.js.map

@@ -12,8 +12,9 @@
 	<p>{{ formatGroups(groups) }}</p>
 	<hr />
 
-	<h5>Домашнє завдання</h5>
-	<p>Немає домашнього завдання.</p>
+	<lecturer-modal-homework [classId]="classId">
+	</lecturer-modal-homework>
+
 	<hr />
 
 	<lecturer-modal-materials [classId]="classId">

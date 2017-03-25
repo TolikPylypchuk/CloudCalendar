@@ -427,7 +427,8 @@ namespace InterlogicProject.Web
 						Id = item.Id + classesInWeek * i,
 						DateTime = item.DateTime + span,
 						Subject = item.Subject,
-						Type = item.Type
+						Type = item.Type,
+						HomeworkEnabled = false
 					});
 				}
 			}
@@ -466,15 +467,17 @@ namespace InterlogicProject.Web
 
 			var result = new List<ClassPlace>();
 
+			var classesList = classes.ToList();
+
 			foreach (var item in tempClassPlaces)
 			{
 				for (int id = item.Class.Id;
-					 classes.Any(c => c.Id == id);
+					 classesList.Any(c => c.Id == id);
 					 id += classesInWeek)
 				{
 					result.Add(new ClassPlace
 					{
-						Class = classes.First(c => c.Id == id),
+						Class = classesList.First(c => c.Id == id),
 						Classroom = item.Classroom
 					});
 				}
@@ -514,16 +517,18 @@ namespace InterlogicProject.Web
 
 			var result = new List<LecturerClass>();
 
+			var classesList = classes.ToList();
+
 			foreach (var item in tempLecturersClasses)
 			{
 				for (int id = item.Class.Id;
-					 classes.Any(c => c.Id == id);
+					 classesList.Any(c => c.Id == id);
 					 id += classesInWeek)
 				{
 					result.Add(new LecturerClass
 					{
 						Lecturer = item.Lecturer,
-						Class = classes.First(c => c.Id == id)
+						Class = classesList.First(c => c.Id == id)
 					});
 				}
 			}
@@ -562,16 +567,18 @@ namespace InterlogicProject.Web
 
 			var result = new List<GroupClass>();
 
+			var classesList = classes.ToList();
+
 			foreach (var item in tempGroupsClasses)
 			{
 				for (int id = item.Class.Id;
-					 classes.Any(c => c.Id == id);
+					 classesList.Any(c => c.Id == id);
 					 id += classesInWeek)
 				{
 					result.Add(new GroupClass
 					{
 						Group = item.Group,
-						Class = classes.First(c => c.Id == id)
+						Class = classesList.First(c => c.Id == id)
 					});
 				}
 			}
