@@ -90,22 +90,22 @@ namespace InterlogicProject.Web.API
 				   .ProjectTo<HomeworkDto>();
 
 		/// <summary>
-		/// Gets all homeworks of the specified student
-		/// with the specified class.
+		/// Gets a homework of the specified student
+		/// for the specified class.
 		/// </summary>
 		/// <param name="classId">The ID of the class.</param>
 		/// <param name="studentId">The ID of the student.</param>
 		/// <returns>
-		/// All homeworks of the specified student with the specified class.
+		/// A homework of the specified student for the specified class.
 		/// </returns>
 		[HttpGet("classId/{classId}/studentId/{studentId}")]
-		[SwaggerResponse(200, Type = typeof(IEnumerable<HomeworkDto>))]
-		public IEnumerable<HomeworkDto> GetForStudentAndClass(
+		[SwaggerResponse(200, Type = typeof(HomeworkDto))]
+		public HomeworkDto GetForStudentAndClass(
 			int classId,
 			int studentId)
-			=> this.homeworks.GetAll()
-				?.Where(h => h.ClassId == classId && h.StudentId == studentId)
-				.ProjectTo<HomeworkDto>();
+			=> Mapper.Map<HomeworkDto>(this.homeworks.GetAll()
+				?.FirstOrDefault(
+					h => h.ClassId == classId && h.StudentId == studentId));
 
 		/// <summary>
 		/// Adds a new homework to the database.
@@ -160,6 +160,68 @@ namespace InterlogicProject.Web.API
 				"GetHomeworkById",
 				new { id = homeworkToAdd.Id },
 				Mapper.Map<HomeworkDto>(homeworkToAdd));
+		}
+
+		/// <summary>
+		/// Updates a homework.
+		/// </summary>
+		/// <param name="id">The ID of the homework.</param>
+		/// <param name="homeworkDto">The homework to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Put(int id, [FromBody] HomeworkDto homeworkDto)
+		{
+			if (homeworkDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var homeworkToUpdate = this.homeworks.GetById(id);
+
+			if (homeworkToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			homeworkToUpdate.Accepted = homeworkDto.Accepted;
+
+			this.homeworks.Update(homeworkToUpdate);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Updates a homework.
+		/// </summary>
+		/// <param name="id">The ID of the homework.</param>
+		/// <param name="homeworkDto">The homework to update.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPatch("{id}")]
+		[SwaggerResponse(204)]
+		public IActionResult Patch(int id, [FromBody] HomeworkDto homeworkDto)
+		{
+			if (homeworkDto == null)
+			{
+				return this.BadRequest();
+			}
+
+			var homeworkToUpdate = this.homeworks.GetById(id);
+
+			if (homeworkToUpdate == null)
+			{
+				return this.NotFound();
+			}
+
+			homeworkToUpdate.Accepted = homeworkDto.Accepted;
+
+			this.homeworks.Update(homeworkToUpdate);
+
+			return this.NoContent();
 		}
 
 		/// <summary>

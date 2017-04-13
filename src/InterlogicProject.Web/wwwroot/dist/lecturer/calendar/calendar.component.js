@@ -70,7 +70,7 @@ var CalendarComponent = (function () {
         });
     };
     CalendarComponent.prototype.eventClicked = function (event) {
-        var modalRef = this.modalService.open(modal_content_component_1.default, { size: "lg" });
+        var modalRef = this.modalService.open(modal_content_component_1.default);
         var modal = modalRef.componentInstance;
         modal.classId = event.id;
     };

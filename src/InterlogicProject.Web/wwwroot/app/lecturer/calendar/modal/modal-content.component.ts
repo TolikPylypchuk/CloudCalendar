@@ -1,12 +1,10 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
-import { Http } from "@angular/http";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Observable } from "rxjs/Observable";
 
 import * as moment from "moment";
 
 import {
-	Student, Lecturer, Class, Classroom, Group
+	Classroom, Group
 } from "../../../common/models";
 
 import { ClassService } from "../../common/common";
@@ -26,16 +24,13 @@ export default class ModalContentComponent implements OnInit {
 	groups: Group[];
 
 	private activeModal: NgbActiveModal;
-	private http: Http;
 
 	private classService: ClassService;
 	
 	constructor(
 		activeModal: NgbActiveModal,
-		http: Http,
 		classService: ClassService) {
 		this.activeModal = activeModal;
-		this.http = http;
 		this.classService = classService;
 	}
 

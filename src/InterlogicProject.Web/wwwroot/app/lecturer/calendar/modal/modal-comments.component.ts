@@ -1,8 +1,7 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
 import * as moment from "moment";
 
-import { Student, Class, Comment } from "../../../common/models";
+import { Comment } from "../../../common/models";
 
 import { LecturerService, ClassService } from "../../common/common";
 

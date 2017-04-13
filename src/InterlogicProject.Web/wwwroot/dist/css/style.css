@@ -18,6 +18,9 @@ button:enabled {
 button:disabled {
   cursor: default; }
 
+label.btn {
+  cursor: pointer; }
+
 .drop-zone {
   border: dotted 3px lightgray;
   background-color: #F9F9F9;

@@ -1,7 +1,5 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
-
 import { Material } from "../../../common/models";
 import { ClassService } from "../../common/common";
 

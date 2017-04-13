@@ -12,10 +12,12 @@ var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var calendar_1 = require("angular2-fullcalendar/src/calendar/calendar");
+var ng2_file_upload_1 = require("ng2-file-upload");
 var common_1 = require("../common/common");
 var calendar_component_1 = require("./calendar.component");
 var modal_content_component_1 = require("./modal/modal-content.component");
 var modal_comments_component_1 = require("./modal/modal-comments.component");
+var modal_homework_component_1 = require("./modal/modal-homework.component");
 var modal_materials_component_1 = require("./modal/modal-materials.component");
 var CalendarModule = (function () {
     function CalendarModule() {
@@ -26,9 +28,12 @@ CalendarModule = __decorate([
     core_1.NgModule({
         declarations: [
             calendar_1.CalendarComponent,
+            ng2_file_upload_1.FileSelectDirective,
+            ng2_file_upload_1.FileDropDirective,
             calendar_component_1.default,
             modal_content_component_1.default,
             modal_comments_component_1.default,
+            modal_homework_component_1.default,
             modal_materials_component_1.default
         ],
         entryComponents: [

@@ -10,17 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var common_1 = require("../../common/common");
 var ModalContentComponent = (function () {
-    function ModalContentComponent(activeModal, http, classService) {
+    function ModalContentComponent(activeModal, classService) {
         this.subjectName = "Завантаження...";
         this.type = "Завантаження...";
         this.dateTime = "";
         this.activeModal = activeModal;
-        this.http = http;
         this.classService = classService;
     }
     ModalContentComponent.prototype.ngOnInit = function () {
@@ -64,7 +62,6 @@ ModalContentComponent = __decorate([
         styleUrls: ["app/lecturer/calendar/modal/modal-content.component.css"]
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
-        http_1.Http,
         common_1.ClassService])
 ], ModalContentComponent);
 exports.default = ModalContentComponent;

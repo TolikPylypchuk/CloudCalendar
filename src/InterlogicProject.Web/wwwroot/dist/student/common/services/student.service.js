@@ -34,6 +34,16 @@ var StudentService = (function () {
     StudentService.prototype.getCurrentGroup = function () {
         return this.currentGroupSource.asObservable();
     };
+    StudentService.prototype.getStudent = function (id) {
+        return this.http.get("api/students/" + id)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    StudentService.prototype.getLecturer = function (id) {
+        return this.http.get("api/lecturers/" + id)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     StudentService.prototype.initUser = function (user) {
         var _this = this;
         this.currentUserSource.next(user);

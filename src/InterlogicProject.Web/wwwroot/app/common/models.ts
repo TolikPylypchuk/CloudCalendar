@@ -20,7 +20,7 @@ export interface EntityWithUser extends Entity {
 }
 
 export interface Building extends Entity {
-	name: string;
+	name?: string;
 	address?: string;
 }
 
@@ -74,6 +74,7 @@ export interface GroupClass extends Entity {
 }
 
 export interface Homework extends Entity {
+	fileName?: string;
 	studentId?: number;
 	classId?: number;
 	dateTime?: string;

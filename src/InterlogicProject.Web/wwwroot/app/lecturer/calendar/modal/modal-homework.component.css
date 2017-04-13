@@ -5,3 +5,7 @@
 button:disabled {
 	cursor: default;
 }
+
+label.btn {
+	cursor: pointer;
+}

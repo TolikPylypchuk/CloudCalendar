@@ -1,6 +1,6 @@
 ﻿import { Injectable } from "@angular/core";
 import {
-	Http, RequestOptions, Response, ResponseContentType, Headers
+	Http, Response, Headers
 } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
@@ -54,7 +54,7 @@ export default class ClassService {
 	}
 
 	getHomeworks(classId: number): Observable<Homework[]> {
-		return this.http.get(`api/materials/classId/${classId}`)
+		return this.http.get(`api/homeworks/classId/${classId}`)
 						.map(response => response.json() as Homework[])
 						.catch(this.handleError);
 	}
@@ -82,11 +82,21 @@ export default class ClassService {
 
 	updateComment(comment: Comment): Observable<Response> {
 		return this.http.put(
-				`api/comments/${comment.id}`,
-				JSON.stringify(comment),
-				{
-					headers: new Headers({ "Content-Type": "application/json" })
-				})
+			`api/comments/${comment.id}`,
+			JSON.stringify(comment),
+			{
+				headers: new Headers({ "Content-Type": "application/json" })
+			})
+			.catch(this.handleError);
+	}
+
+	updateHomework(homework: Homework): Observable<Response> {
+		return this.http.put(
+			`api/homeworks/${homework.id}`,
+			JSON.stringify(homework),
+			{
+				headers: new Headers({ "Content-Type": "application/json" })
+			})
 			.catch(this.handleError);
 	}
 

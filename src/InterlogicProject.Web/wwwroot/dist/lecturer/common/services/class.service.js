@@ -47,7 +47,7 @@ var ClassService = (function () {
             .catch(this.handleError);
     };
     ClassService.prototype.getHomeworks = function (classId) {
-        return this.http.get("api/materials/classId/" + classId)
+        return this.http.get("api/homeworks/classId/" + classId)
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
     };
@@ -65,6 +65,12 @@ var ClassService = (function () {
     };
     ClassService.prototype.updateComment = function (comment) {
         return this.http.put("api/comments/" + comment.id, JSON.stringify(comment), {
+            headers: new http_1.Headers({ "Content-Type": "application/json" })
+        })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.updateHomework = function (homework) {
+        return this.http.put("api/homeworks/" + homework.id, JSON.stringify(homework), {
             headers: new http_1.Headers({ "Content-Type": "application/json" })
         })
             .catch(this.handleError);

@@ -10,18 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var moment = require("moment");
 var common_1 = require("../../common/common");
 var ModalCommentsComponent = (function () {
-    function ModalCommentsComponent(http, studentService, classService) {
+    function ModalCommentsComponent(studentService, classService) {
         this.comments = [];
         this.currentComment = {
             text: ""
         };
         this.editedCommentId = 0;
         this.editedCommentOriginalText = "";
-        this.http = http;
         this.studentService = studentService;
         this.classService = classService;
     }
@@ -61,6 +59,7 @@ var ModalCommentsComponent = (function () {
                     userMiddleName: _this.currentComment.userMiddleName,
                     userLastName: _this.currentComment.userLastName,
                     userFullName: _this.currentComment.userFullName,
+                    userEmail: _this.currentComment.userEmail,
                     classId: _this.currentComment.classId,
                     text: ""
                 };
@@ -105,8 +104,7 @@ ModalCommentsComponent = __decorate([
         selector: "student-modal-comments",
         templateUrl: "app/student/calendar/modal/modal-comments.component.html"
     }),
-    __metadata("design:paramtypes", [http_1.Http,
-        common_1.StudentService,
+    __metadata("design:paramtypes", [common_1.StudentService,
         common_1.ClassService])
 ], ModalCommentsComponent);
 exports.default = ModalCommentsComponent;

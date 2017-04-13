@@ -30,6 +30,16 @@ var LecturerService = (function () {
     LecturerService.prototype.getCurrentLecturer = function () {
         return this.currentLecturerSource.asObservable();
     };
+    LecturerService.prototype.getLecturer = function (id) {
+        return this.http.get("api/lecturers/" + id)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    LecturerService.prototype.getStudent = function (id) {
+        return this.http.get("api/students/" + id)
+            .map(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     LecturerService.prototype.initUser = function (user) {
         var _this = this;
         this.currentUserSource.next(user);

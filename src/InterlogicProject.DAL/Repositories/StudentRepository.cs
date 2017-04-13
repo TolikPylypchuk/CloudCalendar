@@ -18,6 +18,12 @@ namespace InterlogicProject.DAL.Repositories
 		public override Student GetById(int id)
 		{
 			var result = base.GetById(id);
+
+			if (result == null)
+			{
+				return null;
+			}
+
 			var entry = this.Context.Entry(result);
 
 			entry.Reference(d => d.User).Load();
@@ -29,6 +35,12 @@ namespace InterlogicProject.DAL.Repositories
 		public override async Task<Student> GetByIdAsync(int id)
 		{
 			var result = await base.GetByIdAsync(id);
+
+			if (result == null)
+			{
+				return null;
+			}
+
 			var entry = this.Context.Entry(result);
 
 			entry.Reference(d => d.User).Load();

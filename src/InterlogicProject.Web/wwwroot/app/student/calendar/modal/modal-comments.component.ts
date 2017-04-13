@@ -1,9 +1,7 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
-import { Http, Headers } from "@angular/http";
-import { Observable } from "rxjs";
 import * as moment from "moment";
 
-import { Student, Class, Comment } from "../../../common/models";
+import { Comment } from "../../../common/models";
 
 import { StudentService, ClassService } from "../../common/common";
 
@@ -23,15 +21,12 @@ export default class ModalCommentsComponent implements OnInit {
 	editedCommentId = 0;
 	editedCommentOriginalText = "";
 
-	private http: Http;
 	private studentService: StudentService;
 	private classService: ClassService;
 
 	constructor(
-		http: Http,
 		studentService: StudentService,
 		classService: ClassService) {
-		this.http = http;
 		this.studentService = studentService;
 		this.classService = classService;
 	}
@@ -76,6 +71,7 @@ export default class ModalCommentsComponent implements OnInit {
 						userMiddleName: this.currentComment.userMiddleName,
 						userLastName: this.currentComment.userLastName,
 						userFullName: this.currentComment.userFullName,
+						userEmail: this.currentComment.userEmail,
 						classId: this.currentComment.classId,
 						text: ""
 					};

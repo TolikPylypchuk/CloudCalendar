@@ -18,32 +18,74 @@ var ClassService = (function () {
     }
     ClassService.prototype.getClass = function (id) {
         return this.http.get("api/classes/" + id)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.getPlaces = function (classId) {
         return this.http.get("api/classrooms/classId/" + classId)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.getGroups = function (classId) {
         return this.http.get("api/groups/classId/" + classId)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.getLecturers = function (classId) {
         return this.http.get("api/lecturers/classId/" + classId)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.getComments = function (classId) {
         return this.http.get("api/comments/classId/" + classId)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.getMaterials = function (classId) {
         return this.http.get("api/materials/classId/" + classId)
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.getHomeworks = function (classId) {
+        return this.http.get("api/homeworks/classId/" + classId)
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
+            .catch(this.handleError);
+    };
+    ClassService.prototype.getHomework = function (classId, studentId) {
+        return this.http.get("api/homeworks/classId/" + classId + "/studentId/" + studentId)
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .catch(this.handleError);
     };
     ClassService.prototype.addComment = function (comment) {
@@ -60,6 +102,10 @@ var ClassService = (function () {
     };
     ClassService.prototype.deleteComment = function (id) {
         return this.http.delete("api/comments/" + id)
+            .catch(this.handleError);
+    };
+    ClassService.prototype.deleteHomework = function (id) {
+        return this.http.delete("api/homeworks/" + id)
             .catch(this.handleError);
     };
     ClassService.prototype.handleError = function (error) {

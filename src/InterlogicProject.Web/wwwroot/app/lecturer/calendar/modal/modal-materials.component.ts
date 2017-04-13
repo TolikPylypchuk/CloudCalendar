@@ -1,11 +1,10 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
-
 import { FileUploader } from "ng2-file-upload";
 
-import { Material } from "../../../common/models";
 import { ClassService } from "../../common/common";
+
+import { Material } from "../../../common/models";
 
 @Component({
 	selector: "lecturer-modal-materials",
@@ -15,12 +14,12 @@ import { ClassService } from "../../common/common";
 export default class ModalMaterialsComponent implements OnInit {
 	@Input() classId: number;
 
-	classService: ClassService;
-
 	materials: Material[] = [];
 
 	uploader: FileUploader;
 	hasDropZoneOver = false;
+
+	private classService: ClassService;
 
 	constructor(classService: ClassService) {
 		this.classService = classService;

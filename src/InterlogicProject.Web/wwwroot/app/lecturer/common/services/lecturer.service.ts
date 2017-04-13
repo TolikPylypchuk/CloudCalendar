@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
-import { Lecturer, Group, User } from "../../../common/models";
+import { Lecturer, Student, User } from "../../../common/models";
 
 @Injectable()
 export default class LecturerService {
@@ -28,6 +28,18 @@ export default class LecturerService {
 
 	getCurrentLecturer(): Observable<Lecturer> {
 		return this.currentLecturerSource.asObservable();
+	}
+
+	getLecturer(id: number): Observable<Lecturer> {
+		return this.http.get(`api/lecturers/${id}`)
+						.map(response => response.json() as Lecturer)
+						.catch(this.handleError);
+	}
+
+	getStudent(id: number): Observable<Student> {
+		return this.http.get(`api/students/${id}`)
+						.map(response => response.json() as Student)
+						.catch(this.handleError);
 	}
 	
 	private initUser(user: User): void {

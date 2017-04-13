@@ -54,14 +54,19 @@
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.css" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.html" />
+    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.ts" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
@@ -87,8 +92,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="AutoMapper" Version="6.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0-rc3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0-rc3" />

@@ -7,7 +7,7 @@ import { NgbModalModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { CalendarComponent as FullcalendarComponent } from
 	"angular2-fullcalendar/src/calendar/calendar";
 
-import { FileSelectDirective, FileDropDirective, FileUploader } from "ng2-file-upload";
+import { FileSelectDirective, FileDropDirective } from "ng2-file-upload";
 
 import { CommonModule } from "../common/common";
 

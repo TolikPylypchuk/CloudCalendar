@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit } from "@angular/core";
+﻿import { Component } from "@angular/core";
 import { Http } from "@angular/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Subscription";
@@ -6,7 +6,7 @@ import * as moment from "moment";
 
 import ModalContentComponent from "./modal/modal-content.component";
 
-import { Student, Class } from "../../common/models";
+import { Class } from "../../common/models";
 
 import { LecturerService } from "../common/common";
 
@@ -96,8 +96,7 @@ export default class CalendarComponent {
 	}
 
 	private eventClicked(event: FC.EventObject): void {
-		const modalRef = this.modalService.open(
-			ModalContentComponent, { size: "lg" });
+		const modalRef = this.modalService.open(ModalContentComponent);
 		const modal = modalRef.componentInstance as ModalContentComponent;
 		modal.classId = event.id;
 	}
