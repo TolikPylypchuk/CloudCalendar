@@ -4,39 +4,41 @@ var nextId = 0;
 /**
  * This directive should be used to wrap tab titles that need to contain HTML markup or other directives.
  */
-export var NgbTabTitle = (function () {
+var NgbTabTitle = (function () {
     function NgbTabTitle(templateRef) {
         this.templateRef = templateRef;
     }
-    NgbTabTitle.decorators = [
-        { type: Directive, args: [{ selector: 'template[ngbTabTitle]' },] },
-    ];
-    /** @nocollapse */
-    NgbTabTitle.ctorParameters = function () { return [
-        { type: TemplateRef, },
-    ]; };
     return NgbTabTitle;
 }());
+export { NgbTabTitle };
+NgbTabTitle.decorators = [
+    { type: Directive, args: [{ selector: 'ng-template[ngbTabTitle]' },] },
+];
+/** @nocollapse */
+NgbTabTitle.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
 /**
  * This directive must be used to wrap content to be displayed in a tab.
  */
-export var NgbTabContent = (function () {
+var NgbTabContent = (function () {
     function NgbTabContent(templateRef) {
         this.templateRef = templateRef;
     }
-    NgbTabContent.decorators = [
-        { type: Directive, args: [{ selector: 'template[ngbTabContent]' },] },
-    ];
-    /** @nocollapse */
-    NgbTabContent.ctorParameters = function () { return [
-        { type: TemplateRef, },
-    ]; };
     return NgbTabContent;
 }());
+export { NgbTabContent };
+NgbTabContent.decorators = [
+    { type: Directive, args: [{ selector: 'ng-template[ngbTabContent]' },] },
+];
+/** @nocollapse */
+NgbTabContent.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
 /**
  * A directive representing an individual tab.
  */
-export var NgbTab = (function () {
+var NgbTab = (function () {
     function NgbTab() {
         /**
          * Unique tab identifier. Must be unique for the entire document for proper accessibility support.
@@ -47,24 +49,25 @@ export var NgbTab = (function () {
          */
         this.disabled = false;
     }
-    NgbTab.decorators = [
-        { type: Directive, args: [{ selector: 'ngb-tab' },] },
-    ];
-    /** @nocollapse */
-    NgbTab.ctorParameters = function () { return []; };
-    NgbTab.propDecorators = {
-        'id': [{ type: Input },],
-        'title': [{ type: Input },],
-        'disabled': [{ type: Input },],
-        'contentTpl': [{ type: ContentChild, args: [NgbTabContent,] },],
-        'titleTpl': [{ type: ContentChild, args: [NgbTabTitle,] },],
-    };
     return NgbTab;
 }());
+export { NgbTab };
+NgbTab.decorators = [
+    { type: Directive, args: [{ selector: 'ngb-tab' },] },
+];
+/** @nocollapse */
+NgbTab.ctorParameters = function () { return []; };
+NgbTab.propDecorators = {
+    'id': [{ type: Input },],
+    'title': [{ type: Input },],
+    'disabled': [{ type: Input },],
+    'contentTpl': [{ type: ContentChild, args: [NgbTabContent,] },],
+    'titleTpl': [{ type: ContentChild, args: [NgbTabTitle,] },],
+};
 /**
  * A component that makes it easy to create tabbed interface.
  */
-export var NgbTabset = (function () {
+var NgbTabset = (function () {
     function NgbTabset(config) {
         /**
          * Whether the closed tabs should be hidden without destroying them
@@ -100,26 +103,26 @@ export var NgbTabset = (function () {
         var tabsWithId = this.tabs.filter(function (tab) { return tab.id === id; });
         return tabsWithId.length ? tabsWithId[0] : null;
     };
-    NgbTabset.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-tabset',
-                    exportAs: 'ngbTabset',
-                    host: { 'role': 'tabpanel' },
-                    template: "\n    <ul [class]=\"'nav nav-' + type + ' justify-content-' + justify\" role=\"tablist\">\n      <li class=\"nav-item\" *ngFor=\"let tab of tabs\">\n        <a [id]=\"tab.id\" class=\"nav-link\" [class.active]=\"tab.id === activeId\" [class.disabled]=\"tab.disabled\"\n          href (click)=\"!!select(tab.id)\" role=\"tab\" [attr.aria-controls]=\"tab.id + '-panel'\" [attr.aria-expanded]=\"tab.id === activeId\">\n          {{tab.title}}<template [ngTemplateOutlet]=\"tab.titleTpl?.templateRef\"></template>\n        </a>\n      </li>\n    </ul>\n    <div class=\"tab-content\">\n      <template ngFor let-tab [ngForOf]=\"tabs\">\n        <div\n          class=\"tab-pane {{tab.id === activeId ? 'active' : null}}\"\n          *ngIf=\"!destroyOnHide || tab.id === activeId\"\n          role=\"tabpanel\"\n          [attr.aria-labelledby]=\"tab.id\" id=\"{{tab.id}}-panel\"\n          [attr.aria-expanded]=\"tab.id === activeId\">\n          <template [ngTemplateOutlet]=\"tab.contentTpl.templateRef\"></template>\n        </div>\n      </template>\n    </div>\n  "
-                },] },
-    ];
-    /** @nocollapse */
-    NgbTabset.ctorParameters = function () { return [
-        { type: NgbTabsetConfig, },
-    ]; };
-    NgbTabset.propDecorators = {
-        'tabs': [{ type: ContentChildren, args: [NgbTab,] },],
-        'activeId': [{ type: Input },],
-        'destroyOnHide': [{ type: Input },],
-        'justify': [{ type: Input },],
-        'type': [{ type: Input },],
-        'tabChange': [{ type: Output },],
-    };
     return NgbTabset;
 }());
+export { NgbTabset };
+NgbTabset.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-tabset',
+                exportAs: 'ngbTabset',
+                template: "\n    <ul [class]=\"'nav nav-' + type + ' justify-content-' + justify\" role=\"tablist\">\n      <li class=\"nav-item\" *ngFor=\"let tab of tabs\">\n        <a [id]=\"tab.id\" class=\"nav-link\" [class.active]=\"tab.id === activeId\" [class.disabled]=\"tab.disabled\"\n          href (click)=\"!!select(tab.id)\" role=\"tab\" [attr.tabindex]=\"(tab.disabled ? '-1': undefined)\"\n          [attr.aria-controls]=\"(!destroyOnHide || tab.id === activeId ? tab.id + '-panel' : null)\"\n          [attr.aria-expanded]=\"tab.id === activeId\" [attr.aria-disabled]=\"tab.disabled\">\n          {{tab.title}}<ng-template [ngTemplateOutlet]=\"tab.titleTpl?.templateRef\"></ng-template>\n        </a>\n      </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n        <div\n          class=\"tab-pane {{tab.id === activeId ? 'active' : null}}\"\n          *ngIf=\"!destroyOnHide || tab.id === activeId\"\n          role=\"tabpanel\"\n          [attr.aria-labelledby]=\"tab.id\" id=\"{{tab.id}}-panel\"\n          [attr.aria-expanded]=\"tab.id === activeId\">\n          <ng-template [ngTemplateOutlet]=\"tab.contentTpl.templateRef\"></ng-template>\n        </div>\n      </ng-template>\n    </div>\n  "
+            },] },
+];
+/** @nocollapse */
+NgbTabset.ctorParameters = function () { return [
+    { type: NgbTabsetConfig, },
+]; };
+NgbTabset.propDecorators = {
+    'tabs': [{ type: ContentChildren, args: [NgbTab,] },],
+    'activeId': [{ type: Input },],
+    'destroyOnHide': [{ type: Input },],
+    'justify': [{ type: Input },],
+    'type': [{ type: Input },],
+    'tabChange': [{ type: Output },],
+};
 //# sourceMappingURL=tabset.js.map

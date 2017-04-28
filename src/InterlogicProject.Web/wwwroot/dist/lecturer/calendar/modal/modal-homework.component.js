@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("../../common/common");
 var ModalHomeworkComponent = (function () {
@@ -85,7 +84,7 @@ var ModalHomeworkComponent = (function () {
             ? "Не перевірено"
             : accepted
                 ? "Прийнято"
-                : "Не прийнято";
+                : "Відхилено";
     };
     ModalHomeworkComponent.prototype.getAcceptedClass = function (accepted) {
         return accepted === null
@@ -108,5 +107,6 @@ ModalHomeworkComponent = __decorate([
     }),
     __metadata("design:paramtypes", [common_1.ClassService, common_1.LecturerService])
 ], ModalHomeworkComponent);
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ModalHomeworkComponent;
 //# sourceMappingURL=modal-homework.component.js.map

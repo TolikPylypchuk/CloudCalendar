@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var calendar_component_1 = require("./calendar.component");
 exports.CalendarComponent = calendar_component_1.default;
 var modal_content_component_1 = require("./modal/modal-content.component");

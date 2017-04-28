@@ -2,6 +2,7 @@ import { EventEmitter, OnInit, OnDestroy, Injector, Renderer, ElementRef, Templa
 import { NgbTooltipConfig } from './tooltip-config';
 export declare class NgbTooltipWindow {
     placement: 'top' | 'bottom' | 'left' | 'right';
+    id: string;
 }
 /**
  * A lightweight, extensible directive for fancy tooltip creation.
@@ -23,14 +24,15 @@ export declare class NgbTooltip implements OnInit, OnDestroy {
      */
     container: string;
     /**
-   * Emits an event when the tooltip is shown
-   */
+     * Emits an event when the tooltip is shown
+     */
     shown: EventEmitter<{}>;
     /**
      * Emits an event when the tooltip is hidden
      */
     hidden: EventEmitter<{}>;
     private _ngbTooltip;
+    private _ngbTooltipWindowId;
     private _popupService;
     private _windowRef;
     private _unregisterListenersFn;

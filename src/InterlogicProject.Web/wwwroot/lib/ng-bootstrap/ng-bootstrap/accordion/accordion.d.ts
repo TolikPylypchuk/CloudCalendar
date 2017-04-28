@@ -20,10 +20,6 @@ export declare class NgbPanelContent {
  */
 export declare class NgbPanel {
     /**
-     * Defines if the tab control is focused
-     */
-    focused: boolean;
-    /**
      *  A flag determining whether the panel is disabled or not.
      *  When disabled, the panel cannot be toggled.
      */

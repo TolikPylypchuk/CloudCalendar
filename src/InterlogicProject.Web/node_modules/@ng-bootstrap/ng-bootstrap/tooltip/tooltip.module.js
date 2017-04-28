@@ -3,15 +3,16 @@ import { NgbTooltip, NgbTooltipWindow } from './tooltip';
 import { NgbTooltipConfig } from './tooltip-config';
 export { NgbTooltipConfig } from './tooltip-config';
 export { NgbTooltip } from './tooltip';
-export var NgbTooltipModule = (function () {
+var NgbTooltipModule = (function () {
     function NgbTooltipModule() {
     }
     NgbTooltipModule.forRoot = function () { return { ngModule: NgbTooltipModule, providers: [NgbTooltipConfig] }; };
-    NgbTooltipModule.decorators = [
-        { type: NgModule, args: [{ declarations: [NgbTooltip, NgbTooltipWindow], exports: [NgbTooltip], entryComponents: [NgbTooltipWindow] },] },
-    ];
-    /** @nocollapse */
-    NgbTooltipModule.ctorParameters = function () { return []; };
     return NgbTooltipModule;
 }());
+export { NgbTooltipModule };
+NgbTooltipModule.decorators = [
+    { type: NgModule, args: [{ declarations: [NgbTooltip, NgbTooltipWindow], exports: [NgbTooltip], entryComponents: [NgbTooltipWindow] },] },
+];
+/** @nocollapse */
+NgbTooltipModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=tooltip.module.js.map

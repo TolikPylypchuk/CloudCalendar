@@ -9,15 +9,16 @@ import { padNumber, toInteger, isNumber } from '../util/util';
  * directive. A default implementation using the ISO 8601 format is provided, but you can provide another implementation
  * to use an alternative format.
  */
-export var NgbDateParserFormatter = (function () {
+var NgbDateParserFormatter = (function () {
     function NgbDateParserFormatter() {
     }
     return NgbDateParserFormatter;
 }());
-export var NgbDateISOParserFormatter = (function (_super) {
+export { NgbDateParserFormatter };
+var NgbDateISOParserFormatter = (function (_super) {
     __extends(NgbDateISOParserFormatter, _super);
     function NgbDateISOParserFormatter() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NgbDateISOParserFormatter.prototype.parse = function (value) {
         if (value) {
@@ -41,4 +42,5 @@ export var NgbDateISOParserFormatter = (function (_super) {
     };
     return NgbDateISOParserFormatter;
 }(NgbDateParserFormatter));
+export { NgbDateISOParserFormatter };
 //# sourceMappingURL=ngb-date-parser-formatter.js.map

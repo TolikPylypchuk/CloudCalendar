@@ -1,6 +1,6 @@
 // previous version:
 // https://github.com/angular-ui/bootstrap/blob/07c31d0731f7cb068a1932b8e01d2312b796b4ec/src/position/position.js
-export var Positioning = (function () {
+var Positioning = (function () {
     function Positioning() {
     }
     Positioning.prototype.getStyle = function (element, prop) { return window.getComputedStyle(element)[prop]; };
@@ -124,6 +124,7 @@ export var Positioning = (function () {
     };
     return Positioning;
 }());
+export { Positioning };
 var positionService = new Positioning();
 export function positionElements(hostElement, targetElement, placement, appendToBody) {
     var pos = positionService.positionElements(hostElement, targetElement, placement, appendToBody);

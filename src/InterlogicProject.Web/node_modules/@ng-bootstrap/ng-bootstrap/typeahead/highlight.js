@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { regExpEscape, toString } from '../util/util';
-export var NgbHighlight = (function () {
+var NgbHighlight = (function () {
     function NgbHighlight() {
         this.highlightClass = 'ngb-highlight';
     }
@@ -20,23 +20,24 @@ export var NgbHighlight = (function () {
             this.parts = [resultStr];
         }
     };
-    NgbHighlight.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-highlight',
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    template: "<template ngFor [ngForOf]=\"parts\" let-part let-isOdd=\"odd\">" +
-                        "<span *ngIf=\"isOdd\" class=\"{{highlightClass}}\">{{part}}</span><template [ngIf]=\"!isOdd\">{{part}}</template>" +
-                        "</template>",
-                    styles: ["\n    .ngb-highlight {\n      font-weight: bold;\n    }\n  "]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbHighlight.ctorParameters = function () { return []; };
-    NgbHighlight.propDecorators = {
-        'highlightClass': [{ type: Input },],
-        'result': [{ type: Input },],
-        'term': [{ type: Input },],
-    };
     return NgbHighlight;
 }());
+export { NgbHighlight };
+NgbHighlight.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-highlight',
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                template: "<ng-template ngFor [ngForOf]=\"parts\" let-part let-isOdd=\"odd\">" +
+                    "<span *ngIf=\"isOdd\" class=\"{{highlightClass}}\">{{part}}</span><ng-template [ngIf]=\"!isOdd\">{{part}}</ng-template>" +
+                    "</ng-template>",
+                styles: ["\n    .ngb-highlight {\n      font-weight: bold;\n    }\n  "]
+            },] },
+];
+/** @nocollapse */
+NgbHighlight.ctorParameters = function () { return []; };
+NgbHighlight.propDecorators = {
+    'highlightClass': [{ type: Input },],
+    'result': [{ type: Input },],
+    'term': [{ type: Input },],
+};
 //# sourceMappingURL=highlight.js.map

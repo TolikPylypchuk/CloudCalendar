@@ -4,16 +4,17 @@ import { Injectable } from '@angular/core';
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all the popovers used in the application.
  */
-export var NgbPopoverConfig = (function () {
+var NgbPopoverConfig = (function () {
     function NgbPopoverConfig() {
         this.placement = 'top';
         this.triggers = 'click';
     }
-    NgbPopoverConfig.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbPopoverConfig.ctorParameters = function () { return []; };
     return NgbPopoverConfig;
 }());
+export { NgbPopoverConfig };
+NgbPopoverConfig.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbPopoverConfig.ctorParameters = function () { return []; };
 //# sourceMappingURL=popover-config.js.map

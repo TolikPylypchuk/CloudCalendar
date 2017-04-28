@@ -16,6 +16,7 @@ export interface StarTemplateContext {
 export declare class NgbRating implements ControlValueAccessor, OnInit, OnChanges {
     private _changeDetectorRef;
     contexts: StarTemplateContext[];
+    disabled: boolean;
     nextRate: number;
     /**
      * Maximal rating that can be given using this widget.
@@ -31,7 +32,7 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
     readonly: boolean;
     /**
      * A template to override star display.
-     * Alternatively put a <template> as the only child of <ngb-rating> element
+     * Alternatively put a <ng-template> as the only child of <ngb-rating> element
      */
     starTemplate: TemplateRef<StarTemplateContext>;
     /**
@@ -60,6 +61,7 @@ export declare class NgbRating implements ControlValueAccessor, OnInit, OnChange
     registerOnChange(fn: (value: any) => any): void;
     registerOnTouched(fn: () => any): void;
     reset(): void;
+    setDisabledState(isDisabled: boolean): void;
     update(value: number, internalChange?: boolean): void;
     writeValue(value: any): void;
     private _getFillValue(index);

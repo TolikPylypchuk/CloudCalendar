@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0
+ * @license Angular v4.1.0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */(function (global, factory) {
@@ -14,7 +14,7 @@ var __extends = (undefined && undefined.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0
+ * @license Angular v4.1.0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */ /**
@@ -272,31 +272,134 @@ function isNavigationCancelingError(error) {
  * @return {?}
  */
 function defaultUrlMatcher(segments, segmentGroup, route) {
-    var /** @type {?} */ path = route.path;
-    var /** @type {?} */ parts = path.split('/');
-    var /** @type {?} */ posParams = {};
-    var /** @type {?} */ consumed = [];
-    var /** @type {?} */ currentIndex = 0;
-    for (var /** @type {?} */ i = 0; i < parts.length; ++i) {
-        if (currentIndex >= segments.length)
-            return null;
-        var /** @type {?} */ current = segments[currentIndex];
-        var /** @type {?} */ p = parts[i];
-        var /** @type {?} */ isPosParam = p.startsWith(':');
-        if (!isPosParam && p !== current.path)
-            return null;
-        if (isPosParam) {
-            posParams[p.substring(1)] = current;
-        }
-        consumed.push(current);
-        currentIndex++;
-    }
-    if (route.pathMatch === 'full' &&
-        (segmentGroup.hasChildren() || currentIndex < segments.length)) {
+    var /** @type {?} */ parts = ((route.path)).split('/');
+    if (parts.length > segments.length) {
+        // The actual URL is shorter than the config, no match
         return null;
     }
+    if (route.pathMatch === 'full' &&
+        (segmentGroup.hasChildren() || parts.length < segments.length)) {
+        // The config is longer than the actual URL but we are looking for a full match, return null
+        return null;
+    }
+    var /** @type {?} */ posParams = {};
+    // Check each config part against the actual URL
+    for (var /** @type {?} */ index = 0; index < parts.length; index++) {
+        var /** @type {?} */ part = parts[index];
+        var /** @type {?} */ segment = segments[index];
+        var /** @type {?} */ isParameter = part.startsWith(':');
+        if (isParameter) {
+            posParams[part.substring(1)] = segment;
+        }
+        else if (part !== segment.path) {
+            // The actual URL part does not match the config, no match
+            return null;
+        }
+    }
+    return { consumed: segments.slice(0, parts.length), posParams: posParams };
+}
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var LoadedRouterConfig = (function () {
+    /**
+     * @param {?} routes
+     * @param {?} module
+     */
+    function LoadedRouterConfig(routes, module) {
+        this.routes = routes;
+        this.module = module;
+    }
+    return LoadedRouterConfig;
+}());
+/**
+ * @param {?} config
+ * @param {?=} parentPath
+ * @return {?}
+ */
+function validateConfig(config, parentPath) {
+    if (parentPath === void 0) { parentPath = ''; }
+    // forEach doesn't iterate undefined values
+    for (var /** @type {?} */ i = 0; i < config.length; i++) {
+        var /** @type {?} */ route = config[i];
+        var /** @type {?} */ fullPath = getFullPath(parentPath, route);
+        validateNode(route, fullPath);
+    }
+}
+/**
+ * @param {?} route
+ * @param {?} fullPath
+ * @return {?}
+ */
+function validateNode(route, fullPath) {
+    if (!route) {
+        throw new Error("\n      Invalid configuration of route '" + fullPath + "': Encountered undefined route.\n      The reason might be an extra comma.\n\n      Example:\n      const routes: Routes = [\n        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },\n        { path: 'dashboard',  component: DashboardComponent },, << two commas\n        { path: 'detail/:id', component: HeroDetailComponent }\n      ];\n    ");
+    }
+    if (Array.isArray(route)) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': Array cannot be specified");
+    }
+    if (!route.component && (route.outlet && route.outlet !== PRIMARY_OUTLET)) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': a componentless route cannot have a named outlet set");
+    }
+    if (route.redirectTo && route.children) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and children cannot be used together");
+    }
+    if (route.redirectTo && route.loadChildren) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and loadChildren cannot be used together");
+    }
+    if (route.children && route.loadChildren) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': children and loadChildren cannot be used together");
+    }
+    if (route.redirectTo && route.component) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and component cannot be used together");
+    }
+    if (route.path && route.matcher) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': path and matcher cannot be used together");
+    }
+    if (route.redirectTo === void 0 && !route.component && !route.children && !route.loadChildren) {
+        throw new Error("Invalid configuration of route '" + fullPath + "'. One of the following must be provided: component, redirectTo, children or loadChildren");
+    }
+    if (route.path === void 0 && route.matcher === void 0) {
+        throw new Error("Invalid configuration of route '" + fullPath + "': routes must have either a path or a matcher specified");
+    }
+    if (typeof route.path === 'string' && route.path.charAt(0) === '/') {
+        throw new Error("Invalid configuration of route '" + fullPath + "': path cannot start with a slash");
+    }
+    if (route.path === '' && route.redirectTo !== void 0 && route.pathMatch === void 0) {
+        var /** @type {?} */ exp = "The default value of 'pathMatch' is 'prefix', but often the intent is to use 'full'.";
+        throw new Error("Invalid configuration of route '{path: \"" + fullPath + "\", redirectTo: \"" + route.redirectTo + "\"}': please provide 'pathMatch'. " + exp);
+    }
+    if (route.pathMatch !== void 0 && route.pathMatch !== 'full' && route.pathMatch !== 'prefix') {
+        throw new Error("Invalid configuration of route '" + fullPath + "': pathMatch can only be set to 'prefix' or 'full'");
+    }
+    if (route.children) {
+        validateConfig(route.children, fullPath);
+    }
+}
+/**
+ * @param {?} parentPath
+ * @param {?} currentRoute
+ * @return {?}
+ */
+function getFullPath(parentPath, currentRoute) {
+    if (!currentRoute) {
+        return parentPath;
+    }
+    if (!parentPath && !currentRoute.path) {
+        return '';
+    }
+    else if (parentPath && !currentRoute.path) {
+        return parentPath + "/";
+    }
+    else if (!parentPath && currentRoute.path) {
+        return currentRoute.path;
+    }
     else {
-        return { consumed: consumed, posParams: posParams };
+        return parentPath + "/" + currentRoute.path;
     }
 }
 /**
@@ -342,23 +445,12 @@ function shallowEqual(a, b) {
 }
 /**
  * @template T
- * @param {?} a
+ * @param {?} arr
  * @return {?}
  */
-function flatten(a) {
-    var /** @type {?} */ target = [];
-    for (var /** @type {?} */ i = 0; i < a.length; ++i) {
-        for (var /** @type {?} */ j = 0; j < a[i].length; ++j) {
-            target.push(a[i][j]);
-        }
-    }
-    return target;
+function flatten(arr) {
+    return Array.prototype.concat.apply([], arr);
 }
-/**
- * @template T
- * @param {?} a
- * @return {?}
- */
 /**
  * @template T
  * @param {?} a
@@ -371,26 +463,6 @@ function last$1(a) {
  * @param {?} bools
  * @return {?}
  */
-/**
- * @template V
- * @param {?} m1
- * @param {?} m2
- * @return {?}
- */
-function merge(m1, m2) {
-    var /** @type {?} */ m = {};
-    for (var /** @type {?} */ attr in m1) {
-        if (m1.hasOwnProperty(attr)) {
-            m[attr] = m1[attr];
-        }
-    }
-    for (var /** @type {?} */ attr in m2) {
-        if (m2.hasOwnProperty(attr)) {
-            m[attr] = m2[attr];
-        }
-    }
-    return m;
-}
 /**
  * @template K, V
  * @param {?} map
@@ -411,30 +483,24 @@ function forEach(map$$1, callback) {
  * @return {?}
  */
 function waitForMap(obj, fn) {
-    var /** @type {?} */ waitFor = [];
+    if (Object.keys(obj).length === 0) {
+        return rxjs_observable_of.of({});
+    }
+    var /** @type {?} */ waitHead = [];
+    var /** @type {?} */ waitTail = [];
     var /** @type {?} */ res = {};
     forEach(obj, function (a, k) {
+        var /** @type {?} */ mapped = rxjs_operator_map.map.call(fn(k, a), function (r) { return res[k] = r; });
         if (k === PRIMARY_OUTLET) {
-            waitFor.push(rxjs_operator_map.map.call(fn(k, a), function (_) {
-                res[k] = _;
-                return _;
-            }));
+            waitHead.push(mapped);
+        }
+        else {
+            waitTail.push(mapped);
         }
     });
-    forEach(obj, function (a, k) {
-        if (k !== PRIMARY_OUTLET) {
-            waitFor.push(rxjs_operator_map.map.call(fn(k, a), function (_) {
-                res[k] = _;
-                return _;
-            }));
-        }
-    });
-    if (waitFor.length > 0) {
-        var /** @type {?} */ concatted$ = rxjs_operator_concatAll.concatAll.call(rxjs_observable_of.of.apply(void 0, waitFor));
-        var /** @type {?} */ last$ = rxjs_operator_last.last.call(concatted$);
-        return rxjs_operator_map.map.call(last$, function () { return res; });
-    }
-    return rxjs_observable_of.of(res);
+    var /** @type {?} */ concat$ = rxjs_operator_concatAll.concatAll.call(rxjs_observable_of.of.apply(void 0, waitHead.concat(waitTail)));
+    var /** @type {?} */ last$ = rxjs_operator_last.last.call(concat$);
+    return rxjs_operator_map.map.call(last$, function () { return res; });
 }
 /**
  * @param {?} observables
@@ -458,83 +524,6 @@ function wrapIntoObservable(value) {
     }
     return rxjs_observable_of.of(value);
 }
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * \@docsNotRequired
- * \@experimental
- */
-var ROUTES = new _angular_core.InjectionToken('ROUTES');
-var LoadedRouterConfig = (function () {
-    /**
-     * @param {?} routes
-     * @param {?} module
-     */
-    function LoadedRouterConfig(routes, module) {
-        this.routes = routes;
-        this.module = module;
-    }
-    return LoadedRouterConfig;
-}());
-var RouterConfigLoader = (function () {
-    /**
-     * @param {?} loader
-     * @param {?} compiler
-     * @param {?=} onLoadStartListener
-     * @param {?=} onLoadEndListener
-     */
-    function RouterConfigLoader(loader, compiler, onLoadStartListener, onLoadEndListener) {
-        this.loader = loader;
-        this.compiler = compiler;
-        this.onLoadStartListener = onLoadStartListener;
-        this.onLoadEndListener = onLoadEndListener;
-    }
-    /**
-     * @param {?} parentInjector
-     * @param {?} route
-     * @return {?}
-     */
-    RouterConfigLoader.prototype.load = function (parentInjector, route) {
-        var _this = this;
-        if (this.onLoadStartListener) {
-            this.onLoadStartListener(route);
-        }
-        var /** @type {?} */ moduleFactory$ = this.loadModuleFactory(route.loadChildren);
-        return rxjs_operator_map.map.call(moduleFactory$, function (factory) {
-            if (_this.onLoadEndListener) {
-                _this.onLoadEndListener(route);
-            }
-            var /** @type {?} */ module = factory.create(parentInjector);
-            return new LoadedRouterConfig(flatten(module.injector.get(ROUTES)), module);
-        });
-    };
-    /**
-     * @param {?} loadChildren
-     * @return {?}
-     */
-    RouterConfigLoader.prototype.loadModuleFactory = function (loadChildren) {
-        var _this = this;
-        if (typeof loadChildren === 'string') {
-            return rxjs_observable_fromPromise.fromPromise(this.loader.load(loadChildren));
-        }
-        else {
-            return rxjs_operator_mergeMap.mergeMap.call(wrapIntoObservable(loadChildren()), function (t) {
-                if (t instanceof _angular_core.NgModuleFactory) {
-                    return rxjs_observable_of.of(t);
-                }
-                else {
-                    return rxjs_observable_fromPromise.fromPromise(_this.compiler.compileModuleAsync(t));
-                }
-            });
-        }
-    };
-    return RouterConfigLoader;
-}());
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -699,7 +688,7 @@ var UrlTree = (function () {
      * \@docsNotRequired
      * @return {?}
      */
-    UrlTree.prototype.toString = function () { return new DefaultUrlSerializer().serialize(this); };
+    UrlTree.prototype.toString = function () { return DEFAULT_SERIALIZER.serialize(this); };
     return UrlTree;
 }());
 /**
@@ -798,34 +787,22 @@ var UrlSegment = (function () {
     return UrlSegment;
 }());
 /**
- * @param {?} a
- * @param {?} b
+ * @param {?} as
+ * @param {?} bs
  * @return {?}
  */
-function equalSegments(a, b) {
-    if (a.length !== b.length)
-        return false;
-    for (var /** @type {?} */ i = 0; i < a.length; ++i) {
-        if (a[i].path !== b[i].path)
-            return false;
-        if (!shallowEqual(a[i].parameters, b[i].parameters))
-            return false;
-    }
-    return true;
+function equalSegments(as, bs) {
+    return equalPath(as, bs) && as.every(function (a, i) { return shallowEqual(a.parameters, bs[i].parameters); });
 }
 /**
- * @param {?} a
- * @param {?} b
+ * @param {?} as
+ * @param {?} bs
  * @return {?}
  */
-function equalPath(a, b) {
-    if (a.length !== b.length)
+function equalPath(as, bs) {
+    if (as.length !== bs.length)
         return false;
-    for (var /** @type {?} */ i = 0; i < a.length; ++i) {
-        if (a[i].path !== b[i].path)
-            return false;
-    }
-    return true;
+    return as.every(function (a, i) { return a.path === bs[i].path; });
 }
 /**
  * @template T
@@ -915,11 +892,12 @@ var DefaultUrlSerializer = (function () {
     DefaultUrlSerializer.prototype.serialize = function (tree) {
         var /** @type {?} */ segment = "/" + serializeSegment(tree.root, true);
         var /** @type {?} */ query = serializeQueryParams(tree.queryParams);
-        var /** @type {?} */ fragment = tree.fragment !== null && tree.fragment !== undefined ? "#" + encodeURI(tree.fragment) : '';
+        var /** @type {?} */ fragment = typeof tree.fragment === "string" ? "#" + encodeURI(/** @type {?} */ ((tree.fragment))) : '';
         return "" + segment + query + fragment;
     };
     return DefaultUrlSerializer;
 }());
+var DEFAULT_SERIALIZER = new DefaultUrlSerializer();
 /**
  * @param {?} segment
  * @return {?}
@@ -933,7 +911,10 @@ function serializePaths(segment) {
  * @return {?}
  */
 function serializeSegment(segment, root) {
-    if (segment.hasChildren() && root) {
+    if (!segment.hasChildren()) {
+        return serializePaths(segment);
+    }
+    if (root) {
         var /** @type {?} */ primary = segment.children[PRIMARY_OUTLET] ?
             serializeSegment(segment.children[PRIMARY_OUTLET], false) :
             '';
@@ -943,26 +924,16 @@ function serializeSegment(segment, root) {
                 children_1.push(k + ":" + serializeSegment(v, false));
             }
         });
-        if (children_1.length > 0) {
-            return primary + "(" + children_1.join('//') + ")";
-        }
-        else {
-            return "" + primary;
-        }
+        return children_1.length > 0 ? primary + "(" + children_1.join('//') + ")" : primary;
     }
-    else if (segment.hasChildren() && !root) {
+    else {
         var /** @type {?} */ children = mapChildrenIntoArray(segment, function (v, k) {
             if (k === PRIMARY_OUTLET) {
                 return [serializeSegment(segment.children[PRIMARY_OUTLET], false)];
             }
-            else {
-                return [k + ":" + serializeSegment(v, false)];
-            }
+            return [k + ":" + serializeSegment(v, false)];
         });
         return serializePaths(segment) + "/(" + children.join('//') + ")";
-    }
-    else {
-        return serializePaths(segment);
     }
 }
 /**
@@ -991,7 +962,7 @@ function serializePath(path) {
  * @return {?}
  */
 function serializeParams(params) {
-    return pairs(params).map(function (p) { return ";" + encode(p.first) + "=" + encode(p.second); }).join('');
+    return Object.keys(params).map(function (key) { return ";" + encode(key) + "=" + encode(params[key]); }).join('');
 }
 /**
  * @param {?} params
@@ -1005,38 +976,12 @@ function serializeQueryParams(params) {
     });
     return strParams.length ? "?" + strParams.join("&") : '';
 }
-var Pair = (function () {
-    /**
-     * @param {?} first
-     * @param {?} second
-     */
-    function Pair(first$$1, second) {
-        this.first = first$$1;
-        this.second = second;
-    }
-    return Pair;
-}());
-/**
- * @template T
- * @param {?} obj
- * @return {?}
- */
-function pairs(obj) {
-    var /** @type {?} */ res = [];
-    for (var /** @type {?} */ prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            res.push(new Pair(prop, obj[prop]));
-        }
-    }
-    return res;
-}
 var SEGMENT_RE = /^[^\/()?;=&#]+/;
 /**
  * @param {?} str
  * @return {?}
  */
 function matchSegments(str) {
-    SEGMENT_RE.lastIndex = 0;
     var /** @type {?} */ match = str.match(SEGMENT_RE);
     return match ? match[0] : '';
 }
@@ -1046,8 +991,7 @@ var QUERY_PARAM_RE = /^[^=?&#]+/;
  * @return {?}
  */
 function matchQueryParams(str) {
-    QUERY_PARAM_RE.lastIndex = 0;
-    var /** @type {?} */ match = str.match(SEGMENT_RE);
+    var /** @type {?} */ match = str.match(QUERY_PARAM_RE);
     return match ? match[0] : '';
 }
 var QUERY_PARAM_VALUE_RE = /^[^?&#]+/;
@@ -1056,7 +1000,6 @@ var QUERY_PARAM_VALUE_RE = /^[^?&#]+/;
  * @return {?}
  */
 function matchUrlQueryParamValue(str) {
-    QUERY_PARAM_VALUE_RE.lastIndex = 0;
     var /** @type {?} */ match = str.match(QUERY_PARAM_VALUE_RE);
     return match ? match[0] : '';
 }
@@ -1069,49 +1012,49 @@ var UrlParser = (function () {
         this.remaining = url;
     }
     /**
-     * @param {?} str
-     * @return {?}
-     */
-    UrlParser.prototype.peekStartsWith = function (str) { return this.remaining.startsWith(str); };
-    /**
-     * @param {?} str
-     * @return {?}
-     */
-    UrlParser.prototype.capture = function (str) {
-        if (!this.remaining.startsWith(str)) {
-            throw new Error("Expected \"" + str + "\".");
-        }
-        this.remaining = this.remaining.substring(str.length);
-    };
-    /**
      * @return {?}
      */
     UrlParser.prototype.parseRootSegment = function () {
-        if (this.remaining.startsWith('/')) {
-            this.capture('/');
-        }
-        if (this.remaining === '' || this.remaining.startsWith('?') || this.remaining.startsWith('#')) {
+        this.consumeOptional('/');
+        if (this.remaining === '' || this.peekStartsWith('?') || this.peekStartsWith('#')) {
             return new UrlSegmentGroup([], {});
         }
+        // The root segment group never has segments
         return new UrlSegmentGroup([], this.parseChildren());
     };
     /**
      * @return {?}
      */
+    UrlParser.prototype.parseQueryParams = function () {
+        var /** @type {?} */ params = {};
+        if (this.consumeOptional('?')) {
+            do {
+                this.parseQueryParam(params);
+            } while (this.consumeOptional('&'));
+        }
+        return params;
+    };
+    /**
+     * @return {?}
+     */
+    UrlParser.prototype.parseFragment = function () {
+        return this.consumeOptional('#') ? decodeURI(this.remaining) : null;
+    };
+    /**
+     * @return {?}
+     */
     UrlParser.prototype.parseChildren = function () {
-        if (this.remaining.length == 0) {
+        if (this.remaining === '') {
             return {};
         }
-        if (this.peekStartsWith('/')) {
-            this.capture('/');
-        }
-        var /** @type {?} */ paths = [];
+        this.consumeOptional('/');
+        var /** @type {?} */ segments = [];
         if (!this.peekStartsWith('(')) {
-            paths.push(this.parseSegments());
+            segments.push(this.parseSegment());
         }
         while (this.peekStartsWith('/') && !this.peekStartsWith('//') && !this.peekStartsWith('/(')) {
             this.capture('/');
-            paths.push(this.parseSegments());
+            segments.push(this.parseSegment());
         }
         var /** @type {?} */ children = {};
         if (this.peekStartsWith('/(')) {
@@ -1122,57 +1065,28 @@ var UrlParser = (function () {
         if (this.peekStartsWith('(')) {
             res = this.parseParens(false);
         }
-        if (paths.length > 0 || Object.keys(children).length > 0) {
-            res[PRIMARY_OUTLET] = new UrlSegmentGroup(paths, children);
+        if (segments.length > 0 || Object.keys(children).length > 0) {
+            res[PRIMARY_OUTLET] = new UrlSegmentGroup(segments, children);
         }
         return res;
     };
     /**
      * @return {?}
      */
-    UrlParser.prototype.parseSegments = function () {
+    UrlParser.prototype.parseSegment = function () {
         var /** @type {?} */ path = matchSegments(this.remaining);
         if (path === '' && this.peekStartsWith(';')) {
             throw new Error("Empty path url segment cannot have parameters: '" + this.remaining + "'.");
         }
         this.capture(path);
-        var /** @type {?} */ matrixParams = {};
-        if (this.peekStartsWith(';')) {
-            matrixParams = this.parseMatrixParams();
-        }
-        return new UrlSegment(decode(path), matrixParams);
-    };
-    /**
-     * @return {?}
-     */
-    UrlParser.prototype.parseQueryParams = function () {
-        var /** @type {?} */ params = {};
-        if (this.peekStartsWith('?')) {
-            this.capture('?');
-            this.parseQueryParam(params);
-            while (this.remaining.length > 0 && this.peekStartsWith('&')) {
-                this.capture('&');
-                this.parseQueryParam(params);
-            }
-        }
-        return params;
-    };
-    /**
-     * @return {?}
-     */
-    UrlParser.prototype.parseFragment = function () {
-        if (this.peekStartsWith('#')) {
-            return decodeURI(this.remaining.substring(1));
-        }
-        return null;
+        return new UrlSegment(decode(path), this.parseMatrixParams());
     };
     /**
      * @return {?}
      */
     UrlParser.prototype.parseMatrixParams = function () {
         var /** @type {?} */ params = {};
-        while (this.remaining.length > 0 && this.peekStartsWith(';')) {
-            this.capture(';');
+        while (this.consumeOptional(';')) {
             this.parseParam(params);
         }
         return params;
@@ -1188,8 +1102,7 @@ var UrlParser = (function () {
         }
         this.capture(key);
         var /** @type {?} */ value = '';
-        if (this.peekStartsWith('=')) {
-            this.capture('=');
+        if (this.consumeOptional('=')) {
             var /** @type {?} */ valueMatch = matchSegments(this.remaining);
             if (valueMatch) {
                 value = valueMatch;
@@ -1209,8 +1122,7 @@ var UrlParser = (function () {
         }
         this.capture(key);
         var /** @type {?} */ value = '';
-        if (this.peekStartsWith('=')) {
-            this.capture('=');
+        if (this.consumeOptional('=')) {
             var /** @type {?} */ valueMatch = matchUrlQueryParamValue(this.remaining);
             if (valueMatch) {
                 value = valueMatch;
@@ -1240,7 +1152,7 @@ var UrlParser = (function () {
     UrlParser.prototype.parseParens = function (allowPrimary) {
         var /** @type {?} */ segments = {};
         this.capture('(');
-        while (!this.peekStartsWith(')') && this.remaining.length > 0) {
+        while (!this.consumeOptional(')') && this.remaining.length > 0) {
             var /** @type {?} */ path = matchSegments(this.remaining);
             var /** @type {?} */ next = this.remaining[path.length];
             // if is is not one of these characters, then the segment was unescaped
@@ -1248,7 +1160,7 @@ var UrlParser = (function () {
             if (next !== '/' && next !== ')' && next !== ';') {
                 throw new Error("Cannot parse url '" + this.url + "'");
             }
-            var /** @type {?} */ outletName = void 0;
+            var /** @type {?} */ outletName = ((undefined));
             if (path.indexOf(':') > -1) {
                 outletName = path.substr(0, path.indexOf(':'));
                 this.capture(outletName);
@@ -1260,12 +1172,34 @@ var UrlParser = (function () {
             var /** @type {?} */ children = this.parseChildren();
             segments[outletName] = Object.keys(children).length === 1 ? children[PRIMARY_OUTLET] :
                 new UrlSegmentGroup([], children);
-            if (this.peekStartsWith('//')) {
-                this.capture('//');
-            }
+            this.consumeOptional('//');
         }
-        this.capture(')');
         return segments;
+    };
+    /**
+     * @param {?} str
+     * @return {?}
+     */
+    UrlParser.prototype.peekStartsWith = function (str) { return this.remaining.startsWith(str); };
+    /**
+     * @param {?} str
+     * @return {?}
+     */
+    UrlParser.prototype.consumeOptional = function (str) {
+        if (this.peekStartsWith(str)) {
+            this.remaining = this.remaining.substring(str.length);
+            return true;
+        }
+        return false;
+    };
+    /**
+     * @param {?} str
+     * @return {?}
+     */
+    UrlParser.prototype.capture = function (str) {
+        if (!this.consumeOptional(str)) {
+            throw new Error("Expected \"" + str + "\".");
+        }
     };
     return UrlParser;
 }());
@@ -1276,13 +1210,21 @@ var UrlParser = (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __assign$1 = (undefined && undefined.__assign) || Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+    }
+    return t;
+};
 var NoMatch = (function () {
     /**
      * @param {?=} segmentGroup
      */
     function NoMatch(segmentGroup) {
-        if (segmentGroup === void 0) { segmentGroup = null; }
-        this.segmentGroup = segmentGroup;
+        this.segmentGroup = segmentGroup || null;
     }
     return NoMatch;
 }());
@@ -1324,6 +1266,9 @@ function canLoadFails(route) {
     return new rxjs_Observable.Observable(function (obs) { return obs.error(navigationCancelingError("Cannot load children because the guard of the route \"path: '" + route.path + "'\" returned false")); });
 }
 /**
+ * Returns the `UrlTree` with the redirection applied.
+ *
+ * Lazy modules are loaded along the way.
  * @param {?} moduleInjector
  * @param {?} configLoader
  * @param {?} urlSerializer
@@ -1356,7 +1301,7 @@ var ApplyRedirects = (function () {
     ApplyRedirects.prototype.apply = function () {
         var _this = this;
         var /** @type {?} */ expanded$ = this.expandSegmentGroup(this.ngModule, this.config, this.urlTree.root, PRIMARY_OUTLET);
-        var /** @type {?} */ urlTrees$ = rxjs_operator_map.map.call(expanded$, function (rootSegmentGroup) { return _this.createUrlTree(rootSegmentGroup, _this.urlTree.queryParams, _this.urlTree.fragment); });
+        var /** @type {?} */ urlTrees$ = rxjs_operator_map.map.call(expanded$, function (rootSegmentGroup) { return _this.createUrlTree(rootSegmentGroup, _this.urlTree.queryParams, /** @type {?} */ ((_this.urlTree.fragment))); });
         return rxjs_operator_catch._catch.call(urlTrees$, function (e) {
             if (e instanceof AbsoluteRedirect) {
                 // after an absolute redirect we do not apply any more redirects!
@@ -1377,7 +1322,7 @@ var ApplyRedirects = (function () {
     ApplyRedirects.prototype.match = function (tree) {
         var _this = this;
         var /** @type {?} */ expanded$ = this.expandSegmentGroup(this.ngModule, this.config, tree.root, PRIMARY_OUTLET);
-        var /** @type {?} */ mapped$ = rxjs_operator_map.map.call(expanded$, function (rootSegmentGroup) { return _this.createUrlTree(rootSegmentGroup, tree.queryParams, tree.fragment); });
+        var /** @type {?} */ mapped$ = rxjs_operator_map.map.call(expanded$, function (rootSegmentGroup) { return _this.createUrlTree(rootSegmentGroup, tree.queryParams, /** @type {?} */ ((tree.fragment))); });
         return rxjs_operator_catch._catch.call(mapped$, function (e) {
             if (e instanceof NoMatch) {
                 throw _this.noMatchError(e);
@@ -1484,13 +1429,13 @@ var ApplyRedirects = (function () {
         if (getOutlet$1(route) !== outlet) {
             return noMatch(segmentGroup);
         }
-        if (route.redirectTo !== undefined && !(allowRedirects && this.allowRedirects)) {
-            return noMatch(segmentGroup);
-        }
         if (route.redirectTo === undefined) {
             return this.matchSegmentAgainstRoute(ngModule, segmentGroup, route, paths);
         }
-        return this.expandSegmentAgainstRouteUsingRedirect(ngModule, segmentGroup, routes, route, paths, outlet);
+        if (allowRedirects && this.allowRedirects) {
+            return this.expandSegmentAgainstRouteUsingRedirect(ngModule, segmentGroup, routes, route, paths, outlet);
+        }
+        return noMatch(segmentGroup);
     };
     /**
      * @param {?} ngModule
@@ -1516,8 +1461,8 @@ var ApplyRedirects = (function () {
      */
     ApplyRedirects.prototype.expandWildCardWithParamsAgainstRouteUsingRedirect = function (ngModule, routes, route, outlet) {
         var _this = this;
-        var /** @type {?} */ newTree = this.applyRedirectCommands([], route.redirectTo, {});
-        if (route.redirectTo.startsWith('/')) {
+        var /** @type {?} */ newTree = this.applyRedirectCommands([], /** @type {?} */ ((route.redirectTo)), {});
+        if (((route.redirectTo)).startsWith('/')) {
             return absoluteRedirect(newTree);
         }
         return rxjs_operator_mergeMap.mergeMap.call(this.lineralizeSegments(route, newTree), function (newSegments) {
@@ -1539,8 +1484,8 @@ var ApplyRedirects = (function () {
         var _a = match(segmentGroup, route, segments), matched = _a.matched, consumedSegments = _a.consumedSegments, lastChild = _a.lastChild, positionalParamSegments = _a.positionalParamSegments;
         if (!matched)
             return noMatch(segmentGroup);
-        var /** @type {?} */ newTree = this.applyRedirectCommands(consumedSegments, route.redirectTo, /** @type {?} */ (positionalParamSegments));
-        if (route.redirectTo.startsWith('/')) {
+        var /** @type {?} */ newTree = this.applyRedirectCommands(consumedSegments, /** @type {?} */ ((route.redirectTo)), /** @type {?} */ (positionalParamSegments));
+        if (((route.redirectTo)).startsWith('/')) {
             return absoluteRedirect(newTree);
         }
         return rxjs_operator_mergeMap.mergeMap.call(this.lineralizeSegments(route, newTree), function (newSegments) {
@@ -1559,7 +1504,7 @@ var ApplyRedirects = (function () {
         if (route.path === '**') {
             if (route.loadChildren) {
                 return rxjs_operator_map.map.call(this.configLoader.load(ngModule.injector, route), function (cfg) {
-                    ((route))._loadedConfig = cfg;
+                    route._loadedConfig = cfg;
                     return new UrlSegmentGroup(segments, {});
                 });
             }
@@ -1597,14 +1542,16 @@ var ApplyRedirects = (function () {
             return rxjs_observable_of.of(new LoadedRouterConfig(route.children, ngModule));
         }
         if (route.loadChildren) {
-            return rxjs_operator_mergeMap.mergeMap.call(runGuards(ngModule.injector, route), function (shouldLoad) {
+            // lazy children belong to the loaded module
+            if (route._loadedConfig !== undefined) {
+                return rxjs_observable_of.of(route._loadedConfig);
+            }
+            return rxjs_operator_mergeMap.mergeMap.call(runCanLoadGuard(ngModule.injector, route), function (shouldLoad) {
                 if (shouldLoad) {
-                    return ((route))._loadedConfig ?
-                        rxjs_observable_of.of(((route))._loadedConfig) :
-                        rxjs_operator_map.map.call(_this.configLoader.load(ngModule.injector, route), function (cfg) {
-                            ((route))._loadedConfig = cfg;
-                            return cfg;
-                        });
+                    return rxjs_operator_map.map.call(_this.configLoader.load(ngModule.injector, route), function (cfg) {
+                        route._loadedConfig = cfg;
+                        return cfg;
+                    });
                 }
                 return canLoadFails(route);
             });
@@ -1625,7 +1572,7 @@ var ApplyRedirects = (function () {
                 return rxjs_observable_of.of(res);
             }
             if (c.numberOfChildren > 1 || !c.children[PRIMARY_OUTLET]) {
-                return namedOutletsRedirect(route.redirectTo);
+                return namedOutletsRedirect(/** @type {?} */ ((route.redirectTo)));
             }
             c = c.children[PRIMARY_OUTLET];
         }
@@ -1726,12 +1673,12 @@ var ApplyRedirects = (function () {
  * @param {?} route
  * @return {?}
  */
-function runGuards(moduleInjector, route) {
+function runCanLoadGuard(moduleInjector, route) {
     var /** @type {?} */ canLoad = route.canLoad;
     if (!canLoad || canLoad.length === 0)
         return rxjs_observable_of.of(true);
-    var /** @type {?} */ obs = rxjs_operator_map.map.call(rxjs_observable_from.from(canLoad), function (c) {
-        var /** @type {?} */ guard = moduleInjector.get(c);
+    var /** @type {?} */ obs = rxjs_operator_map.map.call(rxjs_observable_from.from(canLoad), function (injectionToken) {
+        var /** @type {?} */ guard = moduleInjector.get(injectionToken);
         return wrapIntoObservable(guard.canLoad ? guard.canLoad(route) : guard(route));
     });
     return andObservables(obs);
@@ -1743,7 +1690,6 @@ function runGuards(moduleInjector, route) {
  * @return {?}
  */
 function match(segmentGroup, route, segments) {
-    var /** @type {?} */ noMatch = { matched: false, consumedSegments: /** @type {?} */ ([]), lastChild: 0, positionalParamSegments: {} };
     if (route.path === '') {
         if ((route.pathMatch === 'full') && (segmentGroup.hasChildren() || segments.length > 0)) {
             return { matched: false, consumedSegments: [], lastChild: 0, positionalParamSegments: {} };
@@ -1752,13 +1698,16 @@ function match(segmentGroup, route, segments) {
     }
     var /** @type {?} */ matcher = route.matcher || defaultUrlMatcher;
     var /** @type {?} */ res = matcher(segments, segmentGroup, route);
-    if (!res)
-        return noMatch;
+    if (!res) {
+        return {
+            matched: false, consumedSegments: /** @type {?} */ ([]), lastChild: 0, positionalParamSegments: {},
+        };
+    }
     return {
         matched: true,
-        consumedSegments: res.consumed,
-        lastChild: res.consumed.length,
-        positionalParamSegments: res.posParams
+        consumedSegments: /** @type {?} */ ((res.consumed)),
+        lastChild: /** @type {?} */ ((res.consumed.length)),
+        positionalParamSegments: /** @type {?} */ ((res.posParams)),
     };
 }
 /**
@@ -1803,11 +1752,11 @@ function addEmptySegmentsToChildrenIfNeeded(segmentGroup, slicedSegments, routes
     var /** @type {?} */ res = {};
     for (var _i = 0, routes_1 = routes; _i < routes_1.length; _i++) {
         var r = routes_1[_i];
-        if (emptyPathRedirect(segmentGroup, slicedSegments, r) && !children[getOutlet$1(r)]) {
+        if (isEmptyPathRedirect(segmentGroup, slicedSegments, r) && !children[getOutlet$1(r)]) {
             res[getOutlet$1(r)] = new UrlSegmentGroup([], {});
         }
     }
-    return merge(children, res);
+    return __assign$1({}, children, res);
 }
 /**
  * @param {?} routes
@@ -1827,33 +1776,30 @@ function createChildrenForEmptySegments(routes, primarySegmentGroup) {
 }
 /**
  * @param {?} segmentGroup
- * @param {?} slicedSegments
+ * @param {?} segments
  * @param {?} routes
  * @return {?}
  */
-function containsEmptyPathRedirectsWithNamedOutlets(segmentGroup, slicedSegments, routes) {
-    return routes
-        .filter(function (r) { return emptyPathRedirect(segmentGroup, slicedSegments, r) &&
-        getOutlet$1(r) !== PRIMARY_OUTLET; })
-        .length > 0;
+function containsEmptyPathRedirectsWithNamedOutlets(segmentGroup, segments, routes) {
+    return routes.some(function (r) { return isEmptyPathRedirect(segmentGroup, segments, r) && getOutlet$1(r) !== PRIMARY_OUTLET; });
 }
 /**
  * @param {?} segmentGroup
- * @param {?} slicedSegments
+ * @param {?} segments
  * @param {?} routes
  * @return {?}
  */
-function containsEmptyPathRedirects(segmentGroup, slicedSegments, routes) {
-    return routes.filter(function (r) { return emptyPathRedirect(segmentGroup, slicedSegments, r); }).length > 0;
+function containsEmptyPathRedirects(segmentGroup, segments, routes) {
+    return routes.some(function (r) { return isEmptyPathRedirect(segmentGroup, segments, r); });
 }
 /**
  * @param {?} segmentGroup
- * @param {?} slicedSegments
+ * @param {?} segments
  * @param {?} r
  * @return {?}
  */
-function emptyPathRedirect(segmentGroup, slicedSegments, r) {
-    if ((segmentGroup.hasChildren() || slicedSegments.length > 0) && r.pathMatch === 'full') {
+function isEmptyPathRedirect(segmentGroup, segments, r) {
+    if ((segmentGroup.hasChildren() || segments.length > 0) && r.pathMatch === 'full') {
         return false;
     }
     return r.path === '' && r.redirectTo !== undefined;
@@ -1863,100 +1809,7 @@ function emptyPathRedirect(segmentGroup, slicedSegments, r) {
  * @return {?}
  */
 function getOutlet$1(route) {
-    return route.outlet ? route.outlet : PRIMARY_OUTLET;
-}
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-/**
- * @param {?} config
- * @param {?=} parentPath
- * @return {?}
- */
-function validateConfig(config, parentPath) {
-    if (parentPath === void 0) { parentPath = ''; }
-    // forEach doesn't iterate undefined values
-    for (var /** @type {?} */ i = 0; i < config.length; i++) {
-        var /** @type {?} */ route = config[i];
-        var /** @type {?} */ fullPath = getFullPath(parentPath, route);
-        validateNode(route, fullPath);
-    }
-}
-/**
- * @param {?} route
- * @param {?} fullPath
- * @return {?}
- */
-function validateNode(route, fullPath) {
-    if (!route) {
-        throw new Error("\n      Invalid configuration of route '" + fullPath + "': Encountered undefined route.\n      The reason might be an extra comma.\n\n      Example:\n      const routes: Routes = [\n        { path: '', redirectTo: '/dashboard', pathMatch: 'full' },\n        { path: 'dashboard',  component: DashboardComponent },, << two commas\n        { path: 'detail/:id', component: HeroDetailComponent }\n      ];\n    ");
-    }
-    if (Array.isArray(route)) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': Array cannot be specified");
-    }
-    if (!route.component && (route.outlet && route.outlet !== PRIMARY_OUTLET)) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': a componentless route cannot have a named outlet set");
-    }
-    if (route.redirectTo && route.children) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and children cannot be used together");
-    }
-    if (route.redirectTo && route.loadChildren) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and loadChildren cannot be used together");
-    }
-    if (route.children && route.loadChildren) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': children and loadChildren cannot be used together");
-    }
-    if (route.redirectTo && route.component) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': redirectTo and component cannot be used together");
-    }
-    if (route.path && route.matcher) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': path and matcher cannot be used together");
-    }
-    if (route.redirectTo === void 0 && !route.component && !route.children && !route.loadChildren) {
-        throw new Error("Invalid configuration of route '" + fullPath + "'. One of the following must be provided: component, redirectTo, children or loadChildren");
-    }
-    if (route.path === void 0 && route.matcher === void 0) {
-        throw new Error("Invalid configuration of route '" + fullPath + "': routes must have either a path or a matcher specified");
-    }
-    if (typeof route.path === 'string' && route.path.charAt(0) === '/') {
-        throw new Error("Invalid configuration of route '" + fullPath + "': path cannot start with a slash");
-    }
-    if (route.path === '' && route.redirectTo !== void 0 && route.pathMatch === void 0) {
-        var /** @type {?} */ exp = "The default value of 'pathMatch' is 'prefix', but often the intent is to use 'full'.";
-        throw new Error("Invalid configuration of route '{path: \"" + fullPath + "\", redirectTo: \"" + route.redirectTo + "\"}': please provide 'pathMatch'. " + exp);
-    }
-    if (route.pathMatch !== void 0 && route.pathMatch !== 'full' && route.pathMatch !== 'prefix') {
-        throw new Error("Invalid configuration of route '" + fullPath + "': pathMatch can only be set to 'prefix' or 'full'");
-    }
-    if (route.children) {
-        validateConfig(route.children, fullPath);
-    }
-}
-/**
- * @param {?} parentPath
- * @param {?} currentRoute
- * @return {?}
- */
-function getFullPath(parentPath, currentRoute) {
-    if (!currentRoute) {
-        return parentPath;
-    }
-    if (!parentPath && !currentRoute.path) {
-        return '';
-    }
-    else if (parentPath && !currentRoute.path) {
-        return parentPath + "/";
-    }
-    else if (!parentPath && currentRoute.path) {
-        return currentRoute.path;
-    }
-    else {
-        return parentPath + "/" + currentRoute.path;
-    }
+    return route.outlet || PRIMARY_OUTLET;
 }
 /**
  * @license
@@ -2086,6 +1939,15 @@ var TreeNode = (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __assign$2 = (undefined && undefined.__assign) || Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+    }
+    return t;
+};
 /**
  * \@whatItDoes Represents the state of the router.
  *
@@ -2106,8 +1968,7 @@ var TreeNode = (function () {
  *
  * \@description
  * RouterState is a tree of activated routes. Every node in this tree knows about the "consumed" URL
- * segments,
- * the extracted parameters, and the resolved data.
+ * segments, the extracted parameters, and the resolved data.
  *
  * See {\@link ActivatedRoute} for more information.
  *
@@ -2316,9 +2177,9 @@ function inheritedParamsDataResolve(route) {
         }
     }
     return pathToRoot.slice(inhertingStartingFrom).reduce(function (res, curr) {
-        var /** @type {?} */ params = merge(res.params, curr.params);
-        var /** @type {?} */ data = merge(res.data, curr.data);
-        var /** @type {?} */ resolve = merge(res.resolve, curr._resolvedData);
+        var /** @type {?} */ params = __assign$2({}, res.params, curr.params);
+        var /** @type {?} */ data = __assign$2({}, res.data, curr.data);
+        var /** @type {?} */ resolve = __assign$2({}, res.resolve, curr._resolvedData);
         return { params: params, data: data, resolve: resolve };
     }, /** @type {?} */ ({ params: {}, data: {}, resolve: {} }));
 }
@@ -2565,7 +2426,7 @@ function equalParamsAndUrlSegments(a, b) {
     var /** @type {?} */ equalUrlParams = shallowEqual(a.params, b.params) && equalSegments(a.url, b.url);
     var /** @type {?} */ parentsMismatch = !a.parent !== !b.parent;
     return equalUrlParams && !parentsMismatch &&
-        (!a.parent || equalParamsAndUrlSegments(a.parent, b.parent));
+        (!a.parent || equalParamsAndUrlSegments(a.parent, /** @type {?} */ ((b.parent))));
 }
 /**
  * @license
@@ -2839,7 +2700,7 @@ function createPositionApplyingDoubleDots(group, index, numberOfDoubleDots) {
     var /** @type {?} */ dd = numberOfDoubleDots;
     while (dd > ci) {
         dd -= ci;
-        g = g.parent;
+        g = ((g.parent));
         if (!g) {
             throw new Error('Invalid number of \'../\'');
         }
@@ -3033,6 +2894,15 @@ function compare(path, params, segment) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __assign$3 = (undefined && undefined.__assign) || Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+    }
+    return t;
+};
 var NoMatch$1 = (function () {
     function NoMatch$1() {
     }
@@ -3068,7 +2938,7 @@ var Recognizer = (function () {
         try {
             var /** @type {?} */ rootSegmentGroup = split$1(this.urlTree.root, [], [], this.config).segmentGroup;
             var /** @type {?} */ children = this.processSegmentGroup(this.config, rootSegmentGroup, PRIMARY_OUTLET);
-            var /** @type {?} */ root = new ActivatedRouteSnapshot([], Object.freeze({}), Object.freeze(this.urlTree.queryParams), this.urlTree.fragment, {}, PRIMARY_OUTLET, this.rootComponentType, null, this.urlTree.root, -1, {});
+            var /** @type {?} */ root = new ActivatedRouteSnapshot([], Object.freeze({}), Object.freeze(this.urlTree.queryParams), /** @type {?} */ ((this.urlTree.fragment)), {}, PRIMARY_OUTLET, this.rootComponentType, null, this.urlTree.root, -1, {});
             var /** @type {?} */ rootNode = new TreeNode(root, children);
             var /** @type {?} */ routeState = new RouterStateSnapshot(this.url, rootNode);
             this.inheriteParamsAndData(routeState._root);
@@ -3100,9 +2970,7 @@ var Recognizer = (function () {
         if (segmentGroup.segments.length === 0 && segmentGroup.hasChildren()) {
             return this.processChildren(config, segmentGroup);
         }
-        else {
-            return this.processSegment(config, segmentGroup, segmentGroup.segments, outlet);
-        }
+        return this.processSegment(config, segmentGroup, segmentGroup.segments, outlet);
     };
     /**
      * @param {?} config
@@ -3137,9 +3005,7 @@ var Recognizer = (function () {
         if (this.noLeftoversInUrl(segmentGroup, segments, outlet)) {
             return [];
         }
-        else {
-            throw new NoMatch$1();
-        }
+        throw new NoMatch$1();
     };
     /**
      * @param {?} segmentGroup
@@ -3160,29 +3026,27 @@ var Recognizer = (function () {
     Recognizer.prototype.processSegmentAgainstRoute = function (route, rawSegment, segments, outlet) {
         if (route.redirectTo)
             throw new NoMatch$1();
-        if ((route.outlet ? route.outlet : PRIMARY_OUTLET) !== outlet)
+        if ((route.outlet || PRIMARY_OUTLET) !== outlet)
             throw new NoMatch$1();
         if (route.path === '**') {
-            var /** @type {?} */ params = segments.length > 0 ? last$1(segments).parameters : {};
-            var /** @type {?} */ snapshot_1 = new ActivatedRouteSnapshot(segments, params, Object.freeze(this.urlTree.queryParams), this.urlTree.fragment, getData(route), outlet, route.component, route, getSourceSegmentGroup(rawSegment), getPathIndexShift(rawSegment) + segments.length, getResolve(route));
+            var /** @type {?} */ params = segments.length > 0 ? ((last$1(segments))).parameters : {};
+            var /** @type {?} */ snapshot_1 = new ActivatedRouteSnapshot(segments, params, Object.freeze(this.urlTree.queryParams), /** @type {?} */ ((this.urlTree.fragment)), getData(route), outlet, /** @type {?} */ ((route.component)), route, getSourceSegmentGroup(rawSegment), getPathIndexShift(rawSegment) + segments.length, getResolve(route));
             return [new TreeNode(snapshot_1, [])];
         }
         var _a = match$1(rawSegment, route, segments), consumedSegments = _a.consumedSegments, parameters = _a.parameters, lastChild = _a.lastChild;
         var /** @type {?} */ rawSlicedSegments = segments.slice(lastChild);
         var /** @type {?} */ childConfig = getChildConfig(route);
         var _b = split$1(rawSegment, consumedSegments, rawSlicedSegments, childConfig), segmentGroup = _b.segmentGroup, slicedSegments = _b.slicedSegments;
-        var /** @type {?} */ snapshot = new ActivatedRouteSnapshot(consumedSegments, parameters, Object.freeze(this.urlTree.queryParams), this.urlTree.fragment, getData(route), outlet, route.component, route, getSourceSegmentGroup(rawSegment), getPathIndexShift(rawSegment) + consumedSegments.length, getResolve(route));
+        var /** @type {?} */ snapshot = new ActivatedRouteSnapshot(consumedSegments, parameters, Object.freeze(this.urlTree.queryParams), /** @type {?} */ ((this.urlTree.fragment)), getData(route), outlet, /** @type {?} */ ((route.component)), route, getSourceSegmentGroup(rawSegment), getPathIndexShift(rawSegment) + consumedSegments.length, getResolve(route));
         if (slicedSegments.length === 0 && segmentGroup.hasChildren()) {
-            var /** @type {?} */ children = this.processChildren(childConfig, segmentGroup);
-            return [new TreeNode(snapshot, children)];
+            var /** @type {?} */ children_3 = this.processChildren(childConfig, segmentGroup);
+            return [new TreeNode(snapshot, children_3)];
         }
-        else if (childConfig.length === 0 && slicedSegments.length === 0) {
+        if (childConfig.length === 0 && slicedSegments.length === 0) {
             return [new TreeNode(snapshot, [])];
         }
-        else {
-            var /** @type {?} */ children = this.processSegment(childConfig, segmentGroup, slicedSegments, PRIMARY_OUTLET);
-            return [new TreeNode(snapshot, children)];
-        }
+        var /** @type {?} */ children = this.processSegment(childConfig, segmentGroup, slicedSegments, PRIMARY_OUTLET);
+        return [new TreeNode(snapshot, children)];
     };
     return Recognizer;
 }());
@@ -3207,12 +3071,10 @@ function getChildConfig(route) {
     if (route.children) {
         return route.children;
     }
-    else if (route.loadChildren) {
-        return ((route))._loadedConfig.routes;
+    if (route.loadChildren) {
+        return ((route._loadedConfig)).routes;
     }
-    else {
-        return [];
-    }
+    return [];
 }
 /**
  * @param {?} segmentGroup
@@ -3225,17 +3087,15 @@ function match$1(segmentGroup, route, segments) {
         if (route.pathMatch === 'full' && (segmentGroup.hasChildren() || segments.length > 0)) {
             throw new NoMatch$1();
         }
-        else {
-            return { consumedSegments: [], lastChild: 0, parameters: {} };
-        }
+        return { consumedSegments: [], lastChild: 0, parameters: {} };
     }
     var /** @type {?} */ matcher = route.matcher || defaultUrlMatcher;
     var /** @type {?} */ res = matcher(segments, segmentGroup, route);
     if (!res)
         throw new NoMatch$1();
     var /** @type {?} */ posParams = {};
-    forEach(res.posParams, function (v, k) { posParams[k] = v.path; });
-    var /** @type {?} */ parameters = merge(posParams, res.consumed[res.consumed.length - 1].parameters);
+    forEach(/** @type {?} */ ((res.posParams)), function (v, k) { posParams[k] = v.path; });
+    var /** @type {?} */ parameters = __assign$3({}, posParams, res.consumed[res.consumed.length - 1].parameters);
     return { consumedSegments: res.consumed, lastChild: res.consumed.length, parameters: parameters };
 }
 /**
@@ -3288,24 +3148,22 @@ function getPathIndexShift(segmentGroup) {
 function split$1(segmentGroup, consumedSegments, slicedSegments, config) {
     if (slicedSegments.length > 0 &&
         containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, config)) {
-        var /** @type {?} */ s = new UrlSegmentGroup(consumedSegments, createChildrenForEmptyPaths(segmentGroup, consumedSegments, config, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
-        s._sourceSegment = segmentGroup;
-        s._segmentIndexShift = consumedSegments.length;
-        return { segmentGroup: s, slicedSegments: [] };
+        var /** @type {?} */ s_1 = new UrlSegmentGroup(consumedSegments, createChildrenForEmptyPaths(segmentGroup, consumedSegments, config, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
+        s_1._sourceSegment = segmentGroup;
+        s_1._segmentIndexShift = consumedSegments.length;
+        return { segmentGroup: s_1, slicedSegments: [] };
     }
-    else if (slicedSegments.length === 0 &&
+    if (slicedSegments.length === 0 &&
         containsEmptyPathMatches(segmentGroup, slicedSegments, config)) {
-        var /** @type {?} */ s = new UrlSegmentGroup(segmentGroup.segments, addEmptyPathsToChildrenIfNeeded(segmentGroup, slicedSegments, config, segmentGroup.children));
-        s._sourceSegment = segmentGroup;
-        s._segmentIndexShift = consumedSegments.length;
-        return { segmentGroup: s, slicedSegments: slicedSegments };
+        var /** @type {?} */ s_2 = new UrlSegmentGroup(segmentGroup.segments, addEmptyPathsToChildrenIfNeeded(segmentGroup, slicedSegments, config, segmentGroup.children));
+        s_2._sourceSegment = segmentGroup;
+        s_2._segmentIndexShift = consumedSegments.length;
+        return { segmentGroup: s_2, slicedSegments: slicedSegments };
     }
-    else {
-        var /** @type {?} */ s = new UrlSegmentGroup(segmentGroup.segments, segmentGroup.children);
-        s._sourceSegment = segmentGroup;
-        s._segmentIndexShift = consumedSegments.length;
-        return { segmentGroup: s, slicedSegments: slicedSegments };
-    }
+    var /** @type {?} */ s = new UrlSegmentGroup(segmentGroup.segments, segmentGroup.children);
+    s._sourceSegment = segmentGroup;
+    s._segmentIndexShift = consumedSegments.length;
+    return { segmentGroup: s, slicedSegments: slicedSegments };
 }
 /**
  * @param {?} segmentGroup
@@ -3325,7 +3183,7 @@ function addEmptyPathsToChildrenIfNeeded(segmentGroup, slicedSegments, routes, c
             res[getOutlet$2(r)] = s;
         }
     }
-    return merge(children, res);
+    return __assign$3({}, children, res);
 }
 /**
  * @param {?} segmentGroup
@@ -3357,10 +3215,7 @@ function createChildrenForEmptyPaths(segmentGroup, consumedSegments, routes, pri
  * @return {?}
  */
 function containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, routes) {
-    return routes
-        .filter(function (r) { return emptyPathMatch(segmentGroup, slicedSegments, r) &&
-        getOutlet$2(r) !== PRIMARY_OUTLET; })
-        .length > 0;
+    return routes.some(function (r) { return emptyPathMatch(segmentGroup, slicedSegments, r) && getOutlet$2(r) !== PRIMARY_OUTLET; });
 }
 /**
  * @param {?} segmentGroup
@@ -3369,7 +3224,7 @@ function containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, 
  * @return {?}
  */
 function containsEmptyPathMatches(segmentGroup, slicedSegments, routes) {
-    return routes.filter(function (r) { return emptyPathMatch(segmentGroup, slicedSegments, r); }).length > 0;
+    return routes.some(function (r) { return emptyPathMatch(segmentGroup, slicedSegments, r); });
 }
 /**
  * @param {?} segmentGroup
@@ -3378,8 +3233,9 @@ function containsEmptyPathMatches(segmentGroup, slicedSegments, routes) {
  * @return {?}
  */
 function emptyPathMatch(segmentGroup, slicedSegments, r) {
-    if ((segmentGroup.hasChildren() || slicedSegments.length > 0) && r.pathMatch === 'full')
+    if ((segmentGroup.hasChildren() || slicedSegments.length > 0) && r.pathMatch === 'full') {
         return false;
+    }
     return r.path === '' && r.redirectTo === undefined;
 }
 /**
@@ -3387,22 +3243,88 @@ function emptyPathMatch(segmentGroup, slicedSegments, r) {
  * @return {?}
  */
 function getOutlet$2(route) {
-    return route.outlet ? route.outlet : PRIMARY_OUTLET;
+    return route.outlet || PRIMARY_OUTLET;
 }
 /**
  * @param {?} route
  * @return {?}
  */
 function getData(route) {
-    return route.data ? route.data : {};
+    return route.data || {};
 }
 /**
  * @param {?} route
  * @return {?}
  */
 function getResolve(route) {
-    return route.resolve ? route.resolve : {};
+    return route.resolve || {};
 }
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * \@docsNotRequired
+ * \@experimental
+ */
+var ROUTES = new _angular_core.InjectionToken('ROUTES');
+var RouterConfigLoader = (function () {
+    /**
+     * @param {?} loader
+     * @param {?} compiler
+     * @param {?=} onLoadStartListener
+     * @param {?=} onLoadEndListener
+     */
+    function RouterConfigLoader(loader, compiler, onLoadStartListener, onLoadEndListener) {
+        this.loader = loader;
+        this.compiler = compiler;
+        this.onLoadStartListener = onLoadStartListener;
+        this.onLoadEndListener = onLoadEndListener;
+    }
+    /**
+     * @param {?} parentInjector
+     * @param {?} route
+     * @return {?}
+     */
+    RouterConfigLoader.prototype.load = function (parentInjector, route) {
+        var _this = this;
+        if (this.onLoadStartListener) {
+            this.onLoadStartListener(route);
+        }
+        var /** @type {?} */ moduleFactory$ = this.loadModuleFactory(/** @type {?} */ ((route.loadChildren)));
+        return rxjs_operator_map.map.call(moduleFactory$, function (factory) {
+            if (_this.onLoadEndListener) {
+                _this.onLoadEndListener(route);
+            }
+            var /** @type {?} */ module = factory.create(parentInjector);
+            return new LoadedRouterConfig(flatten(module.injector.get(ROUTES)), module);
+        });
+    };
+    /**
+     * @param {?} loadChildren
+     * @return {?}
+     */
+    RouterConfigLoader.prototype.loadModuleFactory = function (loadChildren) {
+        var _this = this;
+        if (typeof loadChildren === 'string') {
+            return rxjs_observable_fromPromise.fromPromise(this.loader.load(loadChildren));
+        }
+        else {
+            return rxjs_operator_mergeMap.mergeMap.call(wrapIntoObservable(loadChildren()), function (t) {
+                if (t instanceof _angular_core.NgModuleFactory) {
+                    return rxjs_observable_of.of(t);
+                }
+                else {
+                    return rxjs_observable_fromPromise.fromPromise(_this.compiler.compileModuleAsync(t));
+                }
+            });
+        }
+    };
+    return RouterConfigLoader;
+}());
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -3434,7 +3356,7 @@ var RouterOutletMap = (function () {
      * @param {?} name
      * @return {?}
      */
-    RouterOutletMap.prototype.removeOutlet = function (name) { this._outlets[name] = undefined; };
+    RouterOutletMap.prototype.removeOutlet = function (name) { this._outlets[name] = ((undefined)); };
     return RouterOutletMap;
 }());
 /**
@@ -3514,6 +3436,15 @@ var DefaultUrlHandlingStrategy = (function () {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+var __assign = (undefined && undefined.__assign) || Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+    }
+    return t;
+};
 /**
  * @param {?} error
  * @return {?}
@@ -3527,7 +3458,7 @@ function defaultErrorHandler(error) {
  * @return {?}
  */
 function defaultRouterHook(snapshot) {
-    return rxjs_observable_of.of(null);
+    return (rxjs_observable_of.of(null));
 }
 /**
  * Does not detach any subtrees. Reuses routes as long as their route config is the same.
@@ -3593,7 +3524,7 @@ var Router = (function () {
         this.outletMap = outletMap;
         this.location = location;
         this.config = config;
-        this.navigations = new rxjs_BehaviorSubject.BehaviorSubject(null);
+        this.navigations = new rxjs_BehaviorSubject.BehaviorSubject(/** @type {?} */ ((null)));
         this.routerEvents = new rxjs_Subject.Subject();
         this.navigationId = 0;
         /**
@@ -3733,7 +3664,7 @@ var Router = (function () {
     Router.prototype.dispose = function () {
         if (this.locationSubscription) {
             this.locationSubscription.unsubscribe();
-            this.locationSubscription = null;
+            this.locationSubscription = ((null));
         }
     };
     /**
@@ -3791,19 +3722,19 @@ var Router = (function () {
         if (queryParamsHandling) {
             switch (queryParamsHandling) {
                 case 'merge':
-                    q = merge(this.currentUrlTree.queryParams, queryParams);
+                    q = __assign({}, this.currentUrlTree.queryParams, queryParams);
                     break;
                 case 'preserve':
                     q = this.currentUrlTree.queryParams;
                     break;
                 default:
-                    q = queryParams;
+                    q = queryParams || null;
             }
         }
         else {
-            q = preserveQueryParams ? this.currentUrlTree.queryParams : queryParams;
+            q = preserveQueryParams ? this.currentUrlTree.queryParams : queryParams || null;
         }
-        return createUrlTree(a, this.currentUrlTree, commands, q, f);
+        return createUrlTree(a, this.currentUrlTree, commands, /** @type {?} */ ((q)), /** @type {?} */ ((f)));
     };
     /**
      * Navigate based on the provided url. This navigation is always absolute.
@@ -3938,14 +3869,14 @@ var Router = (function () {
         // we should skip those.
         if (lastNavigation && source !== 'imperative' && lastNavigation.source === 'imperative' &&
             lastNavigation.rawUrl.toString() === rawUrl.toString()) {
-            return null; // return value is not used
+            return Promise.resolve(true); // return value is not used
         }
         // Because of a bug in IE and Edge, the location class fires two events (popstate and
         // hashchange) every single time. The second one should be ignored. Otherwise, the URL will
         // flicker.
         if (lastNavigation && source == 'hashchange' && lastNavigation.source === 'popstate' &&
             lastNavigation.rawUrl.toString() === rawUrl.toString()) {
-            return null; // return value is not used
+            return Promise.resolve(true); // return value is not used
         }
         var /** @type {?} */ resolve = null;
         var /** @type {?} */ reject = null;
@@ -3971,7 +3902,7 @@ var Router = (function () {
         if (urlTransition && this.urlHandlingStrategy.shouldProcessUrl(rawUrl)) {
             this.routerEvents.next(new NavigationStart(id, this.serializeUrl(url)));
             Promise.resolve()
-                .then(function (_) { return _this.runNavigate(url, rawUrl, extras.skipLocationChange, extras.replaceUrl, id, null); })
+                .then(function (_) { return _this.runNavigate(url, rawUrl, !!extras.skipLocationChange, !!extras.replaceUrl, id, null); })
                 .then(resolve, reject);
         }
         else if (urlTransition && this.rawUrlTree &&
@@ -4174,7 +4105,8 @@ var PreActivation = (function () {
         this.future = future;
         this.curr = curr;
         this.moduleInjector = moduleInjector;
-        this.checks = [];
+        this.canActivateChecks = [];
+        this.canDeactivateChecks = [];
     }
     /**
      * @param {?} parentOutletMap
@@ -4190,40 +4122,21 @@ var PreActivation = (function () {
      */
     PreActivation.prototype.checkGuards = function () {
         var _this = this;
-        if (this.checks.length === 0)
+        if (this.canDeactivateChecks.length === 0 && this.canActivateChecks.length === 0) {
             return rxjs_observable_of.of(true);
-        var /** @type {?} */ checks$ = rxjs_observable_from.from(this.checks);
-        var /** @type {?} */ runningChecks$ = rxjs_operator_mergeMap.mergeMap.call(checks$, function (s) {
-            if (s instanceof CanActivate) {
-                return andObservables(rxjs_observable_from.from([_this.runCanActivateChild(s.path), _this.runCanActivate(s.route)]));
-            }
-            else if (s instanceof CanDeactivate) {
-                // workaround https://github.com/Microsoft/TypeScript/issues/7271
-                var /** @type {?} */ s2 = (s);
-                return _this.runCanDeactivate(s2.component, s2.route);
-            }
-            else {
-                throw new Error('Cannot be reached');
-            }
-        });
-        return rxjs_operator_every.every.call(runningChecks$, function (result) { return result === true; });
+        }
+        var /** @type {?} */ canDeactivate$ = this.runCanDeactivateChecks();
+        return rxjs_operator_mergeMap.mergeMap.call(canDeactivate$, function (canDeactivate) { return canDeactivate ? _this.runCanActivateChecks() : rxjs_observable_of.of(false); });
     };
     /**
      * @return {?}
      */
     PreActivation.prototype.resolveData = function () {
         var _this = this;
-        if (this.checks.length === 0)
+        if (this.canActivateChecks.length === 0)
             return rxjs_observable_of.of(null);
-        var /** @type {?} */ checks$ = rxjs_observable_from.from(this.checks);
-        var /** @type {?} */ runningChecks$ = rxjs_operator_concatMap.concatMap.call(checks$, function (s) {
-            if (s instanceof CanActivate) {
-                return _this.runResolve(s.route);
-            }
-            else {
-                return rxjs_observable_of.of(null);
-            }
-        });
+        var /** @type {?} */ checks$ = rxjs_observable_from.from(this.canActivateChecks);
+        var /** @type {?} */ runningChecks$ = rxjs_operator_concatMap.concatMap.call(checks$, function (check) { return _this.runResolve(check.route); });
         return rxjs_operator_reduce.reduce.call(runningChecks$, function (_, __) { return _; });
     };
     /**
@@ -4240,7 +4153,7 @@ var PreActivation = (function () {
             _this.traverseRoutes(c, prevChildren[c.value.outlet], outletMap, futurePath.concat([c.value]));
             delete prevChildren[c.value.outlet];
         });
-        forEach(prevChildren, function (v, k) { return _this.deactiveRouteAndItsChildren(v, outletMap._outlets[k]); });
+        forEach(prevChildren, function (v, k) { return _this.deactiveRouteAndItsChildren(v, /** @type {?} */ ((outletMap))._outlets[k]); });
     };
     /**
      * @param {?} futureNode
@@ -4255,8 +4168,9 @@ var PreActivation = (function () {
         var /** @type {?} */ outlet = parentOutletMap ? parentOutletMap._outlets[futureNode.value.outlet] : null;
         // reusing the node
         if (curr && future._routeConfig === curr._routeConfig) {
-            if (this.shouldRunGuardsAndResolvers(curr, future, future._routeConfig.runGuardsAndResolvers)) {
-                this.checks.push(new CanDeactivate(outlet.component, curr), new CanActivate(futurePath));
+            if (this.shouldRunGuardsAndResolvers(curr, future, /** @type {?} */ ((future._routeConfig)).runGuardsAndResolvers)) {
+                this.canActivateChecks.push(new CanActivate(futurePath));
+                this.canDeactivateChecks.push(new CanDeactivate(/** @type {?} */ ((outlet)).component, curr));
             }
             else {
                 // we need to set the data
@@ -4275,7 +4189,7 @@ var PreActivation = (function () {
             if (curr) {
                 this.deactiveRouteAndItsChildren(currNode, outlet);
             }
-            this.checks.push(new CanActivate(futurePath));
+            this.canActivateChecks.push(new CanActivate(futurePath));
             // If we have a component, we need to go through an outlet.
             if (future.component) {
                 this.traverseChildRoutes(futureNode, null, outlet ? outlet.outletMap : null, futurePath);
@@ -4324,14 +4238,32 @@ var PreActivation = (function () {
             }
         });
         if (!r.component) {
-            this.checks.push(new CanDeactivate(null, r));
+            this.canDeactivateChecks.push(new CanDeactivate(null, r));
         }
         else if (outlet && outlet.isActivated) {
-            this.checks.push(new CanDeactivate(outlet.component, r));
+            this.canDeactivateChecks.push(new CanDeactivate(outlet.component, r));
         }
         else {
-            this.checks.push(new CanDeactivate(null, r));
+            this.canDeactivateChecks.push(new CanDeactivate(null, r));
         }
+    };
+    /**
+     * @return {?}
+     */
+    PreActivation.prototype.runCanDeactivateChecks = function () {
+        var _this = this;
+        var /** @type {?} */ checks$ = rxjs_observable_from.from(this.canDeactivateChecks);
+        var /** @type {?} */ runningChecks$ = rxjs_operator_mergeMap.mergeMap.call(checks$, function (check) { return _this.runCanDeactivate(check.component, check.route); });
+        return rxjs_operator_every.every.call(runningChecks$, function (result) { return result === true; });
+    };
+    /**
+     * @return {?}
+     */
+    PreActivation.prototype.runCanActivateChecks = function () {
+        var _this = this;
+        var /** @type {?} */ checks$ = rxjs_observable_from.from(this.canActivateChecks);
+        var /** @type {?} */ runningChecks$ = rxjs_operator_mergeMap.mergeMap.call(checks$, function (check) { return andObservables(rxjs_observable_from.from([_this.runCanActivateChild(check.path), _this.runCanActivate(check.route)])); });
+        return rxjs_operator_every.every.call(runningChecks$, function (result) { return result === true; });
     };
     /**
      * @param {?} future
@@ -4423,7 +4355,7 @@ var PreActivation = (function () {
         var /** @type {?} */ resolve = future._resolve;
         return rxjs_operator_map.map.call(this.resolveNode(resolve, future), function (resolvedData) {
             future._resolvedData = resolvedData;
-            future.data = merge(future.data, inheritedParamsDataResolve(future).resolve);
+            future.data = __assign({}, future.data, inheritedParamsDataResolve(future).resolve);
             return null;
         });
     };
@@ -4651,14 +4583,12 @@ function advanceActivatedRouteNodeAndItsChildren(node) {
  * @return {?}
  */
 function parentLoadedConfig(snapshot) {
-    var /** @type {?} */ s = snapshot.parent;
-    while (s) {
-        var /** @type {?} */ c = s._routeConfig;
-        if (c && c._loadedConfig)
-            return c._loadedConfig;
-        if (c && c.component)
+    for (var /** @type {?} */ s = snapshot.parent; s; s = s.parent) {
+        var /** @type {?} */ route = s._routeConfig;
+        if (route && route._loadedConfig)
+            return route._loadedConfig;
+        if (route && route.component)
             return null;
-        s = s.parent;
     }
     return null;
 }
@@ -4669,24 +4599,24 @@ function parentLoadedConfig(snapshot) {
 function closestLoadedConfig(snapshot) {
     if (!snapshot)
         return null;
-    var /** @type {?} */ s = snapshot.parent;
-    while (s) {
-        var /** @type {?} */ c = s._routeConfig;
-        if (c && c._loadedConfig)
-            return c._loadedConfig;
-        s = s.parent;
+    for (var /** @type {?} */ s = snapshot.parent; s; s = s.parent) {
+        var /** @type {?} */ route = s._routeConfig;
+        if (route && route._loadedConfig)
+            return route._loadedConfig;
     }
     return null;
 }
 /**
+ * @template T
  * @param {?} node
  * @return {?}
  */
 function nodeChildrenAsMap(node) {
-    return node ? node.children.reduce(function (m, c) {
-        m[c.value.outlet] = c;
-        return m;
-    }, {}) : {};
+    var /** @type {?} */ map$$1 = {};
+    if (node) {
+        node.children.forEach(function (child) { return map$$1[child.value.outlet] = child; });
+    }
+    return map$$1;
 }
 /**
  * @param {?} outletMap
@@ -5184,9 +5114,8 @@ var RouterLinkActive = (function () {
         var /** @type {?} */ hasActiveLinks = this.hasActiveLinks();
         // react only when status has changed to prevent unnecessary dom updates
         if (this.active !== hasActiveLinks) {
-            this.active = hasActiveLinks;
             this.classes.forEach(function (c) { return _this.renderer.setElementClass(_this.element.nativeElement, c, hasActiveLinks); });
-            this.cdr.detectChanges();
+            Promise.resolve(hasActiveLinks).then(function (active) { return _this.active = active; });
         }
     };
     /**
@@ -5336,8 +5265,8 @@ var RouterOutlet = (function () {
             throw new Error('Outlet is not activated');
         this.location.detach();
         var /** @type {?} */ r = this.activated;
-        this.activated = null;
-        this._activatedRoute = null;
+        this.activated = ((null));
+        this._activatedRoute = ((null));
         return r;
     };
     /**
@@ -5357,8 +5286,8 @@ var RouterOutlet = (function () {
         if (this.activated) {
             var /** @type {?} */ c = this.component;
             this.activated.destroy();
-            this.activated = null;
-            this._activatedRoute = null;
+            this.activated = ((null));
+            this._activatedRoute = ((null));
             this.deactivateEvents.emit(c);
         }
     };
@@ -5378,8 +5307,8 @@ var RouterOutlet = (function () {
         this.outletMap = outletMap;
         this._activatedRoute = activatedRoute;
         var /** @type {?} */ snapshot = activatedRoute._futureSnapshot;
-        var /** @type {?} */ component = (snapshot._routeConfig.component);
-        var /** @type {?} */ factory = resolver.resolveComponentFactory(component);
+        var /** @type {?} */ component = (((snapshot._routeConfig)).component);
+        var /** @type {?} */ factory = ((resolver.resolveComponentFactory(component)));
         var /** @type {?} */ inj = _angular_core.ReflectiveInjector.fromResolvedProviders(providers, injector);
         this.activated = this.location.createComponent(factory, this.location.length, inj, []);
         this.activated.changeDetectorRef.detectChanges();
@@ -5398,9 +5327,9 @@ var RouterOutlet = (function () {
         this.outletMap = outletMap;
         this._activatedRoute = activatedRoute;
         var /** @type {?} */ snapshot = activatedRoute._futureSnapshot;
-        var /** @type {?} */ component = (snapshot._routeConfig.component);
+        var /** @type {?} */ component = (((snapshot._routeConfig)).component);
         resolver = resolver || this.resolver;
-        var /** @type {?} */ factory = resolver.resolveComponentFactory(component);
+        var /** @type {?} */ factory = ((resolver.resolveComponentFactory(component)));
         var /** @type {?} */ injector = new OutletInjector(activatedRoute, outletMap, this.location.injector);
         this.activated = this.location.createComponent(factory, this.location.length, injector, []);
         this.activated.changeDetectorRef.detectChanges();
@@ -5532,7 +5461,7 @@ var PreloadingStrategy = (function () {
     return PreloadingStrategy;
 }());
 /**
- * \@whatItDoes Provides a preloading strategy that preloads all modules as quicky as possible.
+ * \@whatItDoes Provides a preloading strategy that preloads all modules as quickly as possible.
  *
  * \@howToUse
  *
@@ -5609,8 +5538,8 @@ var RouterPreloader = (function () {
      */
     RouterPreloader.prototype.setUpPreloading = function () {
         var _this = this;
-        var /** @type {?} */ navigations = rxjs_operator_filter.filter.call(this.router.events, function (e) { return e instanceof NavigationEnd; });
-        this.subscription = rxjs_operator_concatMap.concatMap.call(navigations, function () { return _this.preload(); }).subscribe(function () { });
+        var /** @type {?} */ navigations$ = rxjs_operator_filter.filter.call(this.router.events, function (e) { return e instanceof NavigationEnd; });
+        this.subscription = rxjs_operator_concatMap.concatMap.call(navigations$, function () { return _this.preload(); }).subscribe(function () { });
     };
     /**
      * @return {?}
@@ -5631,17 +5560,17 @@ var RouterPreloader = (function () {
     RouterPreloader.prototype.processRoutes = function (ngModule, routes) {
         var /** @type {?} */ res = [];
         for (var _i = 0, routes_5 = routes; _i < routes_5.length; _i++) {
-            var c = routes_5[_i];
+            var route = routes_5[_i];
             // we already have the config loaded, just recurse
-            if (c.loadChildren && !c.canLoad && ((c))._loadedConfig) {
-                var /** @type {?} */ childConfig = ((c))._loadedConfig;
+            if (route.loadChildren && !route.canLoad && route._loadedConfig) {
+                var /** @type {?} */ childConfig = route._loadedConfig;
                 res.push(this.processRoutes(childConfig.module, childConfig.routes));
             }
-            else if (c.loadChildren && !c.canLoad) {
-                res.push(this.preloadConfig(ngModule, c));
+            else if (route.loadChildren && !route.canLoad) {
+                res.push(this.preloadConfig(ngModule, route));
             }
-            else if (c.children) {
-                res.push(this.processRoutes(ngModule, c.children));
+            else if (route.children) {
+                res.push(this.processRoutes(ngModule, route.children));
             }
         }
         return rxjs_operator_mergeAll.mergeAll.call(rxjs_observable_from.from(res));
@@ -5654,10 +5583,9 @@ var RouterPreloader = (function () {
     RouterPreloader.prototype.preloadConfig = function (ngModule, route) {
         var _this = this;
         return this.preloadingStrategy.preload(route, function () {
-            var /** @type {?} */ loaded = _this.loader.load(ngModule.injector, route);
-            return rxjs_operator_mergeMap.mergeMap.call(loaded, function (config) {
-                var /** @type {?} */ c = route;
-                c._loadedConfig = config;
+            var /** @type {?} */ loaded$ = _this.loader.load(ngModule.injector, route);
+            return rxjs_operator_mergeMap.mergeMap.call(loaded$, function (config) {
+                route._loadedConfig = config;
                 return _this.processRoutes(config.module, config.routes);
             });
         });
@@ -5960,7 +5888,7 @@ var RouterInitializer = (function () {
         var _this = this;
         var /** @type {?} */ p = this.injector.get(_angular_common.LOCATION_INITIALIZED, Promise.resolve(null));
         return p.then(function () {
-            var /** @type {?} */ resolve = null;
+            var /** @type {?} */ resolve = ((null));
             var /** @type {?} */ res = new Promise(function (r) { return resolve = r; });
             var /** @type {?} */ router = _this.injector.get(Router);
             var /** @type {?} */ opts = _this.injector.get(ROUTER_CONFIGURATION);
@@ -5980,7 +5908,7 @@ var RouterInitializer = (function () {
                         return _this.resultOfPreactivationDone;
                     }
                     else {
-                        return rxjs_observable_of.of(null);
+                        return (rxjs_observable_of.of(null));
                     }
                 };
                 router.initialNavigation();
@@ -6011,7 +5939,7 @@ var RouterInitializer = (function () {
         }
         preloader.setUpPreloading();
         router.resetRootComponentType(ref.componentTypes[0]);
-        this.resultOfPreactivationDone.next(null);
+        this.resultOfPreactivationDone.next(/** @type {?} */ ((null)));
         this.resultOfPreactivationDone.complete();
     };
     /**
@@ -6091,7 +6019,7 @@ function provideRouterInitializer() {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.0.0');
+var VERSION = new _angular_core.Version('4.1.0');
 
 exports.RouterLink = RouterLink;
 exports.RouterLinkWithHref = RouterLinkWithHref;

@@ -9,7 +9,7 @@ var NGB_RADIO_VALUE_ACCESSOR = {
  * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
  * specified via ngModel.
  */
-export var NgbRadioGroup = (function () {
+var NgbRadioGroup = (function () {
     function NgbRadioGroup() {
         this._radios = new Set();
         this._value = null;
@@ -44,18 +44,19 @@ export var NgbRadioGroup = (function () {
         this._radios.forEach(function (radio) { return radio.updateValue(_this._value); });
     };
     NgbRadioGroup.prototype._updateRadiosDisabled = function () { this._radios.forEach(function (radio) { return radio.updateDisabled(); }); };
-    NgbRadioGroup.decorators = [
-        { type: Directive, args: [{
-                    selector: '[ngbRadioGroup]',
-                    host: { 'data-toggle': 'buttons', 'class': 'btn-group' },
-                    providers: [NGB_RADIO_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbRadioGroup.ctorParameters = function () { return []; };
     return NgbRadioGroup;
 }());
-export var NgbActiveLabel = (function () {
+export { NgbRadioGroup };
+NgbRadioGroup.decorators = [
+    { type: Directive, args: [{
+                selector: '[ngbRadioGroup]',
+                host: { 'data-toggle': 'buttons', 'class': 'btn-group', 'role': 'group' },
+                providers: [NGB_RADIO_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+NgbRadioGroup.ctorParameters = function () { return []; };
+var NgbActiveLabel = (function () {
     function NgbActiveLabel(_renderer, _elRef) {
         this._renderer = _renderer;
         this._elRef = _elRef;
@@ -77,20 +78,21 @@ export var NgbActiveLabel = (function () {
         enumerable: true,
         configurable: true
     });
-    NgbActiveLabel.decorators = [
-        { type: Directive, args: [{ selector: 'label.btn' },] },
-    ];
-    /** @nocollapse */
-    NgbActiveLabel.ctorParameters = function () { return [
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
     return NgbActiveLabel;
 }());
+export { NgbActiveLabel };
+NgbActiveLabel.decorators = [
+    { type: Directive, args: [{ selector: 'label.btn' },] },
+];
+/** @nocollapse */
+NgbActiveLabel.ctorParameters = function () { return [
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
 /**
  * Marks an input of type "radio" as part of the NgbRadioGroup.
  */
-export var NgbRadio = (function () {
+var NgbRadio = (function () {
     function NgbRadio(_group, _label, _renderer, _element) {
         this._group = _group;
         this._label = _label;
@@ -119,6 +121,9 @@ export var NgbRadio = (function () {
     });
     Object.defineProperty(NgbRadio.prototype, "checked", {
         get: function () { return this._checked; },
+        /**
+         * A flag indicating if a given radio button is checked.
+         */
         set: function (value) {
             this._checked = this._element.nativeElement.hasAttribute('checked') ? true : value;
         },
@@ -127,6 +132,9 @@ export var NgbRadio = (function () {
     });
     Object.defineProperty(NgbRadio.prototype, "disabled", {
         get: function () { return (this._group && this._group.disabled) || this._disabled; },
+        /**
+         * A flag indicating if a given radio button is disabled.
+         */
         set: function (isDisabled) {
             this._disabled = isDisabled !== false;
             this.updateDisabled();
@@ -163,30 +171,31 @@ export var NgbRadio = (function () {
             this._label.disabled = disabled;
         }
     };
-    NgbRadio.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[type=radio]',
-                    host: {
-                        '[checked]': 'checked',
-                        '[disabled]': 'disabled',
-                        '(change)': 'onChange()',
-                        '(focus)': 'focused = true',
-                        '(blur)': 'focused = false'
-                    }
-                },] },
-    ];
-    /** @nocollapse */
-    NgbRadio.ctorParameters = function () { return [
-        { type: NgbRadioGroup, decorators: [{ type: Optional },] },
-        { type: NgbActiveLabel, decorators: [{ type: Optional },] },
-        { type: Renderer, },
-        { type: ElementRef, },
-    ]; };
-    NgbRadio.propDecorators = {
-        'value': [{ type: Input, args: ['value',] },],
-        'checked': [{ type: Input, args: ['checked',] },],
-        'disabled': [{ type: Input, args: ['disabled',] },],
-    };
     return NgbRadio;
 }());
+export { NgbRadio };
+NgbRadio.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[type=radio]',
+                host: {
+                    '[checked]': 'checked',
+                    '[disabled]': 'disabled',
+                    '(change)': 'onChange()',
+                    '(focus)': 'focused = true',
+                    '(blur)': 'focused = false'
+                }
+            },] },
+];
+/** @nocollapse */
+NgbRadio.ctorParameters = function () { return [
+    { type: NgbRadioGroup, decorators: [{ type: Optional },] },
+    { type: NgbActiveLabel, decorators: [{ type: Optional },] },
+    { type: Renderer, },
+    { type: ElementRef, },
+]; };
+NgbRadio.propDecorators = {
+    'value': [{ type: Input, args: ['value',] },],
+    'checked': [{ type: Input, args: ['checked',] },],
+    'disabled': [{ type: Input, args: ['disabled',] },],
+};
 //# sourceMappingURL=radio.js.map

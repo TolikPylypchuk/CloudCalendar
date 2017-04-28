@@ -22,7 +22,7 @@ export { NgbDatepickerNavigationSelect } from './datepicker-navigation-select';
 export { NgbDatepickerConfig } from './datepicker-config';
 export { NgbDatepickerI18n } from './datepicker-i18n';
 export { NgbDateParserFormatter } from './ngb-date-parser-formatter';
-export var NgbDatepickerModule = (function () {
+var NgbDatepickerModule = (function () {
     function NgbDatepickerModule() {
     }
     NgbDatepickerModule.forRoot = function () {
@@ -35,19 +35,20 @@ export var NgbDatepickerModule = (function () {
             ]
         };
     };
-    NgbDatepickerModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [
-                        NgbDatepicker, NgbDatepickerMonthView, NgbDatepickerNavigation, NgbDatepickerNavigationSelect, NgbDatepickerDayView,
-                        NgbInputDatepicker
-                    ],
-                    exports: [NgbDatepicker, NgbInputDatepicker],
-                    imports: [CommonModule, FormsModule],
-                    entryComponents: [NgbDatepicker]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbDatepickerModule.ctorParameters = function () { return []; };
     return NgbDatepickerModule;
 }());
+export { NgbDatepickerModule };
+NgbDatepickerModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [
+                    NgbDatepicker, NgbDatepickerMonthView, NgbDatepickerNavigation, NgbDatepickerNavigationSelect, NgbDatepickerDayView,
+                    NgbInputDatepicker
+                ],
+                exports: [NgbDatepicker, NgbInputDatepicker],
+                imports: [CommonModule, FormsModule],
+                entryComponents: [NgbDatepicker]
+            },] },
+];
+/** @nocollapse */
+NgbDatepickerModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=datepicker.module.js.map

@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, ViewContainerRef, Renderer, ComponentFactoryResolver, NgZone, forwardRef, EventEmitter, Output } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { NgbDate } from './ngb-date';
 import { NgbDatepicker } from './datepicker';
 import { NgbDateParserFormatter } from './ngb-date-parser-formatter';
@@ -11,11 +11,16 @@ var NGB_DATEPICKER_VALUE_ACCESSOR = {
     useExisting: forwardRef(function () { return NgbInputDatepicker; }),
     multi: true
 };
+var NGB_DATEPICKER_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(function () { return NgbInputDatepicker; }),
+    multi: true
+};
 /**
  * A directive that makes it possible to have datepickers on input fields.
  * Manages integration with the input field itself (data entry) and ngModel (validation etc.).
  */
-export var NgbInputDatepicker = (function () {
+var NgbInputDatepicker = (function () {
     function NgbInputDatepicker(_parserFormatter, _elRef, _vcRef, _renderer, _cfr, ngZone, _service, _calendar) {
         var _this = this;
         this._parserFormatter = _parserFormatter;
@@ -33,6 +38,7 @@ export var NgbInputDatepicker = (function () {
         this.navigate = new EventEmitter();
         this._onChange = function (_) { };
         this._onTouched = function () { };
+        this._validatorChange = function () { };
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
             if (_this._cRef) {
                 positionElements(_this._elRef.nativeElement, _this._cRef.location.nativeElement, 'bottom-left');
@@ -41,20 +47,37 @@ export var NgbInputDatepicker = (function () {
     }
     NgbInputDatepicker.prototype.registerOnChange = function (fn) { this._onChange = fn; };
     NgbInputDatepicker.prototype.registerOnTouched = function (fn) { this._onTouched = fn; };
-    NgbInputDatepicker.prototype.writeValue = function (value) {
-        var ngbDate = value ? new NgbDate(value.year, value.month, value.day) : null;
-        this._model = this._calendar.isValid(value) ? ngbDate : null;
-        this._writeModelValue(this._model);
-    };
+    NgbInputDatepicker.prototype.registerOnValidatorChange = function (fn) { this._validatorChange = fn; };
+    ;
     NgbInputDatepicker.prototype.setDisabledState = function (isDisabled) {
         this._renderer.setElementProperty(this._elRef.nativeElement, 'disabled', isDisabled);
         if (this.isOpen()) {
             this._cRef.instance.setDisabledState(isDisabled);
         }
     };
+    NgbInputDatepicker.prototype.validate = function (c) {
+        var value = c.value;
+        if (value === null || value === undefined) {
+            return null;
+        }
+        if (!this._calendar.isValid(value)) {
+            return { 'ngbDate': { invalid: c.value } };
+        }
+        if (this.minDate && NgbDate.from(value).before(NgbDate.from(this.minDate))) {
+            return { 'ngbDate': { requiredBefore: this.minDate } };
+        }
+        if (this.maxDate && NgbDate.from(value).after(NgbDate.from(this.maxDate))) {
+            return { 'ngbDate': { requiredAfter: this.maxDate } };
+        }
+    };
+    NgbInputDatepicker.prototype.writeValue = function (value) {
+        var ngbDate = value ? new NgbDate(value.year, value.month, value.day) : null;
+        this._model = this._calendar.isValid(value) ? ngbDate : null;
+        this._writeModelValue(this._model);
+    };
     NgbInputDatepicker.prototype.manualDateChange = function (value) {
         this._model = this._service.toValidDate(this._parserFormatter.parse(value), null);
-        this._onChange(this._model ? { year: this._model.year, month: this._model.month, day: this._model.day } : null);
+        this._onChange(this._model ? { year: this._model.year, month: this._model.month, day: this._model.day } : value);
         this._writeModelValue(this._model);
     };
     NgbInputDatepicker.prototype.isOpen = function () { return !!this._cRef; };
@@ -111,6 +134,11 @@ export var NgbInputDatepicker = (function () {
         }
     };
     NgbInputDatepicker.prototype.onBlur = function () { this._onTouched(); };
+    NgbInputDatepicker.prototype.ngOnChanges = function (changes) {
+        if (changes['minDate'] || changes['maxDate']) {
+            this._validatorChange();
+        }
+    };
     NgbInputDatepicker.prototype._applyDatepickerInputs = function (datepickerInstance) {
         var _this = this;
         ['dayTemplate', 'displayMonths', 'firstDayOfWeek', 'markDisabled', 'minDate', 'maxDate', 'navigation',
@@ -137,39 +165,40 @@ export var NgbInputDatepicker = (function () {
             this._onTouched();
         }
     };
-    NgbInputDatepicker.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[ngbDatepicker]',
-                    exportAs: 'ngbDatepicker',
-                    host: { '(change)': 'manualDateChange($event.target.value)', '(keyup.esc)': 'close()', '(blur)': 'onBlur()' },
-                    providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NgbDatepickerService]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbInputDatepicker.ctorParameters = function () { return [
-        { type: NgbDateParserFormatter, },
-        { type: ElementRef, },
-        { type: ViewContainerRef, },
-        { type: Renderer, },
-        { type: ComponentFactoryResolver, },
-        { type: NgZone, },
-        { type: NgbDatepickerService, },
-        { type: NgbCalendar, },
-    ]; };
-    NgbInputDatepicker.propDecorators = {
-        'dayTemplate': [{ type: Input },],
-        'displayMonths': [{ type: Input },],
-        'firstDayOfWeek': [{ type: Input },],
-        'markDisabled': [{ type: Input },],
-        'minDate': [{ type: Input },],
-        'maxDate': [{ type: Input },],
-        'navigation': [{ type: Input },],
-        'outsideDays': [{ type: Input },],
-        'showWeekdays': [{ type: Input },],
-        'showWeekNumbers': [{ type: Input },],
-        'startDate': [{ type: Input },],
-        'navigate': [{ type: Output },],
-    };
     return NgbInputDatepicker;
 }());
+export { NgbInputDatepicker };
+NgbInputDatepicker.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[ngbDatepicker]',
+                exportAs: 'ngbDatepicker',
+                host: { '(change)': 'manualDateChange($event.target.value)', '(keyup.esc)': 'close()', '(blur)': 'onBlur()' },
+                providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, NgbDatepickerService]
+            },] },
+];
+/** @nocollapse */
+NgbInputDatepicker.ctorParameters = function () { return [
+    { type: NgbDateParserFormatter, },
+    { type: ElementRef, },
+    { type: ViewContainerRef, },
+    { type: Renderer, },
+    { type: ComponentFactoryResolver, },
+    { type: NgZone, },
+    { type: NgbDatepickerService, },
+    { type: NgbCalendar, },
+]; };
+NgbInputDatepicker.propDecorators = {
+    'dayTemplate': [{ type: Input },],
+    'displayMonths': [{ type: Input },],
+    'firstDayOfWeek': [{ type: Input },],
+    'markDisabled': [{ type: Input },],
+    'minDate': [{ type: Input },],
+    'maxDate': [{ type: Input },],
+    'navigation': [{ type: Input },],
+    'outsideDays': [{ type: Input },],
+    'showWeekdays': [{ type: Input },],
+    'showWeekNumbers': [{ type: Input },],
+    'startDate': [{ type: Input },],
+    'navigate': [{ type: Output },],
+};
 //# sourceMappingURL=datepicker-input.js.map

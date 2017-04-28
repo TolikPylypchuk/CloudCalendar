@@ -1,4 +1,4 @@
-export var NgbDate = (function () {
+var NgbDate = (function () {
     function NgbDate(year, month, day) {
         this.year = year;
         this.month = month;
@@ -45,4 +45,5 @@ export var NgbDate = (function () {
     NgbDate.prototype.toString = function () { return this.year + "-" + this.month + "-" + this.day; };
     return NgbDate;
 }());
+export { NgbDate };
 //# sourceMappingURL=ngb-date.js.map

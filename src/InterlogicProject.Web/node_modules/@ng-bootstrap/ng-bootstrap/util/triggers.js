@@ -1,4 +1,4 @@
-export var Trigger = (function () {
+var Trigger = (function () {
     function Trigger(open, close) {
         this.open = open;
         this.close = close;
@@ -9,6 +9,7 @@ export var Trigger = (function () {
     Trigger.prototype.isManual = function () { return this.open === 'manual' || this.close === 'manual'; };
     return Trigger;
 }());
+export { Trigger };
 var DEFAULT_ALIASES = {
     hover: ['mouseenter', 'mouseleave']
 };

@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, ComponentFactoryResolver, ViewContainerRef, Injector, Renderer, ElementRef, forwardRef, NgZone } from '@angular/core';
+import { ComponentFactoryResolver, Directive, ElementRef, EventEmitter, forwardRef, Injector, Input, NgZone, Output, Renderer, ViewContainerRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { letProto } from 'rxjs/operator/let';
 import { _do } from 'rxjs/operator/do';
@@ -21,10 +21,11 @@ var NGB_TYPEAHEAD_VALUE_ACCESSOR = {
     useExisting: forwardRef(function () { return NgbTypeahead; }),
     multi: true
 };
+var nextWindowId = 0;
 /**
  * NgbTypeahead directive provides a simple way of creating powerful typeaheads from any text input
  */
-export var NgbTypeahead = (function () {
+var NgbTypeahead = (function () {
     function NgbTypeahead(_elementRef, _viewContainerRef, _renderer, _injector, componentFactoryResolver, config, ngZone) {
         var _this = this;
         this._elementRef = _elementRef;
@@ -35,6 +36,7 @@ export var NgbTypeahead = (function () {
          * An event emitted when a match is selected. Event payload is of type NgbTypeaheadSelectItemEvent.
          */
         this.selectItem = new EventEmitter();
+        this.popupId = "ngb-typeahead-" + nextWindowId++;
         this._onTouched = function () { };
         this._onChange = function (_) { };
         this.editable = config.editable;
@@ -43,7 +45,7 @@ export var NgbTypeahead = (function () {
         this._valueChanges = fromEvent(_elementRef.nativeElement, 'input', function ($event) { return $event.target.value; });
         this._popupService = new PopupService(NgbTypeaheadWindow, _injector, _viewContainerRef, _renderer, componentFactoryResolver);
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
-            if (_this._windowRef) {
+            if (_this.isPopupOpen()) {
                 positionElements(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, 'bottom-left');
             }
         });
@@ -83,7 +85,7 @@ export var NgbTypeahead = (function () {
     NgbTypeahead.prototype.isPopupOpen = function () { return this._windowRef != null; };
     NgbTypeahead.prototype.handleBlur = function () { this._onTouched(); };
     NgbTypeahead.prototype.handleKeyDown = function (event) {
-        if (!this._windowRef) {
+        if (!this.isPopupOpen()) {
             return;
         }
         if (Key[toString(event.which)]) {
@@ -117,14 +119,17 @@ export var NgbTypeahead = (function () {
     };
     NgbTypeahead.prototype._openPopup = function () {
         var _this = this;
-        if (!this._windowRef) {
+        if (!this.isPopupOpen()) {
             this._windowRef = this._popupService.open();
+            this._windowRef.instance.id = this.popupId;
             this._windowRef.instance.selectEvent.subscribe(function (result) { return _this._selectResultClosePopup(result); });
+            this._windowRef.instance.activeChangeEvent.subscribe(function (activeId) { return _this.activeDescendant = activeId; });
         }
     };
     NgbTypeahead.prototype._closePopup = function () {
         this._popupService.close();
         this._windowRef = null;
+        this.activeDescendant = undefined;
     };
     NgbTypeahead.prototype._selectResult = function (result) {
         var defaultPrevented = false;
@@ -188,41 +193,48 @@ export var NgbTypeahead = (function () {
         }
         this._subscription = null;
     };
-    NgbTypeahead.decorators = [
-        { type: Directive, args: [{
-                    selector: 'input[ngbTypeahead]',
-                    host: {
-                        '(blur)': 'handleBlur()',
-                        '[class.open]': 'isPopupOpen()',
-                        '(document:click)': 'dismissPopup()',
-                        '(keydown)': 'handleKeyDown($event)',
-                        'autocomplete': 'off',
-                        'autocapitalize': 'off',
-                        'autocorrect': 'off'
-                    },
-                    providers: [NGB_TYPEAHEAD_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbTypeahead.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: ViewContainerRef, },
-        { type: Renderer, },
-        { type: Injector, },
-        { type: ComponentFactoryResolver, },
-        { type: NgbTypeaheadConfig, },
-        { type: NgZone, },
-    ]; };
-    NgbTypeahead.propDecorators = {
-        'editable': [{ type: Input },],
-        'focusFirst': [{ type: Input },],
-        'inputFormatter': [{ type: Input },],
-        'ngbTypeahead': [{ type: Input },],
-        'resultFormatter': [{ type: Input },],
-        'resultTemplate': [{ type: Input },],
-        'showHint': [{ type: Input },],
-        'selectItem': [{ type: Output },],
-    };
     return NgbTypeahead;
 }());
+export { NgbTypeahead };
+NgbTypeahead.decorators = [
+    { type: Directive, args: [{
+                selector: 'input[ngbTypeahead]',
+                host: {
+                    '(blur)': 'handleBlur()',
+                    '[class.open]': 'isPopupOpen()',
+                    '(document:click)': 'dismissPopup()',
+                    '(keydown)': 'handleKeyDown($event)',
+                    'autocomplete': 'off',
+                    'autocapitalize': 'off',
+                    'autocorrect': 'off',
+                    'role': 'combobox',
+                    'aria-multiline': 'false',
+                    '[attr.aria-autocomplete]': 'showHint ? "both" : "list"',
+                    '[attr.aria-activedescendant]': 'activeDescendant',
+                    '[attr.aria-owns]': 'isPopupOpen() ? popupId : null',
+                    '[attr.aria-expanded]': 'isPopupOpen()'
+                },
+                providers: [NGB_TYPEAHEAD_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+NgbTypeahead.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: ViewContainerRef, },
+    { type: Renderer, },
+    { type: Injector, },
+    { type: ComponentFactoryResolver, },
+    { type: NgbTypeaheadConfig, },
+    { type: NgZone, },
+]; };
+NgbTypeahead.propDecorators = {
+    'editable': [{ type: Input },],
+    'focusFirst': [{ type: Input },],
+    'inputFormatter': [{ type: Input },],
+    'ngbTypeahead': [{ type: Input },],
+    'resultFormatter': [{ type: Input },],
+    'resultTemplate': [{ type: Input },],
+    'showHint': [{ type: Input },],
+    'selectItem': [{ type: Output },],
+};
 //# sourceMappingURL=typeahead.js.map

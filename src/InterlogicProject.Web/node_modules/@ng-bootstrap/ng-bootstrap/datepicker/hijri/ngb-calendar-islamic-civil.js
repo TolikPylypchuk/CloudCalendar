@@ -23,10 +23,10 @@ function mod(a, b) {
  */
 var GREGORIAN_EPOCH = 1721425.5;
 var ISLAMIC_EPOCH = 1948439.5;
-export var NgbCalendarIslamicCivil = (function (_super) {
+var NgbCalendarIslamicCivil = (function (_super) {
     __extends(NgbCalendarIslamicCivil, _super);
     function NgbCalendarIslamicCivil() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     /**
      * Returns the equivalent islamic(civil) date value for a give input Gregorian date.
@@ -132,11 +132,12 @@ export var NgbCalendarIslamicCivil = (function (_super) {
         return Math.floor(Math.round((time - MuhDate.getTime()) / 86400000) / 7) + 1;
     };
     NgbCalendarIslamicCivil.prototype.getToday = function () { return this.fromGregorian(new Date()); };
-    NgbCalendarIslamicCivil.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbCalendarIslamicCivil.ctorParameters = function () { return []; };
     return NgbCalendarIslamicCivil;
 }(NgbCalendarHijri));
+export { NgbCalendarIslamicCivil };
+NgbCalendarIslamicCivil.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbCalendarIslamicCivil.ctorParameters = function () { return []; };
 //# sourceMappingURL=ngb-calendar-islamic-civil.js.map

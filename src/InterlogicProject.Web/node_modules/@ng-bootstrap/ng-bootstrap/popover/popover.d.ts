@@ -3,6 +3,7 @@ import { NgbPopoverConfig } from './popover-config';
 export declare class NgbPopoverWindow {
     placement: 'top' | 'bottom' | 'left' | 'right';
     title: string;
+    id: string;
 }
 /**
  * A lightweight, extensible directive for fancy popover creation.
@@ -39,6 +40,7 @@ export declare class NgbPopover implements OnInit, OnDestroy {
      * Emits an event when the popover is hidden
      */
     hidden: EventEmitter<{}>;
+    private _ngbPopoverWindowId;
     private _popupService;
     private _windowRef;
     private _unregisterListenersFn;

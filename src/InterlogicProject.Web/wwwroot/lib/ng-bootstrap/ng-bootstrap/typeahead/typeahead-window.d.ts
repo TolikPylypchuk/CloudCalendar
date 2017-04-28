@@ -16,6 +16,11 @@ export interface ResultTemplateContext {
 export declare class NgbTypeaheadWindow implements OnInit {
     activeIdx: number;
     /**
+     *  The id for the typeahead widnow. The id should be unique and the same
+     *  as the associated typeahead's id.
+     */
+    id: string;
+    /**
      * Flag indicating if the first row should be active initially
      */
     focusFirst: boolean;
@@ -40,10 +45,12 @@ export declare class NgbTypeaheadWindow implements OnInit {
      * Event raised when user selects a particular result row
      */
     selectEvent: EventEmitter<{}>;
+    activeChangeEvent: EventEmitter<{}>;
     getActive(): any;
     markActive(activeIdx: number): void;
     next(): void;
     prev(): void;
     select(item: any): void;
     ngOnInit(): void;
+    private _activeChanged();
 }

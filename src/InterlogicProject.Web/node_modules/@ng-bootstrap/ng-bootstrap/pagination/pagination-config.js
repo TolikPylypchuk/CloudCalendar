@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all the paginations used in the application.
  */
-export var NgbPaginationConfig = (function () {
+var NgbPaginationConfig = (function () {
     function NgbPaginationConfig() {
         this.disabled = false;
         this.boundaryLinks = false;
@@ -14,11 +14,12 @@ export var NgbPaginationConfig = (function () {
         this.pageSize = 10;
         this.rotate = false;
     }
-    NgbPaginationConfig.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbPaginationConfig.ctorParameters = function () { return []; };
     return NgbPaginationConfig;
 }());
+export { NgbPaginationConfig };
+NgbPaginationConfig.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbPaginationConfig.ctorParameters = function () { return []; };
 //# sourceMappingURL=pagination-config.js.map

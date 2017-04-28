@@ -4,15 +4,16 @@ import { NGB_CAROUSEL_DIRECTIVES } from './carousel';
 import { NgbCarouselConfig } from './carousel-config';
 export { NgbCarousel, NgbSlide } from './carousel';
 export { NgbCarouselConfig } from './carousel-config';
-export var NgbCarouselModule = (function () {
+var NgbCarouselModule = (function () {
     function NgbCarouselModule() {
     }
     NgbCarouselModule.forRoot = function () { return { ngModule: NgbCarouselModule, providers: [NgbCarouselConfig] }; };
-    NgbCarouselModule.decorators = [
-        { type: NgModule, args: [{ declarations: NGB_CAROUSEL_DIRECTIVES, exports: NGB_CAROUSEL_DIRECTIVES, imports: [CommonModule] },] },
-    ];
-    /** @nocollapse */
-    NgbCarouselModule.ctorParameters = function () { return []; };
     return NgbCarouselModule;
 }());
+export { NgbCarouselModule };
+NgbCarouselModule.decorators = [
+    { type: NgModule, args: [{ declarations: NGB_CAROUSEL_DIRECTIVES, exports: NGB_CAROUSEL_DIRECTIVES, imports: [CommonModule] },] },
+];
+/** @nocollapse */
+NgbCarouselModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=carousel.module.js.map

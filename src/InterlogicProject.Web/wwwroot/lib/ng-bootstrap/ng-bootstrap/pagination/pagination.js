@@ -4,7 +4,7 @@ import { NgbPaginationConfig } from './pagination-config';
 /**
  * A directive that will take care of visualising a pagination bar and enable / disable buttons correctly!
  */
-export var NgbPagination = (function () {
+var NgbPagination = (function () {
     function NgbPagination(config) {
         this.pageCount = 0;
         this.pages = [];
@@ -126,30 +126,32 @@ export var NgbPagination = (function () {
         }
         var _a, _b;
     };
-    NgbPagination.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-pagination',
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    template: "\n    <nav>\n      <ul [class]=\"'pagination' + (size ? ' pagination-' + size : '')\">\n        <li *ngIf=\"boundaryLinks\" class=\"page-item\" \n          [class.disabled]=\"!hasPrevious() || disabled\">\n          <a aria-label=\"First\" class=\"page-link\" href (click)=\"!!selectPage(1)\" [attr.tabindex]=\"hasPrevious() ? null : '-1'\">\n            <span aria-hidden=\"true\">&laquo;&laquo;</span>\n            <span class=\"sr-only\">First</span>\n          </a>                \n        </li>\n      \n        <li *ngIf=\"directionLinks\" class=\"page-item\" \n          [class.disabled]=\"!hasPrevious() || disabled\">\n          <a aria-label=\"Previous\" class=\"page-link\" href (click)=\"!!selectPage(page-1)\" [attr.tabindex]=\"hasPrevious() ? null : '-1'\">\n            <span aria-hidden=\"true\">&laquo;</span>\n            <span class=\"sr-only\">Previous</span>\n          </a>\n        </li>\n        <li *ngFor=\"let pageNumber of pages\" class=\"page-item\" [class.active]=\"pageNumber === page\" \n          [class.disabled]=\"isEllipsis(pageNumber) || disabled\">\n          <a *ngIf=\"isEllipsis(pageNumber)\" class=\"page-link\">...</a>\n          <a *ngIf=\"!isEllipsis(pageNumber)\" class=\"page-link\" href (click)=\"!!selectPage(pageNumber)\">{{pageNumber}}</a>\n        </li>\n        <li *ngIf=\"directionLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n          <a aria-label=\"Next\" class=\"page-link\" href (click)=\"!!selectPage(page+1)\" [attr.tabindex]=\"hasNext() ? null : '-1'\">\n            <span aria-hidden=\"true\">&raquo;</span>\n            <span class=\"sr-only\">Next</span>\n          </a>\n        </li>\n        \n        <li *ngIf=\"boundaryLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n          <a aria-label=\"Last\" class=\"page-link\" href (click)=\"!!selectPage(pageCount)\" [attr.tabindex]=\"hasNext() ? null : '-1'\">\n            <span aria-hidden=\"true\">&raquo;&raquo;</span>\n            <span class=\"sr-only\">Last</span>\n          </a>                \n        </li>        \n      </ul>\n    </nav>\n  "
-                },] },
-    ];
-    /** @nocollapse */
-    NgbPagination.ctorParameters = function () { return [
-        { type: NgbPaginationConfig, },
-    ]; };
-    NgbPagination.propDecorators = {
-        'disabled': [{ type: Input },],
-        'boundaryLinks': [{ type: Input },],
-        'directionLinks': [{ type: Input },],
-        'ellipses': [{ type: Input },],
-        'rotate': [{ type: Input },],
-        'collectionSize': [{ type: Input },],
-        'maxSize': [{ type: Input },],
-        'page': [{ type: Input },],
-        'pageSize': [{ type: Input },],
-        'pageChange': [{ type: Output },],
-        'size': [{ type: Input },],
-    };
     return NgbPagination;
 }());
+export { NgbPagination };
+NgbPagination.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-pagination',
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                host: { 'role': 'navigation' },
+                template: "\n    <ul [class]=\"'pagination' + (size ? ' pagination-' + size : '')\">\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"First\" class=\"page-link\" href (click)=\"!!selectPage(1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;&laquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"directionLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"Previous\" class=\"page-link\" href (click)=\"!!selectPage(page-1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;</span>\n        </a>\n      </li>\n      <li *ngFor=\"let pageNumber of pages\" class=\"page-item\" [class.active]=\"pageNumber === page\"\n        [class.disabled]=\"isEllipsis(pageNumber) || disabled\">\n        <a *ngIf=\"isEllipsis(pageNumber)\" class=\"page-link\">...</a>\n        <a *ngIf=\"!isEllipsis(pageNumber)\" class=\"page-link\" href (click)=\"!!selectPage(pageNumber)\">\n          {{pageNumber}}\n          <span *ngIf=\"pageNumber === page\" class=\"sr-only\">(current)</span>\n        </a>\n      </li>\n      <li *ngIf=\"directionLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Next\" class=\"page-link\" href (click)=\"!!selectPage(page+1)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Last\" class=\"page-link\" href (click)=\"!!selectPage(pageCount)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;&raquo;</span>\n        </a>\n      </li>\n    </ul>\n  "
+            },] },
+];
+/** @nocollapse */
+NgbPagination.ctorParameters = function () { return [
+    { type: NgbPaginationConfig, },
+]; };
+NgbPagination.propDecorators = {
+    'disabled': [{ type: Input },],
+    'boundaryLinks': [{ type: Input },],
+    'directionLinks': [{ type: Input },],
+    'ellipses': [{ type: Input },],
+    'rotate': [{ type: Input },],
+    'collectionSize': [{ type: Input },],
+    'maxSize': [{ type: Input },],
+    'page': [{ type: Input },],
+    'pageSize': [{ type: Input },],
+    'pageChange': [{ type: Output },],
+    'size': [{ type: Input },],
+};
 //# sourceMappingURL=pagination.js.map

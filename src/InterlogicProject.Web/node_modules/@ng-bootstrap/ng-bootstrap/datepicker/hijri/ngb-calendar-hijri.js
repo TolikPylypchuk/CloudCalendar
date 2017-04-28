@@ -6,10 +6,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 import { NgbCalendar } from '../ngb-calendar';
 import { Injectable } from '@angular/core';
 import { isNumber } from '../../util/util';
-export var NgbCalendarHijri = (function (_super) {
+var NgbCalendarHijri = (function (_super) {
     __extends(NgbCalendarHijri, _super);
     function NgbCalendarHijri() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NgbCalendarHijri.prototype.getDaysPerWeek = function () { return 7; };
     NgbCalendarHijri.prototype.getMonths = function () { return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; };
@@ -62,11 +62,12 @@ export var NgbCalendarHijri = (function (_super) {
      * `year` is any Hijri year.
      */
     NgbCalendarHijri.prototype._getYearStart = function (year) { return (year - 1) * 354 + Math.floor((3 + 11 * year) / 30.0); };
-    NgbCalendarHijri.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbCalendarHijri.ctorParameters = function () { return []; };
     return NgbCalendarHijri;
 }(NgbCalendar));
+export { NgbCalendarHijri };
+NgbCalendarHijri.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbCalendarHijri.ctorParameters = function () { return []; };
 //# sourceMappingURL=ngb-calendar-hijri.js.map

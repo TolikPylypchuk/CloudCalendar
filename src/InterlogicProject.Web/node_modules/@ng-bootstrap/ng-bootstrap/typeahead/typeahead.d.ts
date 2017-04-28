@@ -1,4 +1,4 @@
-import { OnInit, EventEmitter, ComponentFactoryResolver, ViewContainerRef, Injector, Renderer, ElementRef, TemplateRef, OnDestroy, NgZone } from '@angular/core';
+import { ComponentFactoryResolver, ElementRef, EventEmitter, Injector, NgZone, OnDestroy, OnInit, Renderer, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { ResultTemplateContext } from './typeahead-window';
@@ -64,6 +64,8 @@ export declare class NgbTypeahead implements ControlValueAccessor, OnInit, OnDes
      * An event emitted when a match is selected. Event payload is of type NgbTypeaheadSelectItemEvent.
      */
     selectItem: EventEmitter<NgbTypeaheadSelectItemEvent>;
+    activeDescendant: string;
+    popupId: string;
     private _onTouched;
     private _onChange;
     constructor(_elementRef: ElementRef, _viewContainerRef: ViewContainerRef, _renderer: Renderer, _injector: Injector, componentFactoryResolver: ComponentFactoryResolver, config: NgbTypeaheadConfig, ngZone: NgZone);

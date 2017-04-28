@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.0.0
+ * @license Angular v4.1.0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -15,7 +15,7 @@ var __extends = (undefined && undefined.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /**
- * @license Angular v4.0.0
+ * @license Angular v4.1.0
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -273,7 +273,7 @@ var Headers = (function () {
         this._headers.forEach(function (values, name) {
             var /** @type {?} */ split = [];
             values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
-            serialized[_this._normalizedNames.get(name)] = split;
+            serialized[((_this._normalizedNames.get(name)))] = split;
         });
         return serialized;
     };
@@ -283,7 +283,7 @@ var Headers = (function () {
      * @return {?}
      */
     Headers.prototype.getAll = function (name) {
-        return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
+        return this.has(name) ? this._headers.get(name.toLowerCase()) || null : null;
     };
     /**
      * This method is not implemented.
@@ -548,7 +548,7 @@ function getResponseURL(xhr) {
     if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
         return xhr.getResponseHeader('X-Request-URL');
     }
-    return;
+    return null;
 }
 /**
  * @param {?} input
@@ -1409,16 +1409,14 @@ XHRBackend.ctorParameters = function () { return [
  * All values are null by default. Typical defaults can be found in the {\@link BaseRequestOptions}
  * class, which sub-classes `RequestOptions`.
  *
- * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
- *
  * ```typescript
  * import {RequestOptions, Request, RequestMethod} from '\@angular/http';
  *
- * var options = new RequestOptions({
+ * const options = new RequestOptions({
  *   method: RequestMethod.Post,
  *   url: 'https://google.com'
  * });
- * var req = new Request(options);
+ * const req = new Request(options);
  * console.log('req.method:', RequestMethod[req.method]); // Post
  * console.log('options.url:', options.url); // https://google.com
  * ```
@@ -1463,15 +1461,13 @@ var RequestOptions = (function () {
      * the `options` object. If these values should be merged, it should be done prior to calling
      * `merge` on the `RequestOptions` instance.
      *
-     * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
-     *
      * ```typescript
      * import {RequestOptions, Request, RequestMethod} from '\@angular/http';
      *
-     * var options = new RequestOptions({
+     * const options = new RequestOptions({
      *   method: RequestMethod.Post
      * });
-     * var req = new Request(options.merge({
+     * const req = new Request(options.merge({
      *   url: 'https://google.com'
      * }));
      * console.log('req.method:', RequestMethod[req.method]); // Post
@@ -1495,7 +1491,7 @@ var RequestOptions = (function () {
         });
     };
     /**
-     * @param {?} params
+     * @param {?=} params
      * @return {?}
      */
     RequestOptions.prototype._mergeSearchParams = function (params) {
@@ -1553,31 +1549,24 @@ var RequestOptions = (function () {
  * when configuring an {\@link Injector}, in order to override the default options
  * used by {\@link Http} to create and send {\@link Request Requests}.
  *
- * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
- *
  * ```typescript
- * import {provide} from '\@angular/core';
- * import {bootstrap} from '\@angular/platform-browser/browser';
- * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '\@angular/http';
- * import {App} from './myapp';
+ * import {BaseRequestOptions, RequestOptions} from '\@angular/http';
  *
  * class MyOptions extends BaseRequestOptions {
  *   search: string = 'coreTeam=true';
  * }
  *
- * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
+ * {provide: RequestOptions, useClass: MyOptions};
  * ```
  *
  * The options could also be extended when manually creating a {\@link Request}
  * object.
  *
- * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
- *
  * ```
  * import {BaseRequestOptions, Request, RequestMethod} from '\@angular/http';
  *
- * var options = new BaseRequestOptions();
- * var req = new Request(options.merge({
+ * const options = new BaseRequestOptions();
+ * const req = new Request(options.merge({
  *   method: RequestMethod.Post,
  *   url: 'https://google.com'
  * }));
@@ -1783,7 +1772,7 @@ function mergeOptions(defaultOpts, providedOpts, method, url) {
     var /** @type {?} */ newOptions = defaultOpts;
     if (providedOpts) {
         // Hack so Dart can used named parameters
-        return newOptions.merge(new RequestOptions({
+        return (newOptions.merge(new RequestOptions({
             method: providedOpts.method || method,
             url: providedOpts.url || url,
             search: providedOpts.search,
@@ -1792,9 +1781,9 @@ function mergeOptions(defaultOpts, providedOpts, method, url) {
             body: providedOpts.body,
             withCredentials: providedOpts.withCredentials,
             responseType: providedOpts.responseType
-        }));
+        })));
     }
-    return newOptions.merge(new RequestOptions({ method: method, url: url }));
+    return (newOptions.merge(new RequestOptions({ method: method, url: url })));
 }
 /**
  * Performs http requests using `XMLHttpRequest` as the default backend.
@@ -2128,7 +2117,7 @@ JsonpModule.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.0.0');
+var VERSION = new _angular_core.Version('4.1.0');
 
 exports.BrowserXhr = BrowserXhr;
 exports.JSONPBackend = JSONPBackend;

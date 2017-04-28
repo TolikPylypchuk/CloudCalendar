@@ -4,15 +4,16 @@ import { NgbDropdownConfig } from './dropdown-config';
 export { NgbDropdown, NgbDropdownToggle } from './dropdown';
 export { NgbDropdownConfig } from './dropdown-config';
 var NGB_DROPDOWN_DIRECTIVES = [NgbDropdownToggle, NgbDropdown];
-export var NgbDropdownModule = (function () {
+var NgbDropdownModule = (function () {
     function NgbDropdownModule() {
     }
     NgbDropdownModule.forRoot = function () { return { ngModule: NgbDropdownModule, providers: [NgbDropdownConfig] }; };
-    NgbDropdownModule.decorators = [
-        { type: NgModule, args: [{ declarations: NGB_DROPDOWN_DIRECTIVES, exports: NGB_DROPDOWN_DIRECTIVES },] },
-    ];
-    /** @nocollapse */
-    NgbDropdownModule.ctorParameters = function () { return []; };
     return NgbDropdownModule;
 }());
+export { NgbDropdownModule };
+NgbDropdownModule.decorators = [
+    { type: NgModule, args: [{ declarations: NGB_DROPDOWN_DIRECTIVES, exports: NGB_DROPDOWN_DIRECTIVES },] },
+];
+/** @nocollapse */
+NgbDropdownModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=dropdown.module.js.map

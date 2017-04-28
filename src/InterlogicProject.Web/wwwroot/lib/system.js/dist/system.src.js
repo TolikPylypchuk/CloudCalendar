@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.20.10 Dev
+ * SystemJS v0.20.12 Dev
  */
 (function () {
 'use strict';
@@ -806,35 +806,40 @@ function registerDeclarative (loader, load, link, declare) {
   var moduleObj = link.moduleObj;
   var importerSetters = load.importerSetters;
 
-  var locked = false;
+  var definedExports = false;
 
   // closure especially not based on link to allow link record disposal
   var declared = declare.call(envGlobal, function (name, value) {
-    // export setter propogation with locking to avoid cycles
-    if (locked)
-      return;
-
     if (typeof name === 'object') {
-      for (var p in name)
-        if (p !== '__useDefault')
-          moduleObj[p] = name[p];
+      var changed = false;
+      for (var p in name) {
+        value = name[p];
+        if (p !== '__useDefault' && (!(p in moduleObj) || moduleObj[p] !== value)) {
+          changed = true;
+          moduleObj[p] = value;
+        }
+      }
+      if (changed === false)
+        return value;
     }
     else {
+      if ((definedExports || name in moduleObj) && moduleObj[name] === value)
+        return value;
       moduleObj[name] = value;
     }
 
-    locked = true;
     for (var i = 0; i < importerSetters.length; i++)
       importerSetters[i](moduleObj);
-    locked = false;
 
     return value;
   }, new ContextualLoader(loader, load.key));
 
   link.setters = declared.setters;
   link.execute = declared.execute;
-  if (declared.exports)
+  if (declared.exports) {
     link.moduleObj = moduleObj = declared.exports;
+    definedExports = true;
+  }
 }
 
 function instantiateDeps (loader, load, link, registry, state, seen) {
@@ -881,8 +886,10 @@ function instantiateDeps (loader, load, link, registry, state, seen) {
       if (!depLink || depLink.linked)
         continue;
 
-      if (seen.indexOf(depLoad) !== -1)
+      if (seen.indexOf(depLoad) !== -1) {
+        deepDepsInstantiatePromises.push(depLink.depsInstantiatePromise);
         continue;
+      }
       seen.push(depLoad);
 
       deepDepsInstantiatePromises.push(instantiateDeps(loader, depLoad, depLoad.linkRecord, registry, state, seen));
@@ -1113,13 +1120,10 @@ function doEvaluate (loader, load, link, registry, state, seen) {
 
       // __esModule flag extension support via lifting
       if (moduleDefault && moduleDefault.__esModule) {
-        if (moduleObj.__useDefault)
-          delete moduleObj.__useDefault;
-        for (var p in moduleDefault) {
-          if (Object.hasOwnProperty.call(moduleDefault, p))
+        for (var p in moduleObj.default) {
+          if (Object.hasOwnProperty.call(moduleObj.default, p) && p !== 'default')
             moduleObj[p] = moduleDefault[p];
         }
-        moduleObj.__esModule = true;
       }
     }
   }
@@ -1200,6 +1204,44 @@ var isWorker = typeof window === 'undefined' && typeof self !== 'undefined' && t
 function warn (msg, force) {
   if (force || this.warnings && typeof console !== 'undefined' && console.warn)
     console.warn(msg);
+}
+
+function checkInstantiateWasm (loader, wasmBuffer, processAnonRegister) {
+  var bytes = new Uint8Array(wasmBuffer);
+
+  // detect by leading bytes
+  // Can be (new Uint32Array(fetched))[0] === 0x6D736100 when working in Node
+  if (bytes[0] === 0 && bytes[1] === 97 && bytes[2] === 115) {
+    return WebAssembly.compile(wasmBuffer).then(function (m) {
+      var deps = [];
+      var setters = [];
+      var importObj = {};
+
+      // we can only set imports if supported (eg Safari doesnt support)
+      if (WebAssembly.Module.imports)
+        WebAssembly.Module.imports(m).forEach(function (i) {
+          var key = i.module;
+          setters.push(function (m) {
+            importObj[key] = m;
+          });
+          if (deps.indexOf(key) === -1)
+            deps.push(key);
+        });
+      loader.register(deps, function (_export) {
+        return {
+          setters: setters,
+          execute: function () {
+            _export(new WebAssembly.Instance(m, importObj).exports);
+          }
+        };
+      });
+      processAnonRegister();
+
+      return true;
+    });
+  }
+
+  return Promise.resolve(false);
 }
 
 var parentModuleContext;
@@ -3393,43 +3435,18 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
     if (!wasm || typeof fetched === 'string')
       return translateAndInstantiate(loader, key, fetched, metadata, processAnonRegister);
 
-    var bytes = new Uint8Array(fetched);
+    return checkInstantiateWasm(loader, fetched, processAnonRegister)
+    .then(function (wasmInstantiated) {
+      if (wasmInstantiated)
+        return;
 
-    // detect by leading bytes
-    if (bytes[0] === 0 && bytes[1] === 97 && bytes[2] === 115) {
-      return WebAssembly.compile(bytes).then(function (m) {
-        var deps = [];
-        var setters = [];
-        var importObj = {};
-
-        // we can only set imports if supported (eg Safari doesnt support)
-        if (WebAssembly.Module.imports)
-          WebAssembly.Module.imports(m).forEach(function (i) {
-            var key = i.module;
-            setters.push(function (m) {
-              importObj[key] = m;
-            });
-            if (deps.indexOf(key) === -1)
-              deps.push(key);
-          });
-        loader.register(deps, function (_export) {
-          return {
-            setters: setters,
-            execute: function () {
-              _export(new WebAssembly.Instance(m, importObj).exports);
-            }
-          };
-        });
-        processAnonRegister();
-      });
-    }
-
-    // not wasm -> convert buffer into utf-8 string to execute as a module
-    // TextDecoder compatibility matches WASM currently. Need to keep checking this.
-    // The TextDecoder interface is documented at http://encoding.spec.whatwg.org/#interface-textdecoder
-    var stringSource = isBrowser ? new TextDecoder('utf-8').decode(bytes) : fetched.toString();
-    return translateAndInstantiate(loader, key, stringSource, metadata, processAnonRegister);
-  })
+      // not wasm -> convert buffer into utf-8 string to execute as a module
+      // TextDecoder compatibility matches WASM currently. Need to keep checking this.
+      // The TextDecoder interface is documented at http://encoding.spec.whatwg.org/#interface-textdecoder
+      var stringSource = isBrowser ? new TextDecoder('utf-8').decode(new Uint8Array(fetched)) : fetched.toString();
+      return translateAndInstantiate(loader, key, stringSource, metadata, processAnonRegister);
+    });
+  });
 }
 
 function translateAndInstantiate (loader, key, source, metadata, processAnonRegister) {
@@ -3460,6 +3477,11 @@ function translateAndInstantiate (loader, key, source, metadata, processAnonRegi
     });
   })
   .then(function (source) {
+    if (!metadata.load.format && source.substring(0, 8) === '"bundle"') {
+      metadata.load.format = 'system';
+      return source;
+    }
+
     if (metadata.load.format === 'register' || !metadata.load.format && detectRegisterFormat(source)) {
       metadata.load.format = 'register';
       return source;
@@ -3986,7 +4008,7 @@ SystemJSLoader$1.prototype.registerDynamic = function (key, deps, executingRequi
   return RegisterLoader$1.prototype.registerDynamic.call(this, key, deps, executingRequire, execute);
 };
 
-SystemJSLoader$1.prototype.version = "0.20.10 Dev";
+SystemJSLoader$1.prototype.version = "0.20.12 Dev";
 
 var System = new SystemJSLoader$1();
 

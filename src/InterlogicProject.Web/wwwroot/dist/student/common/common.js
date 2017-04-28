@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var student_service_1 = require("./services/student.service");
 exports.StudentService = student_service_1.default;
 var class_service_1 = require("./services/class.service");

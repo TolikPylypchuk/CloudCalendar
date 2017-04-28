@@ -49,8 +49,8 @@ namespace InterlogicProject.Web
 			services.AddDbContext<AppDbContext>(
 				options =>
 					options.UseSqlServer(
-						this.Configuration[
-							"ConnectionStrings:DefaultConnection"]),
+						this.Configuration.GetConnectionString(
+							"DefaultConnection")),
 				ServiceLifetime.Scoped);
 
 			services.AddIdentity<User, IdentityRole>(options => {
@@ -102,6 +102,9 @@ namespace InterlogicProject.Web
 				SubjectRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+			services.AddMemoryCache();
+			services.AddSession();
 
 			services.AddRouting(options =>
 			{
@@ -155,8 +158,9 @@ namespace InterlogicProject.Web
 		{
 			app.UseStaticFiles();
 			app.UseIdentity();
+			app.UseSession();
 
-			if (env.EnvironmentName == "Development")
+			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
@@ -175,9 +179,9 @@ namespace InterlogicProject.Web
 			app.UseSwagger(c =>
 			{
 				c.PreSerializeFilters.Add(
-					(swagger, httpReq) =>
+					(swagger, request) =>
 					{
-						swagger.Host = httpReq.Host.Value;
+						swagger.Host = request.Host.Value;
 						swagger.Schemes = new List<string> { "http" };
 					});
 

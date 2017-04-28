@@ -1,7 +1,7 @@
 import { NgbCalendar } from './ngb-calendar';
 import { NgbDate } from './ngb-date';
 import { Injectable } from '@angular/core';
-export var NgbDatepickerService = (function () {
+var NgbDatepickerService = (function () {
     function NgbDatepickerService(_calendar) {
         this._calendar = _calendar;
     }
@@ -53,13 +53,14 @@ export var NgbDatepickerService = (function () {
         }
         return today;
     };
-    NgbDatepickerService.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbDatepickerService.ctorParameters = function () { return [
-        { type: NgbCalendar, },
-    ]; };
     return NgbDatepickerService;
 }());
+export { NgbDatepickerService };
+NgbDatepickerService.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbDatepickerService.ctorParameters = function () { return [
+    { type: NgbCalendar, },
+]; };
 //# sourceMappingURL=datepicker-service.js.map

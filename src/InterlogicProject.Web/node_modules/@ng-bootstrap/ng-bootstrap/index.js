@@ -36,34 +36,36 @@ var NGB_MODULES = [
     NgbDropdownModule, NgbModalModule, NgbPaginationModule, NgbPopoverModule, NgbProgressbarModule, NgbRatingModule,
     NgbTabsetModule, NgbTimepickerModule, NgbTooltipModule, NgbTypeaheadModule
 ];
-export var NgbRootModule = (function () {
+var NgbRootModule = (function () {
     function NgbRootModule() {
     }
-    NgbRootModule.decorators = [
-        { type: NgModule, args: [{
-                    imports: [
-                        NgbAlertModule.forRoot(), NgbButtonsModule.forRoot(), NgbCollapseModule.forRoot(), NgbProgressbarModule.forRoot(),
-                        NgbTooltipModule.forRoot(), NgbTypeaheadModule.forRoot(), NgbAccordionModule.forRoot(), NgbCarouselModule.forRoot(),
-                        NgbDatepickerModule.forRoot(), NgbDropdownModule.forRoot(), NgbModalModule.forRoot(), NgbPaginationModule.forRoot(),
-                        NgbPopoverModule.forRoot(), NgbProgressbarModule.forRoot(), NgbRatingModule.forRoot(), NgbTabsetModule.forRoot(),
-                        NgbTimepickerModule.forRoot(), NgbTooltipModule.forRoot()
-                    ],
-                    exports: NGB_MODULES
-                },] },
-    ];
-    /** @nocollapse */
-    NgbRootModule.ctorParameters = function () { return []; };
     return NgbRootModule;
 }());
-export var NgbModule = (function () {
+export { NgbRootModule };
+NgbRootModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [
+                    NgbAlertModule.forRoot(), NgbButtonsModule.forRoot(), NgbCollapseModule.forRoot(), NgbProgressbarModule.forRoot(),
+                    NgbTooltipModule.forRoot(), NgbTypeaheadModule.forRoot(), NgbAccordionModule.forRoot(), NgbCarouselModule.forRoot(),
+                    NgbDatepickerModule.forRoot(), NgbDropdownModule.forRoot(), NgbModalModule.forRoot(), NgbPaginationModule.forRoot(),
+                    NgbPopoverModule.forRoot(), NgbProgressbarModule.forRoot(), NgbRatingModule.forRoot(), NgbTabsetModule.forRoot(),
+                    NgbTimepickerModule.forRoot(), NgbTooltipModule.forRoot()
+                ],
+                exports: NGB_MODULES
+            },] },
+];
+/** @nocollapse */
+NgbRootModule.ctorParameters = function () { return []; };
+var NgbModule = (function () {
     function NgbModule() {
     }
     NgbModule.forRoot = function () { return { ngModule: NgbRootModule }; };
-    NgbModule.decorators = [
-        { type: NgModule, args: [{ imports: NGB_MODULES, exports: NGB_MODULES },] },
-    ];
-    /** @nocollapse */
-    NgbModule.ctorParameters = function () { return []; };
     return NgbModule;
 }());
+export { NgbModule };
+NgbModule.decorators = [
+    { type: NgModule, args: [{ imports: NGB_MODULES, exports: NGB_MODULES },] },
+];
+/** @nocollapse */
+NgbModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=index.js.map

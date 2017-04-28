@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
 
-namespace InterlogicProject.Web
+namespace InterlogicProject.Web.Infrastructure
 {
 	public static class DataInitializer
 	{

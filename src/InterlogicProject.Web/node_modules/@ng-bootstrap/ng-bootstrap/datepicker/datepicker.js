@@ -15,7 +15,7 @@ var NGB_DATEPICKER_VALUE_ACCESSOR = {
 /**
  * A lightweight and highly configurable datepicker directive
  */
-export var NgbDatepicker = (function () {
+var NgbDatepicker = (function () {
     function NgbDatepicker(_service, _calendar, i18n, config) {
         this._service = _service;
         this._calendar = _calendar;
@@ -134,7 +134,7 @@ export var NgbDatepicker = (function () {
     NgbDatepicker.prototype._updateData = function (force) {
         if (force === void 0) { force = false; }
         var newMonths = [];
-        var _loop_1 = function(i) {
+        var _loop_1 = function (i) {
             var newDate_1 = this_1._calendar.getNext(this_1._date, 'm', i);
             var index = this_1.months.findIndex(function (month) { return month.firstDate.equals(newDate_1); });
             if (force || index === -1) {
@@ -159,37 +159,38 @@ export var NgbDatepicker = (function () {
             });
         }
     };
-    NgbDatepicker.decorators = [
-        { type: Component, args: [{
-                    exportAs: 'ngbDatepicker',
-                    selector: 'ngb-datepicker',
-                    host: { 'class': 'd-inline-block rounded' },
-                    styles: ["\n    :host {\n      border: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-header {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month:first-child {\n      margin-left: 0 !important;\n    }    \n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n    }    \n  "],
-                    template: "\n    <template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\">\n       <div ngbDatepickerDayView [date]=\"date\" [currentMonth]=\"currentMonth\" [selected]=\"selected\" [disabled]=\"disabled\"></div>\n    </template>\n    \n    <div class=\"ngb-dp-header bg-faded pt-1 rounded-top\" [style.height.rem]=\"getHeaderHeight()\" \n      [style.marginBottom.rem]=\"-getHeaderMargin()\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"months[0]?.firstDate\"\n        [minDate]=\"_minDate\"\n        [maxDate]=\"_maxDate\"\n        [months]=\"months.length\"\n        [disabled]=\"disabled\"\n        [showWeekNumbers]=\"showWeekNumbers\"\n        [showSelect]=\"navigation === 'select'\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months d-flex px-1 pb-1\">\n      <template ngFor let-month [ngForOf]=\"months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block ml-3\">            \n          <div *ngIf=\"navigation !== 'select' || displayMonths > 1\" class=\"ngb-dp-month-name text-center\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [selectedDate]=\"model\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [disabled]=\"disabled\"\n            [outsideDays]=\"displayMonths === 1 ? outsideDays : 'hidden'\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </template>\n    </div>\n  ",
-                    providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NgbDatepickerService]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbDatepicker.ctorParameters = function () { return [
-        { type: NgbDatepickerService, },
-        { type: NgbCalendar, },
-        { type: NgbDatepickerI18n, },
-        { type: NgbDatepickerConfig, },
-    ]; };
-    NgbDatepicker.propDecorators = {
-        'dayTemplate': [{ type: Input },],
-        'displayMonths': [{ type: Input },],
-        'firstDayOfWeek': [{ type: Input },],
-        'markDisabled': [{ type: Input },],
-        'minDate': [{ type: Input },],
-        'maxDate': [{ type: Input },],
-        'navigation': [{ type: Input },],
-        'outsideDays': [{ type: Input },],
-        'showWeekdays': [{ type: Input },],
-        'showWeekNumbers': [{ type: Input },],
-        'startDate': [{ type: Input },],
-        'navigate': [{ type: Output },],
-    };
     return NgbDatepicker;
 }());
+export { NgbDatepicker };
+NgbDatepicker.decorators = [
+    { type: Component, args: [{
+                exportAs: 'ngbDatepicker',
+                selector: 'ngb-datepicker',
+                host: { 'class': 'd-inline-block rounded' },
+                styles: ["\n    :host {\n      border: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-header {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month:first-child {\n      margin-left: 0 !important;\n    }    \n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n    }    \n  "],
+                template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\">\n       <div ngbDatepickerDayView [date]=\"date\" [currentMonth]=\"currentMonth\" [selected]=\"selected\" [disabled]=\"disabled\"></div>\n    </ng-template>\n    \n    <div class=\"ngb-dp-header bg-faded pt-1 rounded-top\" [style.height.rem]=\"getHeaderHeight()\" \n      [style.marginBottom.rem]=\"-getHeaderMargin()\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"months[0]?.firstDate\"\n        [minDate]=\"_minDate\"\n        [maxDate]=\"_maxDate\"\n        [months]=\"months.length\"\n        [disabled]=\"disabled\"\n        [showWeekNumbers]=\"showWeekNumbers\"\n        [showSelect]=\"navigation === 'select'\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months d-flex px-1 pb-1\">\n      <ng-template ngFor let-month [ngForOf]=\"months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block ml-3\">            \n          <div *ngIf=\"navigation !== 'select' || displayMonths > 1\" class=\"ngb-dp-month-name text-center\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [selectedDate]=\"model\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [disabled]=\"disabled\"\n            [outsideDays]=\"displayMonths === 1 ? outsideDays : 'hidden'\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
+                providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NgbDatepickerService]
+            },] },
+];
+/** @nocollapse */
+NgbDatepicker.ctorParameters = function () { return [
+    { type: NgbDatepickerService, },
+    { type: NgbCalendar, },
+    { type: NgbDatepickerI18n, },
+    { type: NgbDatepickerConfig, },
+]; };
+NgbDatepicker.propDecorators = {
+    'dayTemplate': [{ type: Input },],
+    'displayMonths': [{ type: Input },],
+    'firstDayOfWeek': [{ type: Input },],
+    'markDisabled': [{ type: Input },],
+    'minDate': [{ type: Input },],
+    'maxDate': [{ type: Input },],
+    'navigation': [{ type: Input },],
+    'outsideDays': [{ type: Input },],
+    'showWeekdays': [{ type: Input },],
+    'showWeekNumbers': [{ type: Input },],
+    'startDate': [{ type: Input },],
+    'navigate': [{ type: Output },],
+};
 //# sourceMappingURL=datepicker.js.map

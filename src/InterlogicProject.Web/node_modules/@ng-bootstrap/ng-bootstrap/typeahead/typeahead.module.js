@@ -8,20 +8,21 @@ export { NgbHighlight } from './highlight';
 export { NgbTypeaheadWindow } from './typeahead-window';
 export { NgbTypeaheadConfig } from './typeahead-config';
 export { NgbTypeahead } from './typeahead';
-export var NgbTypeaheadModule = (function () {
+var NgbTypeaheadModule = (function () {
     function NgbTypeaheadModule() {
     }
     NgbTypeaheadModule.forRoot = function () { return { ngModule: NgbTypeaheadModule, providers: [NgbTypeaheadConfig] }; };
-    NgbTypeaheadModule.decorators = [
-        { type: NgModule, args: [{
-                    declarations: [NgbTypeahead, NgbHighlight, NgbTypeaheadWindow],
-                    exports: [NgbTypeahead],
-                    imports: [CommonModule],
-                    entryComponents: [NgbTypeaheadWindow]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbTypeaheadModule.ctorParameters = function () { return []; };
     return NgbTypeaheadModule;
 }());
+export { NgbTypeaheadModule };
+NgbTypeaheadModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [NgbTypeahead, NgbHighlight, NgbTypeaheadWindow],
+                exports: [NgbTypeahead],
+                imports: [CommonModule],
+                entryComponents: [NgbTypeaheadWindow]
+            },] },
+];
+/** @nocollapse */
+NgbTypeaheadModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=typeahead.module.js.map

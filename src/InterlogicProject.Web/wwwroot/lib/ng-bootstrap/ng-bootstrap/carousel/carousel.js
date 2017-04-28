@@ -4,7 +4,7 @@ var nextId = 0;
 /**
  * Represents an individual slide to be used within a carousel.
  */
-export var NgbSlide = (function () {
+var NgbSlide = (function () {
     function NgbSlide(tplRef) {
         this.tplRef = tplRef;
         /**
@@ -13,22 +13,23 @@ export var NgbSlide = (function () {
          */
         this.id = "ngb-slide-" + nextId++;
     }
-    NgbSlide.decorators = [
-        { type: Directive, args: [{ selector: 'template[ngbSlide]' },] },
-    ];
-    /** @nocollapse */
-    NgbSlide.ctorParameters = function () { return [
-        { type: TemplateRef, },
-    ]; };
-    NgbSlide.propDecorators = {
-        'id': [{ type: Input },],
-    };
     return NgbSlide;
 }());
+export { NgbSlide };
+NgbSlide.decorators = [
+    { type: Directive, args: [{ selector: 'ng-template[ngbSlide]' },] },
+];
+/** @nocollapse */
+NgbSlide.ctorParameters = function () { return [
+    { type: TemplateRef, },
+]; };
+NgbSlide.propDecorators = {
+    'id': [{ type: Input },],
+};
 /**
  * Directive to easily create carousels based on Bootstrap's markup.
  */
-export var NgbCarousel = (function () {
+var NgbCarousel = (function () {
     function NgbCarousel(config) {
         this.interval = config.interval;
         this.wrap = config.wrap;
@@ -119,34 +120,35 @@ export var NgbCarousel = (function () {
         return isFirstSlide ? (this.wrap ? slideArr[slideArr.length - 1].id : slideArr[0].id) :
             slideArr[currentSlideIdx - 1].id;
     };
-    NgbCarousel.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-carousel',
-                    exportAs: 'ngbCarousel',
-                    host: {
-                        'class': 'carousel slide',
-                        '[style.display]': '"block"',
-                        'tabIndex': '0',
-                        '(mouseenter)': 'pause()',
-                        '(mouseleave)': 'cycle()',
-                        '(keydown.arrowLeft)': 'keyPrev()',
-                        '(keydown.arrowRight)': 'keyNext()'
-                    },
-                    template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" (click)=\"cycleToSelected(slide.id)\"></li>\n    </ol>\n    <div class=\"carousel-inner\" role=\"listbox\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <template [ngTemplateOutlet]=\"slide.tplRef\"></template>\n      </div>\n    </div>\n    <a class=\"left carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
-                },] },
-    ];
-    /** @nocollapse */
-    NgbCarousel.ctorParameters = function () { return [
-        { type: NgbCarouselConfig, },
-    ]; };
-    NgbCarousel.propDecorators = {
-        'slides': [{ type: ContentChildren, args: [NgbSlide,] },],
-        'interval': [{ type: Input },],
-        'wrap': [{ type: Input },],
-        'keyboard': [{ type: Input },],
-        'activeId': [{ type: Input },],
-    };
     return NgbCarousel;
 }());
+export { NgbCarousel };
+NgbCarousel.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-carousel',
+                exportAs: 'ngbCarousel',
+                host: {
+                    'class': 'carousel slide',
+                    '[style.display]': '"block"',
+                    'tabIndex': '0',
+                    '(mouseenter)': 'pause()',
+                    '(mouseleave)': 'cycle()',
+                    '(keydown.arrowLeft)': 'keyPrev()',
+                    '(keydown.arrowRight)': 'keyNext()'
+                },
+                template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" (click)=\"cycleToSelected(slide.id)\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"left carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
+            },] },
+];
+/** @nocollapse */
+NgbCarousel.ctorParameters = function () { return [
+    { type: NgbCarouselConfig, },
+]; };
+NgbCarousel.propDecorators = {
+    'slides': [{ type: ContentChildren, args: [NgbSlide,] },],
+    'interval': [{ type: Input },],
+    'wrap': [{ type: Input },],
+    'keyboard': [{ type: Input },],
+    'activeId': [{ type: Input },],
+};
 export var NGB_CAROUSEL_DIRECTIVES = [NgbCarousel, NgbSlide];
 //# sourceMappingURL=carousel.js.map

@@ -1,5 +1,5 @@
 import { isNumber, toInteger } from '../util/util';
-export var NgbTime = (function () {
+var NgbTime = (function () {
     function NgbTime(hour, minute, second) {
         this.hour = toInteger(hour);
         this.minute = toInteger(minute);
@@ -50,4 +50,5 @@ export var NgbTime = (function () {
     NgbTime.prototype.toString = function () { return (this.hour || 0) + ":" + (this.minute || 0) + ":" + (this.second || 0); };
     return NgbTime;
 }());
+export { NgbTime };
 //# sourceMappingURL=ngb-time.js.map

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all the timepickers used in the application.
  */
-export var NgbTimepickerConfig = (function () {
+var NgbTimepickerConfig = (function () {
     function NgbTimepickerConfig() {
         this.meridian = false;
         this.spinners = true;
@@ -16,11 +16,12 @@ export var NgbTimepickerConfig = (function () {
         this.readonlyInputs = false;
         this.size = 'medium';
     }
-    NgbTimepickerConfig.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbTimepickerConfig.ctorParameters = function () { return []; };
     return NgbTimepickerConfig;
 }());
+export { NgbTimepickerConfig };
+NgbTimepickerConfig.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbTimepickerConfig.ctorParameters = function () { return []; };
 //# sourceMappingURL=timepicker-config.js.map

@@ -60,7 +60,7 @@ export declare class NgbTimepicker implements ControlValueAccessor, OnChanges {
         'form-control-sm': boolean;
         'form-control-lg': boolean;
     };
-    setMeridanSize(): {
+    setButtonSize(): {
         'btn-sm': boolean;
         'btn-lg': boolean;
     };

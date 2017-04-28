@@ -4,15 +4,16 @@ import { Injectable } from '@angular/core';
  * You can inject this service, typically in your root component, and customize the values of its properties in
  * order to provide default values for all the accordions used in the application.
  */
-export var NgbAccordionConfig = (function () {
+var NgbAccordionConfig = (function () {
     function NgbAccordionConfig() {
         this.closeOthers = false;
     }
-    NgbAccordionConfig.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbAccordionConfig.ctorParameters = function () { return []; };
     return NgbAccordionConfig;
 }());
+export { NgbAccordionConfig };
+NgbAccordionConfig.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbAccordionConfig.ctorParameters = function () { return []; };
 //# sourceMappingURL=accordion-config.js.map

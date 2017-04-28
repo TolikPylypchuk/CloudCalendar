@@ -3,41 +3,45 @@ import { listenToTriggers } from '../util/triggers';
 import { positionElements } from '../util/positioning';
 import { PopupService } from '../util/popup';
 import { NgbTooltipConfig } from './tooltip-config';
-export var NgbTooltipWindow = (function () {
+var nextId = 0;
+var NgbTooltipWindow = (function () {
     function NgbTooltipWindow() {
         this.placement = 'top';
     }
-    NgbTooltipWindow.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-tooltip-window',
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    host: { '[class]': '"tooltip show tooltip-" + placement', 'role': 'tooltip' },
-                    template: "\n    <div class=\"tooltip-inner\"><ng-content></ng-content></div>\n    "
-                },] },
-    ];
-    /** @nocollapse */
-    NgbTooltipWindow.ctorParameters = function () { return []; };
-    NgbTooltipWindow.propDecorators = {
-        'placement': [{ type: Input },],
-    };
     return NgbTooltipWindow;
 }());
+export { NgbTooltipWindow };
+NgbTooltipWindow.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-tooltip-window',
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                host: { '[class]': '"tooltip show tooltip-" + placement', 'role': 'tooltip', '[id]': 'id' },
+                template: "\n    <div class=\"tooltip-inner\"><ng-content></ng-content></div>\n    "
+            },] },
+];
+/** @nocollapse */
+NgbTooltipWindow.ctorParameters = function () { return []; };
+NgbTooltipWindow.propDecorators = {
+    'placement': [{ type: Input },],
+    'id': [{ type: Input },],
+};
 /**
  * A lightweight, extensible directive for fancy tooltip creation.
  */
-export var NgbTooltip = (function () {
+var NgbTooltip = (function () {
     function NgbTooltip(_elementRef, _renderer, injector, componentFactoryResolver, viewContainerRef, config, ngZone) {
         var _this = this;
         this._elementRef = _elementRef;
         this._renderer = _renderer;
         /**
-       * Emits an event when the tooltip is shown
-       */
+         * Emits an event when the tooltip is shown
+         */
         this.shown = new EventEmitter();
         /**
          * Emits an event when the tooltip is hidden
          */
         this.hidden = new EventEmitter();
+        this._ngbTooltipWindowId = "ngb-tooltip-" + nextId++;
         this.placement = config.placement;
         this.triggers = config.triggers;
         this.container = config.container;
@@ -70,6 +74,8 @@ export var NgbTooltip = (function () {
         if (!this._windowRef && this._ngbTooltip) {
             this._windowRef = this._popupService.open(this._ngbTooltip, context);
             this._windowRef.instance.placement = this.placement;
+            this._windowRef.instance.id = this._ngbTooltipWindowId;
+            this._renderer.setElementAttribute(this._elementRef.nativeElement, 'aria-describedby', this._ngbTooltipWindowId);
             if (this.container === 'body') {
                 window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
             }
@@ -84,6 +90,7 @@ export var NgbTooltip = (function () {
      */
     NgbTooltip.prototype.close = function () {
         if (this._windowRef != null) {
+            this._renderer.setElementAttribute(this._elementRef.nativeElement, 'aria-describedby', null);
             this._popupService.close();
             this._windowRef = null;
             this.hidden.emit();
@@ -112,27 +119,28 @@ export var NgbTooltip = (function () {
         this._unregisterListenersFn();
         this._zoneSubscription.unsubscribe();
     };
-    NgbTooltip.decorators = [
-        { type: Directive, args: [{ selector: '[ngbTooltip]', exportAs: 'ngbTooltip' },] },
-    ];
-    /** @nocollapse */
-    NgbTooltip.ctorParameters = function () { return [
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: Injector, },
-        { type: ComponentFactoryResolver, },
-        { type: ViewContainerRef, },
-        { type: NgbTooltipConfig, },
-        { type: NgZone, },
-    ]; };
-    NgbTooltip.propDecorators = {
-        'placement': [{ type: Input },],
-        'triggers': [{ type: Input },],
-        'container': [{ type: Input },],
-        'shown': [{ type: Output },],
-        'hidden': [{ type: Output },],
-        'ngbTooltip': [{ type: Input },],
-    };
     return NgbTooltip;
 }());
+export { NgbTooltip };
+NgbTooltip.decorators = [
+    { type: Directive, args: [{ selector: '[ngbTooltip]', exportAs: 'ngbTooltip' },] },
+];
+/** @nocollapse */
+NgbTooltip.ctorParameters = function () { return [
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: Injector, },
+    { type: ComponentFactoryResolver, },
+    { type: ViewContainerRef, },
+    { type: NgbTooltipConfig, },
+    { type: NgZone, },
+]; };
+NgbTooltip.propDecorators = {
+    'placement': [{ type: Input },],
+    'triggers': [{ type: Input },],
+    'container': [{ type: Input },],
+    'shown': [{ type: Output },],
+    'hidden': [{ type: Output },],
+    'ngbTooltip': [{ type: Input },],
+};
 //# sourceMappingURL=tooltip.js.map

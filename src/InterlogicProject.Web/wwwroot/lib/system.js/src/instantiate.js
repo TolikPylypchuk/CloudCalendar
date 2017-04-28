@@ -1,5 +1,5 @@
 import { scriptLoad, isBrowser, isWorker, global, cjsRequireRegEx, addToError, loadNodeModule,
-    warn, CONFIG, METADATA, emptyModule, protectedCreateNamespace, resolvedPromise, preloadScript } from './common.js';
+    warn, CONFIG, METADATA, emptyModule, protectedCreateNamespace, resolvedPromise, preloadScript, checkInstantiateWasm } from './common.js';
 import { evaluate } from './evaluate.js';
 import fetch from './fetch.js';
 import { getGlobalValue, getCJSDeps, requireResolve, getPathVars, prepareGlobal, clearLastDefine, registerLastDefine } from './format-helpers.js';
@@ -181,43 +181,18 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
     if (!wasm || typeof fetched === 'string')
       return translateAndInstantiate(loader, key, fetched, metadata, processAnonRegister);
 
-    var bytes = new Uint8Array(fetched);
+    return checkInstantiateWasm(loader, fetched, processAnonRegister)
+    .then(function (wasmInstantiated) {
+      if (wasmInstantiated)
+        return;
 
-    // detect by leading bytes
-    if (bytes[0] === 0 && bytes[1] === 97 && bytes[2] === 115) {
-      return WebAssembly.compile(bytes).then(function (m) {
-        var deps = [];
-        var setters = [];
-        var importObj = {};
-
-        // we can only set imports if supported (eg Safari doesnt support)
-        if (WebAssembly.Module.imports)
-          WebAssembly.Module.imports(m).forEach(function (i) {
-            var key = i.module;
-            setters.push(function (m) {
-              importObj[key] = m;
-            });
-            if (deps.indexOf(key) === -1)
-              deps.push(key);
-          });
-        loader.register(deps, function (_export) {
-          return {
-            setters: setters,
-            execute: function () {
-              _export(new WebAssembly.Instance(m, importObj).exports);
-            }
-          };
-        });
-        processAnonRegister();
-      });
-    }
-
-    // not wasm -> convert buffer into utf-8 string to execute as a module
-    // TextDecoder compatibility matches WASM currently. Need to keep checking this.
-    // The TextDecoder interface is documented at http://encoding.spec.whatwg.org/#interface-textdecoder
-    var stringSource = isBrowser ? new TextDecoder('utf-8').decode(bytes) : fetched.toString();
-    return translateAndInstantiate(loader, key, stringSource, metadata, processAnonRegister);
-  })
+      // not wasm -> convert buffer into utf-8 string to execute as a module
+      // TextDecoder compatibility matches WASM currently. Need to keep checking this.
+      // The TextDecoder interface is documented at http://encoding.spec.whatwg.org/#interface-textdecoder
+      var stringSource = isBrowser ? new TextDecoder('utf-8').decode(new Uint8Array(fetched)) : fetched.toString();
+      return translateAndInstantiate(loader, key, stringSource, metadata, processAnonRegister);
+    });
+  });
 }
 
 function translateAndInstantiate (loader, key, source, metadata, processAnonRegister) {
@@ -248,6 +223,11 @@ function translateAndInstantiate (loader, key, source, metadata, processAnonRegi
     });
   })
   .then(function (source) {
+    if (!metadata.load.format && source.substring(0, 8) === '"bundle"') {
+      metadata.load.format = 'system';
+      return source;
+    }
+
     if (metadata.load.format === 'register' || !metadata.load.format && detectRegisterFormat(source)) {
       metadata.load.format = 'register';
       return source;

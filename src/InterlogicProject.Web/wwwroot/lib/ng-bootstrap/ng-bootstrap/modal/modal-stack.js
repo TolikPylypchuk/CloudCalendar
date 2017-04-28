@@ -4,7 +4,7 @@ import { isDefined, isString } from '../util/util';
 import { NgbModalBackdrop } from './modal-backdrop';
 import { NgbModalWindow } from './modal-window';
 import { NgbActiveModal, NgbModalRef } from './modal-ref';
-export var NgbModalStack = (function () {
+var NgbModalStack = (function () {
     function NgbModalStack(_applicationRef, _injector, _componentFactoryResolver) {
         this._applicationRef = _applicationRef;
         this._injector = _injector;
@@ -64,15 +64,16 @@ export var NgbModalStack = (function () {
             return new ContentRef([[componentRef.location.nativeElement]], componentRef.hostView, componentRef);
         }
     };
-    NgbModalStack.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbModalStack.ctorParameters = function () { return [
-        { type: ApplicationRef, },
-        { type: Injector, },
-        { type: ComponentFactoryResolver, },
-    ]; };
     return NgbModalStack;
 }());
+export { NgbModalStack };
+NgbModalStack.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbModalStack.ctorParameters = function () { return [
+    { type: ApplicationRef, },
+    { type: Injector, },
+    { type: ComponentFactoryResolver, },
+]; };
 //# sourceMappingURL=modal-stack.js.map

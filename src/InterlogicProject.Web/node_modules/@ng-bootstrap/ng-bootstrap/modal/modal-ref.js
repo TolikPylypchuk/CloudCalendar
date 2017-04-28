@@ -4,7 +4,7 @@ import { ContentRef } from '../util/popup';
  * A reference to an active (currently opened) modal. Instances of this class
  * can be injected into components passed as modal content.
  */
-export var NgbActiveModal = (function () {
+var NgbActiveModal = (function () {
     function NgbActiveModal() {
     }
     /**
@@ -15,17 +15,18 @@ export var NgbActiveModal = (function () {
      * Can be used to dismiss a modal, passing an optional reason.
      */
     NgbActiveModal.prototype.dismiss = function (reason) { };
-    NgbActiveModal.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbActiveModal.ctorParameters = function () { return []; };
     return NgbActiveModal;
 }());
+export { NgbActiveModal };
+NgbActiveModal.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbActiveModal.ctorParameters = function () { return []; };
 /**
  * A reference to a newly opened modal.
  */
-export var NgbModalRef = (function () {
+var NgbModalRef = (function () {
     function NgbModalRef(_windowCmptRef, _contentRef, _backdropCmptRef) {
         var _this = this;
         this._windowCmptRef = _windowCmptRef;
@@ -87,15 +88,16 @@ export var NgbModalRef = (function () {
         this._backdropCmptRef = null;
         this._contentRef = null;
     };
-    NgbModalRef.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbModalRef.ctorParameters = function () { return [
-        { type: ComponentRef, },
-        { type: ContentRef, },
-        { type: ComponentRef, },
-    ]; };
     return NgbModalRef;
 }());
+export { NgbModalRef };
+NgbModalRef.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbModalRef.ctorParameters = function () { return [
+    { type: ComponentRef, },
+    { type: ContentRef, },
+    { type: ComponentRef, },
+]; };
 //# sourceMappingURL=modal-ref.js.map

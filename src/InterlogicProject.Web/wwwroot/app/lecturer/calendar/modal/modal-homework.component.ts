@@ -100,7 +100,7 @@ export default class ModalHomeworkComponent implements OnInit {
 			? "Не перевірено"
 			: accepted
 				? "Прийнято"
-				: "Не прийнято";
+				: "Відхилено";
 	}
 
 	getAcceptedClass(accepted: boolean): string {

@@ -4,15 +4,16 @@ import { NgbTimepicker } from './timepicker';
 import { NgbTimepickerConfig } from './timepicker-config';
 export { NgbTimepicker } from './timepicker';
 export { NgbTimepickerConfig } from './timepicker-config';
-export var NgbTimepickerModule = (function () {
+var NgbTimepickerModule = (function () {
     function NgbTimepickerModule() {
     }
     NgbTimepickerModule.forRoot = function () { return { ngModule: NgbTimepickerModule, providers: [NgbTimepickerConfig] }; };
-    NgbTimepickerModule.decorators = [
-        { type: NgModule, args: [{ declarations: [NgbTimepicker], exports: [NgbTimepicker], imports: [CommonModule] },] },
-    ];
-    /** @nocollapse */
-    NgbTimepickerModule.ctorParameters = function () { return []; };
     return NgbTimepickerModule;
 }());
+export { NgbTimepickerModule };
+NgbTimepickerModule.decorators = [
+    { type: NgModule, args: [{ declarations: [NgbTimepicker], exports: [NgbTimepicker], imports: [CommonModule] },] },
+];
+/** @nocollapse */
+NgbTimepickerModule.ctorParameters = function () { return []; };
 //# sourceMappingURL=timepicker.module.js.map

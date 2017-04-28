@@ -76,6 +76,6 @@ export default class ModalHomeworkComponent implements OnInit {
 			? "Не перевірено"
 			: this.homework.accepted
 				? "Прийнято"
-				: "Не прийнято";
+				: "Відхилено";
 	}
 }

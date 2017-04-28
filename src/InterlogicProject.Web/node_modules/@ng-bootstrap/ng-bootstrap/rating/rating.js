@@ -19,10 +19,11 @@ var NGB_RATING_VALUE_ACCESSOR = {
 /**
  * Rating directive that will take care of visualising a star rating bar.
  */
-export var NgbRating = (function () {
+var NgbRating = (function () {
     function NgbRating(config, _changeDetectorRef) {
         this._changeDetectorRef = _changeDetectorRef;
         this.contexts = [];
+        this.disabled = false;
         /**
          * An event fired when a user is hovering over a given rating.
          * Event's payload equals to the rating being hovered over.
@@ -45,7 +46,7 @@ export var NgbRating = (function () {
     }
     NgbRating.prototype.ariaValueText = function () { return this.nextRate + " out of " + this.max; };
     NgbRating.prototype.enter = function (value) {
-        if (!this.readonly) {
+        if (!this.readonly && !this.disabled) {
             this._updateState(value);
         }
         this.hover.emit(value);
@@ -86,10 +87,11 @@ export var NgbRating = (function () {
         this.leave.emit(this.nextRate);
         this._updateState(this.rate);
     };
+    NgbRating.prototype.setDisabledState = function (isDisabled) { this.disabled = isDisabled; };
     NgbRating.prototype.update = function (value, internalChange) {
         if (internalChange === void 0) { internalChange = true; }
         var newRate = getValueInRange(value, this.max, 0);
-        if (!this.readonly && this.rate !== newRate) {
+        if (!this.readonly && !this.disabled && this.rate !== newRate) {
             this.rate = newRate;
             this.rateChange.emit(this.rate);
         }
@@ -117,39 +119,41 @@ export var NgbRating = (function () {
         this.nextRate = nextValue;
         this.contexts.forEach(function (context, index) { return context.fill = _this._getFillValue(index); });
     };
-    NgbRating.decorators = [
-        { type: Component, args: [{
-                    selector: 'ngb-rating',
-                    changeDetection: ChangeDetectionStrategy.OnPush,
-                    host: {
-                        'class': 'd-inline-flex',
-                        'tabindex': '0',
-                        'role': 'slider',
-                        'attr.aria-valuemin': '0',
-                        '[attr.aria-valuemax]': 'max',
-                        '[attr.aria-valuenow]': 'nextRate',
-                        '[attr.aria-valuetext]': 'ariaValueText()',
-                        '(mouseleave)': 'reset()',
-                        '(keydown)': 'handleKeyDown($event)'
-                    },
-                    template: "\n    <template #t let-fill=\"fill\">{{ fill === 100 ? '&#9733;' : '&#9734;' }}</template>\n    <template ngFor [ngForOf]=\"contexts\" let-index=\"index\">\n      <span class=\"sr-only\">({{ index < nextRate ? '*' : ' ' }})</span>\n      <span (mouseenter)=\"enter(index + 1)\" (click)=\"update(index + 1)\" [style.cursor]=\"readonly ? 'default' : 'pointer'\">\n        <template [ngTemplateOutlet]=\"starTemplate || t\" [ngOutletContext]=\"contexts[index]\"></template>\n      </span>\n    </template>\n  ",
-                    providers: [NGB_RATING_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    NgbRating.ctorParameters = function () { return [
-        { type: NgbRatingConfig, },
-        { type: ChangeDetectorRef, },
-    ]; };
-    NgbRating.propDecorators = {
-        'max': [{ type: Input },],
-        'rate': [{ type: Input },],
-        'readonly': [{ type: Input },],
-        'starTemplate': [{ type: Input }, { type: ContentChild, args: [TemplateRef,] },],
-        'hover': [{ type: Output },],
-        'leave': [{ type: Output },],
-        'rateChange': [{ type: Output },],
-    };
     return NgbRating;
 }());
+export { NgbRating };
+NgbRating.decorators = [
+    { type: Component, args: [{
+                selector: 'ngb-rating',
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                host: {
+                    'class': 'd-inline-flex',
+                    'tabindex': '0',
+                    'role': 'slider',
+                    'aria-valuemin': '0',
+                    '[attr.aria-valuemax]': 'max',
+                    '[attr.aria-valuenow]': 'nextRate',
+                    '[attr.aria-valuetext]': 'ariaValueText()',
+                    '[attr.aria-disabled]': 'readonly ? true : null',
+                    '(mouseleave)': 'reset()',
+                    '(keydown)': 'handleKeyDown($event)'
+                },
+                template: "\n    <ng-template #t let-fill=\"fill\">{{ fill === 100 ? '&#9733;' : '&#9734;' }}</ng-template>\n    <ng-template ngFor [ngForOf]=\"contexts\" let-index=\"index\">\n      <span class=\"sr-only\">({{ index < nextRate ? '*' : ' ' }})</span>\n      <span (mouseenter)=\"enter(index + 1)\" (click)=\"update(index + 1)\" [style.cursor]=\"readonly || disabled ? 'default' : 'pointer'\">\n        <ng-template [ngTemplateOutlet]=\"starTemplate || t\" [ngOutletContext]=\"contexts[index]\"></ng-template>\n      </span>\n    </ng-template>\n  ",
+                providers: [NGB_RATING_VALUE_ACCESSOR]
+            },] },
+];
+/** @nocollapse */
+NgbRating.ctorParameters = function () { return [
+    { type: NgbRatingConfig, },
+    { type: ChangeDetectorRef, },
+]; };
+NgbRating.propDecorators = {
+    'max': [{ type: Input },],
+    'rate': [{ type: Input },],
+    'readonly': [{ type: Input },],
+    'starTemplate': [{ type: Input }, { type: ContentChild, args: [TemplateRef,] },],
+    'hover': [{ type: Output },],
+    'leave': [{ type: Output },],
+    'rateChange': [{ type: Output },],
+};
 //# sourceMappingURL=rating.js.map

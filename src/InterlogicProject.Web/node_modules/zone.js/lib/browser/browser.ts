@@ -7,6 +7,7 @@
  */
 
 import {patchTimer} from '../common/timers';
+import {patchFuncToString, patchObjectToString} from '../common/to-string';
 import {findEventTask, patchClass, patchEventTargetMethods, patchMethod, patchPrototype, zoneSymbol} from '../common/utils';
 
 import {propertyPatch} from './define-property';
@@ -150,6 +151,11 @@ function patchXHR(window: any) {
 if (_global['navigator'] && _global['navigator'].geolocation) {
   patchPrototype(_global['navigator'].geolocation, ['getCurrentPosition', 'watchPosition']);
 }
+
+// patch Func.prototype.toString to let them look like native
+patchFuncToString();
+// patch Object.prototype.toString to let them look like native
+patchObjectToString();
 
 // handle unhandled promise rejection
 function findPromiseRejectionHandler(evtName: string) {

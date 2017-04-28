@@ -17,20 +17,21 @@ function toJSDate(date) {
     }
     return jsDate;
 }
-export var NgbCalendar = (function () {
+var NgbCalendar = (function () {
     function NgbCalendar() {
     }
-    NgbCalendar.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbCalendar.ctorParameters = function () { return []; };
     return NgbCalendar;
 }());
-export var NgbCalendarGregorian = (function (_super) {
+export { NgbCalendar };
+NgbCalendar.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbCalendar.ctorParameters = function () { return []; };
+var NgbCalendarGregorian = (function (_super) {
     __extends(NgbCalendarGregorian, _super);
     function NgbCalendarGregorian() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     NgbCalendarGregorian.prototype.getDaysPerWeek = function () { return 7; };
     NgbCalendarGregorian.prototype.getMonths = function () { return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; };
@@ -80,14 +81,19 @@ export var NgbCalendarGregorian = (function (_super) {
     };
     NgbCalendarGregorian.prototype.getToday = function () { return fromJSDate(new Date()); };
     NgbCalendarGregorian.prototype.isValid = function (date) {
-        return date && isInteger(date.year) && isInteger(date.month) && isInteger(date.day) &&
-            !isNaN(toJSDate(date).getTime());
+        if (!date || !isInteger(date.year) || !isInteger(date.month) || !isInteger(date.day)) {
+            return false;
+        }
+        var jsDate = toJSDate(date);
+        return !isNaN(jsDate.getTime()) && jsDate.getFullYear() === date.year && jsDate.getMonth() + 1 === date.month &&
+            jsDate.getDate() === date.day;
     };
-    NgbCalendarGregorian.decorators = [
-        { type: Injectable },
-    ];
-    /** @nocollapse */
-    NgbCalendarGregorian.ctorParameters = function () { return []; };
     return NgbCalendarGregorian;
 }(NgbCalendar));
+export { NgbCalendarGregorian };
+NgbCalendarGregorian.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+NgbCalendarGregorian.ctorParameters = function () { return []; };
 //# sourceMappingURL=ngb-calendar.js.map
