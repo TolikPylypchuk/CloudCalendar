@@ -25,6 +25,8 @@ namespace InterlogicProject.DAL
 		public DbSet<Lecturer> Lecturers { get; set; }
 		public DbSet<LecturerClass> LecturersClasses { get; set; }
 		public DbSet<Material> Materials { get; set; }
+		public DbSet<Notification> Notifications { get; set; }
+		public DbSet<NotificationText> NotificationTexts { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
 

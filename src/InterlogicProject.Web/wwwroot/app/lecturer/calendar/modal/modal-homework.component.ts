@@ -91,7 +91,7 @@ export default class ModalHomeworkComponent implements OnInit {
 	getStudentName(id: number): string {
 		const student = this.students.get(id);
 		return student
-			? `${student.userLastName} ${student.userFirstName}`
+			? `${student.lastName} ${student.firstName}`
 			: "";
 	}
 

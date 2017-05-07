@@ -44,11 +44,5 @@ namespace InterlogicProject.Web.Controllers
 
 			return this.View(model);
 		}
-
-		public IActionResult Faculties()
-			=> this.View(new FacultiesModel { Faculties = faculties.GetAll() });
-
-		public IActionResult Groups()
-			=> this.View(new FacultiesModel { Faculties = faculties.GetAll() });
 	}
 }

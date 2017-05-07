@@ -76,7 +76,7 @@ var ModalHomeworkComponent = (function () {
     ModalHomeworkComponent.prototype.getStudentName = function (id) {
         var student = this.students.get(id);
         return student
-            ? student.userLastName + " " + student.userFirstName
+            ? student.lastName + " " + student.firstName
             : "";
     };
     ModalHomeworkComponent.prototype.getAcceptedText = function (accepted) {

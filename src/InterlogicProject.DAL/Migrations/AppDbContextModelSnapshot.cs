@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using InterlogicProject.DAL;
 
 namespace InterlogicProject.DAL.Migrations
 {
@@ -292,6 +294,41 @@ namespace InterlogicProject.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Materials");
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsSeen");
+
+                    b.Property<int>("TextId");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TextId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.NotificationText", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(300);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationTexts");
                 });
 
             modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
@@ -631,6 +668,19 @@ namespace InterlogicProject.DAL.Migrations
                     b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
                         .WithMany()
                         .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
+                {
+                    b.HasOne("InterlogicProject.DAL.Models.NotificationText", "Text")
+                        .WithMany()
+                        .HasForeignKey("TextId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

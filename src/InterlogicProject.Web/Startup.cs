@@ -70,35 +70,56 @@ namespace InterlogicProject.Web
 			  .AddUserValidator<CustomUserValidator>()
 			  .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-			services.AddScoped<IRepository<Building>,
+			services.AddScoped<
+				IRepository<Building>,
 				BuildingRepository>();
-			services.AddScoped<IRepository<Class>,
+			services.AddScoped<
+				IRepository<Class>,
 				ClassRepository>();
-			services.AddScoped<IRepository<ClassPlace>,
+			services.AddScoped<
+				IRepository<ClassPlace>,
 				ClassPlaceRepository>();
-			services.AddScoped<IRepository<Classroom>,
+			services.AddScoped<
+				IRepository<Classroom>,
 				ClassroomRepository>();
-			services.AddScoped<IRepository<Comment>,
+			services.AddScoped<
+				IRepository<Comment>,
 				CommentRepository>();
-			services.AddScoped<IRepository<Department>,
+			services.AddScoped<
+				IRepository<Department>,
 				DepartmentRepository>();
-			services.AddScoped<IRepository<Faculty>,
+			services.AddScoped<
+				IRepository<Faculty>,
 				FacultyRepository>();
-			services.AddScoped<IRepository<Group>,
+			services.AddScoped<
+				IRepository<Group>,
 				GroupRepository>();
-			services.AddScoped<IRepository<GroupClass>,
+			services.AddScoped<
+				IRepository<GroupClass>,
 				GroupClassRepository>();
-			services.AddScoped<IRepository<Homework>,
+			services.AddScoped<
+				IRepository<Homework>,
 				HomeworkRepository>();
-			services.AddScoped<IRepository<Lecturer>,
+			services.AddScoped<
+				IRepository<Lecturer>,
 				LecturerRepository>();
-			services.AddScoped<IRepository<LecturerClass>,
+			services.AddScoped<
+				IRepository<LecturerClass>,
 				LecturerClassRepository>();
-			services.AddScoped<IRepository<Material>,
+			services.AddScoped<
+				IRepository<Material>,
 				MaterialRepository>();
-			services.AddScoped<IRepository<Student>,
+			services.AddScoped<
+				IRepository<Notification>,
+				NotificationRepository>();
+			services.AddScoped<
+				IRepository<NotificationText>,
+				NotificationTextRepository>();
+			services.AddScoped<
+				IRepository<Student>,
 				StudentRepository>();
-			services.AddScoped<IRepository<Subject>,
+			services.AddScoped<
+				IRepository<Subject>,
 				SubjectRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -128,12 +149,50 @@ namespace InterlogicProject.Web
 				config.CreateMap<Group, GroupDto>();
 				config.CreateMap<GroupClass, GroupClassDto>();
 				config.CreateMap<Homework, HomeworkDto>();
-				config.CreateMap<Lecturer, LecturerDto>();
 				config.CreateMap<LecturerClass, LecturerClassDto>();
 				config.CreateMap<Material, MaterialDto>();
-				config.CreateMap<Student, StudentDto>();
+				config.CreateMap<NotificationText, NotificationTextDto>();
 				config.CreateMap<Subject, SubjectDto>();
 				config.CreateMap<User, UserDto>();
+
+				config.CreateMap<Lecturer, LecturerDto>()
+					.ForMember(
+						dest => dest.FirstName,
+						opt => opt.MapFrom(src => src.User.FirstName))
+					.ForMember(
+						dest => dest.MiddleName,
+						opt => opt.MapFrom(src => src.User.MiddleName))
+					.ForMember(
+						dest => dest.LastName,
+						opt => opt.MapFrom(src => src.User.LastName))
+					.ForMember(
+						dest => dest.FullName,
+						opt => opt.MapFrom(src => src.User.FullName))
+					.ForMember(
+						dest => dest.Email,
+						opt => opt.MapFrom(src => src.User.Email));
+
+				config.CreateMap<Notification, NotificationDto>()
+					.ForMember(
+						dest => dest.Text,
+						opt => opt.MapFrom(src => src.Text.Text));
+
+				config.CreateMap<Student, StudentDto>()
+					.ForMember(
+						dest => dest.FirstName,
+						opt => opt.MapFrom(src => src.User.FirstName))
+					.ForMember(
+						dest => dest.MiddleName,
+						opt => opt.MapFrom(src => src.User.MiddleName))
+					.ForMember(
+						dest => dest.LastName,
+						opt => opt.MapFrom(src => src.User.LastName))
+					.ForMember(
+						dest => dest.FullName,
+						opt => opt.MapFrom(src => src.User.FullName))
+					.ForMember(
+						dest => dest.Email,
+						opt => opt.MapFrom(src => src.User.Email));
 			});
 			
 			services.AddSwaggerGen(options =>

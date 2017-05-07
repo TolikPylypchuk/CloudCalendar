@@ -2,7 +2,7 @@
 
 namespace InterlogicProject.DAL.Repositories
 {
-	public class SubjectRepository : BaseRepository<Subject>
+	public class SubjectRepository : RepositoryBase<Subject>
 	{
 		public SubjectRepository(AppDbContext context)
 			: base(context)

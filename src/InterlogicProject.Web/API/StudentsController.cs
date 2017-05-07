@@ -121,10 +121,10 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(201)]
 		public async Task<IActionResult> Post([FromBody] StudentDto studentDto)
 		{
-			if (studentDto?.UserFirstName == null ||
-				studentDto.UserMiddleName == null ||
-				studentDto.UserLastName == null ||
-				studentDto.UserEmail == null ||
+			if (studentDto?.FirstName == null ||
+				studentDto.MiddleName == null ||
+				studentDto.LastName == null ||
+				studentDto.Email == null ||
 				studentDto.GroupId == 0 ||
 				studentDto.IsGroupLeader == null ||
 				studentDto.TranscriptNumber == null)
@@ -134,13 +134,13 @@ namespace InterlogicProject.Web.API
 
 			var userToAdd = new User
 			{
-				FirstName = studentDto.UserFirstName,
-				MiddleName = studentDto.UserMiddleName,
-				LastName = studentDto.UserLastName,
-				Email = studentDto.UserEmail,
-				NormalizedEmail = studentDto.UserEmail.ToUpper(),
-				UserName = studentDto.UserEmail,
-				NormalizedUserName = studentDto.UserEmail.ToUpper()
+				FirstName = studentDto.FirstName,
+				MiddleName = studentDto.MiddleName,
+				LastName = studentDto.LastName,
+				Email = studentDto.Email,
+				NormalizedEmail = studentDto.Email.ToUpper(),
+				UserName = studentDto.Email,
+				NormalizedUserName = studentDto.Email.ToUpper()
 			};
 
 			await this.manager.CreateAsync(userToAdd);
@@ -204,32 +204,32 @@ namespace InterlogicProject.Web.API
 				studentToUpdate.TranscriptNumber = studentDto.TranscriptNumber;
 			}
 
-			if (studentDto.UserFirstName != null ||
-			    studentDto.UserMiddleName != null ||
-			    studentDto.UserLastName != null ||
-			    studentDto.UserEmail != null)
+			if (studentDto.FirstName != null ||
+			    studentDto.MiddleName != null ||
+			    studentDto.LastName != null ||
+			    studentDto.Email != null)
 			{
 				var userToUpdate = await this.manager.FindByIdAsync(
 					studentToUpdate.UserId);
 
-				if (studentDto.UserFirstName != null)
+				if (studentDto.FirstName != null)
 				{
-					userToUpdate.FirstName = studentDto.UserFirstName;
+					userToUpdate.FirstName = studentDto.FirstName;
 				}
 
-				if (studentDto.UserMiddleName != null)
+				if (studentDto.MiddleName != null)
 				{
-					userToUpdate.MiddleName = studentDto.UserMiddleName;
+					userToUpdate.MiddleName = studentDto.MiddleName;
 				}
 
-				if (studentDto.UserLastName != null)
+				if (studentDto.LastName != null)
 				{
-					userToUpdate.LastName = studentDto.UserLastName;
+					userToUpdate.LastName = studentDto.LastName;
 				}
 
-				if (studentDto.UserEmail != null)
+				if (studentDto.Email != null)
 				{
-					userToUpdate.Email = studentDto.UserEmail;
+					userToUpdate.Email = studentDto.Email;
 				}
 
 				await this.manager.UpdateAsync(userToUpdate);
@@ -282,32 +282,32 @@ namespace InterlogicProject.Web.API
 				studentToUpdate.TranscriptNumber = studentDto.TranscriptNumber;
 			}
 
-			if (studentDto.UserFirstName != null ||
-				studentDto.UserMiddleName != null ||
-				studentDto.UserLastName != null ||
-				studentDto.UserEmail != null)
+			if (studentDto.FirstName != null ||
+				studentDto.MiddleName != null ||
+				studentDto.LastName != null ||
+				studentDto.Email != null)
 			{
 				var userToUpdate = await this.manager.FindByIdAsync(
 					studentToUpdate.UserId);
 
-				if (studentDto.UserFirstName != null)
+				if (studentDto.FirstName != null)
 				{
-					userToUpdate.FirstName = studentDto.UserFirstName;
+					userToUpdate.FirstName = studentDto.FirstName;
 				}
 
-				if (studentDto.UserMiddleName != null)
+				if (studentDto.MiddleName != null)
 				{
-					userToUpdate.MiddleName = studentDto.UserMiddleName;
+					userToUpdate.MiddleName = studentDto.MiddleName;
 				}
 
-				if (studentDto.UserLastName != null)
+				if (studentDto.LastName != null)
 				{
-					userToUpdate.LastName = studentDto.UserLastName;
+					userToUpdate.LastName = studentDto.LastName;
 				}
 
-				if (studentDto.UserEmail != null)
+				if (studentDto.Email != null)
 				{
-					userToUpdate.Email = studentDto.UserEmail;
+					userToUpdate.Email = studentDto.Email;
 				}
 
 				await this.manager.UpdateAsync(userToUpdate);

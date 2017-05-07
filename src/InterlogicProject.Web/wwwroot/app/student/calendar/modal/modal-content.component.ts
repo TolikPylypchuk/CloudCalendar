@@ -63,8 +63,8 @@ export default class ModalContentComponent implements OnInit {
 	formatLecturers(lecturers: Lecturer[]): string {
 		return lecturers
 			? lecturers.reduce(
-				(a, l) => `${a}, ${l.userLastName} ${l.userFirstName[0]}. ` +
-					`${l.userMiddleName[0]}.`,
+				(a, l) => `${a}, ${l.lastName} ${l.firstName[0]}. ` +
+					`${l.middleName[0]}.`,
 				"").substring(2)
 			: "";
 	}

@@ -5,11 +5,11 @@
 		public int Id { get; set; }
 		public string UserId { get; set; }
 		
-		public string UserFirstName { get; set; }
-		public string UserMiddleName { get; set; }
-		public string UserLastName { get; set; }
-		public string UserFullName { get; set; }
-		public string UserEmail { get; set; }
+		public string FirstName { get; set; }
+		public string MiddleName { get; set; }
+		public string LastName { get; set; }
+		public string FullName { get; set; }
+		public string Email { get; set; }
 
 		public int GroupId { get; set; }
 		public string GroupName { get; set; }
@@ -17,6 +17,6 @@
 
 		public string TranscriptNumber { get; set; }
 
-		public override string ToString() => this.UserFullName;
+		public override string ToString() => this.FullName;
 	}
 }

@@ -21,6 +21,7 @@ namespace InterlogicProject.Web.API
 	/// An API for lecturers.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class LecturersController : Controller
 	{
 		private IRepository<Lecturer> lecturers;
@@ -134,10 +135,10 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(201)]
 		public async Task<IActionResult> Post([FromBody] LecturerDto lecturerDto)
 		{
-			if (lecturerDto?.UserFirstName == null ||
-				lecturerDto.UserMiddleName == null ||
-				lecturerDto.UserLastName == null ||
-				lecturerDto.UserEmail == null ||
+			if (lecturerDto?.FirstName == null ||
+				lecturerDto.MiddleName == null ||
+				lecturerDto.LastName == null ||
+				lecturerDto.Email == null ||
 				lecturerDto.DepartmentId == 0 ||
 				lecturerDto.IsAdmin == null ||
 				lecturerDto.IsDean == null ||
@@ -148,13 +149,13 @@ namespace InterlogicProject.Web.API
 
 			var userToAdd = new User
 			{
-				FirstName = lecturerDto.UserFirstName,
-				MiddleName = lecturerDto.UserMiddleName,
-				LastName = lecturerDto.UserLastName,
-				Email = lecturerDto.UserEmail,
-				NormalizedEmail = lecturerDto.UserEmail.ToUpper(),
-				UserName = lecturerDto.UserEmail,
-				NormalizedUserName = lecturerDto.UserEmail.ToUpper()
+				FirstName = lecturerDto.FirstName,
+				MiddleName = lecturerDto.MiddleName,
+				LastName = lecturerDto.LastName,
+				Email = lecturerDto.Email,
+				NormalizedEmail = lecturerDto.Email.ToUpper(),
+				UserName = lecturerDto.Email,
+				NormalizedUserName = lecturerDto.Email.ToUpper()
 			};
 
 			await this.manager.CreateAsync(userToAdd);
@@ -223,32 +224,32 @@ namespace InterlogicProject.Web.API
 				lecturerToUpdate.IsHead = lecturerDto.IsHead ?? false;
 			}
 
-			if (lecturerDto.UserFirstName != null ||
-				lecturerDto.UserMiddleName != null ||
-				lecturerDto.UserLastName != null ||
-				lecturerDto.UserEmail != null)
+			if (lecturerDto.FirstName != null ||
+				lecturerDto.MiddleName != null ||
+				lecturerDto.LastName != null ||
+				lecturerDto.Email != null)
 			{
 				var userToUpdate = await this.manager.FindByIdAsync(
 					lecturerToUpdate.UserId);
 
-				if (lecturerDto.UserFirstName != null)
+				if (lecturerDto.FirstName != null)
 				{
-					userToUpdate.FirstName = lecturerDto.UserFirstName;
+					userToUpdate.FirstName = lecturerDto.FirstName;
 				}
 
-				if (lecturerDto.UserMiddleName != null)
+				if (lecturerDto.MiddleName != null)
 				{
-					userToUpdate.MiddleName = lecturerDto.UserMiddleName;
+					userToUpdate.MiddleName = lecturerDto.MiddleName;
 				}
 
-				if (lecturerDto.UserLastName != null)
+				if (lecturerDto.LastName != null)
 				{
-					userToUpdate.LastName = lecturerDto.UserLastName;
+					userToUpdate.LastName = lecturerDto.LastName;
 				}
 
-				if (lecturerDto.UserEmail != null)
+				if (lecturerDto.Email != null)
 				{
-					userToUpdate.Email = lecturerDto.UserEmail;
+					userToUpdate.Email = lecturerDto.Email;
 				}
 
 				await this.manager.UpdateAsync(userToUpdate);
@@ -305,32 +306,32 @@ namespace InterlogicProject.Web.API
 				lecturerToUpdate.IsHead = lecturerDto.IsHead ?? false;
 			}
 
-			if (lecturerDto.UserFirstName != null ||
-				lecturerDto.UserMiddleName != null ||
-				lecturerDto.UserLastName != null ||
-				lecturerDto.UserEmail != null)
+			if (lecturerDto.FirstName != null ||
+				lecturerDto.MiddleName != null ||
+				lecturerDto.LastName != null ||
+				lecturerDto.Email != null)
 			{
 				var userToUpdate = await this.manager.FindByIdAsync(
 					lecturerToUpdate.UserId);
 
-				if (lecturerDto.UserFirstName != null)
+				if (lecturerDto.FirstName != null)
 				{
-					userToUpdate.FirstName = lecturerDto.UserFirstName;
+					userToUpdate.FirstName = lecturerDto.FirstName;
 				}
 
-				if (lecturerDto.UserMiddleName != null)
+				if (lecturerDto.MiddleName != null)
 				{
-					userToUpdate.MiddleName = lecturerDto.UserMiddleName;
+					userToUpdate.MiddleName = lecturerDto.MiddleName;
 				}
 
-				if (lecturerDto.UserLastName != null)
+				if (lecturerDto.LastName != null)
 				{
-					userToUpdate.LastName = lecturerDto.UserLastName;
+					userToUpdate.LastName = lecturerDto.LastName;
 				}
 
-				if (lecturerDto.UserEmail != null)
+				if (lecturerDto.Email != null)
 				{
-					userToUpdate.Email = lecturerDto.UserEmail;
+					userToUpdate.Email = lecturerDto.Email;
 				}
 
 				await this.manager.UpdateAsync(userToUpdate);

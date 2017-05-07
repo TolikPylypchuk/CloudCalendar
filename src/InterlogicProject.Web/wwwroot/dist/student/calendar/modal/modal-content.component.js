@@ -45,8 +45,8 @@ var ModalContentComponent = (function () {
     };
     ModalContentComponent.prototype.formatLecturers = function (lecturers) {
         return lecturers
-            ? lecturers.reduce(function (a, l) { return a + ", " + l.userLastName + " " + l.userFirstName[0] + ". " +
-                (l.userMiddleName[0] + "."); }, "").substring(2)
+            ? lecturers.reduce(function (a, l) { return a + ", " + l.lastName + " " + l.firstName[0] + ". " +
+                (l.middleName[0] + "."); }, "").substring(2)
             : "";
     };
     return ModalContentComponent;

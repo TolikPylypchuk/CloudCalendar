@@ -2,14 +2,6 @@
 	id?: number;
 }
 
-export interface User extends Entity {
-	email?: string;
-	firstName?: string;
-	middleName?: string;
-	lastName?: string;
-	fullName?: string;
-}
-
 export interface EntityWithUser extends Entity {
 	userId?: number;
 	userFirstName?: string;
@@ -17,6 +9,14 @@ export interface EntityWithUser extends Entity {
 	userLastName?: string;
 	userFullName?: string;
 	userEmail?: string;
+}
+
+export interface User extends Entity {
+	email?: string;
+	firstName?: string;
+	middleName?: string;
+	lastName?: string;
+	fullName?: string;
 }
 
 export interface Building extends Entity {
@@ -81,9 +81,10 @@ export interface Homework extends Entity {
 	accepted?: boolean;
 }
 
-export interface Lecturer extends EntityWithUser {
+export interface Lecturer extends User {
 	departmentId?: number;
 	departmentName?: string;
+	userId?: number;
 	isDean?: boolean;
 	isHead?: boolean;
 	isAdmin?: boolean;
@@ -99,11 +100,17 @@ export interface Material extends Entity {
 	fileName?: string;
 }
 
-export interface Student extends EntityWithUser {
+export interface Notification extends EntityWithUser {
+	text?: string;
+	isSeen?: boolean;
+}
+
+export interface Student extends User {
 	groupId?: number;
 	groupName?: string;
 	isGroupLeader?: boolean;
 	transcriptNumber?: string;
+	userId?: number;
 }
 
 export interface Subject extends Entity {

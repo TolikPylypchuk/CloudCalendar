@@ -19,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// An API for comments.
 	/// </summary>
 	[Route("api/[controller]")]
+	[Produces("application/json")]
 	public class CommentsController : Controller
 	{
 		private IRepository<Comment> comments;

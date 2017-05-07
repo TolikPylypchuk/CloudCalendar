@@ -82,6 +82,7 @@
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

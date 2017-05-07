@@ -7,7 +7,7 @@ using InterlogicProject.DAL.Models;
 
 namespace InterlogicProject.DAL.Repositories
 {
-	public class ClassroomRepository : BaseRepository<Classroom>
+	public class ClassroomRepository : RepositoryBase<Classroom>
 	{
 		public ClassroomRepository(AppDbContext context)
 			: base(context)
