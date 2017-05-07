@@ -17,6 +17,7 @@
 		"noImplicitUseStrict": false,
 		"outDir": "./wwwroot/dist/",
 		"removeComments": false,
+		"rootDir": "./wwwroot/app",
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"sourceMap": true,

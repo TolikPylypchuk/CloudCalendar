@@ -4,12 +4,11 @@ import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { NgbModalModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { CalendarComponent as FullcalendarComponent } from
-	"angular2-fullcalendar/src/calendar/calendar";
-
 import { FileSelectDirective, FileDropDirective } from "ng2-file-upload";
 
 import { CommonModule } from "../common/common";
+
+import FullcalendarComponent from "../../common/fullcalendar.component";
 
 import CalendarComponent from "./calendar.component";
 import ModalContentComponent from "./modal/modal-content.component";

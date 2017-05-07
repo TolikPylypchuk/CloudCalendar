@@ -14,9 +14,8 @@ import { StudentService } from "../common/common";
 	selector: "student-calendar",
 	template: `
 		<div class="m-3 pb-3">
-			<angular2-fullcalendar [options]="options">
-			</angular2-fullcalendar>
-		
+			<fullcalendar [options]="options"></fullcalendar>
+			
 			<ng-template ngbModalContainer></ng-template>
 		</div>
 	`

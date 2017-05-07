@@ -10,11 +10,6 @@ gulp.task("copy-ng-bootstrap", () => {
 			   .pipe(gulp.dest("./wwwroot/lib/ng-bootstrap/"));
 });
 
-gulp.task("copy-angular2-fullcalendar", () => {
-	return gulp.src("./node_modules/angular2-fullcalendar/**")
-			   .pipe(gulp.dest("./wwwroot/lib/angular2-fullcalendar/"));
-});
-
 gulp.task("copy-ng2-file-upload", () => {
 	return gulp.src("./node_modules/ng2-file-upload/bundles/**")
 		.pipe(gulp.dest("./wwwroot/lib/ng2-file-upload/"));
@@ -30,7 +25,6 @@ gulp.task(
 	[
 		"copy-angular-bundles",
 		"copy-ng-bootstrap",
-		"copy-angular2-fullcalendar",
 		"copy-ng2-file-upload",
 		"copy-rxjs"
 	]);

@@ -39,6 +39,7 @@
     <Content Remove="wwwroot/scss\style.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\app\common\fullcalendar.component.ts" />
     <Content Include="wwwroot\app\common\models.ts" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-content.component.css" />
@@ -82,7 +83,7 @@
     <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="1.5.0" />
+    <PackageReference Include="IdentityServer4" Version="1.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />

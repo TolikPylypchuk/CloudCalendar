@@ -89,7 +89,7 @@ var CalendarComponent = (function () {
 CalendarComponent = __decorate([
     core_1.Component({
         selector: "lecturer-calendar",
-        template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<angular2-fullcalendar [options]=\"options\">\n\t\t\t</angular2-fullcalendar>\n\t\t\n\t\t\t<ng-template ngbModalContainer></ng-template>\n\t\t</div>\n\t"
+        template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<fullcalendar [options]=\"options\"></fullcalendar>\n\t\t\t\n\t\t\t<ng-template ngbModalContainer></ng-template>\n\t\t</div>\n\t"
     }),
     __metadata("design:paramtypes", [http_1.Http,
         ng_bootstrap_1.NgbModal,
