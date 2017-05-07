@@ -39,7 +39,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All buildings from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<BuildingDto>))]
-		public IEnumerable<BuildingDto> Get()
+		public IEnumerable<BuildingDto> GetAll()
 			=> this.buildings.GetAll()?.ProjectTo<BuildingDto>();
 
 		/// <summary>
@@ -47,9 +47,9 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the building to get.</param>
 		/// <returns>A building with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetBuildingById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(BuildingDto))]
-		public BuildingDto Get(int id)
+		public BuildingDto GetById([FromRoute] int id)
 			=> Mapper.Map<BuildingDto>(this.buildings.GetById(id));
 
 		/// <summary>
@@ -74,8 +74,10 @@ namespace InterlogicProject.Web.API
 
 			buildingDto.Id = buildingToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetBuildingById", new { id = buildingDto.Id }, buildingDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById),
+				new { id = buildingDto.Id },
+				buildingDto);
 		}
 
 		/// <summary>
@@ -88,7 +90,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] BuildingDto buildingDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] BuildingDto buildingDto)
 		{
 			if (buildingDto?.Name == null)
 			{
@@ -118,7 +122,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] BuildingDto buildingDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] BuildingDto buildingDto)
 		{
 			if (buildingDto?.Name == null)
 			{
@@ -147,7 +153,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var buildingToDelete = this.buildings.GetById(id);
 

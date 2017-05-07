@@ -40,7 +40,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All faculties from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<FacultyDto>))]
-		public IEnumerable<FacultyDto> Get()
+		public IEnumerable<FacultyDto> GetAll()
 			=> this.faculties.GetAll()?.ProjectTo<FacultyDto>();
 
 		/// <summary>
@@ -48,21 +48,22 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the faculty to get.</param>
 		/// <returns>A faculty with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetFacultyById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(FacultyDto))]
-		public FacultyDto Get(int id)
+		public FacultyDto GetById([FromRoute] int id)
 			=> Mapper.Map<FacultyDto>(this.faculties.GetById(id));
 
 		/// <summary>
 		/// Gets all faculties with the specified building.
 		/// </summary>
-		/// <param name="id">The ID of the building.</param>
+		/// <param name="buildingId">The ID of the building.</param>
 		/// <returns>All faculties with the specified building.</returns>
-		[HttpGet("buildingId/{id}")]
+		[HttpGet("buildingId/{buildingId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<FacultyDto>))]
-		public IEnumerable<FacultyDto> GetForBuilding(int id)
+		public IEnumerable<FacultyDto> GetForBuilding(
+			[FromRoute] int buildingId)
 			=> this.faculties.GetAll()
-							?.Where(f => f.BuildingId == id)
+							?.Where(f => f.BuildingId == buildingId)
 							 .ProjectTo<FacultyDto>();
 
 		/// <summary>
@@ -92,8 +93,8 @@ namespace InterlogicProject.Web.API
 
 			facultyDto.Id = facultyToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetFacultyById", new { id = facultyDto.Id }, facultyDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = facultyDto.Id }, facultyDto);
 		}
 
 		/// <summary>
@@ -106,7 +107,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] FacultyDto facultyDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] FacultyDto facultyDto)
 		{
 			if (facultyDto == null)
 			{
@@ -145,7 +148,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] FacultyDto facultyDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] FacultyDto facultyDto)
 		{
 			if (facultyDto == null)
 			{
@@ -183,7 +188,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var facultyToDelete = this.faculties.GetById(id);
 

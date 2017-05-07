@@ -51,7 +51,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All materials from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<MaterialDto>))]
-		public IEnumerable<MaterialDto> Get()
+		public IEnumerable<MaterialDto> GetAll()
 			=> this.materials.GetAll()?.ProjectTo<MaterialDto>();
 
 		/// <summary>
@@ -59,21 +59,21 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the material to get.</param>
 		/// <returns>A material with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetMaterialById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(MaterialDto))]
-		public MaterialDto Get(int id)
+		public MaterialDto GetById([FromRoute] int id)
 			=> Mapper.Map<MaterialDto>(this.materials.GetById(id));
 
 		/// <summary>
 		/// Gets all materials with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <returns>All materials with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<MaterialDto>))]
-		public IEnumerable<MaterialDto> GetForClass(int id)
+		public IEnumerable<MaterialDto> GetForClass([FromRoute] int classId)
 			=> this.materials.GetAll()
-						    ?.Where(m => m.ClassId == id)
+						    ?.Where(m => m.ClassId == classId)
 							 .ProjectTo<MaterialDto>();
 
 		/// <summary>
@@ -86,7 +86,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost("classId/{classId}")]
 		[SwaggerResponse(201)]
-		public async Task<IActionResult> Post(IFormFile file, int classId)
+		public async Task<IActionResult> Post(
+			[FromBody] IFormFile file,
+			[FromRoute] int classId)
 		{
 			if (file == null || classId <= 0)
 			{
@@ -119,8 +121,8 @@ namespace InterlogicProject.Web.API
 
 			this.materials.Add(materialToAdd);
 			
-			return this.CreatedAtRoute(
-				"GetMaterialById",
+			return this.CreatedAtAction(
+				nameof(this.GetById),
 				new { id = materialToAdd.Id },
 				Mapper.Map<MaterialDto>(materialToAdd));
 		}
@@ -134,7 +136,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var materialToDelete = this.materials.GetById(id);
 

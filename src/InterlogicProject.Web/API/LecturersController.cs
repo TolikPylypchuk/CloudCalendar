@@ -50,7 +50,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All lecturers from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
-		public IEnumerable<LecturerDto> Get()
+		public IEnumerable<LecturerDto> GetAll()
 			=> this.lecturers.GetAll()?.ProjectTo<LecturerDto>();
 
 		/// <summary>
@@ -58,22 +58,22 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the lecturer to get.</param>
 		/// <returns>A lecturer with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetLecturerById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(LecturerDto))]
-		public LecturerDto Get(int id)
+		public LecturerDto GetById([FromRoute] int id)
 			=> Mapper.Map<LecturerDto>(this.lecturers.GetById(id));
 
 		/// <summary>
 		/// Gets a lecturer with the specified user ID.
 		/// </summary>
-		/// <param name="id">The ID of the user.</param>
+		/// <param name="userId">The ID of the user.</param>
 		/// <returns>A lecturer with the specified user ID.</returns>
-		[HttpGet("userId/{id}")]
+		[HttpGet("userId/{userId}")]
 		[SwaggerResponse(200, Type = typeof(LecturerDto))]
-		public LecturerDto GetByUser(string id)
+		public LecturerDto GetByUser([FromRoute] string userId)
 			=> Mapper.Map<LecturerDto>(
 				this.lecturers.GetAll()
-							 ?.FirstOrDefault(l => l.UserId == id));
+							 ?.FirstOrDefault(l => l.UserId == userId));
 
 		/// <summary>
 		/// Gets a lecturer with the specified email.
@@ -82,7 +82,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>A lecturer with the specified email.</returns>
 		[HttpGet("email/{email}")]
 		[SwaggerResponse(200, Type = typeof(LecturerDto))]
-		public LecturerDto GetByEmail(string email)
+		public LecturerDto GetByEmail([FromRoute] string email)
 			=> Mapper.Map<LecturerDto>(
 				this.lecturers.GetAll()
 							 ?.FirstOrDefault(l => l.User.Email == email));
@@ -90,38 +90,40 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all lecturers with the specified department.
 		/// </summary>
-		/// <param name="id">The ID of the department.</param>
+		/// <param name="departmentId">The ID of the department.</param>
 		/// <returns>All lecturers with the specified department.</returns>
-		[HttpGet("departmentId/{id}")]
+		[HttpGet("departmentId/{departmentId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
-		public IEnumerable<LecturerDto> GetForDepartment(int id)
+		public IEnumerable<LecturerDto> GetForDepartment(
+			[FromRoute] int departmentId)
 			=> this.lecturers.GetAll()
-							?.Where(l => l.DepartmentId == id)
+							?.Where(l => l.DepartmentId == departmentId)
 							 .ProjectTo<LecturerDto>();
 
 		/// <summary>
 		/// Gets all lecturers with the specified faculty.
 		/// </summary>
-		/// <param name="id">The ID of the faculty.</param>
+		/// <param name="facultyId">The ID of the faculty.</param>
 		/// <returns>All lecturers with the specified faculty.</returns>
-		[HttpGet("facultyId/{id}")]
+		[HttpGet("facultyId/{facultyId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
-		public IEnumerable<LecturerDto> GetForFaculty(int id)
+		public IEnumerable<LecturerDto> GetForFaculty(
+			[FromRoute] int facultyId)
 			=> this.lecturers.GetAll()
-							?.Where(l => l.Department.FacultyId == id)
+							?.Where(l => l.Department.FacultyId == facultyId)
 							 .ProjectTo<LecturerDto>();
 
 		/// <summary>
 		/// Gets all lecturers with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <returns>All lecturers with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<LecturerDto>))]
-		public IEnumerable<LecturerDto> GetForClass(int id)
+		public IEnumerable<LecturerDto> GetForClass([FromRoute] int classId)
 		=> this.lecturers.GetAll()
 						?.Include(l => l.Classes)
-						 .Where(l => l.Classes.Any(c => c.ClassId == id))
+						 .Where(l => l.Classes.Any(c => c.ClassId == classId))
 						 .ProjectTo<LecturerDto>();
 
 		/// <summary>
@@ -133,7 +135,8 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
-		public async Task<IActionResult> Post([FromBody] LecturerDto lecturerDto)
+		public async Task<IActionResult> Post(
+			[FromBody] LecturerDto lecturerDto)
 		{
 			if (lecturerDto?.FirstName == null ||
 				lecturerDto.MiddleName == null ||
@@ -174,8 +177,10 @@ namespace InterlogicProject.Web.API
 
 			lecturerDto.Id = lecturerToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetLecturerById", new { id = lecturerDto.Id }, lecturerDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById),
+				new { id = lecturerDto.Id },
+				lecturerDto);
 		}
 
 		/// <summary>
@@ -189,7 +194,7 @@ namespace InterlogicProject.Web.API
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
 		public async Task<IActionResult> Put(
-			int id,
+			[FromRoute] int id,
 			[FromBody] LecturerDto lecturerDto)
 		{
 			if (lecturerDto == null)
@@ -271,7 +276,7 @@ namespace InterlogicProject.Web.API
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
 		public async Task<IActionResult> Patch(
-			int id,
+			[FromRoute] int id,
 			[FromBody] LecturerDto lecturerDto)
 		{
 			if (lecturerDto == null)
@@ -351,7 +356,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public async Task<IActionResult> Delete(int id)
+		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var lecturerToDelete = this.lecturers.GetById(id);
 

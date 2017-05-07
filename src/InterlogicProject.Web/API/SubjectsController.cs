@@ -39,7 +39,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All subjects from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<SubjectDto>))]
-		public IEnumerable<SubjectDto> Get()
+		public IEnumerable<SubjectDto> GetAll()
 			=> this.subjects.GetAll()?.ProjectTo<SubjectDto>();
 
 		/// <summary>
@@ -47,9 +47,9 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the subject to get.</param>
 		/// <returns>A subject with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetSubjectById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(SubjectDto))]
-		public SubjectDto Get(int id)
+		public SubjectDto GetById([FromRoute] int id)
 			=> Mapper.Map<SubjectDto>(this.subjects.GetById(id));
 
 		/// <summary>
@@ -74,8 +74,8 @@ namespace InterlogicProject.Web.API
 
 			subjectDto.Id = subjectToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetSubjectById", new { id = subjectDto.Id }, subjectDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = subjectDto.Id }, subjectDto);
 		}
 
 		/// <summary>
@@ -88,7 +88,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] SubjectDto subjectDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] SubjectDto subjectDto)
 		{
 			if (subjectDto?.Name == null)
 			{
@@ -118,7 +120,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] SubjectDto subjectDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] SubjectDto subjectDto)
 		{
 			if (subjectDto?.Name == null)
 			{
@@ -147,7 +151,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var subjectToDelete = this.subjects.GetById(id);
 

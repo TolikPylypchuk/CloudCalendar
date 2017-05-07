@@ -49,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All users from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<UserDto>))]
-		public IEnumerable<UserDto> Get()
+		public IEnumerable<UserDto> GetAll()
 			=> this.manager.Users.ProjectTo<UserDto>();
 
 		/// <summary>
@@ -59,7 +59,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>A user with the specified ID.</returns>
 		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(UserDto))]
-		public async Task<UserDto> Get(string id)
+		public async Task<UserDto> GetById([FromRoute] string id)
 			=> Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>A user with the specified email.</returns>
 		[HttpGet("email/{email}")]
 		[SwaggerResponse(200, Type = typeof(UserDto))]
-		public async Task<UserDto> GetByEmail(string email)
+		public async Task<UserDto> GetByEmail([FromRoute] string email)
 			=> Mapper.Map<UserDto>(await this.manager.FindByEmailAsync(email));
 
 		/// <summary>

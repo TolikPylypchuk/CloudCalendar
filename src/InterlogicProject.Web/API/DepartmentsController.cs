@@ -40,7 +40,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All departments from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<DepartmentDto>))]
-		public IEnumerable<DepartmentDto> Get()
+		public IEnumerable<DepartmentDto> GetAll()
 			=> this.departments.GetAll()?.ProjectTo<DepartmentDto>();
 
 		/// <summary>
@@ -48,21 +48,22 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the department to get.</param>
 		/// <returns>A department with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetDepartmentById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(DepartmentDto))]
-		public DepartmentDto Get(int id)
+		public DepartmentDto GetById([FromRoute] int id)
 			=> Mapper.Map<DepartmentDto>(this.departments.GetById(id));
 
 		/// <summary>
 		/// Gets all departments with the specified faculty.
 		/// </summary>
-		/// <param name="id">The ID of the faculty.</param>
+		/// <param name="facultyId">The ID of the faculty.</param>
 		/// <returns>All departments with the specified faculty.</returns>
-		[HttpGet("facultyId/{id}")]
+		[HttpGet("facultyId/{facultyId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<DepartmentDto>))]
-		public IEnumerable<DepartmentDto> GetForFaculty(int id)
+		public IEnumerable<DepartmentDto> GetForFaculty(
+			[FromRoute] int facultyId)
 			=> this.departments.GetAll()
-							  ?.Where(d => d.FacultyId == id)
+							  ?.Where(d => d.FacultyId == facultyId)
 							   .ProjectTo<DepartmentDto>();
 
 		/// <summary>
@@ -92,8 +93,10 @@ namespace InterlogicProject.Web.API
 
 			departmentDto.Id = departmentToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetDepartmentById", new { id = departmentDto.Id }, departmentDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById),
+				new { id = departmentDto.Id },
+				departmentDto);
 		}
 
 		/// <summary>
@@ -106,7 +109,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] DepartmentDto departmentDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] DepartmentDto departmentDto)
 		{
 			if (departmentDto == null)
 			{
@@ -145,7 +150,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] DepartmentDto departmentDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] DepartmentDto departmentDto)
 		{
 			if (departmentDto == null)
 			{
@@ -183,7 +190,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var departmentToDelete = this.departments.GetById(id);
 

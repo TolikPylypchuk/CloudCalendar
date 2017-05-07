@@ -41,7 +41,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All groups from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> Get()
+		public IEnumerable<GroupDto> GetAll()
 			=> this.groups.GetAll()?.ProjectTo<GroupDto>();
 
 		/// <summary>
@@ -49,33 +49,35 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the group to get.</param>
 		/// <returns>A group with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetGroupById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(GroupDto))]
-		public GroupDto Get(int id)
+		public GroupDto GetById([FromRoute] int id)
 			=> Mapper.Map<GroupDto>(this.groups.GetById(id));
 
 		/// <summary>
 		/// Gets all groups with the specified department.
 		/// </summary>
-		/// <param name="id">The ID of the department.</param>
+		/// <param name="departmentId">The ID of the department.</param>
 		/// <returns>All groups with the specified department.</returns>
-		[HttpGet("departmentId/{id}")]
+		[HttpGet("departmentId/{departmentId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetForDepartment(int id)
+		public IEnumerable<GroupDto> GetForDepartment(
+			[FromRoute] int departmentId)
 			=> this.groups.GetAll()
-						 ?.Where(g => g.Curator.DepartmentId == id)
+						 ?.Where(g => g.Curator.DepartmentId == departmentId)
 						  .ProjectTo<GroupDto>();
 
 		/// <summary>
 		/// Gets all groups with the specified faculty.
 		/// </summary>
-		/// <param name="id">The ID of the faculty.</param>
+		/// <param name="facultyId">The ID of the faculty.</param>
 		/// <returns>All groups with the specified faculty.</returns>
-		[HttpGet("facultyId/{id}")]
+		[HttpGet("facultyId/{facultyId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetForFaculty(int id)
+		public IEnumerable<GroupDto> GetForFaculty([FromRoute] int facultyId)
 			=> this.groups.GetAll()
-						 ?.Where(g => g.Curator.Department.FacultyId == id)
+						 ?.Where(g =>
+								g.Curator.Department.FacultyId == facultyId)
 						  .ProjectTo<GroupDto>();
 
 		/// <summary>
@@ -85,7 +87,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All groups with the specified  enrollment year.</returns>
 		[HttpGet("year/{year}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetForYear(int year)
+		public IEnumerable<GroupDto> GetForYear([FromRoute] int year)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Year == year)
 						  .ProjectTo<GroupDto>();
@@ -93,30 +95,33 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all groups with the specified faculty and enrollment year.
 		/// </summary>
-		/// <param name="id">The ID of the faculty.</param>
+		/// <param name="facultyId">The ID of the faculty.</param>
 		/// <param name="year">The enrollment year.</param>
 		/// <returns>
 		/// All groups with the specified faculty and enrollment year.
 		/// </returns>
-		[HttpGet("facultyId/{id}/year/{year}")]
+		[HttpGet("facultyId/{facultyId}/year/{year}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetForFaculty(int id, int year)
+		public IEnumerable<GroupDto> GetForFaculty(
+			[FromRoute] int facultyId,
+			[FromRoute] int year)
 			=> this.groups.GetAll()
 						 ?.Where(g => g.Year == year &&
-									  g.Curator.Department.FacultyId == id)
+									  g.Curator.Department.FacultyId ==
+									  facultyId)
 						  .ProjectTo<GroupDto>();
 
 		/// <summary>
 		/// Gets all groups with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <returns>All groups with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<GroupDto>))]
-		public IEnumerable<GroupDto> GetForClass(int id)
+		public IEnumerable<GroupDto> GetForClass([FromRoute] int classId)
 			=> this.groups.GetAll()
 						 ?.Include(g => g.Classes)
-						  .Where(g => g.Classes.Any(c => c.ClassId == id))
+						  .Where(g => g.Classes.Any(c => c.ClassId == classId))
 						  .ProjectTo<GroupDto>();
 
 		/// <summary>
@@ -148,8 +153,8 @@ namespace InterlogicProject.Web.API
 
 			groupDto.Id = groupToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetGroupById", new { id = groupDto.Id }, groupDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = groupDto.Id }, groupDto);
 		}
 
 		/// <summary>
@@ -162,7 +167,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] GroupDto groupDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] GroupDto groupDto)
 		{
 			if (groupDto == null)
 			{
@@ -201,7 +208,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] GroupDto groupDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] GroupDto groupDto)
 		{
 			if (groupDto == null)
 			{
@@ -239,7 +248,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var groupToDelete = this.groups.GetById(id);
 

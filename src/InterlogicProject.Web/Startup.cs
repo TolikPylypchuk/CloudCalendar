@@ -110,11 +110,11 @@ namespace InterlogicProject.Web
 				IRepository<Material>,
 				MaterialRepository>();
 			services.AddScoped<
+				IRepository<UserNotification>,
+				UserNotificationRepository>();
+			services.AddScoped<
 				IRepository<Notification>,
 				NotificationRepository>();
-			services.AddScoped<
-				IRepository<NotificationText>,
-				NotificationTextRepository>();
 			services.AddScoped<
 				IRepository<Student>,
 				StudentRepository>();
@@ -151,7 +151,6 @@ namespace InterlogicProject.Web
 				config.CreateMap<Homework, HomeworkDto>();
 				config.CreateMap<LecturerClass, LecturerClassDto>();
 				config.CreateMap<Material, MaterialDto>();
-				config.CreateMap<NotificationText, NotificationTextDto>();
 				config.CreateMap<Subject, SubjectDto>();
 				config.CreateMap<User, UserDto>();
 
@@ -172,10 +171,13 @@ namespace InterlogicProject.Web
 						dest => dest.Email,
 						opt => opt.MapFrom(src => src.User.Email));
 
-				config.CreateMap<Notification, NotificationDto>()
+				config.CreateMap<UserNotification, NotificationDto>()
 					.ForMember(
 						dest => dest.Text,
-						opt => opt.MapFrom(src => src.Text.Text));
+						opt => opt.MapFrom(src => src.Notification.Text))
+					.ForMember(
+						dest => dest.DateTime,
+						opt => opt.MapFrom(src => src.Notification.DateTime));
 
 				config.CreateMap<Student, StudentDto>()
 					.ForMember(

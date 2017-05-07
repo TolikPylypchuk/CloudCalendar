@@ -41,7 +41,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All comments from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
-		public IEnumerable<CommentDto> Get()
+		public IEnumerable<CommentDto> GetAll()
 			=> this.comments.GetAll()?.ProjectTo<CommentDto>();
 
 		/// <summary>
@@ -49,37 +49,39 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the comment to get.</param>
 		/// <returns>A comment with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetCommentById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(CommentDto))]
-		public CommentDto Get(int id)
+		public CommentDto GetById([FromRoute] int id)
 			=> Mapper.Map<CommentDto>(this.comments.GetById(id));
 
 		/// <summary>
 		/// Gets all comments with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <returns>All comments with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
-		public IEnumerable<CommentDto> GetForClass(int id)
+		public IEnumerable<CommentDto> GetForClass([FromRoute] int classId)
 			=> this.comments.GetAll()
-						   ?.Where(c => c.ClassId == id)
+						   ?.Where(c => c.ClassId == classId)
 							.OrderBy(c => c.DateTime)
 							.ProjectTo<CommentDto>();
 
 		/// <summary>
 		/// Gets the specified amount of comments with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <param name="num">The amount of comments.</param>
 		/// <returns>
 		/// The specified amount of comments with the specified class.
 		/// </returns>
-		[HttpGet("classId/{id}/take/{num}")]
+		[HttpGet("classId/{classId}/take/{num}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
-		public IEnumerable<CommentDto> GetForClass(int id, int num)
+		public IEnumerable<CommentDto> GetForClass(
+			[FromRoute] int classId,
+			[FromRoute] int num)
 			=> this.comments.GetAll()
-						   ?.Where(c => c.ClassId == id)
+						   ?.Where(c => c.ClassId == classId)
 							.OrderBy(c => c.DateTime)
 							.Take(num)
 							.ProjectTo<CommentDto>();
@@ -87,13 +89,13 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all comments with the specified user.
 		/// </summary>
-		/// <param name="id">The ID of the user.</param>
+		/// <param name="userId">The ID of the user.</param>
 		/// <returns>All comments with the specified user.</returns>
-		[HttpGet("userId/{id}")]
+		[HttpGet("userId/{userId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
-		public IEnumerable<CommentDto> GetForUser(string id)
+		public IEnumerable<CommentDto> GetForUser([FromRoute] string userId)
 			=> this.comments.GetAll()
-						   ?.Where(c => c.UserId == id)
+						   ?.Where(c => c.UserId == userId)
 							.ProjectTo<CommentDto>();
 
 		/// <summary>
@@ -105,8 +107,8 @@ namespace InterlogicProject.Web.API
 		[HttpGet("classId/{classId}/userId/{userId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClassAndUser(
-			int classId,
-			string userId)
+			[FromRoute] int classId,
+			[FromRoute] string userId)
 			=> this.comments.GetAll()
 						   ?.Where(c => c.ClassId == classId)
 							.Where(c => c.UserId == userId)
@@ -126,9 +128,9 @@ namespace InterlogicProject.Web.API
 		[HttpGet("classId/{classId}/userId/{userId}/take/{num}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<CommentDto>))]
 		public IEnumerable<CommentDto> GetForClassAndUser(
-			int classId,
-			string userId,
-			int num)
+			[FromRoute] int classId,
+			[FromRoute] string userId,
+			[FromRoute] int num)
 			=> this.comments.GetAll()
 						   ?.Where(c => c.ClassId == classId)
 							.Where(c => c.UserId == userId)
@@ -167,8 +169,8 @@ namespace InterlogicProject.Web.API
 
 			commentDto.Id = commentToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetCommentById", new { id = commentDto.Id }, commentDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = commentDto.Id }, commentDto);
 		}
 
 		/// <summary>
@@ -181,7 +183,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] CommentDto commentDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] CommentDto commentDto)
 		{
 			if (commentDto?.Text == null)
 			{
@@ -211,7 +215,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] CommentDto commentDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] CommentDto commentDto)
 		{
 			if (commentDto?.Text == null)
 			{
@@ -240,7 +246,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var commentToDelete = this.comments.GetById(id);
 

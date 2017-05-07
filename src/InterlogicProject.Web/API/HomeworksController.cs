@@ -52,7 +52,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All homeworks from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<HomeworkDto>))]
-		public IEnumerable<HomeworkDto> Get()
+		public IEnumerable<HomeworkDto> GetAll()
 			=> this.homeworks.GetAll()?.ProjectTo<HomeworkDto>();
 
 		/// <summary>
@@ -60,33 +60,34 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the homework to get.</param>
 		/// <returns>A homework with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetHomeworkById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(HomeworkDto))]
-		public HomeworkDto Get(int id)
+		public HomeworkDto GetById([FromRoute] int id)
 			=> Mapper.Map<HomeworkDto>(this.homeworks.GetById(id));
 
 		/// <summary>
 		/// Gets all homeworks with the specified class.
 		/// </summary>
-		/// <param name="id">The ID of the class.</param>
+		/// <param name="classId">The ID of the class.</param>
 		/// <returns>All homeworks with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<HomeworkDto>))]
-		public IEnumerable<HomeworkDto> GetForClass(int id)
+		public IEnumerable<HomeworkDto> GetForClass([FromRoute] int classId)
 			=> this.homeworks.GetAll()
-				  ?.Where(h => h.ClassId == id)
+				  ?.Where(h => h.ClassId == classId)
 				   .ProjectTo<HomeworkDto>();
 
 		/// <summary>
 		/// Gets all homeworks of the specified student.
 		/// </summary>
-		/// <param name="id">The ID of the student.</param>
+		/// <param name="studentId">The ID of the student.</param>
 		/// <returns>All homeworks of the specified student.</returns>
-		[HttpGet("studentId/{id}")]
+		[HttpGet("studentId/{studentId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<HomeworkDto>))]
-		public IEnumerable<HomeworkDto> GetForStudent(int id)
+		public IEnumerable<HomeworkDto> GetForStudent(
+			[FromRoute] int studentId)
 			=> this.homeworks.GetAll()
-				  ?.Where(h => h.StudentId == id)
+				  ?.Where(h => h.StudentId == studentId)
 				   .ProjectTo<HomeworkDto>();
 
 		/// <summary>
@@ -101,8 +102,8 @@ namespace InterlogicProject.Web.API
 		[HttpGet("classId/{classId}/studentId/{studentId}")]
 		[SwaggerResponse(200, Type = typeof(HomeworkDto))]
 		public HomeworkDto GetForStudentAndClass(
-			int classId,
-			int studentId)
+			[FromRoute] int classId,
+			[FromRoute] int studentId)
 			=> Mapper.Map<HomeworkDto>(this.homeworks.GetAll()
 				?.FirstOrDefault(
 					h => h.ClassId == classId && h.StudentId == studentId));
@@ -119,9 +120,9 @@ namespace InterlogicProject.Web.API
 		[HttpPost("classId/{classId}/studentId/{studentId}")]
 		[SwaggerResponse(201)]
 		public async Task<IActionResult> Post(
-			IFormFile file,
-			int classId,
-			int studentId)
+			[FromBody] IFormFile file,
+			[FromRoute] int classId,
+			[FromRoute] int studentId)
 		{
 			if (file == null || classId <= 0 || studentId <= 0)
 			{
@@ -156,8 +157,8 @@ namespace InterlogicProject.Web.API
 
 			this.homeworks.Add(homeworkToAdd);
 
-			return this.CreatedAtRoute(
-				"GetHomeworkById",
+			return this.CreatedAtAction(
+				nameof(this.GetById),
 				new { id = homeworkToAdd.Id },
 				Mapper.Map<HomeworkDto>(homeworkToAdd));
 		}
@@ -172,7 +173,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] HomeworkDto homeworkDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] HomeworkDto homeworkDto)
 		{
 			if (homeworkDto == null)
 			{
@@ -203,7 +206,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] HomeworkDto homeworkDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] HomeworkDto homeworkDto)
 		{
 			if (homeworkDto == null)
 			{
@@ -233,7 +238,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var homeworkToDelete = this.homeworks.GetById(id);
 

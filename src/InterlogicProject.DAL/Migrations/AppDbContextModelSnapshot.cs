@@ -7,732 +7,734 @@ using InterlogicProject.DAL;
 
 namespace InterlogicProject.DAL.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
-            modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+	[DbContext(typeof(AppDbContext))]
+	partial class AppDbContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
+			modelBuilder
+				.HasAnnotation("ProductVersion", "1.1.1")
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Building", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Building", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(30);
+					b.Property<string>("Address")
+						.IsRequired()
+						.HasMaxLength(30);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(60);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("Address")
-                        .IsUnique();
+					b.HasIndex("Address")
+						.IsUnique();
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+					b.HasIndex("Name")
+						.IsUnique();
 
-                    b.ToTable("Buildings");
-                });
+					b.ToTable("Buildings");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateTime");
+					b.Property<DateTime>("DateTime");
 
-                    b.Property<bool>("HomeworkEnabled");
+					b.Property<bool>("HomeworkEnabled");
 
-                    b.Property<int>("SubjectId");
+					b.Property<int>("SubjectId");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(15);
+					b.Property<string>("Type")
+						.IsRequired()
+						.HasMaxLength(15);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+					b.HasIndex("SubjectId");
 
-                    b.ToTable("Classes");
-                });
+					b.ToTable("Classes");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.ClassPlace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.ClassPlace", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<int>("ClassroomId");
+					b.Property<int>("ClassroomId");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("ClassroomId");
+					b.HasIndex("ClassroomId");
 
-                    b.ToTable("ClassPlaces");
-                });
+					b.ToTable("ClassPlaces");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Classroom", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Classroom", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("BuildingId");
+					b.Property<int>("BuildingId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(10);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("BuildingId");
+					b.HasIndex("BuildingId");
 
-                    b.ToTable("Classrooms");
-                });
+					b.ToTable("Classrooms");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<DateTime>("DateTime");
+					b.Property<DateTime>("DateTime");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(300);
+					b.Property<string>("Text")
+						.IsRequired()
+						.HasMaxLength(300);
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("UserId");
+					b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
-                });
+					b.ToTable("Comments");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("FacultyId");
+					b.Property<int>("FacultyId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(100);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("FacultyId");
+					b.HasIndex("FacultyId");
 
-                    b.ToTable("Departments");
-                });
+					b.ToTable("Departments");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("BuildingId");
+					b.Property<int>("BuildingId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(50);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("BuildingId");
+					b.HasIndex("BuildingId");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+					b.HasIndex("Name")
+						.IsUnique();
 
-                    b.ToTable("Faculties");
-                });
+					b.ToTable("Faculties");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("CuratorId");
+					b.Property<int>("CuratorId");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10);
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(10);
 
-                    b.Property<int>("Year");
+					b.Property<int>("Year");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("CuratorId");
+					b.HasIndex("CuratorId");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+					b.HasIndex("Name")
+						.IsUnique();
 
-                    b.ToTable("Groups");
-                });
+					b.ToTable("Groups");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.GroupClass", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.GroupClass", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<int>("GroupId");
+					b.Property<int>("GroupId");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("GroupId");
+					b.HasIndex("GroupId");
 
-                    b.ToTable("GroupsClasses");
-                });
+					b.ToTable("GroupsClasses");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("Accepted");
+					b.Property<bool?>("Accepted");
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<DateTime>("DateTime");
+					b.Property<DateTime>("DateTime");
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+					b.Property<string>("FileName")
+						.IsRequired()
+						.HasMaxLength(100);
 
-                    b.Property<int>("StudentId");
+					b.Property<int>("StudentId");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("FileName")
-                        .IsUnique();
+					b.HasIndex("FileName")
+						.IsUnique();
 
-                    b.HasIndex("StudentId");
+					b.HasIndex("StudentId");
 
-                    b.ToTable("Homeworks");
-                });
+					b.ToTable("Homeworks");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("DepartmentId");
+					b.Property<int>("DepartmentId");
 
-                    b.Property<bool>("IsAdmin");
+					b.Property<bool>("IsAdmin");
 
-                    b.Property<bool>("IsDean");
+					b.Property<bool>("IsDean");
 
-                    b.Property<bool>("IsHead");
+					b.Property<bool>("IsHead");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+					b.HasIndex("DepartmentId");
 
-                    b.HasIndex("UserId");
+					b.HasIndex("UserId");
 
-                    b.ToTable("Lecturers");
-                });
+					b.ToTable("Lecturers");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.LecturerClass", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.LecturerClass", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<int>("LecturerId");
+					b.Property<int>("LecturerId");
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("LecturerId");
+					b.HasIndex("LecturerId");
 
-                    b.ToTable("LecturersClasses");
-                });
+					b.ToTable("LecturersClasses");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<int>("ClassId");
+					b.Property<int>("ClassId");
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(100);
+					b.Property<string>("FileName")
+						.IsRequired()
+						.HasMaxLength(100);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+					b.HasIndex("ClassId");
 
-                    b.HasIndex("FileName")
-                        .IsUnique();
+					b.HasIndex("FileName")
+						.IsUnique();
 
-                    b.ToTable("Materials");
-                });
+					b.ToTable("Materials");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsSeen");
+					b.Property<DateTime>("DateTime");
 
-                    b.Property<int>("TextId");
+					b.Property<string>("Text")
+						.IsRequired()
+						.HasMaxLength(300);
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.HasKey("Id");
 
-                    b.HasKey("Id");
+					b.ToTable("Notifications");
+				});
 
-                    b.HasIndex("TextId");
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.HasIndex("UserId");
+					b.Property<int>("GroupId");
 
-                    b.ToTable("Notifications");
-                });
+					b.Property<bool>("IsGroupLeader");
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.NotificationText", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+					b.Property<string>("TranscriptNumber")
+						.IsRequired()
+						.HasMaxLength(10);
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(300);
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.ToTable("NotificationTexts");
-                });
+					b.HasIndex("GroupId");
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+					b.HasIndex("TranscriptNumber")
+						.IsUnique();
 
-                    b.Property<int>("GroupId");
+					b.HasIndex("UserId");
 
-                    b.Property<bool>("IsGroupLeader");
+					b.ToTable("Students");
+				});
 
-                    b.Property<string>("TranscriptNumber")
-                        .IsRequired()
-                        .HasMaxLength(10);
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Subject", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.Property<string>("Name")
+						.IsRequired()
+						.HasMaxLength(100);
 
-                    b.HasKey("Id");
+					b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+					b.HasIndex("Name")
+						.IsUnique();
 
-                    b.HasIndex("TranscriptNumber")
-                        .IsUnique();
+					b.ToTable("Subjects");
+				});
 
-                    b.HasIndex("UserId");
+			modelBuilder.Entity("InterlogicProject.DAL.Models.User", b =>
+				{
+					b.Property<string>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.ToTable("Students");
-                });
+					b.Property<int>("AccessFailedCount");
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Subject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+					b.Property<string>("ConcurrencyStamp")
+						.IsConcurrencyToken();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
+					b.Property<string>("Email")
+						.HasMaxLength(256);
 
-                    b.HasKey("Id");
+					b.Property<bool>("EmailConfirmed");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+					b.Property<string>("FirstName")
+						.IsRequired()
+						.HasMaxLength(30);
 
-                    b.ToTable("Subjects");
-                });
+					b.Property<string>("LastName")
+						.IsRequired()
+						.HasMaxLength(30);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+					b.Property<bool>("LockoutEnabled");
 
-                    b.Property<int>("AccessFailedCount");
+					b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+					b.Property<string>("MiddleName")
+						.IsRequired()
+						.HasMaxLength(30);
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
+					b.Property<string>("NormalizedEmail")
+						.HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+					b.Property<string>("NormalizedUserName")
+						.HasMaxLength(256);
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(30);
+					b.Property<string>("PasswordHash");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(30);
+					b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("LockoutEnabled");
+					b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+					b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasMaxLength(30);
+					b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
+					b.Property<string>("UserName")
+						.HasMaxLength(256);
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
+					b.HasKey("Id");
 
-                    b.Property<string>("PasswordHash");
+					b.HasIndex("NormalizedEmail")
+						.HasName("EmailIndex");
 
-                    b.Property<string>("PhoneNumber");
+					b.HasIndex("NormalizedUserName")
+						.IsUnique()
+						.HasName("UserNameIndex");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+					b.ToTable("AspNetUsers");
+				});
 
-                    b.Property<string>("SecurityStamp");
+			modelBuilder.Entity("InterlogicProject.DAL.Models.UserNotification", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<bool>("TwoFactorEnabled");
+					b.Property<bool>("IsSeen");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
+					b.Property<int>("NotificationId");
 
-                    b.HasKey("Id");
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+					b.HasKey("Id");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex");
+					b.HasIndex("NotificationId");
 
-                    b.ToTable("AspNetUsers");
-                });
+					b.HasIndex("UserId");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+					b.ToTable("UserNotifications");
+				});
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+				{
+					b.Property<string>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
+					b.Property<string>("ConcurrencyStamp")
+						.IsConcurrencyToken();
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+					b.Property<string>("Name")
+						.HasMaxLength(256);
 
-                    b.HasKey("Id");
+					b.Property<string>("NormalizedName")
+						.HasMaxLength(256);
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex");
+					b.HasKey("Id");
 
-                    b.ToTable("AspNetRoles");
-                });
+					b.HasIndex("NormalizedName")
+						.IsUnique()
+						.HasName("RoleNameIndex");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+					b.ToTable("AspNetRoles");
+				});
 
-                    b.Property<string>("ClaimType");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimValue");
+					b.Property<string>("ClaimType");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired();
+					b.Property<string>("ClaimValue");
 
-                    b.HasKey("Id");
+					b.Property<string>("RoleId")
+						.IsRequired();
 
-                    b.HasIndex("RoleId");
+					b.HasKey("Id");
 
-                    b.ToTable("AspNetRoleClaims");
-                });
+					b.HasIndex("RoleId");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+					b.ToTable("AspNetRoleClaims");
+				});
 
-                    b.Property<string>("ClaimType");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+				{
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimValue");
+					b.Property<string>("ClaimType");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.Property<string>("ClaimValue");
 
-                    b.HasKey("Id");
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasIndex("UserId");
+					b.HasKey("Id");
 
-                    b.ToTable("AspNetUserClaims");
-                });
+					b.HasIndex("UserId");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider");
+					b.ToTable("AspNetUserClaims");
+				});
 
-                    b.Property<string>("ProviderKey");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+				{
+					b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderDisplayName");
+					b.Property<string>("ProviderKey");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+					b.Property<string>("ProviderDisplayName");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+					b.Property<string>("UserId")
+						.IsRequired();
 
-                    b.HasIndex("UserId");
+					b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AspNetUserLogins");
-                });
+					b.HasIndex("UserId");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId");
+					b.ToTable("AspNetUserLogins");
+				});
 
-                    b.Property<string>("RoleId");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+				{
+					b.Property<string>("UserId");
 
-                    b.HasKey("UserId", "RoleId");
+					b.Property<string>("RoleId");
 
-                    b.HasIndex("RoleId");
+					b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AspNetUserRoles");
-                });
+					b.HasIndex("RoleId");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId");
+					b.ToTable("AspNetUserRoles");
+				});
 
-                    b.Property<string>("LoginProvider");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+				{
+					b.Property<string>("UserId");
 
-                    b.Property<string>("Name");
+					b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Value");
+					b.Property<string>("Name");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+					b.Property<string>("Value");
 
-                    b.ToTable("AspNetUserTokens");
-                });
+					b.HasKey("UserId", "LoginProvider", "Name");
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+					b.ToTable("AspNetUserTokens");
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.ClassPlace", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany("Places")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Class", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Subject", "Subject")
+						.WithMany()
+						.HasForeignKey("SubjectId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.Classroom", "Classroom")
-                        .WithMany("Classes")
-                        .HasForeignKey("ClassroomId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.ClassPlace", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany("Places")
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Classroom", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Building", "Building")
-                        .WithMany()
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+					b.HasOne("InterlogicProject.DAL.Models.Classroom", "Classroom")
+						.WithMany("Classes")
+						.HasForeignKey("ClassroomId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany("Comments")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Classroom", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Building", "Building")
+						.WithMany()
+						.HasForeignKey("BuildingId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Comment", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany("Comments")
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Faculty", "Faculty")
-                        .WithMany("Departments")
-                        .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+					b.HasOne("InterlogicProject.DAL.Models.User", "User")
+						.WithMany()
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Building", "Building")
-                        .WithMany("Faculties")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Department", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Faculty", "Faculty")
+						.WithMany("Departments")
+						.HasForeignKey("FacultyId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Curator")
-                        .WithMany()
-                        .HasForeignKey("CuratorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Faculty", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Building", "Building")
+						.WithMany("Faculties")
+						.HasForeignKey("BuildingId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.GroupClass", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany("Groups")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Group", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Curator")
+						.WithMany()
+						.HasForeignKey("CuratorId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
-                        .WithMany("Classes")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.GroupClass", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany("Groups")
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
+					b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
+						.WithMany("Classes")
+						.HasForeignKey("GroupId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Homework", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany()
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Department", "Department")
-                        .WithMany("Lecturers")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+					b.HasOne("InterlogicProject.DAL.Models.Student", "Student")
+						.WithMany()
+						.HasForeignKey("StudentId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Lecturer", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Department", "Department")
+						.WithMany("Lecturers")
+						.HasForeignKey("DepartmentId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.LecturerClass", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany("Lecturers")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
+					b.HasOne("InterlogicProject.DAL.Models.User", "User")
+						.WithMany()
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Lecturer")
-                        .WithMany("Classes")
-                        .HasForeignKey("LecturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.LecturerClass", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany("Lecturers")
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+					b.HasOne("InterlogicProject.DAL.Models.Lecturer", "Lecturer")
+						.WithMany("Classes")
+						.HasForeignKey("LecturerId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.NotificationText", "Text")
-                        .WithMany()
-                        .HasForeignKey("TextId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Material", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany()
+						.HasForeignKey("ClassId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
+						.WithMany("Students")
+						.HasForeignKey("GroupId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.Group", "Group")
-                        .WithMany("Students")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+					b.HasOne("InterlogicProject.DAL.Models.User", "User")
+						.WithMany()
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("InterlogicProject.DAL.Models.UserNotification", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Notification", "Notification")
+						.WithMany()
+						.HasForeignKey("NotificationId")
+						.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany("Claims")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+					b.HasOne("InterlogicProject.DAL.Models.User", "User")
+						.WithMany()
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.User")
-                        .WithMany("Claims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+				{
+					b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+						.WithMany("Claims")
+						.HasForeignKey("RoleId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("InterlogicProject.DAL.Models.User")
-                        .WithMany("Logins")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.User")
+						.WithMany("Claims")
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.User")
+						.WithMany("Logins")
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
 
-                    b.HasOne("InterlogicProject.DAL.Models.User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-        }
-    }
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+				{
+					b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+						.WithMany("Users")
+						.HasForeignKey("RoleId")
+						.OnDelete(DeleteBehavior.Cascade);
+
+					b.HasOne("InterlogicProject.DAL.Models.User")
+						.WithMany("Roles")
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
+				});
+		}
+	}
 }

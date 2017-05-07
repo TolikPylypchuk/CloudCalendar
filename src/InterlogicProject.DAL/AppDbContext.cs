@@ -26,9 +26,9 @@ namespace InterlogicProject.DAL
 		public DbSet<LecturerClass> LecturersClasses { get; set; }
 		public DbSet<Material> Materials { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
-		public DbSet<NotificationText> NotificationTexts { get; set; }
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Subject> Subjects { get; set; }
+		public DbSet<UserNotification> UserNotifications { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

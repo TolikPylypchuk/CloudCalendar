@@ -41,7 +41,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All classrooms from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
-		public IEnumerable<ClassroomDto> Get()
+		public IEnumerable<ClassroomDto> GetAll()
 			=> this.classrooms.GetAll()?.ProjectTo<ClassroomDto>();
 
 		/// <summary>
@@ -49,32 +49,34 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the classroom to get.</param>
 		/// <returns>A classroom with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetClassroomById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(ClassroomDto))]
-		public ClassroomDto Get(int id)
+		public ClassroomDto GetById([FromRoute] int id)
 			=> Mapper.Map<ClassroomDto>(this.classrooms.GetById(id));
 
 		/// <summary>
 		/// Gets all classrooms with the specified building.
 		/// </summary>
 		/// <returns>All classrooms with the specified building.</returns>
-		[HttpGet("buildingId/{id}")]
+		[HttpGet("buildingId/{buildingId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
-		public IEnumerable<ClassroomDto> GetForBuilding(int id)
+		public IEnumerable<ClassroomDto> GetForBuilding(
+			[FromRoute] int buildingId)
 			=> this.classrooms.GetAll()
-							 ?.Where(c => c.BuildingId == id)
+							 ?.Where(c => c.BuildingId == buildingId)
 							  .ProjectTo<ClassroomDto>();
 
 		/// <summary>
 		/// Gets all classrooms with the specified class.
 		/// </summary>
 		/// <returns>All classrooms with the specified class.</returns>
-		[HttpGet("classId/{id}")]
+		[HttpGet("classId/{classId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassroomDto>))]
-		public IEnumerable<ClassroomDto> GetForClass(int id)
+		public IEnumerable<ClassroomDto> GetForClass([FromRoute] int classId)
 			=> this.classrooms.GetAll()
 							 ?.Include(r => r.Classes)
-							  .Where(r => r.Classes.Any(c => c.ClassId == id))
+							  .Where(r => r.Classes.Any(
+								  c => c.ClassId == classId))
 							  .ProjectTo<ClassroomDto>();
 
 		/// <summary>
@@ -104,8 +106,10 @@ namespace InterlogicProject.Web.API
 
 			classroomDto.Id = classroomToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetClassroomById", new { id = classroomDto.Id }, classroomDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById),
+				new { id = classroomDto.Id },
+				classroomDto);
 		}
 
 		/// <summary>
@@ -118,7 +122,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] ClassroomDto classroomDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] ClassroomDto classroomDto)
 		{
 			if (classroomDto?.Name == null ||
 				classroomDto.BuildingId == 0)
@@ -149,7 +155,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] ClassroomDto classroomDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] ClassroomDto classroomDto)
 		{
 			if (classroomDto?.Name == null ||
 				classroomDto.BuildingId == 0)
@@ -179,7 +187,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var classroomToDelete = this.classrooms.GetById(id);
 

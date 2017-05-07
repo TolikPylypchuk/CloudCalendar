@@ -61,7 +61,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All classes from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
-		public IEnumerable<ClassDto> Get()
+		public IEnumerable<ClassDto> GetAll()
 			=> this.classes.GetAll()?.ProjectTo<ClassDto>();
 
 		/// <summary>
@@ -69,9 +69,9 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the class to get.</param>
 		/// <returns>A class with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetClassById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(ClassDto))]
-		public ClassDto Get(int id)
+		public ClassDto GetById([FromRoute] int id)
 			=> Mapper.Map<ClassDto>(this.classes.GetById(id));
 
 		/// <summary>
@@ -82,7 +82,9 @@ namespace InterlogicProject.Web.API
 		/// <returns>All classes between the specified dates.</returns>
 		[HttpGet("range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
-		public IEnumerable<ClassDto> GetWithRange(DateTime start, DateTime end)
+		public IEnumerable<ClassDto> GetWithRange(
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 			=> this.classes.GetAll()
 						  ?.Where(c => c.DateTime >= start &&
 									   c.DateTime <= end)
@@ -92,13 +94,13 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all classes of the specified group.
 		/// </summary>
-		/// <param name="id">The ID of the group.</param>
+		/// <param name="groupId">The ID of the group.</param>
 		/// <returns>All classes of the specified group.</returns>
-		[HttpGet("groupId/{id}")]
+		[HttpGet("groupId/{groupId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
-		public IEnumerable<ClassDto> GetForGroup(int id)
+		public IEnumerable<ClassDto> GetForGroup([FromRoute] int groupId)
 			=> this.classes.GetAll()
-						  ?.Where(c => c.Groups.Any(g => g.GroupId == id))
+						  ?.Where(c => c.Groups.Any(g => g.GroupId == groupId))
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
@@ -106,22 +108,22 @@ namespace InterlogicProject.Web.API
 		/// Gets all classes of the specified group
 		/// between the specified dates.
 		/// </summary>
-		/// <param name="id">The ID of the group.</param>
+		/// <param name="groupId">The ID of the group.</param>
 		/// <param name="start">The start of the range.</param>
 		/// <param name="end">The end of the range.</param>
 		/// <returns>
 		/// All classes of the specified group
 		/// between the specified dates.
 		/// </returns>
-		[HttpGet("groupId/{id}/range/{start}/{end}")]
+		[HttpGet("groupId/{groupId}/range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupWithRange(
-			int id,
-			DateTime start,
-			DateTime end)
+			[FromRoute] int groupId,
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 			=> this.classes.GetAll()
-						  ?.Where(c => c.Groups.Any(g => g.GroupId == id) &&
-									   c.DateTime >= start &&
+						  ?.Where(c => c.Groups.Any(g => g.GroupId == groupId))
+						   .Where(c => c.DateTime >= start &&
 									   c.DateTime <= end)
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
@@ -129,15 +131,15 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all classes of the specified lecturer.
 		/// </summary>
-		/// <param name="id">The ID of the lecturer.</param>
+		/// <param name="lecturerId">The ID of the lecturer.</param>
 		/// <returns>All classes of the specified lecturer.</returns>
-		[HttpGet("lecturerId/{id}")]
+		[HttpGet("lecturerId/{lecturerId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
-		public IEnumerable<ClassDto> GetForLecturer(int id)
+		public IEnumerable<ClassDto> GetForLecturer([FromRoute] int lecturerId)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
 						   .Where(c => c.Lecturers.Any(
-									lc => lc.LecturerId == id))
+									lc => lc.LecturerId == lecturerId))
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
@@ -145,25 +147,25 @@ namespace InterlogicProject.Web.API
 		/// Gets all classes of the specified lecturer
 		/// between the specified dates.
 		/// </summary>
-		/// <param name="id">The ID of the lecturer.</param>
+		/// <param name="lecturerId">The ID of the lecturer.</param>
 		/// <param name="start">The start of the range.</param>
 		/// <param name="end">The end of the range.</param>
 		/// <returns>
 		/// All classes of the specified lecturer.
 		/// between the specified dates.
 		/// </returns>
-		[HttpGet("lecturerId/{id}/range/{start}/{end}")]
+		[HttpGet("lecturerId/{lecturerId}/range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForLecturerWithRange(
-			int id,
-			DateTime start,
-			DateTime end)
+			[FromRoute] int lecturerId,
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 			=> this.classes.GetAll()
 						  ?.Where(c => c.DateTime >= start &&
 									   c.DateTime <= end)
 						   .Include(c => c.Lecturers)
 						   .Where(c => c.Lecturers.Any(
-									lc => lc.LecturerId == id))
+									lc => lc.LecturerId == lecturerId))
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
 
@@ -176,8 +178,8 @@ namespace InterlogicProject.Web.API
 		[HttpGet("groupId/{groupId}/lecturerId/{lecturerId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupAndLecturer(
-			int groupId,
-			int lecturerId)
+			[FromRoute] int groupId,
+			[FromRoute] int lecturerId)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
 						   .Where(c => c.Groups.Any(g => g.GroupId == groupId))
@@ -198,13 +200,14 @@ namespace InterlogicProject.Web.API
 		/// All classes of the specified group and lecturer
 		/// between the specified dates.
 		/// </returns>
-		[HttpGet("groupId/{groupId}/lecturerId/{lecturerId}/range/{start}/{end}")]
+		[HttpGet(
+			"groupId/{groupId}/lecturerId/{lecturerId}/range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForGroupAndLecturerWithRange(
-			int groupId,
-			int lecturerId,
-			DateTime start,
-			DateTime end)
+			[FromRoute] int groupId,
+			[FromRoute] int lecturerId,
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Lecturers)
 						   .Where(c => c.Groups.Any(g => g.GroupId == groupId))
@@ -222,7 +225,8 @@ namespace InterlogicProject.Web.API
 		/// <returns>All classes of the specified classroom.</returns>
 		[HttpGet("classroomId/{classroomId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
-		public IEnumerable<ClassDto> GetForClassroom(int classroomId)
+		public IEnumerable<ClassDto> GetForClassroom(
+			[FromRoute] int classroomId)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Places)
 						   .Where(c => c.Places.Any(
@@ -244,9 +248,9 @@ namespace InterlogicProject.Web.API
 		[HttpGet("classroomId/{classroomId}/range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<ClassDto>))]
 		public IEnumerable<ClassDto> GetForClassroomWithRange(
-			int classroomId,
-			DateTime start,
-			DateTime end)
+			[FromRoute] int classroomId,
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 			=> this.classes.GetAll()
 						  ?.Include(c => c.Places)
 						   .Where(c => c.Places.Any(
@@ -326,8 +330,8 @@ namespace InterlogicProject.Web.API
 
 			classDto.Id = classToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetClassById", new { id = classDto.Id }, classDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = classDto.Id }, classDto);
 		}
 
 		/// <summary>
@@ -340,7 +344,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Put(int id, [FromBody] ClassDto classDto)
+		public IActionResult Put(
+			[FromRoute] int id,
+			[FromBody] ClassDto classDto)
 		{
 			if (classDto?.Type == null ||
 				classDto.DateTime == default(DateTime))
@@ -373,7 +379,9 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Patch(int id, [FromBody] ClassDto classDto)
+		public IActionResult Patch(
+			[FromRoute] int id,
+			[FromBody] ClassDto classDto)
 		{
 			if (classDto?.Type == null ||
 				classDto.DateTime == default(DateTime))
@@ -405,7 +413,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public IActionResult Delete(int id)
+		public IActionResult Delete([FromRoute] int id)
 		{
 			var classToDelete = this.classes.GetById(id);
 

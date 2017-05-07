@@ -49,7 +49,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>All students from the database.</returns>
 		[HttpGet]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<StudentDto>))]
-		public IEnumerable<StudentDto> Get()
+		public IEnumerable<StudentDto> GetAll()
 			=> this.students.GetAll()?.ProjectTo<StudentDto>();
 
 		/// <summary>
@@ -57,22 +57,22 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="id">The ID of the student to get.</param>
 		/// <returns>A student with the specified ID.</returns>
-		[HttpGet("{id}", Name = "GetStudentById")]
+		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
-		public StudentDto Get(int id)
+		public StudentDto GetById([FromRoute] int id)
 			=> Mapper.Map<StudentDto>(this.students.GetById(id));
 
 		/// <summary>
 		/// Gets a student with the specified user ID.
 		/// </summary>
-		/// <param name="id">The ID of the user.</param>
+		/// <param name="userId">The ID of the user.</param>
 		/// <returns>A student with the specified user ID.</returns>
 		[HttpGet("userId/{id}")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
-		public StudentDto GetByUser(string id)
+		public StudentDto GetByUser([FromRoute] string userId)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
-							?.FirstOrDefault(s => s.UserId == id));
+							?.FirstOrDefault(s => s.UserId == userId));
 
 		/// <summary>
 		/// Gets a student with the specified email.
@@ -81,7 +81,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>A student with the specified email.</returns>
 		[HttpGet("email/{email}")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
-		public StudentDto GetByEmail(string email)
+		public StudentDto GetByEmail([FromRoute] string email)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll()
 							?.FirstOrDefault(s => s.User.Email == email));
@@ -93,7 +93,7 @@ namespace InterlogicProject.Web.API
 		/// <returns>A student with the specified transcript number.</returns>
 		[HttpGet("transcript/{number}")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
-		public StudentDto GetByTranscript(string number)
+		public StudentDto GetByTranscript([FromRoute] string number)
 			=> Mapper.Map<StudentDto>(
 				this.students.GetAll().FirstOrDefault(
 					s => s.TranscriptNumber == number));
@@ -101,13 +101,13 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Gets all students with the specified group.
 		/// </summary>
-		/// <param name="id">The ID of the group.</param>
+		/// <param name="groupId">The ID of the group.</param>
 		/// <returns>All students with the specified group.</returns>
-		[HttpGet("groupId/{id}")]
+		[HttpGet("groupId/{groupId}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<StudentDto>))]
-		public IEnumerable<StudentDto> GetForGroup(int id)
+		public IEnumerable<StudentDto> GetForGroup([FromRoute] int groupId)
 			=> this.students.GetAll()
-						   ?.Where(s => s.GroupId == id)
+						   ?.Where(s => s.GroupId == groupId)
 							.ProjectTo<StudentDto>();
 
 		/// <summary>
@@ -158,8 +158,8 @@ namespace InterlogicProject.Web.API
 
 			studentDto.Id = studentToAdd.Id;
 
-			return this.CreatedAtRoute(
-				"GetStudentById", new { id = studentDto.Id }, studentDto);
+			return this.CreatedAtAction(
+				nameof(this.GetById), new { id = studentDto.Id }, studentDto);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace InterlogicProject.Web.API
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
 		public async Task<IActionResult> Put(
-			int id,
+			[FromRoute] int id,
 			[FromBody] StudentDto studentDto)
 		{
 			if (studentDto == null)
@@ -251,7 +251,7 @@ namespace InterlogicProject.Web.API
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
 		public async Task<IActionResult> Patch(
-			int id,
+			[FromRoute] int id,
 			[FromBody] StudentDto studentDto)
 		{
 			if (studentDto == null)
@@ -327,7 +327,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		public async Task<IActionResult> Delete(int id)
+		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var studentToDelete = this.students.GetById(id);
 
