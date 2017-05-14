@@ -20,7 +20,7 @@ namespace InterlogicProject.Web.Infrastructure
 		{
 			await CreateRolesAsync(
 				serviceProvider,
-				new[] { "Lecturer", "Student" });
+				new[] { "Lecturer", "Student", "Admin" });
 
 			await SeedDatabaseAsync(serviceProvider);
 		}
@@ -71,18 +71,30 @@ namespace InterlogicProject.Web.Infrastructure
 			var groupsClasses = ReadGroupsClasses(
 				groups, classes, classesInWeek);
 
-			foreach (var user in users)
+			foreach (var user in users.Where(
+				u => lecturers.Any(l => l.User.Email == u.Email)))
 			{
 				user.Id = null;
 				await userManager.CreateAsync(
 					user, Program.DefaultPassword);
-				await userManager.AddToRoleAsync(
-					user,
-					lecturers.Any(l => l.User.Email == user.Email)
-						? "Lecturer"
-						: "Student");
+				await userManager.AddToRoleAsync(user, "Lecturer");
+				
+				if (lecturers.FirstOrDefault(l => l.User.Email == user.Email)
+					?.IsAdmin == true)
+				{
+					await userManager.AddToRoleAsync(user, "Admin");
+				}
 			}
-			
+
+			foreach (var user in users.Where(
+				u => students.Any(s => s.User.Email == u.Email)))
+			{
+				user.Id = null;
+				await userManager.CreateAsync(
+					user, Program.DefaultPassword);
+				await userManager.AddToRoleAsync(user, "Student");
+			}
+
 			var collections = new IEnumerable<EntityBase>[]
 			{
 				buildings,

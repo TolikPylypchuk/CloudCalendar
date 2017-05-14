@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +34,14 @@ namespace InterlogicProject.Web
 				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
 				.AddJsonFile("appsettings.json")
 				.Build();
+
+			this.SigningKey = new SymmetricSecurityKey(
+				Encoding.ASCII.GetBytes(
+					this.Configuration["TokenAuthentication:SecretKey"]));
 		}
 
 		public IConfigurationRoot Configuration { get; }
+		public SymmetricSecurityKey SigningKey { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -219,7 +228,6 @@ namespace InterlogicProject.Web
 		{
 			app.UseStaticFiles();
 			app.UseIdentity();
-			app.UseSession();
 
 			if (env.IsDevelopment())
 			{
@@ -229,6 +237,25 @@ namespace InterlogicProject.Web
 				DataInitializer.InitializeDatabaseAsync(
 					app.ApplicationServices).Wait();
 			}
+			
+			app.UseJwtBearerAuthentication(new JwtBearerOptions
+			{
+				AutomaticAuthenticate = true,
+				AutomaticChallenge = true,
+				TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = this.SigningKey,
+					ValidateIssuer = true,
+					ValidIssuer =
+						this.Configuration["TokenAuthentication:Issuer"],
+					ValidateAudience = true,
+					ValidAudience =
+						this.Configuration["TokenAuthentication:Audience"],
+					ValidateLifetime = true,
+					ClockSkew = TimeSpan.Zero
+				}
+			});
 
 			app.UseMvc(routes =>
 			{
