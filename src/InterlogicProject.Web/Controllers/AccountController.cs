@@ -49,7 +49,7 @@ namespace InterlogicProject.Web.Controllers
 			if (this.ModelState.IsValid)
 			{
 				var user = await this.userManager
-					.FindByEmailAsync(model.Email);
+					.FindByEmailAsync(model.Username);
 
 				if (user != null)
 				{
@@ -69,7 +69,7 @@ namespace InterlogicProject.Web.Controllers
 			}
 
 			this.ModelState.AddModelError(
-					nameof(LoginModel.Email),
+					nameof(LoginModel.Username),
 					"Неправильний логін або пароль.");
 
 			return this.View(model);

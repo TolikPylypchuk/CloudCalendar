@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +21,7 @@ using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Infrastructure;
 using InterlogicProject.Web.Models.Dto;
+using InterlogicProject.Web.Security;
 
 namespace InterlogicProject.Web
 {
@@ -31,13 +31,19 @@ namespace InterlogicProject.Web
 		{
 			this.Configuration = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-				.AddJsonFile("appsettings.json")
+				.AddJsonFile(
+					path: $"appsettings.{env.EnvironmentName}.json",
+					optional: true,
+					reloadOnChange: true)
+				.AddJsonFile(
+					path: $"appsettings.json",
+					optional: true,
+					reloadOnChange: true)
 				.Build();
 
 			this.SigningKey = new SymmetricSecurityKey(
 				Encoding.ASCII.GetBytes(
-					this.Configuration["TokenAuthentication:SecretKey"]));
+					this.Configuration["Authentication:SecretKey"]));
 		}
 
 		public IConfigurationRoot Configuration { get; }
@@ -132,9 +138,23 @@ namespace InterlogicProject.Web
 				SubjectRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddSingleton<IdentityResolver>();
 
-			services.AddMemoryCache();
-			services.AddSession();
+			services.AddSingleton(
+				(serviceProvider) => new TokenProviderOptions
+				{
+					Path =
+						this.Configuration["Authentication:TokenPath"],
+					Issuer =
+						this.Configuration["Authentication:Issuer"],
+					Audience =
+						this.Configuration["Authentication:Audience"],
+					Expiration = TimeSpan.FromDays(7),
+					SigningCredentials = new SigningCredentials(
+						this.SigningKey, SecurityAlgorithms.HmacSha256),
+					IdentityResolver =
+						serviceProvider.GetService<IdentityResolver>()
+				});
 
 			services.AddRouting(options =>
 			{
@@ -205,7 +225,7 @@ namespace InterlogicProject.Web
 						dest => dest.Email,
 						opt => opt.MapFrom(src => src.User.Email));
 			});
-			
+
 			services.AddSwaggerGen(options =>
 			{
 				options.SwaggerDoc("v1", new Info
@@ -227,7 +247,6 @@ namespace InterlogicProject.Web
 			ILoggerFactory loggerFactory)
 		{
 			app.UseStaticFiles();
-			app.UseIdentity();
 
 			if (env.IsDevelopment())
 			{
@@ -256,6 +275,8 @@ namespace InterlogicProject.Web
 					ClockSkew = TimeSpan.Zero
 				}
 			});
+
+			app.UseMiddleware<TokenProviderMiddleware>();
 
 			app.UseMvc(routes =>
 			{

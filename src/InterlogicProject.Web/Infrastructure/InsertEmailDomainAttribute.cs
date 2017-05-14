@@ -10,9 +10,9 @@ namespace InterlogicProject.Web.Infrastructure
 			ActionExecutingContext context)
 		{
 			var model = context.ActionArguments["model"] as LoginModel;
-			if (model?.Email != null)
+			if (model?.Username != null)
 			{
-				model.Email += $"@{Program.EmailDomain}";
+				model.Username += $"@{Program.EmailDomain}";
 			}
 		}
 	}

@@ -6,7 +6,7 @@ namespace InterlogicProject.Web.Models.ViewModels
 	{
 		[Required(ErrorMessage = "Неправильний email або пароль")]
 		[UIHint("email")]
-		public string Email { get; set; }
+		public string Username { get; set; }
 		
 		[Required(ErrorMessage = "Неправильний email або пароль")]
 		[UIHint("password")]
