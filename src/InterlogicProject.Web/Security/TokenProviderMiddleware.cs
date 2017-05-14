@@ -44,13 +44,13 @@ namespace InterlogicProject.Web.Security
 			if (!context.Request.Method.Equals("POST"))
 			{
 				context.Response.StatusCode = 405;
-				return context.Response.WriteAsync("Method Not Allowed");
+				return context.Response.WriteAsync("405 Method Not Allowed");
 			}
 
 			if (context.Request.ContentType != "application/json")
 			{
 				context.Response.StatusCode = 406;
-				return context.Response.WriteAsync("Not Acceptable");
+				return context.Response.WriteAsync("406 Not Acceptable");
 			}
 			
 			return this.GenerateToken(context);
@@ -73,7 +73,7 @@ namespace InterlogicProject.Web.Security
 			if (identity == null)
 			{
 				context.Response.StatusCode = 400;
-				await context.Response.WriteAsync("Bad Request");
+				await context.Response.WriteAsync("400 Bad Request");
 				return;
 			}
 
@@ -138,7 +138,7 @@ namespace InterlogicProject.Web.Security
 			if (options.Expiration == TimeSpan.Zero)
 			{
 				throw new ArgumentException(
-					"The expiration must be a non-zero.",
+					"The expiration must be non-zero.",
 					nameof(TokenProviderOptions.Expiration));
 			}
 

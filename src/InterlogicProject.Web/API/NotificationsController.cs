@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -18,6 +19,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for notifications.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class NotificationsController : Controller

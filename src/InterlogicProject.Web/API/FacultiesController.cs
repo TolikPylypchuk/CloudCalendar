@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -17,6 +18,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for faculties.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class FacultiesController : Controller
@@ -75,6 +77,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Post([FromBody] FacultyDto facultyDto)
 		{
 			if (facultyDto?.Name == null ||
@@ -107,6 +110,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Put(
 			[FromRoute] int id,
 			[FromBody] FacultyDto facultyDto)
@@ -148,6 +152,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Patch(
 			[FromRoute] int id,
 			[FromBody] FacultyDto facultyDto)
@@ -188,6 +193,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var facultyToDelete = this.faculties.GetById(id);

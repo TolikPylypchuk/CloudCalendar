@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for materials.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class MaterialsController : Controller
@@ -86,6 +88,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost("classId/{classId}")]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Lecturer")]
 		public async Task<IActionResult> Post(
 			[FromBody] IFormFile file,
 			[FromRoute] int classId)
@@ -136,6 +139,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Lecturer")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var materialToDelete = this.materials.GetById(id);

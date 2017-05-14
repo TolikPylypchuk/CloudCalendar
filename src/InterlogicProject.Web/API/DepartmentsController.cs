@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -17,6 +18,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for departments.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class DepartmentsController : Controller
@@ -75,6 +77,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Post([FromBody] DepartmentDto departmentDto)
 		{
 			if (departmentDto?.Name == null ||
@@ -109,6 +112,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Put(
 			[FromRoute] int id,
 			[FromBody] DepartmentDto departmentDto)
@@ -150,6 +154,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Patch(
 			[FromRoute] int id,
 			[FromBody] DepartmentDto departmentDto)
@@ -190,6 +195,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var departmentToDelete = this.departments.GetById(id);

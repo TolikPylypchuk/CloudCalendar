@@ -3,6 +3,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using InterlogicProject.DAL.Models;
 
@@ -10,12 +11,16 @@ namespace InterlogicProject.Web.Security
 {
 	public class IdentityResolver
 	{
-		public IdentityResolver(UserManager<User> manager)
+		public IdentityResolver(
+			UserManager<User> manager,
+			UserClaimsPrincipalFactory<User, IdentityRole> factory)
 		{
 			this.UserManager = manager;
+			this.Factory = factory;
 		}
 
 		private UserManager<User> UserManager { get; }
+		private UserClaimsPrincipalFactory<User, IdentityRole> Factory { get; }
 
 		public async Task<ClaimsIdentity> Resolve(
 			string username,
@@ -28,7 +33,7 @@ namespace InterlogicProject.Web.Security
 			{
 				return new ClaimsIdentity(
 					new GenericIdentity(username, "Token"),
-					new Claim[] { });
+					(await this.Factory.CreateAsync(user)).Claims);
 			}
 
 			return null;

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for lecturers.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class LecturersController : Controller
@@ -135,6 +137,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Post(
 			[FromBody] LecturerDto lecturerDto)
 		{
@@ -163,6 +166,11 @@ namespace InterlogicProject.Web.API
 
 			await this.manager.CreateAsync(userToAdd);
 			await this.manager.AddToRoleAsync(userToAdd, "Lecturer");
+			
+			if (lecturerDto.IsAdmin == true)
+			{
+				await this.manager.AddToRoleAsync(userToAdd, "Admin");
+			}
 
 			var lecturerToAdd = new Lecturer
 			{
@@ -193,6 +201,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Put(
 			[FromRoute] int id,
 			[FromBody] LecturerDto lecturerDto)
@@ -256,8 +265,18 @@ namespace InterlogicProject.Web.API
 				{
 					userToUpdate.Email = lecturerDto.Email;
 				}
-
+				
 				await this.manager.UpdateAsync(userToUpdate);
+
+				if (lecturerDto.IsAdmin == true)
+				{
+					await this.manager.AddToRoleAsync(
+						userToUpdate, "Admin");
+				} else if (lecturerDto.IsAdmin == false)
+				{
+					await this.manager.RemoveFromRoleAsync(
+						userToUpdate, "Admin");
+				}
 			}
 
 			this.lecturers.Update(lecturerToUpdate);
@@ -275,6 +294,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Patch(
 			[FromRoute] int id,
 			[FromBody] LecturerDto lecturerDto)
@@ -340,6 +360,16 @@ namespace InterlogicProject.Web.API
 				}
 
 				await this.manager.UpdateAsync(userToUpdate);
+
+				if (lecturerDto.IsAdmin == true)
+				{
+					await this.manager.AddToRoleAsync(
+						userToUpdate, "Admin");
+				} else if (lecturerDto.IsAdmin == false)
+				{
+					await this.manager.RemoveFromRoleAsync(
+						userToUpdate, "Admin");
+				}
 			}
 
 			this.lecturers.Update(lecturerToUpdate);
@@ -356,6 +386,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var lecturerToDelete = this.lecturers.GetById(id);

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
@@ -138,6 +139,7 @@ namespace InterlogicProject.Web
 				SubjectRepository>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddSingleton<UserClaimsPrincipalFactory<User, IdentityRole>>();
 			services.AddSingleton<IdentityResolver>();
 
 			services.AddSingleton(

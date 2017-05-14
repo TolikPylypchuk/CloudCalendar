@@ -63,6 +63,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Admin,Lecturer")]
 		public IActionResult Post([FromBody] BuildingDto buildingDto)
 		{
 			if (buildingDto?.Name == null)
@@ -70,7 +71,11 @@ namespace InterlogicProject.Web.API
 				return this.BadRequest();
 			}
 
-			var buildingToAdd = new Building { Name = buildingDto.Name };
+			var buildingToAdd = new Building
+			{
+				Name = buildingDto.Name,
+				Address = buildingDto.Address
+			};
 
 			this.buildings.Add(buildingToAdd);
 
@@ -92,6 +97,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Put(
 			[FromRoute] int id,
 			[FromBody] BuildingDto buildingDto)
@@ -124,6 +130,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Patch(
 			[FromRoute] int id,
 			[FromBody] BuildingDto buildingDto)
@@ -155,6 +162,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var buildingToDelete = this.buildings.GetById(id);

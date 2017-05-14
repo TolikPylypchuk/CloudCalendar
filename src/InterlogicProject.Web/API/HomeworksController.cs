@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for homeworks.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class HomeworksController : Controller
@@ -119,6 +121,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost("classId/{classId}/studentId/{studentId}")]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Student")]
 		public async Task<IActionResult> Post(
 			[FromBody] IFormFile file,
 			[FromRoute] int classId,
@@ -173,6 +176,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Student")]
 		public IActionResult Put(
 			[FromRoute] int id,
 			[FromBody] HomeworkDto homeworkDto)
@@ -206,6 +210,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Student")]
 		public IActionResult Patch(
 			[FromRoute] int id,
 			[FromBody] HomeworkDto homeworkDto)
@@ -238,6 +243,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Student")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var homeworkToDelete = this.homeworks.GetById(id);

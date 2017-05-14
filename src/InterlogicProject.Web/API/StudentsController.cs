@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,6 +20,7 @@ namespace InterlogicProject.Web.API
 	/// <summary>
 	/// An API for students.
 	/// </summary>
+	[Authorize]
 	[Route("api/[controller]")]
 	[Produces("application/json")]
 	public class StudentsController : Controller
@@ -119,6 +121,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPost]
 		[SwaggerResponse(201)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Post([FromBody] StudentDto studentDto)
 		{
 			if (studentDto?.FirstName == null ||
@@ -172,6 +175,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Put(
 			[FromRoute] int id,
 			[FromBody] StudentDto studentDto)
@@ -250,6 +254,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Patch(
 			[FromRoute] int id,
 			[FromBody] StudentDto studentDto)
@@ -327,6 +332,7 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var studentToDelete = this.students.GetById(id);
