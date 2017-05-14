@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.SpaServices;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -269,10 +268,10 @@ namespace InterlogicProject.Web
 					IssuerSigningKey = this.SigningKey,
 					ValidateIssuer = true,
 					ValidIssuer =
-						this.Configuration["TokenAuthentication:Issuer"],
+						this.Configuration["Authentication:Issuer"],
 					ValidateAudience = true,
 					ValidAudience =
-						this.Configuration["TokenAuthentication:Audience"],
+						this.Configuration["Authentication:Audience"],
 					ValidateLifetime = true,
 					ClockSkew = TimeSpan.Zero
 				}

@@ -2,20 +2,36 @@
 using System.Security.Principal;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Identity;
+
+using InterlogicProject.DAL.Models;
+
 namespace InterlogicProject.Web.Security
 {
 	public class IdentityResolver
 	{
-		public Task<ClaimsIdentity> Resolve(string username, string password)
+		public IdentityResolver(UserManager<User> manager)
 		{
-			if (username == "TEST" && password == "TEST123")
+			this.UserManager = manager;
+		}
+
+		private UserManager<User> UserManager { get; }
+
+		public async Task<ClaimsIdentity> Resolve(
+			string username,
+			string password)
+		{
+			var user = await this.UserManager.FindByNameAsync(username);
+
+			if (user != null &&
+				await this.UserManager.CheckPasswordAsync(user, password))
 			{
-				return Task.FromResult(new ClaimsIdentity(
+				return new ClaimsIdentity(
 					new GenericIdentity(username, "Token"),
-					new Claim[] { }));
+					new Claim[] { });
 			}
 
-			return Task.FromResult<ClaimsIdentity>(null);
+			return null;
 		}
 	}
 }
