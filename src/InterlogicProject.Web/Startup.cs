@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -246,6 +247,7 @@ namespace InterlogicProject.Web
 			IHostingEnvironment env,
 			ILoggerFactory loggerFactory)
 		{
+			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			if (env.IsDevelopment())
@@ -283,6 +285,10 @@ namespace InterlogicProject.Web
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
+
+				routes.MapSpaFallbackRoute(
+					name: "spa-fallback",
+					defaults: new { controller = "Home", action = "Index" });
 			});
 			
 			app.UseSwagger(c =>
