@@ -7,7 +7,8 @@ namespace InterlogicProject.Web.Infrastructure
 {
 	public static class MvcOptionsExtensions
 	{
-		public static void UseCommaDelimitedArrayModelBinding(this MvcOptions opts)
+		public static void UseCommaDelimitedArrayModelBinding(
+			this MvcOptions opts)
 		{
 			var binderToFind = opts.ModelBinderProviders.FirstOrDefault(
 				x => x.GetType() == typeof(SimpleTypeModelBinderProvider));

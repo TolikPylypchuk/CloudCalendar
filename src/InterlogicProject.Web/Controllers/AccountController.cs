@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using InterlogicProject.DAL.Models;
-using InterlogicProject.Web.Infrastructure;
 using InterlogicProject.Web.Models.ViewModels;
 
 namespace InterlogicProject.Web.Controllers
@@ -40,7 +39,6 @@ namespace InterlogicProject.Web.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		[InsertEmailDomain]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(
 			LoginModel model,

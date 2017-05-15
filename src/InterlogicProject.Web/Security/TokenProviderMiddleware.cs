@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -67,6 +69,14 @@ namespace InterlogicProject.Web.Security
 
 			var loginModel = JsonConvert.DeserializeObject<LoginModel>(body);
 
+			if (String.IsNullOrEmpty(loginModel.Username) ||
+				String.IsNullOrEmpty(loginModel.Password))
+			{
+				context.Response.StatusCode = 400;
+				await context.Response.WriteAsync("400 Bad Request");
+				return;
+			}
+
 			var identity = await this.Options.IdentityResolver.Resolve(
 					loginModel.Username, loginModel.Password);
 
@@ -79,7 +89,7 @@ namespace InterlogicProject.Web.Security
 
 			var now = DateTime.UtcNow;
 			
-			var claims = new Claim[]
+			var claims = new List<Claim>
 			{
 				new Claim(
 					JwtRegisteredClaimNames.Sub,
@@ -93,6 +103,9 @@ namespace InterlogicProject.Web.Security
 						.ToUnixTimeSeconds().ToString(),
 					ClaimValueTypes.Integer64)
 			};
+
+			claims.Add(identity.Claims.FirstOrDefault(
+				claim => claim.Type == ClaimTypes.Role));
 
 			var jwt = new JwtSecurityToken(
 				issuer: this.Options.Issuer,

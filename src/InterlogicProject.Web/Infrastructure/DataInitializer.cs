@@ -20,7 +20,7 @@ namespace InterlogicProject.Web.Infrastructure
 		{
 			await CreateRolesAsync(
 				serviceProvider,
-				new[] { "Lecturer", "Student", "Admin" });
+				new[] { "Admin", "Lecturer", "Student" });
 
 			await SeedDatabaseAsync(serviceProvider);
 		}
