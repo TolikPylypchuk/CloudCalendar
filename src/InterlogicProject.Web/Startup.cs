@@ -284,12 +284,12 @@ namespace InterlogicProject.Web
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-
-				routes.MapRoute(
 					name: "templates",
 					template: "templates/{controller}/{action}.component.html");
+
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
 
 				routes.MapSpaFallbackRoute(
 					name: "spa-fallback",
