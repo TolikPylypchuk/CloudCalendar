@@ -287,6 +287,10 @@ namespace InterlogicProject.Web
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 
+				routes.MapRoute(
+					name: "templates",
+					template: "templates/{controller}/{action}.component.html");
+
 				routes.MapSpaFallbackRoute(
 					name: "spa-fallback",
 					defaults: new { controller = "Home", action = "Index" });
