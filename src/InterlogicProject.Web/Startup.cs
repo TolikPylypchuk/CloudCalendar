@@ -23,6 +23,7 @@ using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Infrastructure;
 using InterlogicProject.Web.Models.Dto;
 using InterlogicProject.Web.Security;
+using InterlogicProject.Web.Services;
 
 namespace InterlogicProject.Web
 {
@@ -52,15 +53,10 @@ namespace InterlogicProject.Web
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			Program.EmailDomain =
-				this.Configuration["Settings:EmailDomain"];
-			Program.DefaultPassword =
-				this.Configuration["Settings:DefaultPassword"];
+			services.AddOptions();
 
-			Program.HomeworksPath =
-				this.Configuration["Settings:HomeworksPath"];
-			Program.MaterialsPath =
-				this.Configuration["Settings:MaterialsPath"];
+			services.Configure<Settings>(
+				this.Configuration.GetSection("Settings"));
 
 			services.AddDbContext<AppDbContext>(
 				options =>

@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
+using InterlogicProject.Web.Services;
 
 namespace InterlogicProject.Web.Infrastructure
 {
@@ -49,6 +51,8 @@ namespace InterlogicProject.Web.Infrastructure
 				.GetRequiredService<AppDbContext>();
 			var userManager = serviceProvider
 				.GetRequiredService<UserManager<User>>();
+			var settings = serviceProvider
+				.GetRequiredService<IOptionsSnapshot<Settings>>().Value;
 			
 			if (userManager.Users.Any())
 			{
@@ -60,7 +64,7 @@ namespace InterlogicProject.Web.Infrastructure
 			var faculties = ReadFaculties(buildings);
 			var departments = ReadDepartments(faculties);
 			var subjects = ReadSubjects();
-			var users = ReadUsers();
+			var users = ReadUsers(settings);
 			var lecturers = ReadLecturers(departments, users);
 			var groups = ReadGroups(lecturers);
 			var students = ReadStudents(groups, users);
@@ -76,7 +80,7 @@ namespace InterlogicProject.Web.Infrastructure
 			{
 				user.Id = null;
 				await userManager.CreateAsync(
-					user, Program.DefaultPassword);
+					user, settings.EmailDomain);
 				await userManager.AddToRoleAsync(user, "Lecturer");
 				
 				if (lecturers.FirstOrDefault(l => l.User.Email == user.Email)
@@ -91,7 +95,7 @@ namespace InterlogicProject.Web.Infrastructure
 			{
 				user.Id = null;
 				await userManager.CreateAsync(
-					user, Program.DefaultPassword);
+					user, settings.DefaultPassword);
 				await userManager.AddToRoleAsync(user, "Student");
 			}
 
@@ -266,7 +270,7 @@ namespace InterlogicProject.Web.Infrastructure
 				}).ToList();
 		}
 
-		private static IList<User> ReadUsers()
+		private static IList<User> ReadUsers(Settings settings)
 		{
 			string data = null;
 
@@ -286,7 +290,7 @@ namespace InterlogicProject.Web.Infrastructure
 				.Select(tokens =>
 				{
 					var names = tokens[1].Split(' ');
-					var email = tokens[2] + $"@{Program.EmailDomain}";
+					var email = tokens[2] + $"@{settings.EmailDomain}";
 
 					return new User
 					{

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -16,6 +17,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Models.Dto;
+using InterlogicProject.Web.Services;
 
 namespace InterlogicProject.Web.API
 {
@@ -29,6 +31,7 @@ namespace InterlogicProject.Web.API
 	{
 		private IHostingEnvironment env;
 		private IRepository<Material> materials;
+		private Settings settings;
 
 		/// <summary>
 		/// Initializes a new instance of the MaterialsController class.
@@ -39,12 +42,17 @@ namespace InterlogicProject.Web.API
 		/// <param name="repo">
 		/// The repository that this instance will use.
 		/// </param>
+		/// <param name="options">
+		/// The application settings that this instance will use.
+		/// </param>
 		public MaterialsController(
 			IHostingEnvironment env,
-			IRepository<Material> repo)
+			IRepository<Material> repo,
+			IOptionsSnapshot<Settings> options)
 		{
 			this.materials = repo;
 			this.env = env;
+			this.settings = options.Value;
 		}
 
 		/// <summary>
@@ -108,7 +116,7 @@ namespace InterlogicProject.Web.API
 
 			string filePath = Path.Combine(
 				this.env.WebRootPath,
-				Program.MaterialsPath,
+				this.settings.MaterialsPath,
 				$"{classId}_{file.FileName}");
 
 			using (var stream = System.IO.File.Open(filePath, FileMode.Create))
@@ -154,7 +162,7 @@ namespace InterlogicProject.Web.API
 			System.IO.File.Delete(
 				Path.Combine(
 					this.env.WebRootPath,
-					Program.MaterialsPath,
+					this.settings.MaterialsPath,
 					$"{materialToDelete.ClassId}_{materialToDelete.FileName}"));
 
 			return this.NoContent();
