@@ -14,7 +14,7 @@ var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var modal_content_component_1 = require("./modal/modal-content.component");
-var common_1 = require("../common/common");
+var common_1 = require("../../common/common");
 var CalendarComponent = (function () {
     function CalendarComponent(http, modalService, lecturerService) {
         this.currentSubscription = null;

@@ -1,9 +1,9 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
+
 import * as moment from "moment";
 
+import { StudentService, ClassService } from "../../../common/common";
 import { Comment } from "../../../common/models";
-
-import { StudentService, ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-comments",

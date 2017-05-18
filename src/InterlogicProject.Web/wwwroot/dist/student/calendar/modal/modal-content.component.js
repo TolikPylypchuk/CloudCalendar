@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
-var common_1 = require("../../common/common");
+var common_1 = require("../../../common/common");
 var ModalContentComponent = (function () {
     function ModalContentComponent(activeModal, classService) {
         this.subjectName = "Завантаження...";

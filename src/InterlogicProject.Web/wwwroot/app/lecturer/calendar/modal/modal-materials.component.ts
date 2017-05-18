@@ -2,8 +2,7 @@
 
 import { FileUploader } from "ng2-file-upload";
 
-import { ClassService } from "../../common/common";
-
+import { ClassService } from "../../../common/common";
 import { Material } from "../../../common/models";
 
 @Component({

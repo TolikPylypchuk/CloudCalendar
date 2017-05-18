@@ -2,13 +2,13 @@
 import { Http } from "@angular/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Subscription";
+
 import * as moment from "moment";
 
-import ModalContentComponent from "./modal/modal-content.component";
-
+import { StudentService } from "../../common/common";
 import { Class } from "../../common/models";
 
-import { StudentService } from "../common/common";
+import ModalContentComponent from "./modal/modal-content.component";
 
 @Component({
 	selector: "student-calendar",

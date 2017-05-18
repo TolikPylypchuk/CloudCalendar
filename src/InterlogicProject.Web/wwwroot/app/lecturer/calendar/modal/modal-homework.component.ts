@@ -1,9 +1,7 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
-import { ClassService, LecturerService } from "../../common/common";
-
+import { ClassService, LecturerService } from "../../../common/common";
 import { Class, Homework, Student } from "../../../common/models";
-
 @Component({
 	selector: "lecturer-modal-homework",
 	templateUrl: "app/lecturer/calendar/modal/modal-homework.component.html",

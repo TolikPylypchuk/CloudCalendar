@@ -3,11 +3,8 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 import * as moment from "moment";
 
-import {
-	Lecturer, Classroom
-} from "../../../common/models";
-
-import { ClassService } from "../../common/common";
+import { ClassService } from "../../../common/common";
+import { Lecturer, Classroom } from "../../../common/models";
 
 @Component({
 	selector: "student-modal-content",

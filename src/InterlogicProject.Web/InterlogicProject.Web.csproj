@@ -39,8 +39,16 @@
     <Content Remove="wwwroot/scss\style.min.css" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="wwwroot\app\app.component.ts" />
+    <Content Include="wwwroot\app\app.module.ts" />
+    <Content Include="wwwroot\app\common\common.module.ts" />
+    <Content Include="wwwroot\app\common\common.ts" />
+    <Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
     <Content Include="wwwroot\app\common\fullcalendar.component.ts" />
     <Content Include="wwwroot\app\common\models.ts" />
+    <Content Include="wwwroot\app\common\services\class.service.ts" />
+    <Content Include="wwwroot\app\common\services\lecturer.service.ts" />
+    <Content Include="wwwroot\app\common\services\student.service.ts" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-content.component.css" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.css" />
@@ -49,7 +57,7 @@
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.css" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
-    <Content Include="wwwroot\app\lecturer\main.ts" />
+    <Content Include="wwwroot\app\main.ts" />
     <Content Include="wwwroot\app\student\app.component.ts" />
     <Content Include="wwwroot\app\student\app.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
@@ -71,10 +79,6 @@
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
-    <Content Include="wwwroot\app\student\common\common.module.ts" />
-    <Content Include="wwwroot\app\student\common\common.ts" />
-    <Content Include="wwwroot\app\student\common\services\class.service.ts" />
-    <Content Include="wwwroot\app\student\common\services\student.service.ts" />
     <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />
     <Content Include="wwwroot\dist\css\style.min.css" />

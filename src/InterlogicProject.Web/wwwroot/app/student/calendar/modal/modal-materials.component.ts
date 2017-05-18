@@ -1,7 +1,7 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
+import { ClassService } from "../../../common/common";
 import { Material } from "../../../common/models";
-import { ClassService } from "../../common/common";
 
 @Component({
 	selector: "student-modal-materials",

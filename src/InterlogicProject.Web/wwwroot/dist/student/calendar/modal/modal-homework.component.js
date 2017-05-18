@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ng2_file_upload_1 = require("ng2-file-upload");
-var common_1 = require("../../common/common");
+var common_1 = require("../../../common/common");
 var ModalHomeworkComponent = (function () {
     function ModalHomeworkComponent(classService, studentService) {
         this.classService = classService;

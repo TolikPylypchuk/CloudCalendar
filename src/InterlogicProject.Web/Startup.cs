@@ -37,7 +37,7 @@ namespace InterlogicProject.Web
 					optional: true,
 					reloadOnChange: true)
 				.AddJsonFile(
-					path: $"appsettings.json",
+					path: "appsettings.json",
 					optional: true,
 					reloadOnChange: true)
 				.Build();

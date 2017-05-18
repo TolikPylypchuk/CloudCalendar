@@ -2,8 +2,7 @@
 
 import { FileUploader, FileItem } from "ng2-file-upload";
 
-import { ClassService, StudentService } from "../../common/common";
-
+import { ClassService, StudentService } from "../../../common/common";
 import { Class, Homework } from "../../../common/models";
 
 @Component({
