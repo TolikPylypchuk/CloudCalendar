@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-var Observable_1 = require("rxjs/Observable");
+var functions_1 = require("../functions");
 var LecturerService = (function () {
     function LecturerService(http) {
         var _this = this;
@@ -21,7 +21,8 @@ var LecturerService = (function () {
         this.http = http;
         this.http.get("/api/users/current")
             .map(function (response) { return response.json(); })
-            .catch(this.handleError)
+            .catch(functions_1.handleError)
+            .first()
             .subscribe(function (data) { return _this.initUser(data); });
     }
     LecturerService.prototype.getCurrentUser = function () {
@@ -33,36 +34,26 @@ var LecturerService = (function () {
     LecturerService.prototype.getLecturer = function (id) {
         return this.http.get("api/lecturers/" + id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError);
+            .catch(functions_1.handleError)
+            .first();
     };
     LecturerService.prototype.getStudent = function (id) {
         return this.http.get("api/students/" + id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError);
+            .catch(functions_1.handleError)
+            .first();
     };
     LecturerService.prototype.initUser = function (user) {
         var _this = this;
         this.currentUserSource.next(user);
         this.http.get("/api/lecturers/userId/" + user.id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError)
+            .catch(functions_1.handleError)
+            .first()
             .subscribe(function (data) { return _this.initLecturer(data); });
     };
     LecturerService.prototype.initLecturer = function (lecturer) {
         this.currentLecturerSource.next(lecturer);
-    };
-    LecturerService.prototype.handleError = function (error) {
-        var message;
-        if (error instanceof http_1.Response) {
-            var body = error.json() || "";
-            var err = body.error || JSON.stringify(body);
-            message = error.status + " - " + (error.statusText || "") + " " + err;
-        }
-        else {
-            message = error.message ? error.message : error.toString();
-        }
-        console.error(message);
-        return Observable_1.Observable.throw(message);
     };
     return LecturerService;
 }());

@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
+import { handleError } from "../functions";
 import { Lecturer, Student, User } from "../models";
 
 @Injectable()
@@ -18,7 +19,8 @@ export default class LecturerService {
 
 		this.http.get("/api/users/current")
 			.map(response => response.json())
-			.catch(this.handleError)
+			.catch(handleError)
+			.first()
 			.subscribe(data => this.initUser(data as User));
 	}
 	
@@ -32,14 +34,16 @@ export default class LecturerService {
 
 	getLecturer(id: number): Observable<Lecturer> {
 		return this.http.get(`api/lecturers/${id}`)
-						.map(response => response.json() as Lecturer)
-						.catch(this.handleError);
+			.map(response => response.json() as Lecturer)
+			.catch(handleError)
+			.first();
 	}
 
 	getStudent(id: number): Observable<Student> {
 		return this.http.get(`api/students/${id}`)
-						.map(response => response.json() as Student)
-						.catch(this.handleError);
+			.map(response => response.json() as Student)
+			.catch(handleError)
+			.first();
 	}
 	
 	private initUser(user: User): void {
@@ -47,27 +51,12 @@ export default class LecturerService {
 
 		this.http.get(`/api/lecturers/userId/${user.id}`)
 			.map(response => response.json())
-			.catch(this.handleError)
+			.catch(handleError)
+			.first()
 			.subscribe(data => this.initLecturer(data as Lecturer));
 	}
 
 	private initLecturer(lecturer: Lecturer) {
 		this.currentLecturerSource.next(lecturer);
-	}
-
-	private handleError(error: Response | any): ErrorObservable {
-		let message: string;
-
-		if (error instanceof Response) {
-			const body = error.json() || "";
-			const err = body.error || JSON.stringify(body);
-			message = `${error.status} - ${error.statusText || ""} ${err}`;
-		} else {
-			message = error.message ? error.message : error.toString();
-		}
-
-		console.error(message);
-
-		return Observable.throw(message);
 	}
 }

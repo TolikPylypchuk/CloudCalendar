@@ -44,7 +44,7 @@
     <Content Include="wwwroot\app\common\common.module.ts" />
     <Content Include="wwwroot\app\common\common.ts" />
     <Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
-    <Content Include="wwwroot\app\common\fullcalendar.component.ts" />
+    <Content Include="wwwroot\app\common\functions.ts" />
     <Content Include="wwwroot\app\common\models.ts" />
     <Content Include="wwwroot\app\common\services\class.service.ts" />
     <Content Include="wwwroot\app\common\services\lecturer.service.ts" />
@@ -143,6 +143,7 @@
     <Folder Include="Views\Lecturer\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Student\" />
+    <Folder Include="wwwroot\app\auth\" />
     <Folder Include="wwwroot\dist\css\" />
     <Folder Include="wwwroot\dist\lecturer\" />
     <Folder Include="wwwroot\dist\student\" />

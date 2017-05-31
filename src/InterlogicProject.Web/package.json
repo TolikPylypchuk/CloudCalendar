@@ -2,7 +2,7 @@
   "name": "interlogicproject",
   "version": "1.0.0",
   "author": "Tolik Pylypchuk",
-  "license": "ISC",
+  "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",

@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
+import { handleError } from "../functions";
 import { Student, Lecturer, Group, User } from "../models";
 
 @Injectable()
@@ -19,7 +20,8 @@ export default class StudentService {
 
 		this.http.get("/api/users/current")
 			.map(response => response.json())
-			.catch(this.handleError)
+			.catch(handleError)
+			.first()
 			.subscribe(data => this.initUser(data as User));
 	}
 	
@@ -37,14 +39,16 @@ export default class StudentService {
 
 	getStudent(id: number): Observable<Student> {
 		return this.http.get(`api/students/${id}`)
-						.map(response => response.json() as Student)
-						.catch(this.handleError);
+			.map(response => response.json() as Student)
+			.catch(handleError)
+			.first();
 	}
 
 	getLecturer(id: number): Observable<Lecturer> {
 		return this.http.get(`api/lecturers/${id}`)
-						.map(response => response.json() as Lecturer)
-						.catch(this.handleError);
+			.map(response => response.json() as Lecturer)
+			.catch(handleError)
+			.first();
 	}
 
 	private initUser(user: User): void {
@@ -52,7 +56,8 @@ export default class StudentService {
 
 		this.http.get(`/api/students/userId/${user.id}`)
 			.map(response => response.json())
-			.catch(this.handleError)
+			.catch(handleError)
+			.first()
 			.subscribe(data => this.initStudent(data as Student));
 	}
 
@@ -61,27 +66,12 @@ export default class StudentService {
 
 		this.http.get(`/api/groups/${student.groupId}`)
 			.map(response => response.json())
-			.catch(this.handleError)
+			.catch(handleError)
+			.first()
 			.subscribe(data => this.initGroup(data as Group));
 	}
 
 	private initGroup(group: Group) {
 		this.currentGroupSource.next(group);
-	}
-
-	private handleError(error: Response | any): ErrorObservable {
-		let message: string;
-
-		if (error instanceof Response) {
-			const body = error.json() || "";
-			const err = body.error || JSON.stringify(body);
-			message = `${error.status} - ${error.statusText || ""} ${err}`;
-		} else {
-			message = error.message ? error.message : error.toString();
-		}
-
-		console.error(message);
-
-		return Observable.throw(message);
 	}
 }

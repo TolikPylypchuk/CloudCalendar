@@ -90,11 +90,6 @@ export interface Lecturer extends User {
 	isAdmin?: boolean;
 }
 
-export interface LecturerClass extends Entity {
-	lecturerId?: number;
-	classId?: number;
-}
-
 export interface Material extends Entity {
 	classId?: number;
 	fileName?: string;

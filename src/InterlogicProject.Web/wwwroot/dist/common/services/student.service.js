@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-var Observable_1 = require("rxjs/Observable");
+var functions_1 = require("../functions");
 var StudentService = (function () {
     function StudentService(http) {
         var _this = this;
@@ -22,7 +22,8 @@ var StudentService = (function () {
         this.http = http;
         this.http.get("/api/users/current")
             .map(function (response) { return response.json(); })
-            .catch(this.handleError)
+            .catch(functions_1.handleError)
+            .first()
             .subscribe(function (data) { return _this.initUser(data); });
     }
     StudentService.prototype.getCurrentUser = function () {
@@ -37,19 +38,22 @@ var StudentService = (function () {
     StudentService.prototype.getStudent = function (id) {
         return this.http.get("api/students/" + id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError);
+            .catch(functions_1.handleError)
+            .first();
     };
     StudentService.prototype.getLecturer = function (id) {
         return this.http.get("api/lecturers/" + id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError);
+            .catch(functions_1.handleError)
+            .first();
     };
     StudentService.prototype.initUser = function (user) {
         var _this = this;
         this.currentUserSource.next(user);
         this.http.get("/api/students/userId/" + user.id)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError)
+            .catch(functions_1.handleError)
+            .first()
             .subscribe(function (data) { return _this.initStudent(data); });
     };
     StudentService.prototype.initStudent = function (student) {
@@ -57,24 +61,12 @@ var StudentService = (function () {
         this.currentStudentSource.next(student);
         this.http.get("/api/groups/" + student.groupId)
             .map(function (response) { return response.json(); })
-            .catch(this.handleError)
+            .catch(functions_1.handleError)
+            .first()
             .subscribe(function (data) { return _this.initGroup(data); });
     };
     StudentService.prototype.initGroup = function (group) {
         this.currentGroupSource.next(group);
-    };
-    StudentService.prototype.handleError = function (error) {
-        var message;
-        if (error instanceof http_1.Response) {
-            var body = error.json() || "";
-            var err = body.error || JSON.stringify(body);
-            message = error.status + " - " + (error.statusText || "") + " " + err;
-        }
-        else {
-            message = error.message ? error.message : error.toString();
-        }
-        console.error(message);
-        return Observable_1.Observable.throw(message);
     };
     return StudentService;
 }());

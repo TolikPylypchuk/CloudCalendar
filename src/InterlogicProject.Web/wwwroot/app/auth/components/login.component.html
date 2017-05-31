@@ -1,0 +1,40 @@
+<h1 class="text-center m-3">Вхід</h1>
+
+<div class="container">
+	<div *ngIf="loginError" class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<p class="text-danger">Неправильне ім'я користувача або пароль.</p>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<form (submit)="submit()">
+				<div class="form-group">
+					<label for="usernameInput" class="form-control-label">
+						Ім'я користувача
+					</label>
+					<input type="text" id="usernameInput" name="username"
+					       [(ngModel)]="model.username" required
+					       (change)="change()" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label for="passwordInput" class="form-control-label">
+						Пароль
+					</label>
+					<input type="password" id="passwordInput" name="password"
+					       [(ngModel)]="model.password" required
+					       (change)="change()" class="form-control" />
+				</div>
+
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Увійти</button>
+					<button class="btn btn-secondary" (click)="cancel()">Скасувати</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+</div>
