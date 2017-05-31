@@ -1,3 +1,36 @@
+<a name="0.8.11"></a>
+## [0.8.11](https://github.com/angular/zone.js/compare/v0.8.10...0.8.11) (2017-05-19)
+
+
+### Bug Fixes
+
+* **closure:** patchOnProperty with exact eventNames as possible ([#768](https://github.com/angular/zone.js/issues/768)) ([582ff7b](https://github.com/angular/zone.js/commit/582ff7b))
+* **patch:** fix [#744](https://github.com/angular/zone.js/issues/744), add namespace to load patch name ([#774](https://github.com/angular/zone.js/issues/774)) ([89f990a](https://github.com/angular/zone.js/commit/89f990a))
+* **task:** fix [#778](https://github.com/angular/zone.js/issues/778), sometimes task will run after being canceled ([#780](https://github.com/angular/zone.js/issues/780)) ([b7238c8](https://github.com/angular/zone.js/commit/b7238c8))
+* **webcomponents:** fix [#782](https://github.com/angular/zone.js/issues/782), fix conflicts with shadydom of webcomponents ([#784](https://github.com/angular/zone.js/issues/784)) ([245f8e9](https://github.com/angular/zone.js/commit/245f8e9))
+* **webpack:** access `process` through `_global` so that WebPack does not accidently browserify ([#786](https://github.com/angular/zone.js/issues/786)) ([1919b36](https://github.com/angular/zone.js/commit/1919b36))
+
+
+
+<a name="0.8.10"></a>
+## [0.8.10](https://github.com/angular/zone.js/compare/v0.8.9...0.8.10) (2017-05-03)
+
+
+### Bug Fixes
+
+* **showError:** fix ignoreConsoleErrorUncaughtError may change during drain microtask ([#763](https://github.com/angular/zone.js/issues/763)) ([4baeb5c](https://github.com/angular/zone.js/commit/4baeb5c))
+* **spec:** fix [#760](https://github.com/angular/zone.js/issues/760), fakeAsyncTestSpec should handle microtask with additional args ([#762](https://github.com/angular/zone.js/issues/762)) ([f8d17ac](https://github.com/angular/zone.js/commit/f8d17ac))
+* Package Error stack rewriting as a separate bundle. ([#770](https://github.com/angular/zone.js/issues/770)) ([b5e33fd](https://github.com/angular/zone.js/commit/b5e33fd))
+* **timer:** fix [#437](https://github.com/angular/zone.js/issues/437), [#744](https://github.com/angular/zone.js/issues/744), fix nativescript timer issue, fix nodejs v0.10.x timer issue ([#772](https://github.com/angular/zone.js/issues/772)) ([3218b5a](https://github.com/angular/zone.js/commit/3218b5a))
+
+
+### Features
+
+* make codebase more modular so that only parts of it can be loaded ([#748](https://github.com/angular/zone.js/issues/748)) ([e933cbd](https://github.com/angular/zone.js/commit/e933cbd))
+* **patch:** load non standard api with new load module method ([#764](https://github.com/angular/zone.js/issues/764)) ([97c03b5](https://github.com/angular/zone.js/commit/97c03b5))
+
+
+
 <a name="0.8.9"></a>
 ## [0.8.9](https://github.com/angular/zone.js/compare/v0.8.8...0.8.9) (2017-04-25)
 

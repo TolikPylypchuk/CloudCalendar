@@ -25,9 +25,9 @@
     "ng2-file-upload": "^1.2.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.0",
-    "systemjs": "^0.20.12",
+    "systemjs": "^0.20.13",
     "tether": "^1.4.0",
-    "zone.js": "^0.8.10"
+    "zone.js": "^0.8.11"
   },
   "devDependencies": {
     "@types/bootstrap": "3.3.33",
@@ -36,12 +36,12 @@
     "@types/jasmine": "2.5.47",
     "@types/jquery": "2.0.45",
     "@types/moment": "2.13.0",
-    "@types/node": "^7.0.18",
+    "@types/node": "^7.0.22",
     "@types/systemjs": "0.20.2",
     "@types/tether": "1.4.1",
     "gulp": "3.9.1",
     "gulp-sass": "3.1.0",
-    "gulp-typescript": "3.1.6",
-    "typescript": "2.3.2"
+    "gulp-typescript": "3.1.7",
+    "typescript": "2.3.4"
   }
 }

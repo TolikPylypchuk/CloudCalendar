@@ -125,7 +125,7 @@ SystemJSLoader.prototype.global = global;
 SystemJSLoader.prototype.import = function () {
   return RegisterLoader.prototype.import.apply(this, arguments)
   .then(function (m) {
-    return m.__useDefault ? m.default: m;
+    return m.__useDefault || m;
   });
 };
 
@@ -162,7 +162,7 @@ function registryWarn(loader, method) {
 }
 SystemJSLoader.prototype.delete = function (key) {
   registryWarn(this, 'delete');
-  this.registry.delete(key);
+  return this.registry.delete(key);
 };
 SystemJSLoader.prototype.get = function (key) {
   registryWarn(this, 'get');

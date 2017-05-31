@@ -74,7 +74,7 @@ gulp.task('build/zone.js.d.ts', ['compile-esm'], function() {
 
 // Zone for Node.js environment.
 gulp.task('build/zone-node.js', ['compile-esm'], function(cb) {
-  return generateScript('./lib/node/node.ts', 'zone-node.js', false, cb);
+  return generateScript('./lib/node/rollup-main.ts', 'zone-node.js', false, cb);
 });
 
 // Zone for the browser.
@@ -91,6 +91,14 @@ gulp.task('build/zone.min.js', ['compile-esm'], function(cb) {
   return generateScript('./lib/browser/rollup-main.ts', 'zone.min.js', true, cb);
 });
 
+gulp.task('build/zone-error.js', ['compile-esm'], function(cb) {
+  return generateScript('./lib/common/error-rewrite.ts', 'zone-error.js', false, cb);
+});
+
+gulp.task('build/zone-error.min.js', ['compile-esm'], function(cb) {
+  return generateScript('./lib/common/error-rewrite.ts', 'zone-error.min.js', true, cb);
+});
+
 gulp.task('build/webapis-media-query.js', ['compile-esm'], function(cb) {
     return generateScript('./lib/browser/webapis-media-query.ts', 'webapis-media-query.js', false, cb);
 });
@@ -105,6 +113,14 @@ gulp.task('build/webapis-notification.js', ['compile-esm'], function(cb) {
 
 gulp.task('build/webapis-notification.min.js', ['compile-esm'], function(cb) {
     return generateScript('./lib/browser/webapis-notification.ts', 'webapis-notification.min.js', true, cb);
+});
+
+gulp.task('build/webapis-shadydom.js', ['compile-esm'], function(cb) {
+    return generateScript('./lib/browser/shadydom.ts', 'webapis-shadydom.js', false, cb);
+});
+
+gulp.task('build/webapis-shadydom.min.js', ['compile-esm'], function(cb) {
+    return generateScript('./lib/browser/shadydom.ts', 'webapis-shadydom.min.js', true, cb);
 });
 
 gulp.task('build/bluebird.js', ['compile-esm'], function(cb) {
@@ -179,11 +195,15 @@ gulp.task('build', [
   'build/zone.js',
   'build/zone.js.d.ts',
   'build/zone.min.js',
+  'build/zone-error.js',
+  'build/zone-error.min.js',
   'build/zone-node.js',
   'build/webapis-media-query.js',
   'build/webapis-media-query.min.js',
   'build/webapis-notification.js',
   'build/webapis-notification.min.js',
+  'build/webapis-shadydom.js',
+  'build/webapis-shadydom.min.js',
   'build/zone-mix.js',
   'build/bluebird.js',
   'build/bluebird.min.js',

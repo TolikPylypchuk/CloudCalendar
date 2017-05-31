@@ -42,7 +42,7 @@ SystemJSProductionNodeLoader.prototype[SystemJSProductionLoader.plainResolveSync
     return resolved;
 
   var parentPath = parentKey ? fileUrlToPath(parentKey) : process.cwd();
-  var requireContext = new Module(parentPath);
+  var requireContext = new Module(decodeURI(parentPath));
   requireContext.paths = Module._nodeModulePaths(parentPath);
 
   try {
@@ -74,7 +74,7 @@ SystemJSProductionNodeLoader.prototype[SystemJSProductionLoader.instantiate] = f
     // CommonJS
     return Promise.resolve(loader.newModule({
       default: nodeModule,
-      __useDefault: true
+      __useDefault: nodeModule
     }));
   }
 

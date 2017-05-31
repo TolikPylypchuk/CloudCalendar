@@ -81,7 +81,7 @@ systemJSPrototype.resolveSync = function (key, parentKey) {
 systemJSPrototype.import = function () {
   return RegisterLoader.prototype.import.apply(this, arguments)
   .then(function (m) {
-    return m.__useDefault ? m.default: m;
+    return m.__useDefault || m;
   });
 };
 
@@ -233,7 +233,7 @@ function plainResolve (key, parentKey) {
 
   if (mapMatch) {
     var target = map[mapMatch] + key.substr(mapMatch.length);
-    return resolveIfNotPlain(target, parent) || target;
+    return resolveIfNotPlain(target, parentKey || config.baseURL) || target;
   }
 }
 
