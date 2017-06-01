@@ -2,8 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fullcalendar_component_1 = require("./components/fullcalendar.component");
 exports.FullcalendarComponent = fullcalendar_component_1.default;
+var building_service_1 = require("./services/building.service");
+exports.BuildingService = building_service_1.default;
 var class_service_1 = require("./services/class.service");
 exports.ClassService = class_service_1.default;
+var classroom_service_1 = require("./services/classroom.service");
+exports.ClassroomService = classroom_service_1.default;
+var comment_service_1 = require("./services/comment.service");
+exports.CommentService = comment_service_1.default;
+var department_service_1 = require("./services/department.service");
+exports.DepartmentService = department_service_1.default;
+var faculty_service_1 = require("./services/faculty.service");
+exports.FacultyService = faculty_service_1.default;
 var lecturer_service_1 = require("./services/lecturer.service");
 exports.LecturerService = lecturer_service_1.default;
 var student_service_1 = require("./services/student.service");

@@ -10,7 +10,12 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var ng2_file_upload_1 = require("ng2-file-upload");
 var fullcalendar_component_1 = require("./components/fullcalendar.component");
+var building_service_1 = require("./services/building.service");
 var class_service_1 = require("./services/class.service");
+var classroom_service_1 = require("./services/classroom.service");
+var comment_service_1 = require("./services/comment.service");
+var department_service_1 = require("./services/department.service");
+var faculty_service_1 = require("./services/faculty.service");
 var lecturer_service_1 = require("./services/lecturer.service");
 var student_service_1 = require("./services/student.service");
 var CommonModule = (function () {
@@ -26,8 +31,13 @@ CommonModule = __decorate([
             fullcalendar_component_1.default
         ],
         providers: [
+            building_service_1.default,
             lecturer_service_1.default,
             class_service_1.default,
+            classroom_service_1.default,
+            comment_service_1.default,
+            department_service_1.default,
+            faculty_service_1.default,
             student_service_1.default
         ],
         imports: [
