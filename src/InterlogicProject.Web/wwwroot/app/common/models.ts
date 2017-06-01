@@ -32,11 +32,6 @@ export interface Class extends Entity {
 	homeworkEnabled?: boolean;
 }
 
-export interface ClassPlace extends Entity {
-	classId?: number;
-	classroomId?: number;
-}
-
 export interface Classroom extends Entity {
 	name?: string;
 	buildingId?: number;
@@ -68,11 +63,6 @@ export interface Group extends Entity {
 	curatorId?: number;
 }
 
-export interface GroupClass extends Entity {
-	groupId?: number;
-	classId?: number;
-}
-
 export interface Homework extends Entity {
 	fileName?: string;
 	studentId?: number;
@@ -97,6 +87,7 @@ export interface Material extends Entity {
 
 export interface Notification extends EntityWithUser {
 	text?: string;
+	dateTime?: string;
 	isSeen?: boolean;
 }
 

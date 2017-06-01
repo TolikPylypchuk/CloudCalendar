@@ -2,7 +2,6 @@
 import { Http, Response } from "@angular/http";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
-import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
 import { handleError } from "../functions";
 import { Lecturer, Student, User } from "../models";

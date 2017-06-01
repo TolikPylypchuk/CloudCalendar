@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("rxjs/add/observable/of");
 require("rxjs/add/observable/throw");
+require("rxjs/add/operator/catch");
 require("rxjs/add/operator/first");
 require("rxjs/add/operator/map");
-require("rxjs/add/operator/catch");
+require("rxjs/add/operator/publish");
 var moment = require("moment");
 require("fullcalendar");
 require("fullcalendar/dist/locale/uk");

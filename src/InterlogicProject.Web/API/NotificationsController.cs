@@ -119,7 +119,7 @@ namespace InterlogicProject.Web.API
 		/// <param name="start">The start of the date range.</param>
 		/// <param name="end">The end of the date range.</param>
 		/// <returns>All notifications between the specified date.</returns>
-		[HttpGet("range/{start}/{end}")]
+		[HttpGet("userId/{userId}/range/{start}/{end}")]
 		[SwaggerResponse(200, Type = typeof(IEnumerable<NotificationDto>))]
 		public IEnumerable<NotificationDto> GetForUserWithRange(
 			[FromRoute] string userId,

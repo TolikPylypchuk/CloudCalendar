@@ -2,6 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
+function getAuthToken() {
+    var token = localStorage.getItem("scheduleAuthToken");
+    return token ? token : null;
+}
+exports.getAuthToken = getAuthToken;
+function getHeaders() {
+    return getAuthToken()
+        ? new http_1.Headers({
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + getAuthToken()
+        })
+        : new http_1.Headers({
+            "Content-Type": "application/json"
+        });
+}
+exports.getHeaders = getHeaders;
 function handleError(error) {
     var message;
     if (error instanceof http_1.Response) {

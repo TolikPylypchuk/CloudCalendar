@@ -46,7 +46,10 @@
     <Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
     <Content Include="wwwroot\app\common\functions.ts" />
     <Content Include="wwwroot\app\common\models.ts" />
+    <Content Include="wwwroot\app\common\services\building.service.ts" />
+    <Content Include="wwwroot\app\common\services\building.ts" />
     <Content Include="wwwroot\app\common\services\class.service.ts" />
+    <Content Include="wwwroot\app\common\services\classroom.service.ts" />
     <Content Include="wwwroot\app\common\services\lecturer.service.ts" />
     <Content Include="wwwroot\app\common\services\student.service.ts" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />

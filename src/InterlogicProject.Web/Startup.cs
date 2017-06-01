@@ -236,6 +236,7 @@ namespace InterlogicProject.Web
 
 				options.IncludeXmlComments(this.Configuration["Swagger:Path"]);
 				options.DescribeAllEnumsAsStrings();
+				options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
 			});
 		}
 
@@ -281,7 +282,7 @@ namespace InterlogicProject.Web
 			{
 				routes.MapRoute(
 					name: "templates",
-					template: "templates/{controller}/{action}.component.html");
+					template: "templates/{controller}/{action}");
 
 				routes.MapRoute(
 					name: "default",
