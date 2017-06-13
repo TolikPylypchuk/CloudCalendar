@@ -45,8 +45,8 @@ export default class CalendarComponent {
 			eventBackgroundColor: "#0275D8",
 			eventBorderColor: "#0275D8",
 			eventDurationEditable: false,
-			eventRender: (event: FC.EventObject, element: HTMLDivElement) => {
-				$(element).css("cursor", "pointer");
+			eventRender: (event: FC.EventObject, element: JQuery) => {
+				element.css("cursor", "pointer");
 			},
 			events: this.getEvents.bind(this),
 			header: {
@@ -54,7 +54,7 @@ export default class CalendarComponent {
 				center: "agendaWeek,listWeek",
 				right: "today,prev,next"
 			},
-			height: "auto" as any,
+			height: "auto",
 			minTime: moment.duration("08:00:00"),
 			maxTime: moment.duration("21:00:00"),
 			slotDuration: moment.duration("00:30:00"),

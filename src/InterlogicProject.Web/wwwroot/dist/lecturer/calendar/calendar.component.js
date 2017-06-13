@@ -30,7 +30,7 @@ var CalendarComponent = (function () {
             eventBorderColor: "#0275D8",
             eventDurationEditable: false,
             eventRender: function (event, element) {
-                $(element).css("cursor", "pointer");
+                element.css("cursor", "pointer");
             },
             events: this.getEvents.bind(this),
             header: {

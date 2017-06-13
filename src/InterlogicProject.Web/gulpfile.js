@@ -12,7 +12,7 @@ gulp.task("copy-ng-bootstrap", () => {
 
 gulp.task("copy-ng2-file-upload", () => {
 	return gulp.src("./node_modules/ng2-file-upload/bundles/**")
-		.pipe(gulp.dest("./wwwroot/lib/ng2-file-upload/"));
+			   .pipe(gulp.dest("./wwwroot/lib/ng2-file-upload/"));
 });
 
 gulp.task("copy-rxjs", () => {

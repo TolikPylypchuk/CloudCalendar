@@ -1,1 +1,1 @@
-﻿///<binding AfterBuild='Update all files, JavaScript, Stylesheets' Clean='Clean output files' />
+﻿///<binding AfterBuild="Update all files, JavaScript, Stylesheets" Clean="Clean output files" />

@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.1.3
+ * @license Angular v4.2.2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -9,13 +9,34 @@
 	(factory((global.ng = global.ng || {}, global.ng.forms = global.ng.forms || {}),global.ng.core,global.Rx.Observable,global.Rx.Observable,global.Rx.Observable.prototype,global.ng.platformBrowser));
 }(this, (function (exports,_angular_core,rxjs_observable_forkJoin,rxjs_observable_fromPromise,rxjs_operator_map,_angular_platformBrowser) { 'use strict';
 
-var __extends = (undefined && undefined.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = Object.setPrototypeOf ||
+    ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+
+function __extends(d, b) {
+    extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+}
+
 /**
- * @license Angular v4.1.3
+ * @license Angular v4.2.2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -232,15 +253,6 @@ var ControlContainer = (function (_super) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var __assign = (undefined && undefined.__assign) || Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s)
-            if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-    }
-    return t;
-};
 /**
  * @param {?} value
  * @return {?}
@@ -286,6 +298,38 @@ var EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.
 var Validators = (function () {
     function Validators() {
     }
+    /**
+     * Validator that requires controls to have a value greater than a number.
+     * @param {?} min
+     * @return {?}
+     */
+    Validators.min = function (min) {
+        return function (control) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var /** @type {?} */ value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // minimum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-min
+            return !isNaN(value) && value < min ? { 'min': { 'min': min, 'actual': control.value } } : null;
+        };
+    };
+    /**
+     * Validator that requires controls to have a value less than a number.
+     * @param {?} max
+     * @return {?}
+     */
+    Validators.max = function (max) {
+        return function (control) {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
+                return null; // don't validate empty values to allow optional controls
+            }
+            var /** @type {?} */ value = parseFloat(control.value);
+            // Controls with NaN values after parsing should be treated as not having a
+            // maximum, per the HTML forms spec: https://www.w3.org/TR/html5/forms.html#attr-input-max
+            return !isNaN(value) && value > max ? { 'max': { 'max': max, 'actual': control.value } } : null;
+        };
+    };
     /**
      * Validator that requires controls to have a non-empty value.
      * @param {?} control
@@ -443,7 +487,7 @@ function _executeAsyncValidators(control, validators) {
  */
 function _mergeErrors(arrayOfErrors) {
     var /** @type {?} */ res = arrayOfErrors.reduce(function (res, errors) {
-        return errors != null ? __assign({}, /** @type {?} */ ((res)), errors) : ((res));
+        return errors != null ? Object.assign({}, /** @type {?} */ ((res)), errors) : ((res));
     }, {});
     return Object.keys(res).length === 0 ? null : res;
 }
@@ -583,6 +627,9 @@ var DefaultValueAccessor = (function () {
         this._compositionMode = _compositionMode;
         this.onChange = function (_) { };
         this.onTouched = function () { };
+        /**
+         * Whether the user is creating a composition string (IME events).
+         */
         this._composing = false;
         if (this._compositionMode == null) {
             this._compositionMode = !_isAndroid();
@@ -5405,6 +5452,116 @@ RequiredValidator.ctorParameters = function () { return []; };
 RequiredValidator.propDecorators = {
     'required': [{ type: _angular_core.Input },],
 };
+var MIN_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: _angular_core.forwardRef(function () { return MinValidator; }),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MinValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+var MinValidator = (function () {
+    function MinValidator() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    MinValidator.prototype.ngOnChanges = function (changes) {
+        if ('min' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    };
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    MinValidator.prototype.validate = function (c) { return this._validator(c); };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    MinValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    /**
+     * @return {?}
+     */
+    MinValidator.prototype._createValidator = function () { this._validator = Validators.min(parseInt(this.min, 10)); };
+    return MinValidator;
+}());
+MinValidator.decorators = [
+    { type: _angular_core.Directive, args: [{
+                selector: '[min][formControlName],[min][formControl],[min][ngModel]',
+                providers: [MIN_VALIDATOR],
+                host: { '[attr.min]': 'min ? min : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MinValidator.ctorParameters = function () { return []; };
+MinValidator.propDecorators = {
+    'min': [{ type: _angular_core.Input },],
+};
+var MAX_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: _angular_core.forwardRef(function () { return MaxValidator; }),
+    multi: true
+};
+/**
+ * A directive which installs the {\@link MaxValidator} for any `formControlName`,
+ * `formControl`, or control with `ngModel` that also has a `min` attribute.
+ *
+ * \@experimental
+ */
+var MaxValidator = (function () {
+    function MaxValidator() {
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    MaxValidator.prototype.ngOnChanges = function (changes) {
+        if ('max' in changes) {
+            this._createValidator();
+            if (this._onChange)
+                this._onChange();
+        }
+    };
+    /**
+     * @param {?} c
+     * @return {?}
+     */
+    MaxValidator.prototype.validate = function (c) { return this._validator(c); };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    MaxValidator.prototype.registerOnValidatorChange = function (fn) { this._onChange = fn; };
+    /**
+     * @return {?}
+     */
+    MaxValidator.prototype._createValidator = function () { this._validator = Validators.max(parseInt(this.max, 10)); };
+    return MaxValidator;
+}());
+MaxValidator.decorators = [
+    { type: _angular_core.Directive, args: [{
+                selector: '[max][formControlName],[max][formControl],[max][ngModel]',
+                providers: [MAX_VALIDATOR],
+                host: { '[attr.max]': 'max ? max : null' }
+            },] },
+];
+/**
+ * @nocollapse
+ */
+MaxValidator.ctorParameters = function () { return []; };
+MaxValidator.propDecorators = {
+    'max': [{ type: _angular_core.Input },],
+};
 /**
  * A Directive that adds the `required` validator to checkbox controls marked with the
  * `required` attribute, via the {\@link NG_VALIDATORS} binding.
@@ -5443,7 +5600,7 @@ CheckboxRequiredValidator.decorators = [
  */
 CheckboxRequiredValidator.ctorParameters = function () { return []; };
 /**
- * Provider which adds {@link EmailValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link EmailValidator} to {\@link NG_VALIDATORS}.
  */
 var EMAIL_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5508,11 +5665,11 @@ EmailValidator.propDecorators = {
     'email': [{ type: _angular_core.Input },],
 };
 /**
- * Provider which adds {@link MinLengthValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link MinLengthValidator} to {\@link NG_VALIDATORS}.
  *
  * ## Example:
  *
- * {@example common/forms/ts/validators/validators.ts region='min'}
+ * {\@example common/forms/ts/validators/validators.ts region='min'}
  */
 var MIN_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5574,11 +5731,11 @@ MinLengthValidator.propDecorators = {
     'minlength': [{ type: _angular_core.Input },],
 };
 /**
- * Provider which adds {@link MaxLengthValidator} to {@link NG_VALIDATORS}.
+ * Provider which adds {\@link MaxLengthValidator} to {\@link NG_VALIDATORS}.
  *
  * ## Example:
  *
- * {@example common/forms/ts/validators/validators.ts region='max'}
+ * {\@example common/forms/ts/validators/validators.ts region='max'}
  */
 var MAX_LENGTH_VALIDATOR = {
     provide: NG_VALIDATORS,
@@ -5833,7 +5990,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.1.3');
+var VERSION = new _angular_core.Version('4.2.2');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -5890,7 +6047,9 @@ var SHARED_FORM_DIRECTIVES = [
     NgControlStatus,
     NgControlStatusGroup,
     RequiredValidator,
+    MinValidator,
     MinLengthValidator,
+    MaxValidator,
     MaxLengthValidator,
     PatternValidator,
     CheckboxRequiredValidator,
@@ -5989,7 +6148,9 @@ exports.SelectMultipleControlValueAccessor = SelectMultipleControlValueAccessor;
 exports.CheckboxRequiredValidator = CheckboxRequiredValidator;
 exports.EmailValidator = EmailValidator;
 exports.MaxLengthValidator = MaxLengthValidator;
+exports.MaxValidator = MaxValidator;
 exports.MinLengthValidator = MinLengthValidator;
+exports.MinValidator = MinValidator;
 exports.PatternValidator = PatternValidator;
 exports.RequiredValidator = RequiredValidator;
 exports.FormBuilder = FormBuilder;
@@ -6003,10 +6164,10 @@ exports.Validators = Validators;
 exports.VERSION = VERSION;
 exports.FormsModule = FormsModule;
 exports.ReactiveFormsModule = ReactiveFormsModule;
-exports.ɵba = InternalFormsSharedModule;
-exports.ɵz = REACTIVE_DRIVEN_DIRECTIVES;
-exports.ɵx = SHARED_FORM_DIRECTIVES;
-exports.ɵy = TEMPLATE_DRIVEN_DIRECTIVES;
+exports.ɵbc = InternalFormsSharedModule;
+exports.ɵbb = REACTIVE_DRIVEN_DIRECTIVES;
+exports.ɵz = SHARED_FORM_DIRECTIVES;
+exports.ɵba = TEMPLATE_DRIVEN_DIRECTIVES;
 exports.ɵa = CHECKBOX_VALUE_ACCESSOR;
 exports.ɵb = DEFAULT_VALUE_ACCESSOR;
 exports.ɵc = AbstractControlStatus;
@@ -6014,13 +6175,13 @@ exports.ɵd = ngControlStatusHost;
 exports.ɵe = formDirectiveProvider;
 exports.ɵf = formControlBinding;
 exports.ɵg = modelGroupProvider;
-exports.ɵbf = NgNoValidate;
-exports.ɵbb = NUMBER_VALUE_ACCESSOR;
-exports.ɵbc = NumberValueAccessor;
+exports.ɵbh = NgNoValidate;
+exports.ɵbd = NUMBER_VALUE_ACCESSOR;
+exports.ɵbe = NumberValueAccessor;
 exports.ɵh = RADIO_VALUE_ACCESSOR;
 exports.ɵi = RadioControlRegistry;
-exports.ɵbd = RANGE_VALUE_ACCESSOR;
-exports.ɵbe = RangeValueAccessor;
+exports.ɵbf = RANGE_VALUE_ACCESSOR;
+exports.ɵbg = RangeValueAccessor;
 exports.ɵj = formControlBinding$1;
 exports.ɵk = controlNameBinding;
 exports.ɵl = formDirectiveProvider$1;
@@ -6030,10 +6191,12 @@ exports.ɵo = SELECT_VALUE_ACCESSOR;
 exports.ɵq = NgSelectMultipleOption;
 exports.ɵp = SELECT_MULTIPLE_VALUE_ACCESSOR;
 exports.ɵs = CHECKBOX_REQUIRED_VALIDATOR;
-exports.ɵt = EMAIL_VALIDATOR;
-exports.ɵv = MAX_LENGTH_VALIDATOR;
-exports.ɵu = MIN_LENGTH_VALIDATOR;
-exports.ɵw = PATTERN_VALIDATOR;
+exports.ɵv = EMAIL_VALIDATOR;
+exports.ɵx = MAX_LENGTH_VALIDATOR;
+exports.ɵu = MAX_VALIDATOR;
+exports.ɵw = MIN_LENGTH_VALIDATOR;
+exports.ɵt = MIN_VALIDATOR;
+exports.ɵy = PATTERN_VALIDATOR;
 exports.ɵr = REQUIRED_VALIDATOR;
 
 Object.defineProperty(exports, '__esModule', { value: true });

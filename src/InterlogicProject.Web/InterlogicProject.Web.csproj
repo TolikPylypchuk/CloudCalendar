@@ -50,6 +50,9 @@
     <Content Include="wwwroot\app\common\services\building.ts" />
     <Content Include="wwwroot\app\common\services\class.service.ts" />
     <Content Include="wwwroot\app\common\services\classroom.service.ts" />
+    <Content Include="wwwroot\app\common\services\comment.service.ts" />
+    <Content Include="wwwroot\app\common\services\department.service.ts" />
+    <Content Include="wwwroot\app\common\services\faculty.service.ts" />
     <Content Include="wwwroot\app\common\services\lecturer.service.ts" />
     <Content Include="wwwroot\app\common\services\student.service.ts" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />
@@ -61,8 +64,6 @@
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
     <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
     <Content Include="wwwroot\app\main.ts" />
-    <Content Include="wwwroot\app\student\app.component.ts" />
-    <Content Include="wwwroot\app\student\app.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
     <Content Include="wwwroot\app\student\calendar\calendar.ts" />
@@ -82,7 +83,6 @@
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.css" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.html" />
     <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
-    <Content Include="wwwroot\app\student\main.ts" />
     <Content Include="wwwroot\dist\css\style.css" />
     <Content Include="wwwroot\dist\css\style.min.css" />
   </ItemGroup>
