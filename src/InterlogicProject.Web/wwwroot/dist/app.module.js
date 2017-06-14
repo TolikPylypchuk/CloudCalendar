@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var account_1 = require("./account/account");
 var common_1 = require("./common/common");
+var account_1 = require("./account/account");
+var student_1 = require("./student/student");
 var routes_module_1 = require("./routes.module");
 var calendar_1 = require("./lecturer/calendar/calendar");
-var calendar_2 = require("./student/calendar/calendar");
 var app_component_1 = require("./app.component");
 var navigation_component_1 = require("./navigation.component");
 var AppModule = (function () {
@@ -31,7 +31,8 @@ AppModule = __decorate([
             common_1.CommonModule,
             account_1.AccountModule,
             calendar_1.CalendarModule,
-            calendar_2.CalendarModule,
+            student_1.StudentModule,
+            student_1.CalendarModule,
             routes_module_1.default
         ],
         bootstrap: [

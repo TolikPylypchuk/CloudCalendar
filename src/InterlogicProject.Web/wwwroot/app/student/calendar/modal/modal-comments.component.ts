@@ -7,7 +7,7 @@ import { Comment } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-comments",
-	templateUrl: "app/student/calendar/modal/modal-comments.component.html",
+	templateUrl: "/templates/student/calendarModalComments",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalCommentsComponent implements OnInit {

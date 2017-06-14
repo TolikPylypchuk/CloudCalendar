@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AccountService } from "../services/account.service";
+import AccountService from "../services/account.service";
 
 @Component({
 	selector: "ip-logout",
 	template: ""
 })
-export class LogoutComponent implements OnInit {
+export default class LogoutComponent implements OnInit {
 	private router: Router;
 	private accountService: AccountService;
 

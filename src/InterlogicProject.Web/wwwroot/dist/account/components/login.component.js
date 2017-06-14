@@ -56,5 +56,5 @@ LoginComponent = __decorate([
         templateUrl: "/templates/account/login"
     })
 ], LoginComponent);
-exports.LoginComponent = LoginComponent;
+exports.default = LoginComponent;
 //# sourceMappingURL=login.component.js.map

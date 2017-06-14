@@ -117,5 +117,5 @@ AccountService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http, router_1.Router])
 ], AccountService);
-exports.AccountService = AccountService;
+exports.default = AccountService;
 //# sourceMappingURL=account.service.js.map

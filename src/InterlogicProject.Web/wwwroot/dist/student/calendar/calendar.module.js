@@ -46,6 +46,7 @@ CalendarModule = __decorate([
             calendar_component_1.default,
             modal_content_component_1.default,
             modal_comments_component_1.default,
+            modal_homework_component_1.default,
             modal_materials_component_1.default
         ]
     })

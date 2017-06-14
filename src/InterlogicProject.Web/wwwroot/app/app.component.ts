@@ -2,7 +2,7 @@
 
 @Component({
 	selector: "ip-app",
-	templateUrl: "/templates/app",
+	templateUrl: "/templates/app/app",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class AppComponent { }

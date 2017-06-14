@@ -5,7 +5,7 @@ import { Material } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-materials",
-	templateUrl: "app/student/calendar/modal/modal-materials.component.html",
+	templateUrl: "/templates/student/calendarModalMaterials",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalMaterialsComponent implements OnInit {

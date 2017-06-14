@@ -31,7 +31,7 @@ var NotAuthGuard = (function () {
 }());
 NotAuthGuard = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.AccountService])
+    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
 ], NotAuthGuard);
-exports.NotAuthGuard = NotAuthGuard;
+exports.default = NotAuthGuard;
 //# sourceMappingURL=not-auth.guard.js.map

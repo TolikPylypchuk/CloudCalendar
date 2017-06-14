@@ -7,17 +7,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AppComponent = (function () {
-    function AppComponent() {
+var calendar_1 = require("./calendar/calendar");
+var routes_module_1 = require("./routes.module");
+var student_component_1 = require("./student.component");
+var StudentModule = (function () {
+    function StudentModule() {
     }
-    return AppComponent;
+    return StudentModule;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        selector: "ip-app",
-        templateUrl: "/templates/app/app",
-        styleUrls: ["/dist/css/style.min.css"]
+StudentModule = __decorate([
+    core_1.NgModule({
+        declarations: [
+            student_component_1.default
+        ],
+        imports: [
+            calendar_1.CalendarModule,
+            routes_module_1.default
+        ],
+        exports: [
+            calendar_1.CalendarModule,
+            student_component_1.default
+        ]
     })
-], AppComponent);
-exports.default = AppComponent;
-//# sourceMappingURL=app.component.js.map
+], StudentModule);
+exports.default = StudentModule;
+//# sourceMappingURL=student.module.js.map

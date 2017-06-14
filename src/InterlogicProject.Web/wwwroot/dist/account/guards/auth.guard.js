@@ -32,7 +32,7 @@ var AuthGuard = (function () {
 }());
 AuthGuard = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.AccountService])
+    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
 ], AuthGuard);
-exports.AuthGuard = AuthGuard;
+exports.default = AuthGuard;
 //# sourceMappingURL=auth.guard.js.map

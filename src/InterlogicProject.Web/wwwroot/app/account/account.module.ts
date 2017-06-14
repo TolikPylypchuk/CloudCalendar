@@ -3,15 +3,15 @@ import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 
-import { LoginComponent } from "./components/login.component";
-import { LogoutComponent } from "./components/logout.component";
+import LoginComponent from "./components/login.component";
+import LogoutComponent from "./components/logout.component";
 
-import { AccountService } from "./services/account.service";
+import AccountService from "./services/account.service";
 
-import { AuthGuard } from "./guards/auth.guard";
-import { NotAuthGuard } from "./guards/not-auth.guard";
+import AuthGuard from "./guards/auth.guard";
+import NotAuthGuard from "./guards/not-auth.guard";
 
-import { RoutesModule } from "./routes.module";
+import RoutesModule from "./routes.module";
 
 @NgModule({
 	declarations: [
@@ -31,4 +31,4 @@ import { RoutesModule } from "./routes.module";
 		NotAuthGuard
 	]
 })
-export class AccountModule { }
+export default class AccountModule { }

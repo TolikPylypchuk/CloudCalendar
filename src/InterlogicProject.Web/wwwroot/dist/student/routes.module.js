@@ -8,12 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var login_component_1 = require("./components/login.component");
-var logout_component_1 = require("./components/logout.component");
-var not_auth_guard_1 = require("./guards/not-auth.guard");
+var account_1 = require("../account/account");
+var student_component_1 = require("./student.component");
+var calendar_1 = require("./calendar/calendar");
 var routes = [
-    { path: "login", component: login_component_1.default, canActivate: [not_auth_guard_1.default] },
-    { path: "logout", component: logout_component_1.default }
+    {
+        path: "student",
+        component: student_component_1.default,
+        children: [
+            { path: "calendar", component: calendar_1.CalendarComponent }
+        ],
+        canActivate: [account_1.AuthGuard],
+        canActivateChild: [account_1.AuthGuard]
+    }
 ];
 var RoutesModule = (function () {
     function RoutesModule() {

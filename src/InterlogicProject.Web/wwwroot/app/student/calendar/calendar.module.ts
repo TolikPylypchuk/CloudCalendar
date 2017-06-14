@@ -35,6 +35,7 @@ import ModalMaterialsComponent from "./modal/modal-materials.component";
 		CalendarComponent,
 		ModalContentComponent,
 		ModalCommentsComponent,
+		ModalHomeworkComponent,
 		ModalMaterialsComponent
 	]
 })

@@ -7,7 +7,7 @@ import { Class, Homework } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-homework",
-	templateUrl: "app/student/calendar/modal/modal-homework.component.html",
+	templateUrl: "/templates/student/calendarModalHomework",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalHomeworkComponent implements OnInit {

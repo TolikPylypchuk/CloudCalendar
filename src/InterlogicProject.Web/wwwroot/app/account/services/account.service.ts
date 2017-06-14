@@ -12,7 +12,7 @@ import { LoginModel } from "../models/models";
 declare const localStorage;
 
 @Injectable()
-export class AccountService {
+export default class AccountService {
 	private authUrl = "/api/token";
 	private currentUserUrl = "/api/users/current";
 

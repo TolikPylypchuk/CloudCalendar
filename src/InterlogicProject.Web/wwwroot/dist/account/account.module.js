@@ -24,21 +24,21 @@ var AccountModule = (function () {
 AccountModule = __decorate([
     core_1.NgModule({
         declarations: [
-            login_component_1.LoginComponent,
-            logout_component_1.LogoutComponent
+            login_component_1.default,
+            logout_component_1.default
         ],
         imports: [
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
             http_1.HttpModule,
-            routes_module_1.RoutesModule
+            routes_module_1.default
         ],
         providers: [
-            account_service_1.AccountService,
-            auth_guard_1.AuthGuard,
-            not_auth_guard_1.NotAuthGuard
+            account_service_1.default,
+            auth_guard_1.default,
+            not_auth_guard_1.default
         ]
     })
 ], AccountModule);
-exports.AccountModule = AccountModule;
+exports.default = AccountModule;
 //# sourceMappingURL=account.module.js.map

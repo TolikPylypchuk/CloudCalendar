@@ -7,12 +7,12 @@
 <div *ngIf="currentClass; else homeworkLoading">
 	<ng-template #homeworkNotEnabled>
 		<div *ngIf="homework; then homeworkDone; else noHomework"></div>
-		
+
 		<ng-template #noHomework>
 			<p>Домашнього завдання на цю пару немає.</p>
 		</ng-template>
 	</ng-template>
-	
+
 	<ng-template #homeworkDone>
 		<div class="card">
 			<div class="card-block pl-3 py-2">
@@ -29,20 +29,20 @@
 					<i class="fa fa-remove"></i>
 				</span>
 				<span aria-hidden="true" class="float-right"
-				      [ngbTooltip]="getCheckTooltip()">
+					  [ngbTooltip]="getCheckTooltip()">
 					<i [class]="getCheckClass()"></i>
 				</span>
 			</div>
 		</div>
 	</ng-template>
-	
+
 	<div *ngIf="currentClass.homeworkEnabled; else homeworkNotEnabled" class="mt-3">
 		<div *ngIf="homework; then homeworkDone; else notUploadedHomework"></div>
-		
+
 		<ng-template #notUploadedHomework>
 			<button class="btn btn-primary mb-3" type="button"
-			        data-toggle="collapse" data-target="#collapseHomework"
-			        aria-expanded="false" aria-controls="collapseHomework">
+					data-toggle="collapse" data-target="#collapseHomework"
+					aria-expanded="false" aria-controls="collapseHomework">
 				Додати домашнє завдання
 			</button>
 
@@ -52,7 +52,7 @@
 						<label class="btn btn-primary" style="cursor: pointer">
 							Вибрати файл
 							<input type="file" hidden ng2FileSelect
-							       [uploader]="uploader" />
+								   [uploader]="uploader" />
 						</label>
 					</div>
 

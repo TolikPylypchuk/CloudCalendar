@@ -1,18 +1,16 @@
 ﻿import { NgModule } from "@angular/core";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { AccountModule } from "./account/account";
 import { CommonModule } from "./common/common";
+import { AccountModule } from "./account/account";
+
+import { StudentModule, CalendarModule } from "./student/student";
 
 import RoutesModule from "./routes.module";
 
 import {
 	CalendarModule as LecturerCalendarModule
 } from "./lecturer/calendar/calendar";
- 
-import {
-	CalendarModule as StudentCalendarModule
-} from "./student/calendar/calendar";
 
 import AppComponent from "./app.component";
 import NavigationComponent from "./navigation.component";
@@ -27,7 +25,8 @@ import NavigationComponent from "./navigation.component";
 		CommonModule,
 		AccountModule,
 		LecturerCalendarModule,
-		StudentCalendarModule,
+		StudentModule,
+		CalendarModule,
 		RoutesModule
 	],
 	bootstrap: [

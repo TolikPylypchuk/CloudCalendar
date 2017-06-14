@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { AccountService } from "../services/account.service";
+import AccountService from "../services/account.service";
 import { LoginModel } from '../models/models';
 
 @Component({
 	selector: "ip-login",
 	templateUrl: "/templates/account/login"
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export default class LoginComponent implements OnInit, OnDestroy {
 	model: LoginModel = {
 		username: "",
 		password: ""

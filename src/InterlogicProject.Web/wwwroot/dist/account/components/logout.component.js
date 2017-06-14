@@ -28,7 +28,7 @@ LogoutComponent = __decorate([
         selector: "ip-logout",
         template: ""
     }),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.AccountService])
+    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
 ], LogoutComponent);
-exports.LogoutComponent = LogoutComponent;
+exports.default = LogoutComponent;
 //# sourceMappingURL=logout.component.js.map
