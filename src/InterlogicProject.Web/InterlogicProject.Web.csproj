@@ -1,158 +1,145 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <NoWarn>1701;1702;1705;CS1591;IDE1006</NoWarn>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>InterlogicProject.Web</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Data\**" />
-    <Compile Remove="wwwroot\css\dist\**" />
-    <Compile Remove="wwwroot\dist\wwwroot\**" />
-    <Compile Remove="wwwroot\files\**" />
-    <Compile Remove="wwwroot\js\**" />
-    <Compile Remove="wwwroot\scss\dist\**" />
-    <Content Remove="Data\**" />
-    <Content Remove="wwwroot\css\dist\**" />
-    <Content Remove="wwwroot\dist\wwwroot\**" />
-    <Content Remove="wwwroot\files\**" />
-    <Content Remove="wwwroot\js\**" />
-    <Content Remove="wwwroot\scss\dist\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="wwwroot\css\dist\**" />
-    <EmbeddedResource Remove="wwwroot\dist\wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\files\**" />
-    <EmbeddedResource Remove="wwwroot\js\**" />
-    <EmbeddedResource Remove="wwwroot\scss\dist\**" />
-    <None Remove="Data\**" />
-    <None Remove="wwwroot\css\dist\**" />
-    <None Remove="wwwroot\dist\wwwroot\**" />
-    <None Remove="wwwroot\files\**" />
-    <None Remove="wwwroot\js\**" />
-    <None Remove="wwwroot\scss\dist\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="wwwroot/scss\style.css" />
-    <Content Remove="wwwroot/scss\style.min.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="wwwroot\app\app.component.ts" />
-    <Content Include="wwwroot\app\app.module.ts" />
-    <Content Include="wwwroot\app\common\common.module.ts" />
-    <Content Include="wwwroot\app\common\common.ts" />
-    <Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
-    <Content Include="wwwroot\app\common\functions.ts" />
-    <Content Include="wwwroot\app\common\models.ts" />
-    <Content Include="wwwroot\app\common\services\building.service.ts" />
-    <Content Include="wwwroot\app\common\services\building.ts" />
-    <Content Include="wwwroot\app\common\services\class.service.ts" />
-    <Content Include="wwwroot\app\common\services\classroom.service.ts" />
-    <Content Include="wwwroot\app\common\services\comment.service.ts" />
-    <Content Include="wwwroot\app\common\services\department.service.ts" />
-    <Content Include="wwwroot\app\common\services\faculty.service.ts" />
-    <Content Include="wwwroot\app\common\services\lecturer.service.ts" />
-    <Content Include="wwwroot\app\common\services\student.service.ts" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-comments.component.css" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-content.component.css" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.css" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.html" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.ts" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.css" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
-    <Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
-    <Content Include="wwwroot\app\main.ts" />
-    <Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
-    <Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
-    <Content Include="wwwroot\app\student\calendar\calendar.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.css" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.css" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.css" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.ts" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.css" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.html" />
-    <Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
-    <Content Include="wwwroot\dist\css\style.css" />
-    <Content Include="wwwroot\dist\css\style.min.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
-    <PackageReference Include="AutoMapper" Version="6.0.2" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild1-final" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update=".bowerrc">
-      <DependentUpon>bower.json</DependentUpon>
-    </Content>
-    <Content Update="bundleconfig.json.bindings">
-      <DependentUpon>bundleconfig.json</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css">
-      <DependentUpon>fullcalendar.css</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.js">
-      <DependentUpon>fullcalendar.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.print.min.css">
-      <DependentUpon>fullcalendar.print.css</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\fullcalendar\dist\gcal.min.js">
-      <DependentUpon>gcal.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\moment\min\locales.min.js">
-      <DependentUpon>locales.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\lib\moment\min\moment-with-locales.min.js">
-      <DependentUpon>moment-with-locales.js</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Lecturer\" />
-    <Folder Include="Views\Shared\" />
-    <Folder Include="Views\Student\" />
-    <Folder Include="wwwroot\app\auth\" />
-    <Folder Include="wwwroot\dist\css\" />
-    <Folder Include="wwwroot\dist\lecturer\" />
-    <Folder Include="wwwroot\dist\student\" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
-  </PropertyGroup>
-  <Target Name="PostpublishScript" AfterTargets="Publish" Condition=" '$(IsCrossTargetingBuild)' != 'true' " />
+	<PropertyGroup>
+		<TargetFramework>netcoreapp1.1</TargetFramework>
+		<NoWarn>1701;1702;1705;CS1591;IDE1006</NoWarn>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
+		<AssemblyName>InterlogicProject.Web</AssemblyName>
+		<OutputType>Exe</OutputType>
+		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Data\**" />
+		<Compile Remove="wwwroot\files\**" />
+		<Content Remove="Data\**" />
+		<Content Remove="wwwroot\files\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<EmbeddedResource Remove="wwwroot\files\**" />
+		<None Remove="Data\**" />
+		<None Remove="wwwroot\files\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="wwwroot\app\account\account.module.ts" />
+		<Content Include="wwwroot\app\account\account.ts" />
+		<Content Include="wwwroot\app\account\components\login.component.html" />
+		<Content Include="wwwroot\app\account\components\logout.component.ts" />
+		<Content Include="wwwroot\app\account\guards\auth.guard.ts" />
+		<Content Include="wwwroot\app\account\guards\not-auth.guard.ts" />
+		<Content Include="wwwroot\app\account\guards\start-page.guard.ts" />
+		<Content Include="wwwroot\app\account\models\models.ts" />
+		<Content Include="wwwroot\app\account\routes.module.ts" />
+		<Content Include="wwwroot\app\account\services\account.service.ts" />
+		<Content Include="wwwroot\app\account\services\auth.service.ts" />
+		<Content Include="wwwroot\app\app.component.ts" />
+		<Content Include="wwwroot\app\app.module.ts" />
+		<Content Include="wwwroot\app\common\common.module.ts" />
+		<Content Include="wwwroot\app\common\common.ts" />
+		<Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
+		<Content Include="wwwroot\app\common\functions.ts" />
+		<Content Include="wwwroot\app\common\models.ts" />
+		<Content Include="wwwroot\app\common\services\building.service.ts" />
+		<Content Include="wwwroot\app\common\services\class.service.ts" />
+		<Content Include="wwwroot\app\common\services\classroom.service.ts" />
+		<Content Include="wwwroot\app\common\services\comment.service.ts" />
+		<Content Include="wwwroot\app\common\services\department.service.ts" />
+		<Content Include="wwwroot\app\common\services\faculty.service.ts" />
+		<Content Include="wwwroot\app\common\services\group.service.ts" />
+		<Content Include="wwwroot\app\common\services\lecturer.service.ts" />
+		<Content Include="wwwroot\app\common\services\student.service.ts" />
+		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.html" />
+		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.ts" />
+		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
+		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
+		<Content Include="wwwroot\app\main.ts" />
+		<Content Include="wwwroot\app\navigation.component.ts" />
+		<Content Include="wwwroot\app\routes.module.ts" />
+		<Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
+		<Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
+		<Content Include="wwwroot\app\student\calendar\calendar.ts" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.css" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.css" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.html" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-homework.component.ts" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.css" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.html" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
+		<Content Include="wwwroot\dist\css\style.css" />
+		<Content Include="wwwroot\dist\css\style.min.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="1.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
+		<PackageReference Include="AutoMapper" Version="6.0.2" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.3.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild1-final" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update=".bowerrc">
+			<DependentUpon>bower.json</DependentUpon>
+		</Content>
+		<Content Update="bundleconfig.json.bindings">
+			<DependentUpon>bundleconfig.json</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css">
+			<DependentUpon>fullcalendar.css</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.js">
+			<DependentUpon>fullcalendar.js</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.print.min.css">
+			<DependentUpon>fullcalendar.print.css</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\fullcalendar\dist\gcal.min.js">
+			<DependentUpon>gcal.js</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\moment\min\locales.min.js">
+			<DependentUpon>locales.js</DependentUpon>
+		</Content>
+		<Content Update="wwwroot\lib\moment\min\moment-with-locales.min.js">
+			<DependentUpon>moment-with-locales.js</DependentUpon>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Views\Lecturer\" />
+		<Folder Include="Views\Shared\" />
+		<Folder Include="Views\Student\" />
+		<Folder Include="wwwroot\dist\css\" />
+		<Folder Include="wwwroot\dist\lecturer\" />
+		<Folder Include="wwwroot\dist\student\" />
+	</ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
+	</PropertyGroup>
+	<Target Name="PostpublishScript" AfterTargets="Publish" Condition=" '$(IsCrossTargetingBuild)' != 'true' " />
 </Project>

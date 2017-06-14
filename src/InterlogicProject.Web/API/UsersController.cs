@@ -82,9 +82,9 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> GetCurrent()
 		{
-			string id = this.accessor.HttpContext.User.FindFirst(
+			string name = this.accessor.HttpContext.User.FindFirst(
 				ClaimTypes.NameIdentifier)?.Value;
-			return Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
+			return Mapper.Map<UserDto>(await this.manager.FindByNameAsync(name));
 		}
 	}
 }

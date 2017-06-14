@@ -6,9 +6,9 @@ import { LecturerService, ClassService } from "../../../common/common";
 import { Comment } from "../../../common/models";
 
 @Component({
-	selector: "lecturer-modal-comments",
+	selector: "ip-lecturer-modal-comments",
 	templateUrl: "app/lecturer/calendar/modal/modal-comments.component.html",
-	styleUrls: [ "app/lecturer/calendar/modal/modal-comments.component.css" ]
+	styleUrls: ["/dist/css/style.min.css" ]
 })
 export default class ModalCommentsComponent implements OnInit {
 	@Input() classId: number;

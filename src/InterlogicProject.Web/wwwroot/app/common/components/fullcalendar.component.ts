@@ -7,10 +7,9 @@ import { Options } from "fullcalendar";
 
 @Component({
 	template: "<div></div>",
-	selector: "fullcalendar"
+	selector: "ip-fullcalendar"
 })
 export default class FullcalendarComponent implements AfterViewInit {
-
 	@Input() options: Options;
 	text: string;
 	calendarInitiated: boolean;

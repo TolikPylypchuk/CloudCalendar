@@ -100,9 +100,9 @@ __decorate([
 ], ModalCommentsComponent.prototype, "classId", void 0);
 ModalCommentsComponent = __decorate([
     core_1.Component({
-        selector: "lecturer-modal-comments",
+        selector: "ip-lecturer-modal-comments",
         templateUrl: "app/lecturer/calendar/modal/modal-comments.component.html",
-        styleUrls: ["app/lecturer/calendar/modal/modal-comments.component.css"]
+        styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.LecturerService,
         common_1.ClassService])

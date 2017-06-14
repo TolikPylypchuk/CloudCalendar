@@ -14,8 +14,9 @@ var AppComponent = (function () {
 }());
 AppComponent = __decorate([
     core_1.Component({
-        selector: "student-app",
-        template: "<student-calendar><student-calendar>"
+        selector: "ip-app",
+        templateUrl: "/templates/app",
+        styleUrls: ["/dist/css/style.min.css"]
     })
 ], AppComponent);
 exports.default = AppComponent;

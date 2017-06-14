@@ -6,9 +6,9 @@ import { ClassService } from "../../../common/common";
 import { Material } from "../../../common/models";
 
 @Component({
-	selector: "lecturer-modal-materials",
+	selector: "ip-lecturer-modal-materials",
 	templateUrl: "app/lecturer/calendar/modal/modal-materials.component.html",
-	styleUrls: [ "app/lecturer/calendar/modal/modal-materials.component.css" ]
+	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalMaterialsComponent implements OnInit {
 	@Input() classId: number;

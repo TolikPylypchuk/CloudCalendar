@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 function getAuthToken() {
-    var token = localStorage.getItem("scheduleAuthToken");
-    return token ? token : null;
+    var token = localStorage.getItem("ipAuthToken");
+    return token ? JSON.parse(token).token : null;
 }
 exports.getAuthToken = getAuthToken;
 function getHeaders() {

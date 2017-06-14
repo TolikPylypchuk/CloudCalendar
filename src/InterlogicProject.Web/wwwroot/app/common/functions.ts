@@ -3,8 +3,8 @@ import { Observable } from "rxjs/Observable";
 import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
 
 export function getAuthToken(): string {
-	const token = localStorage.getItem("scheduleAuthToken");
-	return token ? token : null;
+	const token = localStorage.getItem("ipAuthToken");
+	return token ? JSON.parse(token).token : null;
 }
 
 export function getHeaders(): Headers {

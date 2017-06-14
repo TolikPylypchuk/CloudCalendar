@@ -58,8 +58,9 @@ __decorate([
 ], ModalContentComponent.prototype, "classId", void 0);
 ModalContentComponent = __decorate([
     core_1.Component({
-        selector: "student-modal-content",
-        templateUrl: "app/student/calendar/modal/modal-content.component.html"
+        selector: "ip-student-modal-content",
+        templateUrl: "app/student/calendar/modal/modal-content.component.html",
+        styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
         common_1.ClassService])

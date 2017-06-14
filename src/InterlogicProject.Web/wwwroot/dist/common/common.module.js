@@ -16,6 +16,7 @@ var classroom_service_1 = require("./services/classroom.service");
 var comment_service_1 = require("./services/comment.service");
 var department_service_1 = require("./services/department.service");
 var faculty_service_1 = require("./services/faculty.service");
+var group_service_1 = require("./services/group.service");
 var lecturer_service_1 = require("./services/lecturer.service");
 var student_service_1 = require("./services/student.service");
 var CommonModule = (function () {
@@ -38,10 +39,16 @@ CommonModule = __decorate([
             comment_service_1.default,
             department_service_1.default,
             faculty_service_1.default,
+            group_service_1.default,
             student_service_1.default
         ],
         imports: [
             http_1.HttpModule
+        ],
+        exports: [
+            ng2_file_upload_1.FileSelectDirective,
+            ng2_file_upload_1.FileDropDirective,
+            fullcalendar_component_1.default
         ]
     })
 ], CommonModule);

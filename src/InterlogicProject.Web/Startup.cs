@@ -282,7 +282,7 @@ namespace InterlogicProject.Web
 			{
 				routes.MapRoute(
 					name: "templates",
-					template: "templates/{controller}/{action}");
+					template: "templates/{controller}/{action=Index}");
 
 				routes.MapRoute(
 					name: "default",

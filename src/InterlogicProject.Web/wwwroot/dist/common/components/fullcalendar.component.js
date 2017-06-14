@@ -59,7 +59,7 @@ __decorate([
 FullcalendarComponent = __decorate([
     core_1.Component({
         template: "<div></div>",
-        selector: "fullcalendar"
+        selector: "ip-fullcalendar"
     }),
     __metadata("design:paramtypes", [core_1.ElementRef])
 ], FullcalendarComponent);

@@ -1,7 +1,8 @@
 ﻿import { Component } from "@angular/core";
 
 @Component({
-	selector: "student-app",
-	template: "<student-calendar><student-calendar>"
+	selector: "ip-app",
+	templateUrl: "/templates/app",
+	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class AppComponent { }
