@@ -1,0 +1,1 @@
+{"version":3,"file":"lecturer.component.js","sourceRoot":"","sources":["../../app/lecturer/lecturer.component.ts"],"names":[],"mappings":";;;;;;;;AAAA,sCAA0C;AAM1C,IAAqB,iBAAiB;IAAtC;IAAyC,CAAC;IAAD,wBAAC;AAAD,CAAC,AAA1C,IAA0C;AAArB,iBAAiB;IAJrC,gBAAS,CAAC;QACV,QAAQ,EAAE,aAAa;QACvB,QAAQ,EAAE,iCAAiC;KAC3C,CAAC;GACmB,iBAAiB,CAAI;kBAArB,iBAAiB"}

@@ -3,14 +3,10 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CommonModule } from "./common/common";
 import { AccountModule } from "./account/account";
-
-import { StudentModule, CalendarModule } from "./student/student";
+import { StudentModule } from "./student/student";
+import { LecturerModule } from "./lecturer/lecturer";
 
 import RoutesModule from "./routes.module";
-
-import {
-	CalendarModule as LecturerCalendarModule
-} from "./lecturer/calendar/calendar";
 
 import AppComponent from "./app.component";
 import NavigationComponent from "./navigation.component";
@@ -24,9 +20,8 @@ import NavigationComponent from "./navigation.component";
 		NgbModule.forRoot(),
 		CommonModule,
 		AccountModule,
-		LecturerCalendarModule,
+		LecturerModule,
 		StudentModule,
-		CalendarModule,
 		RoutesModule
 	],
 	bootstrap: [

@@ -2,9 +2,10 @@
 
 import { ClassService, LecturerService } from "../../../common/common";
 import { Class, Homework, Student } from "../../../common/models";
+
 @Component({
 	selector: "ip-lecturer-modal-homework",
-	templateUrl: "app/lecturer/calendar/modal/modal-homework.component.html",
+	templateUrl: "/templates/lecturer/calendarModalHomework",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalHomeworkComponent implements OnInit {

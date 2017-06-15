@@ -19,12 +19,12 @@
 		<None Remove="wwwroot\files\**" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Remove="wwwroot/app\lecturer\calendar\modal-materials.component.ts" />
 	  <Content Remove="wwwroot/app\student\calendar\modal-materials.component.ts" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="wwwroot\app\account\account.module.ts" />
 		<Content Include="wwwroot\app\account\account.ts" />
-		<Content Include="wwwroot\app\account\components\login - Copy.component.ts" />
 		<Content Include="wwwroot\app\account\components\login.component.ts" />
 		<Content Include="wwwroot\app\account\components\logout.component.ts" />
 		<Content Include="wwwroot\app\account\guards\auth.guard.ts" />
@@ -48,20 +48,19 @@
 		<Content Include="wwwroot\app\common\services\group.service.ts" />
 		<Content Include="wwwroot\app\common\services\lecturer.service.ts" />
 		<Content Include="wwwroot\app\common\services\student.service.ts" />
-		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.html" />
-		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-homework.component.ts" />
-		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.html" />
 		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
+		<Content Include="wwwroot\app\lecturer\lecturer.component.ts" />
+		<Content Include="wwwroot\app\lecturer\lecturer.module.ts" />
+		<Content Include="wwwroot\app\lecturer\lecturer.ts" />
+		<Content Include="wwwroot\app\lecturer\routes.module.ts" />
 		<Content Include="wwwroot\app\main.ts" />
 		<Content Include="wwwroot\app\navigation.component.ts" />
 		<Content Include="wwwroot\app\routes.module.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.ts" />
-		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.html">
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.html" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts" />
+		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
 		<Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
 		<Content Include="wwwroot\app\student\routes.module.ts" />
 		<Content Include="wwwroot\app\student\student.component.ts" />
@@ -127,7 +126,6 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Views\Lecturer\" />
 		<Folder Include="Views\Shared\" />
 		<Folder Include="wwwroot\dist\css\" />
 		<Folder Include="wwwroot\dist\lecturer\" />

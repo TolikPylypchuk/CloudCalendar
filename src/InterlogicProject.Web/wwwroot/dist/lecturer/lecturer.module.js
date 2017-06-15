@@ -7,37 +7,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
-var common_1 = require("./common/common");
-var account_1 = require("./account/account");
-var student_1 = require("./student/student");
-var lecturer_1 = require("./lecturer/lecturer");
+var lecturer_component_1 = require("./lecturer.component");
+var calendar_1 = require("./calendar/calendar");
 var routes_module_1 = require("./routes.module");
-var app_component_1 = require("./app.component");
-var navigation_component_1 = require("./navigation.component");
-var AppModule = (function () {
-    function AppModule() {
+var LecturerModule = (function () {
+    function LecturerModule() {
     }
-    return AppModule;
+    return LecturerModule;
 }());
-AppModule = __decorate([
+LecturerModule = __decorate([
     core_1.NgModule({
         declarations: [
-            app_component_1.default,
-            navigation_component_1.default
+            lecturer_component_1.default
         ],
         imports: [
-            ng_bootstrap_1.NgbModule.forRoot(),
-            common_1.CommonModule,
-            account_1.AccountModule,
-            lecturer_1.LecturerModule,
-            student_1.StudentModule,
+            calendar_1.CalendarModule,
             routes_module_1.default
         ],
-        bootstrap: [
-            app_component_1.default
+        exports: [
+            calendar_1.CalendarModule,
+            lecturer_component_1.default
         ]
     })
-], AppModule);
-exports.default = AppModule;
-//# sourceMappingURL=app.module.js.map
+], LecturerModule);
+exports.default = LecturerModule;
+//# sourceMappingURL=lecturer.module.js.map

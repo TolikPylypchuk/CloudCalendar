@@ -90,7 +90,7 @@ var CalendarComponent = (function () {
 CalendarComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-calendar",
-        template: "\n\t\t<div class=\"m-3 pb-3\">\n\t\t\t<ip-fullcalendar [options]=\"options\"></ip-fullcalendar>\n\t\t\t\n\t\t\t<ng-template ngbModalContainer></ng-template>\n\t\t</div>\n\t",
+        templateUrl: "/templates/lecturer/calendar",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [http_1.Http,

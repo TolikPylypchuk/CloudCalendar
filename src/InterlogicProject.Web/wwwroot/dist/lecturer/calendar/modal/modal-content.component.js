@@ -58,7 +58,7 @@ __decorate([
 ModalContentComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-modal-content",
-        templateUrl: "app/lecturer/calendar/modal/modal-content.component.html",
+        templateUrl: "/templates/lecturer/calendarModalContent",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,

@@ -17,7 +17,7 @@
 				<span>
 					{{ getStudentName(homework.studentId) }}
 				</span>
-				
+
 				<span [class]="getAcceptedClass(homework.accepted)">
 					{{ getAcceptedText(homework.accepted) }}
 				</span>
@@ -35,10 +35,10 @@
 						(mouseup)="acceptHomework(homework, false)">
 					<i aria-hidden="true" class="fa fa-ban"></i>
 				</button>
-				
+
 				<button class="btn btn-sm btn-primary float-right mx-2"
-				        ngbTooltip="Скасувати перевірку" 
-				        (mouseup)="acceptHomework(homework, null)">
+						ngbTooltip="Скасувати перевірку"
+						(mouseup)="acceptHomework(homework, null)">
 					<i aria-hidden="true" class="fa fa-circle-o"></i>
 				</button>
 

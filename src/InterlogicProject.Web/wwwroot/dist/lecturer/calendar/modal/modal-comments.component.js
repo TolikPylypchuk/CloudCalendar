@@ -101,7 +101,7 @@ __decorate([
 ModalCommentsComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-modal-comments",
-        templateUrl: "app/lecturer/calendar/modal/modal-comments.component.html",
+        templateUrl: "/templates/lecturer/calendarModalComments",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.LecturerService,

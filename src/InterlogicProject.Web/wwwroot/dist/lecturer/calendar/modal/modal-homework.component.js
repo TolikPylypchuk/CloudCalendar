@@ -103,7 +103,7 @@ __decorate([
 ModalHomeworkComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-modal-homework",
-        templateUrl: "app/lecturer/calendar/modal/modal-homework.component.html",
+        templateUrl: "/templates/lecturer/calendarModalHomework",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.ClassService, common_1.LecturerService])

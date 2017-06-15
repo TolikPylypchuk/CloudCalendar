@@ -12,13 +12,7 @@ import { Class } from "../../common/models";
 
 @Component({
 	selector: "ip-lecturer-calendar",
-	template: `
-		<div class="m-3 pb-3">
-			<ip-fullcalendar [options]="options"></ip-fullcalendar>
-			
-			<ng-template ngbModalContainer></ng-template>
-		</div>
-	`,
+	templateUrl: "/templates/lecturer/calendar",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class CalendarComponent {

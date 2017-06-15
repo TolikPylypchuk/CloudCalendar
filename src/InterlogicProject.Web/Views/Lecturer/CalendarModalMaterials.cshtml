@@ -23,8 +23,8 @@
 </div>
 
 <button class="btn btn-primary mb-3" type="button"
-        data-toggle="collapse" data-target="#collapseMaterials"
-        aria-expanded="false" aria-controls="collapseMaterials">
+		data-toggle="collapse" data-target="#collapseMaterials"
+		aria-expanded="false" aria-controls="collapseMaterials">
 	Додати матеріали
 </button>
 
@@ -42,10 +42,10 @@
 			</div>
 
 			<label class="btn btn-primary mx-3"
-			       style="cursor: pointer">
+				   style="cursor: pointer">
 				Огляд
 				<input type="file" hidden multiple
-				       ng2FileSelect [uploader]="uploader" />
+					   ng2FileSelect [uploader]="uploader" />
 			</label>
 		</div>
 
@@ -54,53 +54,53 @@
 
 			<table class="table table-striped">
 				<thead>
-				<tr>
-					<th width="50%">Назва</th>
-					<th>Розмір</th>
-					<th>Статус</th>
-					<th>Дії</th>
-				</tr>
+					<tr>
+						<th width="50%">Назва</th>
+						<th>Розмір</th>
+						<th>Статус</th>
+						<th>Дії</th>
+					</tr>
 				</thead>
 
 				<tbody>
-				<tr *ngFor="let item of uploader.queue">
-					<td><strong>{{ item?.file?.name }}</strong></td>
-					<td nowrap>
-						<div>
-							{{ item?.file?.size/1024/1024 | number:'.2' }} МБ
-						</div>
-					</td>
-					<td class="text-center">
-						<span *ngIf="item.isSuccess">
-							<i class="fa fa-check"></i>
-						</span>
-						<span *ngIf="item.isCancel">
-							<i class="fa fa-ban"></i>
-						</span>
-						<span *ngIf="item.isError">
-							<i class="fa fa-remove"></i>
-						</span>
-					</td>
-					<td nowrap>
-						<button type="button" ngbTooltip="Завантажити"
-						        class="btn btn-success btn-sm m-1"
-						        (click)="item.upload()"
-						        [disabled]="item.isReady || item.isUploading || item.isSuccess">
-							<i class="fa fa-upload"></i>
-						</button>
-						<button type="button" ngbTooltip="Скасувати"
-						        class="btn btn-warning btn-sm m-1"
-						        (click)="item.cancel()"
-						        [disabled]="!item.isUploading">
-							<i class="fa fa-ban"></i>
-						</button>
-						<button type="button" ngbTooltip="Видалити"
-						        class="btn btn-danger btn-sm m-1"
-						        (click)="item.remove()">
-							<i class="fa fa-trash"></i>
-						</button>
-					</td>
-				</tr>
+					<tr *ngFor="let item of uploader.queue">
+						<td><strong>{{ item?.file?.name }}</strong></td>
+						<td nowrap>
+							<div>
+								{{ item?.file?.size/1024/1024 | number:'.2' }} МБ
+							</div>
+						</td>
+						<td class="text-center">
+							<span *ngIf="item.isSuccess">
+								<i class="fa fa-check"></i>
+							</span>
+							<span *ngIf="item.isCancel">
+								<i class="fa fa-ban"></i>
+							</span>
+							<span *ngIf="item.isError">
+								<i class="fa fa-remove"></i>
+							</span>
+						</td>
+						<td nowrap>
+							<button type="button" ngbTooltip="Завантажити"
+									class="btn btn-success btn-sm m-1"
+									(click)="item.upload()"
+									[disabled]="item.isReady || item.isUploading || item.isSuccess">
+								<i class="fa fa-upload"></i>
+							</button>
+							<button type="button" ngbTooltip="Скасувати"
+									class="btn btn-warning btn-sm m-1"
+									(click)="item.cancel()"
+									[disabled]="!item.isUploading">
+								<i class="fa fa-ban"></i>
+							</button>
+							<button type="button" ngbTooltip="Видалити"
+									class="btn btn-danger btn-sm m-1"
+									(click)="item.remove()">
+								<i class="fa fa-trash"></i>
+							</button>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -110,24 +110,24 @@
 				<p>Прогрес черги:</p>
 				<div class="progress my-2">
 					<div class="progress-bar" role="progressbar"
-					     [ngStyle]="{ 'width': uploader.progress + '%' }">
+						 [ngStyle]="{ 'width': uploader.progress + '%' }">
 					</div>
 				</div>
 			</div>
 			<div class="my-2">
 				<button type="button" class="btn btn-success btn-sm mx-1"
-				        (click)="uploader.uploadAll()"
-				        [disabled]="!uploader.getNotUploadedItems().length">
+						(click)="uploader.uploadAll()"
+						[disabled]="!uploader.getNotUploadedItems().length">
 					<i class="fa fa-upload"></i> Завантажити все
 				</button>
 				<button type="button" class="btn btn-warning btn-sm mx-1"
-				        (click)="uploader.cancelAll()"
-				        [disabled]="!uploader.isUploading">
+						(click)="uploader.cancelAll()"
+						[disabled]="!uploader.isUploading">
 					<i class="fa fa-ban"></i> Скасувати все
 				</button>
 				<button type="button" class="btn btn-danger btn-sm mx-1"
-				        (click)="uploader.clearQueue()"
-				        [disabled]="!uploader.queue.length">
+						(click)="uploader.clearQueue()"
+						[disabled]="!uploader.queue.length">
 					<i class="fa fa-trash"></i> Видалити все
 				</button>
 			</div>
