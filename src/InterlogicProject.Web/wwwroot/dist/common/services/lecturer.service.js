@@ -18,7 +18,7 @@ var LecturerService = (function () {
     function LecturerService(http, accountService) {
         this.lecturers = "/api/lecturers";
         this.currentLecturerSource = new ReplaySubject_1.ReplaySubject(null);
-        this.currentUserId = 0;
+        this.currentUserId = null;
         this.http = http;
         this.accountService = accountService;
     }

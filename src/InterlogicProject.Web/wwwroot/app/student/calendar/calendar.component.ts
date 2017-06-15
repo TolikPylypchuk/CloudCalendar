@@ -41,7 +41,8 @@ export default class CalendarComponent {
 			columnFormat: "dd, DD.MM",
 			defaultView: "agendaWeek",
 			eventClick: this.eventClicked.bind(this),
-			eventColor: "#0275D8",
+			eventBackgroundColor: "#0275D8",
+			eventBorderColor: "#0275D8",
 			eventDurationEditable: false,
 			eventRender: (event: FC.EventObject, element: JQuery) => {
 				element.css("cursor", "pointer");
@@ -50,7 +51,7 @@ export default class CalendarComponent {
 			header: {
 				left: "title",
 				center: "agendaWeek,listWeek",
-				right: "today,prev,next"
+				right: "today prev,next"
 			},
 			height: "auto",
 			minTime: moment.duration("08:00:00"),

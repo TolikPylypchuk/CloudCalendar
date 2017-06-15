@@ -5,7 +5,7 @@ import { AccountService } from "./account/account";
 
 @Component({
 	selector: "ip-navigation",
-	templateUrl: "templates/app/navigation"
+	templateUrl: "templates/navigation"
 })
 export default class NavigationComponent {
 	private accoutService: AccountService;
@@ -14,7 +14,7 @@ export default class NavigationComponent {
 		this.accoutService = accoutService;
 	}
 
-	isLoggedin(): boolean {
+	isLoggedIn(): boolean {
 		return this.accoutService.isLoggedIn();
 	}
 

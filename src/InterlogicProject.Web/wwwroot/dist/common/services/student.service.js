@@ -18,7 +18,7 @@ var StudentService = (function () {
     function StudentService(http, accountService) {
         this.students = "/api/students";
         this.currentStudentSource = new ReplaySubject_1.ReplaySubject();
-        this.currentUserId = 0;
+        this.currentUserId = null;
         this.http = http;
         this.accountService = accountService;
     }

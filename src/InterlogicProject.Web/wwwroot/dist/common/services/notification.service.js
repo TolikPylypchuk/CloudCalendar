@@ -33,14 +33,14 @@ var NotificationService = (function () {
             .first();
     };
     NotificationService.prototype.getNotificationsInRange = function (start, end) {
-        return this.http.get(this.notifications + "/range/" + start.format("YYYY-MM-dd") + "/" +
-            ("" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+        return this.http.get(this.notifications + "/range/" + start.format("YYYY-MM-DD") + "/" +
+            ("" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     NotificationService.prototype.getNotificationsForUserInRange = function (userId, start, end) {
         return this.http.get(this.notifications + "/userId/" + userId + "/range/" +
-            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

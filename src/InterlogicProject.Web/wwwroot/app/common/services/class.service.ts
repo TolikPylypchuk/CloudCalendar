@@ -45,8 +45,8 @@ export default class ClassService {
 		start: moment.Moment,
 		end: moment.Moment): Observable<Class[]> {
 		return this.http.get(
-			`${this.classes}/range/${start.format("YYYY-MM-dd")}/` +
-			`${end.format("YYYY-MM-dd")}`,
+			`${this.classes}/range/${start.format("YYYY-MM-DD")}/` +
+			`${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
 			.first();
@@ -66,7 +66,7 @@ export default class ClassService {
 		end: moment.Moment): Observable<Class[]> {
 		return this.http.get(
 			`${this.classes}/groupId/${groupId}/range/` +
-			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
 			.first();
@@ -86,7 +86,7 @@ export default class ClassService {
 		end: moment.Moment): Observable<Class[]> {
 		return this.http.get(
 			`${this.classes}/lecturerId/${lecturerId}/range/` +
-			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
 			.first();
@@ -109,7 +109,7 @@ export default class ClassService {
 		end: moment.Moment): Observable<Class[]> {
 		return this.http.get(
 			`${this.classes}/groupId/${groupId}/lecturerId/${lecturerId}/range/` +
-			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
 			.first();
@@ -129,7 +129,7 @@ export default class ClassService {
 		end: moment.Moment): Observable<Class[]> {
 		return this.http.get(
 			`${this.classes}/classroomId/${classroomId}/range/` +
-			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
 			.first();

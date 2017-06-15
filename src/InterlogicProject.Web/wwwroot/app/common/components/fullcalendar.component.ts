@@ -6,8 +6,8 @@ import "fullcalendar";
 import { Options } from "fullcalendar";
 
 @Component({
-	template: "<div></div>",
-	selector: "ip-fullcalendar"
+	selector: "ip-fullcalendar",
+	template: ""
 })
 export default class FullcalendarComponent implements AfterViewInit {
 	@Input() options: Options;
@@ -21,7 +21,7 @@ export default class FullcalendarComponent implements AfterViewInit {
 	}
 	
 	ngAfterViewInit() {
-		setTimeout(() => $("fullcalendar").fullCalendar(this.options), 100);
+		setTimeout(() => $("ip-fullcalendar").fullCalendar(this.options), 100);
 	}
 	
 	fullCalendar(...args: any[]) {

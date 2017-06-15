@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var platform_browser_1 = require("@angular/platform-browser");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var common_1 = require("./common/common");
 var account_1 = require("./account/account");
@@ -29,6 +30,7 @@ AppModule = __decorate([
             start_page_component_1.default
         ],
         imports: [
+            platform_browser_1.BrowserModule,
             ng_bootstrap_1.NgbModule.forRoot(),
             common_1.CommonModule,
             account_1.AccountModule,

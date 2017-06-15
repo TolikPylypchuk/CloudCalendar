@@ -9,7 +9,7 @@ import { Class, Homework } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-homework",
-	templateUrl: "/templates/student/calendarModalHomework",
+	templateUrl: "/templates/student/calendar/modal-homework",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalHomeworkComponent implements OnInit {
@@ -63,12 +63,15 @@ export default class ModalHomeworkComponent implements OnInit {
 	}
 	
 	deleteHomework(): void {
-		this.homeworkService.deleteHomework(this.homework.id)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.homework = null;
-				}
-			});
+		const action = this.homeworkService.deleteHomework(this.homework.id);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.homework = null;
+			}
+		});
+
+		action.connect();
 	}
 
 	getCheckClass(): string {

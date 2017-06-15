@@ -8,7 +8,7 @@ import { Classroom, Group } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-content",
-	templateUrl: "/templates/lecturer/calendarModalContent",
+	templateUrl: "/templates/lecturer/calendar/modal-content",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalContentComponent implements OnInit {

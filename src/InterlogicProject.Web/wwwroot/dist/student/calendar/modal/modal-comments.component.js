@@ -50,8 +50,8 @@ var ModalCommentsComponent = (function () {
         var _this = this;
         this.currentComment.dateTime = moment().utc()
             .add(2, "hours").toISOString();
-        this.commentService.addComment(this.currentComment)
-            .subscribe(function (response) {
+        var action = this.commentService.addComment(this.currentComment);
+        action.subscribe(function (response) {
             if (response.status === 201) {
                 _this.comments.push(response.json());
                 _this.currentComment = {
@@ -66,6 +66,7 @@ var ModalCommentsComponent = (function () {
                 };
             }
         });
+        action.connect();
     };
     ModalCommentsComponent.prototype.editComment = function (comment) {
         this.editedCommentId = comment.id;
@@ -73,12 +74,13 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.updateComment = function (comment) {
         var _this = this;
-        this.commentService.updateComment(comment)
-            .subscribe(function (response) {
+        var action = this.commentService.updateComment(comment);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.editedCommentId = 0;
             }
         });
+        action.connect();
     };
     ModalCommentsComponent.prototype.cancelEditing = function (comment) {
         comment.text = this.editedCommentOriginalText;
@@ -87,12 +89,13 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.deleteComment = function (comment) {
         var _this = this;
-        this.commentService.deleteComment(comment.id)
-            .subscribe(function (response) {
+        var action = this.commentService.deleteComment(comment.id);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.comments = _this.comments.filter(function (c) { return c.id !== comment.id; });
             }
         });
+        action.connect();
     };
     return ModalCommentsComponent;
 }());
@@ -103,7 +106,7 @@ __decorate([
 ModalCommentsComponent = __decorate([
     core_1.Component({
         selector: "ip-student-modal-comments",
-        templateUrl: "/templates/student/calendarModalComments",
+        templateUrl: "/templates/student/calendar/modal-comments",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [account_1.AccountService,

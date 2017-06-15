@@ -37,12 +37,13 @@ var ModalMaterialsComponent = (function () {
     };
     ModalMaterialsComponent.prototype.deleteMaterial = function (material) {
         var _this = this;
-        this.materialService.deleteMaterial(material.id)
-            .subscribe(function (response) {
+        var action = this.materialService.deleteMaterial(material.id);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.materials = _this.materials.filter(function (m) { return m.id !== material.id; });
             }
         });
+        action.connect();
     };
     ModalMaterialsComponent.prototype.fileOverDropZone = function (e) {
         this.hasDropZoneOver = e;
@@ -56,7 +57,7 @@ __decorate([
 ModalMaterialsComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-modal-materials",
-        templateUrl: "/templates/lecturer/calendarModalMaterials",
+        templateUrl: "/templates/lecturer/calendar/modal-materials",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.MaterialService])

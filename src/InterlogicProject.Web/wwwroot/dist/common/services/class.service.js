@@ -36,8 +36,8 @@ var ClassService = (function () {
             .first();
     };
     ClassService.prototype.getClassesInRange = function (start, end) {
-        return this.http.get(this.classes + "/range/" + start.format("YYYY-MM-dd") + "/" +
-            ("" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+        return this.http.get(this.classes + "/range/" + start.format("YYYY-MM-DD") + "/" +
+            ("" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
@@ -48,7 +48,7 @@ var ClassService = (function () {
     };
     ClassService.prototype.getClassesForGroupInRange = function (groupId, start, end) {
         return this.http.get(this.classes + "/groupId/" + groupId + "/range/" +
-            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
@@ -59,7 +59,7 @@ var ClassService = (function () {
     };
     ClassService.prototype.getClassesForLecturerInRange = function (lecturerId, start, end) {
         return this.http.get(this.classes + "/lecturerId/" + lecturerId + "/range/" +
-            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
@@ -70,7 +70,7 @@ var ClassService = (function () {
     };
     ClassService.prototype.getClassesForGroupAndLecturerInRange = function (groupId, lecturerId, start, end) {
         return this.http.get(this.classes + "/groupId/" + groupId + "/lecturerId/" + lecturerId + "/range/" +
-            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
@@ -81,7 +81,7 @@ var ClassService = (function () {
     };
     ClassService.prototype.getClassesForClassroomInRange = function (classroomId, start, end) {
         return this.http.get(this.classes + "/classroomId/" + classroomId + "/range/" +
-            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

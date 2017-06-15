@@ -40,12 +40,13 @@ var ModalHomeworkComponent = (function () {
     };
     ModalHomeworkComponent.prototype.deleteHomework = function () {
         var _this = this;
-        this.homeworkService.deleteHomework(this.homework.id)
-            .subscribe(function (response) {
+        var action = this.homeworkService.deleteHomework(this.homework.id);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.homework = null;
             }
         });
+        action.connect();
     };
     ModalHomeworkComponent.prototype.getCheckClass = function () {
         return this.homework.accepted === null
@@ -70,7 +71,7 @@ __decorate([
 ModalHomeworkComponent = __decorate([
     core_1.Component({
         selector: "ip-student-modal-homework",
-        templateUrl: "/templates/student/calendarModalHomework",
+        templateUrl: "/templates/student/calendar/modal-homework",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.ClassService,

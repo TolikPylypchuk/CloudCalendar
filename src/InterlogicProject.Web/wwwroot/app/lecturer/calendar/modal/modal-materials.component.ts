@@ -7,7 +7,7 @@ import { Material } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-materials",
-	templateUrl: "/templates/lecturer/calendarModalMaterials",
+	templateUrl: "/templates/lecturer/calendar/modal-materials",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalMaterialsComponent implements OnInit {
@@ -46,13 +46,16 @@ export default class ModalMaterialsComponent implements OnInit {
 	}
 
 	deleteMaterial(material: Material): void {
-		this.materialService.deleteMaterial(material.id)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.materials = this.materials.filter(
-						m => m.id !== material.id);
-				}
-			});
+		const action = this.materialService.deleteMaterial(material.id);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.materials = this.materials.filter(
+					m => m.id !== material.id);
+			}
+		});
+
+		action.connect();
 	}
 	
 	fileOverDropZone(e: any): void {

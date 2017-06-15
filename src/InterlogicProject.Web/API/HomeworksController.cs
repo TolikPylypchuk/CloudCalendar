@@ -249,7 +249,6 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpDelete("{id}")]
 		[SwaggerResponse(204)]
-		[Authorize(Roles = "Student")]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var homeworkToDelete = this.homeworks.GetById(id);

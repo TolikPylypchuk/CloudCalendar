@@ -34,9 +34,8 @@ var CalendarComponent = (function () {
             header: {
                 left: "title",
                 center: "agendaWeek,listWeek",
-                right: "today,prev,next"
+                right: "today prev,next"
             },
-            height: "auto",
             minTime: moment.duration("08:00:00"),
             maxTime: moment.duration("21:00:00"),
             slotDuration: moment.duration("00:30:00"),

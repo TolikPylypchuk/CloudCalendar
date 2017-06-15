@@ -1,5 +1,4 @@
 ﻿import { NgModule } from "@angular/core";
-import { HttpModule } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { NgbModalModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
@@ -25,7 +24,6 @@ import ModalMaterialsComponent from "./modal/modal-materials.component";
 	],
 	imports: [
 		BrowserModule,
-		HttpModule,
 		FormsModule,
 		NgbModalModule,
 		NgbTooltipModule,

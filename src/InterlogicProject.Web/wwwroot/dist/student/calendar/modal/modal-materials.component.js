@@ -32,7 +32,7 @@ __decorate([
 ModalMaterialsComponent = __decorate([
     core_1.Component({
         selector: "ip-student-modal-materials",
-        templateUrl: "/templates/student/calendarModalMaterials",
+        templateUrl: "/templates/student/calendar/modal-materials",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.MaterialService])

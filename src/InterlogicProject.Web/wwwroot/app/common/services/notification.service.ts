@@ -46,8 +46,8 @@ export default class NotificationService {
 		start: moment.Moment,
 		end: moment.Moment): Observable<Notification[]> {
 		return this.http.get(
-			`${this.notifications}/range/${start.format("YYYY-MM-dd")}/` +
-			`${end.format("YYYY-MM-dd")}`,
+			`${this.notifications}/range/${start.format("YYYY-MM-DD")}/` +
+			`${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Notification[])
 			.first();
@@ -59,7 +59,7 @@ export default class NotificationService {
 		end: moment.Moment): Observable<Notification[]> {
 		return this.http.get(
 			`${this.notifications}/userId/${userId}/range/` +
-			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Notification[])
 			.first();

@@ -18,7 +18,7 @@ var FullcalendarComponent = (function () {
     }
     FullcalendarComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        setTimeout(function () { return $("fullcalendar").fullCalendar(_this.options); }, 100);
+        setTimeout(function () { return $("ip-fullcalendar").fullCalendar(_this.options); }, 100);
     };
     FullcalendarComponent.prototype.fullCalendar = function () {
         var args = [];
@@ -58,8 +58,8 @@ __decorate([
 ], FullcalendarComponent.prototype, "options", void 0);
 FullcalendarComponent = __decorate([
     core_1.Component({
-        template: "<div></div>",
-        selector: "ip-fullcalendar"
+        selector: "ip-fullcalendar",
+        template: ""
     }),
     __metadata("design:paramtypes", [core_1.ElementRef])
 ], FullcalendarComponent);

@@ -14,7 +14,7 @@ export default class StudentService {
 	private students = "/api/students";
 
 	private currentStudentSource = new ReplaySubject<Student>();
-	private currentUserId: number = 0;
+	private currentUserId: string = null;
 
 	private http: Http;
 

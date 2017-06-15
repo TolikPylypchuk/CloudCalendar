@@ -1,4 +1,5 @@
 ﻿import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CommonModule } from "./common/common";
@@ -19,6 +20,7 @@ import StartPageComponent from "./start-page.component";
 		StartPageComponent
 	],
 	imports: [
+		BrowserModule,
 		NgbModule.forRoot(),
 		CommonModule,
 		AccountModule,

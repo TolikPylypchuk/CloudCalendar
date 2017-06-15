@@ -6,6 +6,7 @@ using InterlogicProject.Web.Services;
 
 namespace InterlogicProject.Web.Controllers
 {
+	[Route("templates/[controller]/[action]")]
 	public class AccountController : Controller
 	{
 		private string emailDomain;

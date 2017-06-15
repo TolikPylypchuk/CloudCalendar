@@ -46,35 +46,38 @@ var ModalHomeworkComponent = (function () {
     ModalHomeworkComponent.prototype.homeworkEnabledClick = function () {
         var _this = this;
         this.currentClass.homeworkEnabled = !this.currentClass.homeworkEnabled;
-        this.classService.updateClass(this.currentClass)
-            .subscribe(function (response) {
+        var action = this.classService.updateClass(this.currentClass);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.text = _this.currentClass.homeworkEnabled
                     ? _this.forbidText
                     : _this.allowText;
             }
         });
+        action.connect();
     };
     ModalHomeworkComponent.prototype.acceptHomework = function (homework, accepted) {
         var h = {
             id: homework.id,
             accepted: accepted
         };
-        this.homeworkService.updateHomework(h)
-            .subscribe(function (response) {
+        var action = this.homeworkService.updateHomework(h);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 homework.accepted = accepted;
             }
         });
+        action.connect();
     };
     ModalHomeworkComponent.prototype.deleteHomework = function (homework) {
         var _this = this;
-        this.homeworkService.deleteHomework(homework.id)
-            .subscribe(function (response) {
+        var action = this.homeworkService.deleteHomework(homework.id);
+        action.subscribe(function (response) {
             if (response.status === 204) {
                 _this.homeworks = _this.homeworks.filter(function (h) { return h.id !== homework.id; });
             }
         });
+        action.connect();
     };
     ModalHomeworkComponent.prototype.getStudentName = function (id) {
         var student = this.students.get(id);
@@ -105,7 +108,7 @@ __decorate([
 ModalHomeworkComponent = __decorate([
     core_1.Component({
         selector: "ip-lecturer-modal-homework",
-        templateUrl: "/templates/lecturer/calendarModalHomework",
+        templateUrl: "/templates/lecturer/calendar/modal-homework",
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [common_1.ClassService,

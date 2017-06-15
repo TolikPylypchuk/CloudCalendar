@@ -69,7 +69,7 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="userId">The ID of the user.</param>
 		/// <returns>A student with the specified user ID.</returns>
-		[HttpGet("userId/{id}")]
+		[HttpGet("userId/{userId}")]
 		[SwaggerResponse(200, Type = typeof(StudentDto))]
 		public StudentDto GetByUser([FromRoute] string userId)
 			=> Mapper.Map<StudentDto>(

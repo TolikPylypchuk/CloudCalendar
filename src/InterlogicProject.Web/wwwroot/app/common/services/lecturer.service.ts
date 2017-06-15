@@ -14,7 +14,7 @@ export default class LecturerService {
 	private lecturers = "/api/lecturers";
 
 	private currentLecturerSource = new ReplaySubject<Lecturer>(null);
-	private currentUserId: number = 0;
+	private currentUserId: string = null;
 
 	private http: Http;
 

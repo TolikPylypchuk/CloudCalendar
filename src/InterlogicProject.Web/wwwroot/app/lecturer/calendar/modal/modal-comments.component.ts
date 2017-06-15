@@ -8,7 +8,7 @@ import { Comment } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-comments",
-	templateUrl: "/templates/lecturer/calendarModalComments",
+	templateUrl: "/templates/lecturer/calendar/modal-comments",
 	styleUrls: ["/dist/css/style.min.css" ]
 })
 export default class ModalCommentsComponent implements OnInit {
@@ -68,22 +68,25 @@ export default class ModalCommentsComponent implements OnInit {
 		this.currentComment.dateTime = moment().utc()
 			.add(2, "hours").toISOString();
 
-		this.commentService.addComment(this.currentComment)
-			.subscribe(response => {
-				if (response.status === 201) {
-					this.comments.push(response.json() as Comment);
+		const action = this.commentService.addComment(this.currentComment);
 
-					this.currentComment = {
-						userId: this.currentComment.userId,
-						userFirstName: this.currentComment.userFirstName,
-						userMiddleName: this.currentComment.userMiddleName,
-						userLastName: this.currentComment.userLastName,
-						userFullName: this.currentComment.userFullName,
-						classId: this.currentComment.classId,
-						text: ""
-					};
-				}
-			});
+		action.subscribe(response => {
+			if (response.status === 201) {
+				this.comments.push(response.json() as Comment);
+
+				this.currentComment = {
+					userId: this.currentComment.userId,
+					userFirstName: this.currentComment.userFirstName,
+					userMiddleName: this.currentComment.userMiddleName,
+					userLastName: this.currentComment.userLastName,
+					userFullName: this.currentComment.userFullName,
+					classId: this.currentComment.classId,
+					text: ""
+				};
+			}
+		});
+
+		action.connect();
 	}
 
 	editComment(comment: Comment): void {
@@ -92,12 +95,15 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	updateComment(comment: Comment): void {
-		this.commentService.updateComment(comment)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.editedCommentId = 0;
-				}
-			});
+		const action = this.commentService.updateComment(comment);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.editedCommentId = 0;
+			}
+		});
+
+		action.connect();
 	}
 
 	cancelEditing(comment: Comment): void {
@@ -108,12 +114,15 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	deleteComment(comment: Comment): void {
-		this.commentService.deleteComment(comment.id)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.comments = this.comments.filter(
-						c => c.id !== comment.id);
-				}
-			});
+		const action = this.commentService.deleteComment(comment.id);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.comments = this.comments.filter(
+					c => c.id !== comment.id);
+			}
+		});
+
+		action.connect();
 	}
 }

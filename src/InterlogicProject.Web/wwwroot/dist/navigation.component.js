@@ -15,7 +15,7 @@ var NavigationComponent = (function () {
     function NavigationComponent(accoutService) {
         this.accoutService = accoutService;
     }
-    NavigationComponent.prototype.isLoggedin = function () {
+    NavigationComponent.prototype.isLoggedIn = function () {
         return this.accoutService.isLoggedIn();
     };
     NavigationComponent.prototype.getUserName = function () {
@@ -28,7 +28,7 @@ var NavigationComponent = (function () {
 NavigationComponent = __decorate([
     core_1.Component({
         selector: "ip-navigation",
-        templateUrl: "templates/app/navigation"
+        templateUrl: "templates/navigation"
     }),
     __metadata("design:paramtypes", [account_1.AccountService])
 ], NavigationComponent);

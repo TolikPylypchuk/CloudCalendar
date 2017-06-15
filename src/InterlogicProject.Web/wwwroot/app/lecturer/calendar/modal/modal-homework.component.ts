@@ -7,7 +7,7 @@ import { Class, Homework, Student } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-homework",
-	templateUrl: "/templates/lecturer/calendarModalHomework",
+	templateUrl: "/templates/lecturer/calendar/modal-homework",
 	styleUrls: [ "/dist/css/style.min.css" ]
 })
 export default class ModalHomeworkComponent implements OnInit {
@@ -63,14 +63,17 @@ export default class ModalHomeworkComponent implements OnInit {
 	homeworkEnabledClick(): void {
 		this.currentClass.homeworkEnabled = !this.currentClass.homeworkEnabled;
 
-		this.classService.updateClass(this.currentClass)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.text = this.currentClass.homeworkEnabled
-						? this.forbidText
-						: this.allowText;
-				}
-			});
+		const action = this.classService.updateClass(this.currentClass);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.text = this.currentClass.homeworkEnabled
+					? this.forbidText
+					: this.allowText;
+			}
+		});
+
+		action.connect();
 	}
 
 	acceptHomework(homework: Homework, accepted: boolean): void {
@@ -79,22 +82,28 @@ export default class ModalHomeworkComponent implements OnInit {
 			accepted: accepted
 		};
 
-		this.homeworkService.updateHomework(h)
-			.subscribe(response => {
-				if (response.status === 204) {
-					homework.accepted = accepted;
-				}
-			});
+		const action = this.homeworkService.updateHomework(h);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				homework.accepted = accepted;
+			}
+		});
+
+		action.connect();
 	}
 
 	deleteHomework(homework: Homework): void {
-		this.homeworkService.deleteHomework(homework.id)
-			.subscribe(response => {
-				if (response.status === 204) {
-					this.homeworks = this.homeworks.filter(
-						h => h.id !== homework.id);
-				}
-			});
+		const action = this.homeworkService.deleteHomework(homework.id);
+
+		action.subscribe(response => {
+			if (response.status === 204) {
+				this.homeworks = this.homeworks.filter(
+					h => h.id !== homework.id);
+			}
+		});
+
+		action.connect();
 	}
 
 	getStudentName(id: number): string {

@@ -15,7 +15,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: "ip-app",
-        templateUrl: "/templates/app/app",
+        templateUrl: "/templates/app",
         styleUrls: ["/dist/css/style.min.css"]
     })
 ], AppComponent);

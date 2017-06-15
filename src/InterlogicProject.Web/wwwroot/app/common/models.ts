@@ -3,7 +3,7 @@
 }
 
 export interface EntityWithUser extends Entity {
-	userId?: number;
+	userId?: string;
 	userFirstName?: string;
 	userMiddleName?: string;
 	userLastName?: string;
@@ -11,7 +11,8 @@ export interface EntityWithUser extends Entity {
 	userEmail?: string;
 }
 
-export interface User extends Entity {
+export interface GenericUser<T> {
+	id?: T;
 	email?: string;
 	firstName?: string;
 	middleName?: string;
@@ -72,10 +73,10 @@ export interface Homework extends Entity {
 	accepted?: boolean;
 }
 
-export interface Lecturer extends User {
+export interface Lecturer extends GenericUser<number> {
 	departmentId?: number;
 	departmentName?: string;
-	userId?: number;
+	userId?: string;
 	isDean?: boolean;
 	isHead?: boolean;
 	isAdmin?: boolean;
@@ -92,14 +93,16 @@ export interface Notification extends EntityWithUser {
 	isSeen?: boolean;
 }
 
-export interface Student extends User {
+export interface Student extends GenericUser<number> {
 	groupId?: number;
 	groupName?: string;
 	isGroupLeader?: boolean;
 	transcriptNumber?: string;
-	userId?: number;
+	userId?: string;
 }
 
 export interface Subject extends Entity {
 	name?: string;
 }
+
+export interface User extends GenericUser<string> { }
