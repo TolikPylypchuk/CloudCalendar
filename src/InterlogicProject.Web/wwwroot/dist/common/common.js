@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var common_module_1 = require("./common.module");
+exports.CommonModule = common_module_1.default;
 var fullcalendar_component_1 = require("./components/fullcalendar.component");
 exports.FullcalendarComponent = fullcalendar_component_1.default;
 var building_service_1 = require("./services/building.service");
@@ -14,10 +16,18 @@ var department_service_1 = require("./services/department.service");
 exports.DepartmentService = department_service_1.default;
 var faculty_service_1 = require("./services/faculty.service");
 exports.FacultyService = faculty_service_1.default;
+var group_service_1 = require("./services/group.service");
+exports.GroupService = group_service_1.default;
+var homework_service_1 = require("./services/homework.service");
+exports.HomeworkService = homework_service_1.default;
 var lecturer_service_1 = require("./services/lecturer.service");
 exports.LecturerService = lecturer_service_1.default;
+var material_service_1 = require("./services/material.service");
+exports.MaterialService = material_service_1.default;
+var notification_service_1 = require("./services/notification.service");
+exports.NotificationService = notification_service_1.default;
 var student_service_1 = require("./services/student.service");
 exports.StudentService = student_service_1.default;
-var common_module_1 = require("./common.module");
-exports.CommonModule = common_module_1.default;
+var subject_service_1 = require("./services/subject.service");
+exports.SubjectService = subject_service_1.default;
 //# sourceMappingURL=common.js.map

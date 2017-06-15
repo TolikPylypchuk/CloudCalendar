@@ -8,7 +8,7 @@ import { Building } from "../models";
 
 @Injectable()
 export default class BuildingService {
-	private buildings = "api/buildings";
+	private buildings = "/api/buildings";
 
 	private http: Http;
 
@@ -17,13 +17,17 @@ export default class BuildingService {
 	}
 
 	getBuildings(): Observable<Building[]> {
-		return this.http.get(this.buildings)
+		return this.http.get(
+			this.buildings,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Building[])
 			.first();
 	}
 
 	getBuilding(id: number): Observable<Building> {
-		return this.http.get(`${this.buildings}/${id}`)
+		return this.http.get(
+			`${this.buildings}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Building)
 			.first();
 	}

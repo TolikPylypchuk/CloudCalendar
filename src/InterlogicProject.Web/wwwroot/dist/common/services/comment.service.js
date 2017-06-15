@@ -14,41 +14,41 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var CommentService = (function () {
     function CommentService(http) {
-        this.comments = "api/comments";
+        this.comments = "/api/comments";
         this.http = http;
     }
     CommentService.prototype.getComments = function () {
-        return this.http.get(this.comments)
+        return this.http.get(this.comments, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     CommentService.prototype.getComment = function (id) {
-        return this.http.get(this.comments + "/" + id)
+        return this.http.get(this.comments + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    CommentService.prototype.getByClass = function (classId) {
-        return this.http.get(this.comments + "/classId/" + classId)
+    CommentService.prototype.getCommentsByClass = function (classId) {
+        return this.http.get(this.comments + "/classId/" + classId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    CommentService.prototype.getSomeByClass = function (classId, take) {
-        return this.http.get(this.comments + "/classId/" + classId + "/take/" + take)
+    CommentService.prototype.getSomeCommentsByClass = function (classId, take) {
+        return this.http.get(this.comments + "/classId/" + classId + "/take/" + take, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    CommentService.prototype.getByUser = function (userId) {
-        return this.http.get(this.comments + "/userId/" + userId)
+    CommentService.prototype.getCommentsByUser = function (userId) {
+        return this.http.get(this.comments + "/userId/" + userId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    CommentService.prototype.getByClassAndUser = function (classId, userId) {
-        return this.http.get(this.comments + "/classId/" + classId + "/userId/" + userId)
+    CommentService.prototype.getCommentsByClassAndUser = function (classId, userId) {
+        return this.http.get(this.comments + "/classId/" + classId + "/userId/" + userId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    CommentService.prototype.getSomeByClassAndUser = function (classId, userId, take) {
-        return this.http.get(this.comments + "/classId/" + classId + "/userId/" + userId + "/take/" + take)
+    CommentService.prototype.getSomeCommentsByClassAndUser = function (classId, userId, take) {
+        return this.http.get(this.comments + "/classId/" + classId + "/userId/" + userId + "/take/" + take, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

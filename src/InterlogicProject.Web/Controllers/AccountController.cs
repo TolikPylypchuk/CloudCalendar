@@ -10,7 +10,7 @@ namespace InterlogicProject.Web.Controllers
 	{
 		private string emailDomain;
 
-		public AccountController(IOptions<Settings> settings)
+		public AccountController(IOptionsSnapshot<Settings> settings)
 		{
 			this.emailDomain = $"@{settings.Value.EmailDomain}";
 		}

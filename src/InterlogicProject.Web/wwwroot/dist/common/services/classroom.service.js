@@ -14,26 +14,26 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var ClassroomService = (function () {
     function ClassroomService(http) {
-        this.classrooms = "api/classrooms";
+        this.classrooms = "/api/classrooms";
         this.http = http;
     }
     ClassroomService.prototype.getClassrooms = function () {
-        return this.http.get(this.classrooms)
+        return this.http.get(this.classrooms, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     ClassroomService.prototype.getClassroom = function (id) {
-        return this.http.get(this.classrooms + "/" + id)
+        return this.http.get(this.classrooms + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    ClassroomService.prototype.getByBuilding = function (buildingId) {
-        return this.http.get(this.classrooms + "/buildingId/" + buildingId)
+    ClassroomService.prototype.getClassroomsByBuilding = function (buildingId) {
+        return this.http.get(this.classrooms + "/buildingId/" + buildingId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    ClassroomService.prototype.getByClass = function (classId) {
-        return this.http.get(this.classrooms + "/classId/" + classId)
+    ClassroomService.prototype.getClassroomsByClass = function (classId) {
+        return this.http.get(this.classrooms + "/classId/" + classId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

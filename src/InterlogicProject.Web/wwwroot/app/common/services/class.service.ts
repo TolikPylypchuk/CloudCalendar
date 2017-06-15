@@ -1,160 +1,171 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
+import { ConnectableObservable } from "rxjs/Observable/ConnectableObservable";
 
-import { handleError } from "../functions";
+import * as moment from "moment";
 
-import {
-	Class, Classroom, Group, Lecturer, Comment, Material, Homework
-} from "../models";
+import { getHeaders } from "../functions";
+
+import { Class } from "../models";
 
 @Injectable()
 export default class ClassService {
+	private classes = "/api/classes";
+
 	private http: Http;
 
 	constructor(http: Http) {
 		this.http = http;
 	}
-
+	
+	getClasses(): Observable<Class[]> {
+		return this.http.get(
+			this.classes,
+			{ headers: getHeaders() })
+			.map(response =>
+				response.status === 200
+					? response.json() as Class[]
+					: null)
+			.first();
+	}
+	
 	getClass(id: number): Observable<Class> {
-		return this.http.get(`api/classes/${id}`)
+		return this.http.get(
+			`${this.classes}/${id}`,
+			{ headers: getHeaders() })
 			.map(response =>
 				response.status === 200
 					? response.json() as Class
 					: null)
-			.catch(handleError)
 			.first();
 	}
 
-	getPlaces(classId: number): Observable<Classroom[]> {
-		return this.http.get(`api/classrooms/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Classroom[]
-					: null)
-			.catch(handleError)
+	getClassesInRange(
+		start: moment.Moment,
+		end: moment.Moment): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/range/${start.format("YYYY-MM-dd")}/` +
+			`${end.format("YYYY-MM-dd")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	getGroups(classId: number): Observable<Group[]> {
-		return this.http.get(`api/groups/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Group[]
-					: null)
-			.catch(handleError)
+	getClassesForGroup(groupId: number): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/groupId/${groupId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	getLecturers(classId: number): Observable<Lecturer[]> {
-		return this.http.get(`api/lecturers/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Lecturer[]
-					: null)
-			.catch(handleError)
+	getClassesForGroupInRange(
+		groupId: number,
+		start: moment.Moment,
+		end: moment.Moment): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/groupId/${groupId}/range/` +
+			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	getComments(classId: number): Observable<Comment[]> {
-		return this.http.get(`api/comments/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Comment[]
-					: null)
-			.catch(handleError)
+	getClassesForLecturer(lecturerId: number): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/lecturerId/${lecturerId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	getMaterials(classId: number): Observable<Material[]> {
-		return this.http.get(`api/materials/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Material[]
-					: null)
-			.catch(handleError)
-			.first();
-	}
-	
-	getHomeworks(classId: number): Observable<Homework[]> {
-		return this.http.get(`api/homeworks/classId/${classId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Homework[]
-					: null)
-			.catch(handleError)
+	getClassesForLecturerInRange(
+		lecturerId: number,
+		start: moment.Moment,
+		end: moment.Moment): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/lecturerId/${lecturerId}/range/` +
+			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	getHomework(classId: number, studentId: number): Observable<Homework> {
-		return this.http.get(`api/homeworks/classId/${classId}/studentId/${studentId}`)
-			.map(response =>
-				response.status === 200
-					? response.json() as Homework
-					: null)
-			.catch(handleError)
+	getClassesForGroupAndLecturer(
+		groupId: number,
+		lecturerId: number): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/groupId/${groupId}/lecturerId/${lecturerId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
 			.first();
 	}
 
-	updateClass(c: Class): Observable<Response> {
-		return this.http.put(
-			`api/classes/${c.id}`,
+	getClassesForGroupAndLecturerInRange(
+		groupId: number,
+		lecturerId: number,
+		start: moment.Moment,
+		end: moment.Moment): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/groupId/${groupId}/lecturerId/${lecturerId}/range/` +
+			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
+			.first();
+	}
+
+	getClassesForClassroom(classroomId: number): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/classroomId/${classroomId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
+			.first();
+	}
+
+	getClassesForClassroomInRange(
+		classroomId: number,
+		start: moment.Moment,
+		end: moment.Moment): Observable<Class[]> {
+		return this.http.get(
+			`${this.classes}/classroomId/${classroomId}/range/` +
+			`${start.format("YYYY-MM-dd")}/${end.format("YYYY-MM-dd")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class[])
+			.first();
+	}
+
+	addClass(c: Class): ConnectableObservable<Response> {
+		const action = this.http.post(
+			this.classes,
 			JSON.stringify(c),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
-			.catch(handleError)
-			.first();
+			{ headers: getHeaders() })
+			.first()
+			.publish();
+
+		action.subscribe(
+			response => {
+				const location = response.headers.get("Location");
+				c.id = +location.substr(location.lastIndexOf("/") + 1);
+			});
+
+		return action;
 	}
 
-	addComment(comment: Comment): Observable<Response> {
-		return this.http.post(
-			"api/comments",
-			JSON.stringify(comment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
-			.catch(handleError)
-			.first();
-	}
-
-	updateComment(comment: Comment): Observable<Response> {
+	updateClass(c: Class): ConnectableObservable<Response> {
 		return this.http.put(
-			`api/comments/${comment.id}`,
-			JSON.stringify(comment),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
-			.catch(handleError)
-			.first();
+			`${this.classes}/${c.id}`,
+			JSON.stringify(c),
+			{ headers: getHeaders() })
+			.first()
+			.publish();
 	}
 
-	deleteComment(id: number): Observable<Response> {
-		return this.http.delete(`api/comments/${id}`)
-			.catch(handleError)
-			.first();
-	}
-
-	deleteMaterial(id: number): Observable<Response> {
-		return this.http.delete(`api/materials/${id}`)
-			.catch(handleError)
-			.first();
-	}
-
-	updateHomework(homework: Homework): Observable<Response> {
-		return this.http.put(
-			`api/homeworks/${homework.id}`,
-			JSON.stringify(homework),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
-			.catch(handleError)
-			.first();
-	}
-	
-	deleteHomework(id: number): Observable<Response> {
-		return this.http.delete(`api/homeworks/${id}`)
-			.catch(handleError)
-			.first();
+	deleteClass(id: number): ConnectableObservable<Response> {
+		return this.http.delete(
+			`${this.classes}/${id}`,
+			{ headers: getHeaders() })
+			.first()
+			.publish();
 	}
 }

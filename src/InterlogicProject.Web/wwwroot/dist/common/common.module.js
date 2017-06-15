@@ -17,8 +17,12 @@ var comment_service_1 = require("./services/comment.service");
 var department_service_1 = require("./services/department.service");
 var faculty_service_1 = require("./services/faculty.service");
 var group_service_1 = require("./services/group.service");
+var homework_service_1 = require("./services/homework.service");
 var lecturer_service_1 = require("./services/lecturer.service");
+var material_service_1 = require("./services/material.service");
+var notification_service_1 = require("./services/notification.service");
 var student_service_1 = require("./services/student.service");
+var subject_service_1 = require("./services/subject.service");
 var CommonModule = (function () {
     function CommonModule() {
     }
@@ -33,14 +37,18 @@ CommonModule = __decorate([
         ],
         providers: [
             building_service_1.default,
-            lecturer_service_1.default,
             class_service_1.default,
             classroom_service_1.default,
             comment_service_1.default,
             department_service_1.default,
             faculty_service_1.default,
             group_service_1.default,
-            student_service_1.default
+            homework_service_1.default,
+            lecturer_service_1.default,
+            material_service_1.default,
+            notification_service_1.default,
+            student_service_1.default,
+            subject_service_1.default
         ],
         imports: [
             http_1.HttpModule

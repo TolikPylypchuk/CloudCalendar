@@ -7,7 +7,7 @@ import * as moment from "moment";
 
 import ModalContentComponent from "./modal/modal-content.component";
 
-import { LecturerService } from "../../common/common";
+import { ClassService, LecturerService } from "../../common/common";
 import { Class } from "../../common/models";
 
 @Component({
@@ -18,17 +18,17 @@ import { Class } from "../../common/models";
 export default class CalendarComponent {
 	options: FC.Options;
 
-	private http: Http;
 	private modalService: NgbModal;
+
+	private classService: ClassService;
 	private lecturerService: LecturerService;
 
 	private currentSubscription: Subscription = null;
 	
 	constructor(
-		http: Http,
 		modalService: NgbModal,
+		classService: ClassService,
 		lecturerService: LecturerService) {
-		this.http = http;
 		this.modalService = modalService;
 		this.lecturerService = lecturerService;
 
@@ -75,12 +75,8 @@ export default class CalendarComponent {
 		this.currentSubscription = this.lecturerService.getCurrentLecturer()
 			.subscribe(lecturer => {
 				if (lecturer) {
-					const request = this.http.get(
-						`/api/classes/lecturerId/${lecturer.id}` +
-						`/range/${start.format("YYYY-MM-DD")}` +
-						`/${end.format("YYYY-MM-DD")}`);
-
-					request.map(response => response.json())
+					this.classService.getClassesForLecturerInRange(
+						lecturer.id, start, end)
 						.subscribe(data => {
 							const classes = data as Class[];
 							callback(classes.map(this.classToEvent));

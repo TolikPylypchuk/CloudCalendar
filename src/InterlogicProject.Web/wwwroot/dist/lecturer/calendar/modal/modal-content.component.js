@@ -14,12 +14,14 @@ var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var common_1 = require("../../../common/common");
 var ModalContentComponent = (function () {
-    function ModalContentComponent(activeModal, classService) {
+    function ModalContentComponent(activeModal, classService, classroomService, groupService) {
         this.subjectName = "Завантаження...";
         this.type = "Завантаження...";
         this.dateTime = "";
         this.activeModal = activeModal;
         this.classService = classService;
+        this.classroomService = classroomService;
+        this.groupService = groupService;
     }
     ModalContentComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -29,9 +31,9 @@ var ModalContentComponent = (function () {
             _this.type = data.type;
             _this.dateTime = data.dateTime;
         });
-        this.classService.getPlaces(this.classId)
+        this.classroomService.getClassroomsByClass(this.classId)
             .subscribe(function (data) { return _this.classrooms = data; });
-        this.classService.getGroups(this.classId)
+        this.groupService.getGroupsByClass(this.classId)
             .subscribe(function (data) { return _this.groups = data; });
     };
     ModalContentComponent.prototype.formatDateTime = function (dateTime) {
@@ -62,7 +64,9 @@ ModalContentComponent = __decorate([
         styleUrls: ["/dist/css/style.min.css"]
     }),
     __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
-        common_1.ClassService])
+        common_1.ClassService,
+        common_1.ClassroomService,
+        common_1.GroupService])
 ], ModalContentComponent);
 exports.default = ModalContentComponent;
 //# sourceMappingURL=modal-content.component.js.map

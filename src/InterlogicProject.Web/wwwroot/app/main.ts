@@ -5,6 +5,7 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/operator/first";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/publish";
+import "rxjs/add/operator/switch";
 
 import * as moment from "moment";
 import "fullcalendar";

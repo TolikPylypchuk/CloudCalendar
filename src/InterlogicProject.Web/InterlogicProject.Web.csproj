@@ -46,8 +46,12 @@
 		<Content Include="wwwroot\app\common\services\department.service.ts" />
 		<Content Include="wwwroot\app\common\services\faculty.service.ts" />
 		<Content Include="wwwroot\app\common\services\group.service.ts" />
+		<Content Include="wwwroot\app\common\services\homework.service.ts" />
 		<Content Include="wwwroot\app\common\services\lecturer.service.ts" />
+		<Content Include="wwwroot\app\common\services\material.service.ts" />
+		<Content Include="wwwroot\app\common\services\notification.service.ts" />
 		<Content Include="wwwroot\app\common\services\student.service.ts" />
+		<Content Include="wwwroot\app\common\services\subject.service.ts" />
 		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
 		<Content Include="wwwroot\app\lecturer\lecturer.component.ts" />
 		<Content Include="wwwroot\app\lecturer\lecturer.module.ts" />

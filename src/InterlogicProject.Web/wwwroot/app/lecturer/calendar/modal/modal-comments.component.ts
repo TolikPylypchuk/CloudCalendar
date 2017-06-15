@@ -2,7 +2,8 @@
 
 import * as moment from "moment";
 
-import { LecturerService, ClassService } from "../../../common/common";
+import { AccountService } from "../../../account/account";
+import { ClassService, CommentService, LecturerService } from "../../../common/common";
 import { Comment } from "../../../common/models";
 
 @Component({
@@ -22,18 +23,24 @@ export default class ModalCommentsComponent implements OnInit {
 	editedCommentId = 0;
 	editedCommentOriginalText = "";
 
-	private lecturerService: LecturerService;
+	private accountService: AccountService;
 	private classService: ClassService;
+	private commentService: CommentService;
+	private lecturerService: LecturerService;
 
 	constructor(
-		lecturerService: LecturerService,
-		classService: ClassService) {
-		this.lecturerService = lecturerService;
+		accountService: AccountService,
+		classService: ClassService,
+		commentService: CommentService,
+		lecturerService: LecturerService) {
+		this.accountService = accountService;
 		this.classService = classService;
+		this.commentService = commentService;
+		this.lecturerService = lecturerService;
 	}
 
 	ngOnInit(): void {
-		this.lecturerService.getCurrentUser()
+		this.accountService.getCurrentUser()
 			.subscribe(user => {
 				if (user) {
 					this.currentComment.userId = user.id;
@@ -45,7 +52,7 @@ export default class ModalCommentsComponent implements OnInit {
 				}
 			});
 
-		this.classService.getComments(this.classId)
+		this.commentService.getCommentsByClass(this.classId)
 			.subscribe(data => this.comments = data);
 	}
 
@@ -61,7 +68,7 @@ export default class ModalCommentsComponent implements OnInit {
 		this.currentComment.dateTime = moment().utc()
 			.add(2, "hours").toISOString();
 
-		this.classService.addComment(this.currentComment)
+		this.commentService.addComment(this.currentComment)
 			.subscribe(response => {
 				if (response.status === 201) {
 					this.comments.push(response.json() as Comment);
@@ -85,7 +92,7 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	updateComment(comment: Comment): void {
-		this.classService.updateComment(comment)
+		this.commentService.updateComment(comment)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.editedCommentId = 0;
@@ -101,7 +108,7 @@ export default class ModalCommentsComponent implements OnInit {
 	}
 
 	deleteComment(comment: Comment): void {
-		this.classService.deleteComment(comment.id)
+		this.commentService.deleteComment(comment.id)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.comments = this.comments.filter(

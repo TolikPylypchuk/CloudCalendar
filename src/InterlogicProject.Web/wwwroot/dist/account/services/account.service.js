@@ -14,7 +14,6 @@ var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
 var Observable_1 = require("rxjs/Observable");
 var ReplaySubject_1 = require("rxjs/ReplaySubject");
-var functions_1 = require("../../common/functions");
 var AccountService = (function () {
     function AccountService(http, router) {
         var _this = this;
@@ -37,7 +36,6 @@ var AccountService = (function () {
                     ? response.json()
                     : null;
             })
-                .catch(functions_1.handleError)
                 .first()
                 .subscribe(function (user) { return _this.currentUserSource.next(user); });
         }
@@ -70,7 +68,6 @@ var AccountService = (function () {
                         ? response.json()
                         : null;
                 })
-                    .catch(functions_1.handleError)
                     .subscribe(function (user) {
                     _this.currentUserSource.next(user);
                     _this.router.navigate([_this.returnUrl ? _this.returnUrl : ""]);
@@ -81,7 +78,6 @@ var AccountService = (function () {
             }
             return false;
         })
-            .catch(functions_1.handleError)
             .first();
     };
     AccountService.prototype.logout = function () {

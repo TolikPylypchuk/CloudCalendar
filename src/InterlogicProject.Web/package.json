@@ -25,12 +25,12 @@
     "ng2-file-upload": "^1.2.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.0",
-    "systemjs": "^0.20.13",
+    "systemjs": "^0.20.14",
     "tether": "^1.4.0",
     "zone.js": "^0.8.12"
   },
   "devDependencies": {
-    "@types/bootstrap": "3.3.33",
+    "@types/bootstrap": "3.3.34",
     "@types/es6-shim": "0.31.34",
     "@types/fullcalendar": "2.7.44",
     "@types/jasmine": "2.5.52",

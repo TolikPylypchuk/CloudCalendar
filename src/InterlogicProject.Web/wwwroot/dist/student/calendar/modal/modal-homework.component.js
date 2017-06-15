@@ -13,8 +13,9 @@ var core_1 = require("@angular/core");
 var ng2_file_upload_1 = require("ng2-file-upload");
 var common_1 = require("../../../common/common");
 var ModalHomeworkComponent = (function () {
-    function ModalHomeworkComponent(classService, studentService) {
+    function ModalHomeworkComponent(classService, homeworkService, studentService) {
         this.classService = classService;
+        this.homeworkService = homeworkService;
         this.studentService = studentService;
     }
     ModalHomeworkComponent.prototype.ngOnInit = function () {
@@ -28,10 +29,10 @@ var ModalHomeworkComponent = (function () {
             });
             _this.uploader.onCompleteItem = function (item) {
                 _this.uploader.queue = [];
-                _this.classService.getHomework(_this.classId, _this.currentStudentId)
+                _this.homeworkService.getHomeworksByClassAndStudent(_this.classId, _this.currentStudentId)
                     .subscribe(function (homework) { return _this.homework = homework; });
             };
-            _this.classService.getHomework(_this.classId, _this.currentStudentId)
+            _this.homeworkService.getHomeworksByClassAndStudent(_this.classId, _this.currentStudentId)
                 .subscribe(function (homework) { return _this.homework = homework; });
         });
         this.classService.getClass(this.classId)
@@ -39,7 +40,7 @@ var ModalHomeworkComponent = (function () {
     };
     ModalHomeworkComponent.prototype.deleteHomework = function () {
         var _this = this;
-        this.classService.deleteHomework(this.homework.id)
+        this.homeworkService.deleteHomework(this.homework.id)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.homework = null;
@@ -72,7 +73,9 @@ ModalHomeworkComponent = __decorate([
         templateUrl: "/templates/student/calendarModalHomework",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [common_1.ClassService, common_1.StudentService])
+    __metadata("design:paramtypes", [common_1.ClassService,
+        common_1.HomeworkService,
+        common_1.StudentService])
 ], ModalHomeworkComponent);
 exports.default = ModalHomeworkComponent;
 //# sourceMappingURL=modal-homework.component.js.map

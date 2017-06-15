@@ -12,13 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("../../../common/common");
 var ModalHomeworkComponent = (function () {
-    function ModalHomeworkComponent(classService, lecturerService) {
+    function ModalHomeworkComponent(classService, homeworkService, lecturerService, studentService) {
         this.homeworks = [];
         this.students = new Map();
         this.allowText = "Дозволити надсилання домашніх завдань";
         this.forbidText = "Обмежити надсилання домашніх завдань";
         this.classService = classService;
+        this.homeworkService = homeworkService;
         this.lecturerService = lecturerService;
+        this.studentService = studentService;
     }
     ModalHomeworkComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -29,12 +31,12 @@ var ModalHomeworkComponent = (function () {
                 ? _this.forbidText
                 : _this.allowText;
         });
-        this.classService.getHomeworks(this.classId)
+        this.homeworkService.getHomeworksByClass(this.classId)
             .subscribe(function (homeworks) {
             _this.homeworks = homeworks;
             for (var _i = 0, homeworks_1 = homeworks; _i < homeworks_1.length; _i++) {
                 var homework = homeworks_1[_i];
-                _this.lecturerService.getStudent(homework.studentId)
+                _this.studentService.getStudent(homework.studentId)
                     .subscribe(function (student) {
                     return _this.students.set(student.id, student);
                 });
@@ -58,7 +60,7 @@ var ModalHomeworkComponent = (function () {
             id: homework.id,
             accepted: accepted
         };
-        this.classService.updateHomework(h)
+        this.homeworkService.updateHomework(h)
             .subscribe(function (response) {
             if (response.status === 204) {
                 homework.accepted = accepted;
@@ -67,7 +69,7 @@ var ModalHomeworkComponent = (function () {
     };
     ModalHomeworkComponent.prototype.deleteHomework = function (homework) {
         var _this = this;
-        this.classService.deleteHomework(homework.id)
+        this.homeworkService.deleteHomework(homework.id)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.homeworks = _this.homeworks.filter(function (h) { return h.id !== homework.id; });
@@ -106,7 +108,10 @@ ModalHomeworkComponent = __decorate([
         templateUrl: "/templates/lecturer/calendarModalHomework",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [common_1.ClassService, common_1.LecturerService])
+    __metadata("design:paramtypes", [common_1.ClassService,
+        common_1.HomeworkService,
+        common_1.LecturerService,
+        common_1.StudentService])
 ], ModalHomeworkComponent);
 exports.default = ModalHomeworkComponent;
 //# sourceMappingURL=modal-homework.component.js.map

@@ -14,21 +14,21 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var FacultyService = (function () {
     function FacultyService(http) {
-        this.faculties = "api/faculties";
+        this.faculties = "/api/faculties";
         this.http = http;
     }
     FacultyService.prototype.getFaculties = function () {
-        return this.http.get(this.faculties)
+        return this.http.get(this.faculties, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     FacultyService.prototype.getFaculty = function (id) {
-        return this.http.get(this.faculties + "/" + id)
+        return this.http.get(this.faculties + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
-    FacultyService.prototype.getByBuilding = function (buildingId) {
-        return this.http.get(this.faculties + "/buildingId/" + buildingId)
+    FacultyService.prototype.getFacultiesByBuilding = function (buildingId) {
+        return this.http.get(this.faculties + "/buildingId/" + buildingId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

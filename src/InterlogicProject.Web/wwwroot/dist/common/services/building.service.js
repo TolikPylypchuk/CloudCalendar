@@ -14,16 +14,16 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var BuildingService = (function () {
     function BuildingService(http) {
-        this.buildings = "api/buildings";
+        this.buildings = "/api/buildings";
         this.http = http;
     }
     BuildingService.prototype.getBuildings = function () {
-        return this.http.get(this.buildings)
+        return this.http.get(this.buildings, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     BuildingService.prototype.getBuilding = function (id) {
-        return this.http.get(this.buildings + "/" + id)
+        return this.http.get(this.buildings + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

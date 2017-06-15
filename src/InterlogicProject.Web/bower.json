@@ -16,7 +16,7 @@
 		"jquery": "3.2.1",
 		"moment": "2.18.1",
 		"reflect-metadata": "0.1.10",
-		"system.js": "0.20.13",
+		"system.js": "0.20.14",
 		"tether": "1.4.0",
 		"zone": "0.8.11"
 	}

@@ -13,23 +13,23 @@ var core_1 = require("@angular/core");
 var ng2_file_upload_1 = require("ng2-file-upload");
 var common_1 = require("../../../common/common");
 var ModalMaterialsComponent = (function () {
-    function ModalMaterialsComponent(classService) {
+    function ModalMaterialsComponent(materialService) {
         this.materials = [];
         this.hasDropZoneOver = false;
-        this.classService = classService;
+        this.materialService = materialService;
     }
     ModalMaterialsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.uploader = new ng2_file_upload_1.FileUploader({
             url: "api/materials/classId/" + this.classId
         });
-        this.classService.getMaterials(this.classId)
+        this.materialService.getMaterialsByClass(this.classId)
             .subscribe(function (materials) {
             _this.materials = materials;
         });
         this.uploader.onCompleteAll = function () {
             _this.uploader.clearQueue();
-            _this.classService.getMaterials(_this.classId)
+            _this.materialService.getMaterialsByClass(_this.classId)
                 .subscribe(function (materials) {
                 _this.materials = materials;
             });
@@ -37,7 +37,7 @@ var ModalMaterialsComponent = (function () {
     };
     ModalMaterialsComponent.prototype.deleteMaterial = function (material) {
         var _this = this;
-        this.classService.deleteMaterial(material.id)
+        this.materialService.deleteMaterial(material.id)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.materials = _this.materials.filter(function (m) { return m.id !== material.id; });
@@ -59,7 +59,7 @@ ModalMaterialsComponent = __decorate([
         templateUrl: "/templates/lecturer/calendarModalMaterials",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [common_1.ClassService])
+    __metadata("design:paramtypes", [common_1.MaterialService])
 ], ModalMaterialsComponent);
 exports.default = ModalMaterialsComponent;
 //# sourceMappingURL=modal-materials.component.js.map

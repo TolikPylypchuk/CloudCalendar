@@ -10,15 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var modal_content_component_1 = require("./modal/modal-content.component");
 var common_1 = require("../../common/common");
 var CalendarComponent = (function () {
-    function CalendarComponent(http, modalService, lecturerService) {
+    function CalendarComponent(modalService, classService, lecturerService) {
         this.currentSubscription = null;
-        this.http = http;
         this.modalService = modalService;
         this.lecturerService = lecturerService;
         this.options = {
@@ -58,10 +56,7 @@ var CalendarComponent = (function () {
         this.currentSubscription = this.lecturerService.getCurrentLecturer()
             .subscribe(function (lecturer) {
             if (lecturer) {
-                var request = _this.http.get("/api/classes/lecturerId/" + lecturer.id +
-                    ("/range/" + start.format("YYYY-MM-DD")) +
-                    ("/" + end.format("YYYY-MM-DD")));
-                request.map(function (response) { return response.json(); })
+                _this.classService.getClassesForLecturerInRange(lecturer.id, start, end)
                     .subscribe(function (data) {
                     var classes = data;
                     callback(classes.map(_this.classToEvent));
@@ -93,8 +88,8 @@ CalendarComponent = __decorate([
         templateUrl: "/templates/lecturer/calendar",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [http_1.Http,
-        ng_bootstrap_1.NgbModal,
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+        common_1.ClassService,
         common_1.LecturerService])
 ], CalendarComponent);
 exports.default = CalendarComponent;

@@ -11,21 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var moment = require("moment");
+var account_1 = require("../../../account/account");
 var common_1 = require("../../../common/common");
 var ModalCommentsComponent = (function () {
-    function ModalCommentsComponent(lecturerService, classService) {
+    function ModalCommentsComponent(accountService, classService, commentService, lecturerService) {
         this.comments = [];
         this.currentComment = {
             text: ""
         };
         this.editedCommentId = 0;
         this.editedCommentOriginalText = "";
-        this.lecturerService = lecturerService;
+        this.accountService = accountService;
         this.classService = classService;
+        this.commentService = commentService;
+        this.lecturerService = lecturerService;
     }
     ModalCommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.lecturerService.getCurrentUser()
+        this.accountService.getCurrentUser()
             .subscribe(function (user) {
             if (user) {
                 _this.currentComment.userId = user.id;
@@ -36,7 +39,7 @@ var ModalCommentsComponent = (function () {
                 _this.currentComment.classId = _this.classId;
             }
         });
-        this.classService.getComments(this.classId)
+        this.commentService.getCommentsByClass(this.classId)
             .subscribe(function (data) { return _this.comments = data; });
     };
     ModalCommentsComponent.prototype.formatDateTime = function (dateTime, format) {
@@ -49,7 +52,7 @@ var ModalCommentsComponent = (function () {
         var _this = this;
         this.currentComment.dateTime = moment().utc()
             .add(2, "hours").toISOString();
-        this.classService.addComment(this.currentComment)
+        this.commentService.addComment(this.currentComment)
             .subscribe(function (response) {
             if (response.status === 201) {
                 _this.comments.push(response.json());
@@ -71,7 +74,7 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.updateComment = function (comment) {
         var _this = this;
-        this.classService.updateComment(comment)
+        this.commentService.updateComment(comment)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.editedCommentId = 0;
@@ -85,7 +88,7 @@ var ModalCommentsComponent = (function () {
     };
     ModalCommentsComponent.prototype.deleteComment = function (comment) {
         var _this = this;
-        this.classService.deleteComment(comment.id)
+        this.commentService.deleteComment(comment.id)
             .subscribe(function (response) {
             if (response.status === 204) {
                 _this.comments = _this.comments.filter(function (c) { return c.id !== comment.id; });
@@ -104,8 +107,10 @@ ModalCommentsComponent = __decorate([
         templateUrl: "/templates/lecturer/calendarModalComments",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [common_1.LecturerService,
-        common_1.ClassService])
+    __metadata("design:paramtypes", [account_1.AccountService,
+        common_1.ClassService,
+        common_1.CommentService,
+        common_1.LecturerService])
 ], ModalCommentsComponent);
 exports.default = ModalCommentsComponent;
 //# sourceMappingURL=modal-comments.component.js.map

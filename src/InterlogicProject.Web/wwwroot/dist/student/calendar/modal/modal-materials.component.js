@@ -14,11 +14,11 @@ var common_1 = require("../../../common/common");
 var ModalMaterialsComponent = (function () {
     function ModalMaterialsComponent(classService) {
         this.materials = [];
-        this.classService = classService;
+        this.materialService = classService;
     }
     ModalMaterialsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.classService.getMaterials(this.classId)
+        this.materialService.getMaterialsByClass(this.classId)
             .subscribe(function (materials) {
             _this.materials = materials;
         });
@@ -35,7 +35,7 @@ ModalMaterialsComponent = __decorate([
         templateUrl: "/templates/student/calendarModalMaterials",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [common_1.ClassService])
+    __metadata("design:paramtypes", [common_1.MaterialService])
 ], ModalMaterialsComponent);
 exports.default = ModalMaterialsComponent;
 //# sourceMappingURL=modal-materials.component.js.map

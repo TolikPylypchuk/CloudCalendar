@@ -8,7 +8,7 @@ import { Department } from "../models";
 
 @Injectable()
 export default class DepartmentService {
-	private departments = "api/departments";
+	private departments = "/api/departments";
 
 	private http: Http;
 
@@ -17,19 +17,25 @@ export default class DepartmentService {
 	}
 
 	getDepartments(): Observable<Department[]> {
-		return this.http.get(this.departments)
+		return this.http.get(
+			this.departments,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Department[])
 			.first();
 	}
 
 	getDepartment(id: number): Observable<Department> {
-		return this.http.get(`${this.departments}/${id}`)
+		return this.http.get(
+			`${this.departments}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Department)
 			.first();
 	}
 
-	getByFaculty(facultyId: number): Observable<Department[]> {
-		return this.http.get(`${this.departments}/facultyId/${facultyId}`)
+	getDepartmentsByFaculty(facultyId: number): Observable<Department[]> {
+		return this.http.get(
+			`${this.departments}/facultyId/${facultyId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Department[])
 			.first();
 	}

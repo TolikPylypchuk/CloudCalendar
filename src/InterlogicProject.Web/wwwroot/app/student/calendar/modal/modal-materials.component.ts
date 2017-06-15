@@ -1,6 +1,6 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
-import { ClassService } from "../../../common/common";
+import { MaterialService } from "../../../common/common";
 import { Material } from "../../../common/models";
 
 @Component({
@@ -11,16 +11,16 @@ import { Material } from "../../../common/models";
 export default class ModalMaterialsComponent implements OnInit {
 	@Input() classId: number;
 
-	classService: ClassService;
+	materialService: MaterialService;
 
 	materials: Material[] = [];
 	
-	constructor(classService: ClassService) {
-		this.classService = classService;
+	constructor(classService: MaterialService) {
+		this.materialService = classService;
 	}
 
 	ngOnInit(): void {
-		this.classService.getMaterials(this.classId)
+		this.materialService.getMaterialsByClass(this.classId)
 			.subscribe(materials => {
 				this.materials = materials;
 			});

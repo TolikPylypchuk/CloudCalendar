@@ -14,130 +14,96 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var ClassService = (function () {
     function ClassService(http) {
+        this.classes = "/api/classes";
         this.http = http;
     }
+    ClassService.prototype.getClasses = function () {
+        return this.http.get(this.classes, { headers: functions_1.getHeaders() })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
+            .first();
+    };
     ClassService.prototype.getClass = function (id) {
-        return this.http.get("api/classes/" + id)
+        return this.http.get(this.classes + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) {
             return response.status === 200
                 ? response.json()
                 : null;
         })
-            .catch(functions_1.handleError)
             .first();
     };
-    ClassService.prototype.getPlaces = function (classId) {
-        return this.http.get("api/classrooms/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesInRange = function (start, end) {
+        return this.http.get(this.classes + "/range/" + start.format("YYYY-MM-dd") + "/" +
+            ("" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getGroups = function (classId) {
-        return this.http.get("api/groups/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForGroup = function (groupId) {
+        return this.http.get(this.classes + "/groupId/" + groupId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getLecturers = function (classId) {
-        return this.http.get("api/lecturers/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForGroupInRange = function (groupId, start, end) {
+        return this.http.get(this.classes + "/groupId/" + groupId + "/range/" +
+            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getComments = function (classId) {
-        return this.http.get("api/comments/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForLecturer = function (lecturerId) {
+        return this.http.get(this.classes + "/lecturerId/" + lecturerId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getMaterials = function (classId) {
-        return this.http.get("api/materials/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForLecturerInRange = function (lecturerId, start, end) {
+        return this.http.get(this.classes + "/lecturerId/" + lecturerId + "/range/" +
+            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getHomeworks = function (classId) {
-        return this.http.get("api/homeworks/classId/" + classId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForGroupAndLecturer = function (groupId, lecturerId) {
+        return this.http.get(this.classes + "/groupId/" + groupId + "/lecturerId/" + lecturerId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
     };
-    ClassService.prototype.getHomework = function (classId, studentId) {
-        return this.http.get("api/homeworks/classId/" + classId + "/studentId/" + studentId)
-            .map(function (response) {
-            return response.status === 200
-                ? response.json()
-                : null;
-        })
-            .catch(functions_1.handleError)
+    ClassService.prototype.getClassesForGroupAndLecturerInRange = function (groupId, lecturerId, start, end) {
+        return this.http.get(this.classes + "/groupId/" + groupId + "/lecturerId/" + lecturerId + "/range/" +
+            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
             .first();
+    };
+    ClassService.prototype.getClassesForClassroom = function (classroomId) {
+        return this.http.get(this.classes + "/classroomId/" + classroomId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    ClassService.prototype.getClassesForClassroomInRange = function (classroomId, start, end) {
+        return this.http.get(this.classes + "/classroomId/" + classroomId + "/range/" +
+            (start.format("YYYY-MM-dd") + "/" + end.format("YYYY-MM-dd")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    ClassService.prototype.addClass = function (c) {
+        var action = this.http.post(this.classes, JSON.stringify(c), { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+        action.subscribe(function (response) {
+            var location = response.headers.get("Location");
+            c.id = +location.substr(location.lastIndexOf("/") + 1);
+        });
+        return action;
     };
     ClassService.prototype.updateClass = function (c) {
-        return this.http.put("api/classes/" + c.id, JSON.stringify(c), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
-            .catch(functions_1.handleError)
-            .first();
+        return this.http.put(this.classes + "/" + c.id, JSON.stringify(c), { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
     };
-    ClassService.prototype.addComment = function (comment) {
-        return this.http.post("api/comments", JSON.stringify(comment), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
-            .catch(functions_1.handleError)
-            .first();
-    };
-    ClassService.prototype.updateComment = function (comment) {
-        return this.http.put("api/comments/" + comment.id, JSON.stringify(comment), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
-            .catch(functions_1.handleError)
-            .first();
-    };
-    ClassService.prototype.deleteComment = function (id) {
-        return this.http.delete("api/comments/" + id)
-            .catch(functions_1.handleError)
-            .first();
-    };
-    ClassService.prototype.deleteMaterial = function (id) {
-        return this.http.delete("api/materials/" + id)
-            .catch(functions_1.handleError)
-            .first();
-    };
-    ClassService.prototype.updateHomework = function (homework) {
-        return this.http.put("api/homeworks/" + homework.id, JSON.stringify(homework), {
-            headers: new http_1.Headers({ "Content-Type": "application/json" })
-        })
-            .catch(functions_1.handleError)
-            .first();
-    };
-    ClassService.prototype.deleteHomework = function (id) {
-        return this.http.delete("api/homeworks/" + id)
-            .catch(functions_1.handleError)
-            .first();
+    ClassService.prototype.deleteClass = function (id) {
+        return this.http.delete(this.classes + "/" + id, { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
     };
     return ClassService;
 }());

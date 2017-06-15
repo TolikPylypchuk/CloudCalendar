@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { ReplaySubject } from "rxjs/ReplaySubject";
 
-import { handleError } from "../../common/functions";
 import { User } from "../../common/models";
 
 import { LoginModel } from "../models/models";
@@ -42,7 +41,6 @@ export default class AccountService {
 					response.status === 200
 						? response.json() as User
 						: null)
-				.catch(handleError)
 				.first()
 				.subscribe((user: User) => this.currentUserSource.next(user));
 		}
@@ -85,7 +83,6 @@ export default class AccountService {
 							response.status === 200
 								? response.json() as User
 								: null)
-						.catch(handleError)
 						.subscribe((user: User) => {
 							this.currentUserSource.next(user);
 							this.router.navigate(
@@ -99,7 +96,6 @@ export default class AccountService {
 
 				return false;
 			})
-			.catch(handleError)
 			.first();
 	}
 

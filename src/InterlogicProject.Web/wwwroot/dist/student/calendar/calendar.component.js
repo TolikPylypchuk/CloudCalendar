@@ -10,16 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var common_1 = require("../../common/common");
 var modal_content_component_1 = require("./modal/modal-content.component");
 var CalendarComponent = (function () {
-    function CalendarComponent(http, modalService, studentService) {
-        this.currentSubscription = null;
-        this.http = http;
+    function CalendarComponent(modalService, classService, groupService, studentService) {
         this.modalService = modalService;
+        this.classService = classService;
+        this.groupService = groupService;
         this.studentService = studentService;
         this.options = {
             allDaySlot: false,
@@ -51,21 +50,18 @@ var CalendarComponent = (function () {
     }
     CalendarComponent.prototype.getEvents = function (start, end, timezone, callback) {
         var _this = this;
-        if (this.currentSubscription !== null) {
-            this.currentSubscription.unsubscribe();
-        }
-        this.currentSubscription = this.studentService.getCurrentGroup()
-            .subscribe(function (group) {
-            if (group) {
-                var request = _this.http.get("/api/classes/groupId/" + group.id +
-                    ("/range/" + start.format("YYYY-MM-DD")) +
-                    ("/" + end.format("YYYY-MM-DD")));
-                request.map(function (response) { return response.json(); })
-                    .subscribe(function (data) {
-                    var classes = data;
-                    callback(classes.map(_this.classToEvent));
-                });
-            }
+        this.studentService.getCurrentStudent()
+            .subscribe(function (student) {
+            return _this.groupService.getGroup(student.groupId)
+                .subscribe(function (group) {
+                if (group) {
+                    _this.classService.getClassesForGroupInRange(group.id, start, end)
+                        .subscribe(function (data) {
+                        var classes = data;
+                        callback(classes.map(_this.classToEvent));
+                    });
+                }
+            });
         });
     };
     CalendarComponent.prototype.eventClicked = function (event) {
@@ -92,8 +88,9 @@ CalendarComponent = __decorate([
         templateUrl: "templates/student/calendar",
         styleUrls: ["/dist/css/style.min.css"]
     }),
-    __metadata("design:paramtypes", [http_1.Http,
-        ng_bootstrap_1.NgbModal,
+    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+        common_1.ClassService,
+        common_1.GroupService,
         common_1.StudentService])
 ], CalendarComponent);
 exports.default = CalendarComponent;

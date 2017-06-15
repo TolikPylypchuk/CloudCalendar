@@ -2,7 +2,9 @@
 
 import { FileUploader, FileItem } from "ng2-file-upload";
 
-import { ClassService, StudentService } from "../../../common/common";
+import {
+	ClassService, HomeworkService, StudentService
+} from "../../../common/common";
 import { Class, Homework } from "../../../common/models";
 
 @Component({
@@ -20,10 +22,15 @@ export default class ModalHomeworkComponent implements OnInit {
 	uploader: FileUploader;
 
 	private classService: ClassService;
+	private homeworkService: HomeworkService;
 	private studentService: StudentService;
 
-	constructor(classService: ClassService, studentService: StudentService) {
+	constructor(
+		classService: ClassService,
+		homeworkService: HomeworkService,
+		studentService: StudentService) {
 		this.classService = classService;
+		this.homeworkService = homeworkService;
 		this.studentService = studentService;
 	}
 
@@ -41,11 +48,13 @@ export default class ModalHomeworkComponent implements OnInit {
 				this.uploader.onCompleteItem = (item: FileItem) => {
 					this.uploader.queue = [];
 
-					this.classService.getHomework(this.classId, this.currentStudentId)
+					this.homeworkService.getHomeworksByClassAndStudent(
+						this.classId, this.currentStudentId)
 						.subscribe(homework => this.homework = homework);
 				};
 
-				this.classService.getHomework(this.classId, this.currentStudentId)
+				this.homeworkService.getHomeworksByClassAndStudent(
+					this.classId, this.currentStudentId)
 					.subscribe(homework => this.homework = homework);
 			});
 
@@ -54,7 +63,7 @@ export default class ModalHomeworkComponent implements OnInit {
 	}
 	
 	deleteHomework(): void {
-		this.classService.deleteHomework(this.homework.id)
+		this.homeworkService.deleteHomework(this.homework.id)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.homework = null;

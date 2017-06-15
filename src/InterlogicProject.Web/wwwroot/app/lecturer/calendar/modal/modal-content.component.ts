@@ -3,7 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 import * as moment from "moment";
 
-import { ClassService } from "../../../common/common";
+import { ClassService, ClassroomService, GroupService } from "../../../common/common";
 import { Classroom, Group } from "../../../common/models";
 
 @Component({
@@ -23,12 +23,18 @@ export default class ModalContentComponent implements OnInit {
 	private activeModal: NgbActiveModal;
 
 	private classService: ClassService;
-	
+	private classroomService: ClassroomService;
+	private groupService: GroupService;
+
 	constructor(
 		activeModal: NgbActiveModal,
-		classService: ClassService) {
+		classService: ClassService,
+		classroomService: ClassroomService,
+		groupService: GroupService) {
 		this.activeModal = activeModal;
 		this.classService = classService;
+		this.classroomService = classroomService;
+		this.groupService = groupService;
 	}
 
 	ngOnInit() {
@@ -39,10 +45,10 @@ export default class ModalContentComponent implements OnInit {
 				this.dateTime = data.dateTime;
 			});
 
-		this.classService.getPlaces(this.classId)
+		this.classroomService.getClassroomsByClass(this.classId)
 			.subscribe(data => this.classrooms = data);
 
-		this.classService.getGroups(this.classId)
+		this.groupService.getGroupsByClass(this.classId)
 			.subscribe(data => this.groups = data);
 	}
 

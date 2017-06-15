@@ -8,7 +8,7 @@ import { Group } from "../models";
 
 @Injectable()
 export default class GroupService {
-	private groups = "api/groups";
+	private groups = "/api/groups";
 
 	private http: Http;
 
@@ -17,19 +17,59 @@ export default class GroupService {
 	}
 
 	getGroups(): Observable<Group[]> {
-		return this.http.get(this.groups)
+		return this.http.get(
+			this.groups,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Group[])
 			.first();
 	}
 
 	getGroup(id: number): Observable<Group> {
-		return this.http.get(`${this.groups}/${id}`)
+		return this.http.get(
+			`${this.groups}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Group)
 			.first();
 	}
 
 	getGroupsByDepartment(departmentId: number): Observable<Group[]> {
-		return this.http.get(this.groups)
+		return this.http.get(
+			`${this.groups}/departmentId/${departmentId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Group[])
+			.first();
+	}
+
+	getGroupsByFaculty(facultyId: number): Observable<Group[]> {
+		return this.http.get(
+			`${this.groups}/facultyId/${facultyId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Group[])
+			.first();
+	}
+
+	getGroupsByYear(year: number): Observable<Group[]> {
+		return this.http.get(
+			`${this.groups}/year/${year}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Group[])
+			.first();
+	}
+
+	getGroupsByFacultyAndYear(
+		facultyId: number,
+		year: number): Observable<Group[]> {
+		return this.http.get(
+			`${this.groups}/facultyId/${facultyId}/year/${year}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Group[])
+			.first();
+	}
+
+	getGroupsByClass(classId: number): Observable<Group[]> {
+		return this.http.get(
+			`${this.groups}/classId/${classId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Group[])
 			.first();
 	}

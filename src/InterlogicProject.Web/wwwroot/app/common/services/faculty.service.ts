@@ -8,7 +8,7 @@ import { Faculty } from "../models";
 
 @Injectable()
 export default class FacultyService {
-	private faculties = "api/faculties";
+	private faculties = "/api/faculties";
 
 	private http: Http;
 
@@ -17,19 +17,25 @@ export default class FacultyService {
 	}
 
 	getFaculties(): Observable<Faculty[]> {
-		return this.http.get(this.faculties)
+		return this.http.get(
+			this.faculties,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Faculty[])
 			.first();
 	}
 
 	getFaculty(id: number): Observable<Faculty> {
-		return this.http.get(`${this.faculties}/${id}`)
+		return this.http.get(
+			`${this.faculties}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Faculty)
 			.first();
 	}
 
-	getByBuilding(buildingId: number): Observable<Faculty[]> {
-		return this.http.get(`${this.faculties}/buildingId/${buildingId}`)
+	getFacultiesByBuilding(buildingId: number): Observable<Faculty[]> {
+		return this.http.get(
+			`${this.faculties}/buildingId/${buildingId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Faculty[])
 			.first();
 	}

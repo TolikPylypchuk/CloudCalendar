@@ -8,7 +8,7 @@ import { Classroom } from "../models";
 
 @Injectable()
 export default class ClassroomService {
-	private classrooms = "api/classrooms";
+	private classrooms = "/api/classrooms";
 
 	private http: Http;
 
@@ -17,25 +17,33 @@ export default class ClassroomService {
 	}
 
 	getClassrooms(): Observable<Classroom[]> {
-		return this.http.get(this.classrooms)
+		return this.http.get(
+			this.classrooms,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Classroom[])
 			.first();
 	}
 
 	getClassroom(id: number): Observable<Classroom> {
-		return this.http.get(`${this.classrooms}/${id}`)
+		return this.http.get(
+			`${this.classrooms}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Classroom)
 			.first();
 	}
 
-	getByBuilding(buildingId: number): Observable<Classroom[]> {
-		return this.http.get(`${this.classrooms}/buildingId/${buildingId}`)
+	getClassroomsByBuilding(buildingId: number): Observable<Classroom[]> {
+		return this.http.get(
+			`${this.classrooms}/buildingId/${buildingId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Classroom[])
 			.first();
 	}
 
-	getByClass(classId: number): Observable<Classroom[]> {
-		return this.http.get(`${this.classrooms}/classId/${classId}`)
+	getClassroomsByClass(classId: number): Observable<Classroom[]> {
+		return this.http.get(
+			`${this.classrooms}/classId/${classId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Classroom[])
 			.first();
 	}

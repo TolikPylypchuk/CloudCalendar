@@ -11,68 +11,92 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
-var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+var ReplaySubject_1 = require("rxjs/ReplaySubject");
 var functions_1 = require("../functions");
+var account_1 = require("../../account/account");
 var StudentService = (function () {
-    function StudentService(http) {
-        var _this = this;
-        this.currentUserSource = new BehaviorSubject_1.BehaviorSubject(null);
-        this.currentStudentSource = new BehaviorSubject_1.BehaviorSubject(null);
-        this.currentGroupSource = new BehaviorSubject_1.BehaviorSubject(null);
+    function StudentService(http, accountService) {
+        this.students = "/api/students";
+        this.currentStudentSource = new ReplaySubject_1.ReplaySubject();
+        this.currentUserId = 0;
         this.http = http;
-        this.http.get("/api/users/current")
-            .map(function (response) { return response.json(); })
-            .catch(functions_1.handleError)
-            .first()
-            .subscribe(function (data) { return _this.initUser(data); });
+        this.accountService = accountService;
     }
-    StudentService.prototype.getCurrentUser = function () {
-        return this.currentUserSource.asObservable();
-    };
     StudentService.prototype.getCurrentStudent = function () {
-        return this.currentStudentSource.asObservable();
+        var _this = this;
+        return this.accountService.getCurrentUser()
+            .map(function (user) {
+            return user.id === _this.currentUserId
+                ? _this.currentStudentSource.asObservable()
+                : _this.http.get(_this.students + "/userId/" + user.id, { headers: functions_1.getHeaders() })
+                    .map(function (response) {
+                    var student = response.json();
+                    _this.currentUserId = student.userId;
+                    _this.currentStudentSource.next(student);
+                    return student;
+                });
+        })
+            .switch();
     };
-    StudentService.prototype.getCurrentGroup = function () {
-        return this.currentGroupSource.asObservable();
+    StudentService.prototype.getStudents = function () {
+        return this.http.get(this.students, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
     };
     StudentService.prototype.getStudent = function (id) {
-        return this.http.get("api/students/" + id)
+        return this.http.get(this.students + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
-            .catch(functions_1.handleError)
             .first();
     };
-    StudentService.prototype.getLecturer = function (id) {
-        return this.http.get("api/lecturers/" + id)
+    StudentService.prototype.getStudentByUserId = function (userId) {
+        return this.http.get(this.students + "/userId/" + userId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
-            .catch(functions_1.handleError)
             .first();
     };
-    StudentService.prototype.initUser = function (user) {
-        var _this = this;
-        this.currentUserSource.next(user);
-        this.http.get("/api/students/userId/" + user.id)
+    StudentService.prototype.getStudentByEmail = function (email) {
+        return this.http.get(this.students + "/email/" + email, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
-            .catch(functions_1.handleError)
-            .first()
-            .subscribe(function (data) { return _this.initStudent(data); });
+            .first();
     };
-    StudentService.prototype.initStudent = function (student) {
-        var _this = this;
-        this.currentStudentSource.next(student);
-        this.http.get("/api/groups/" + student.groupId)
+    StudentService.prototype.getStudentByTranscript = function (transcript) {
+        return this.http.get(this.students + "/transcript/" + transcript, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
-            .catch(functions_1.handleError)
-            .first()
-            .subscribe(function (data) { return _this.initGroup(data); });
+            .first();
     };
-    StudentService.prototype.initGroup = function (group) {
-        this.currentGroupSource.next(group);
+    StudentService.prototype.getStudentsByGroup = function (groupId) {
+        return this.http.get(this.students + "/groupId/" + groupId, { headers: functions_1.getHeaders() })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
+            .first();
+    };
+    StudentService.prototype.addStudent = function (student) {
+        var action = this.http.post(this.students, JSON.stringify(student), { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+        action.subscribe(function (response) {
+            var location = response.headers.get("Location");
+            student.id = +location.substr(location.lastIndexOf("/") + 1);
+        });
+        return action;
+    };
+    StudentService.prototype.updateStudent = function (student) {
+        return this.http.put(this.students + "/" + student.id, JSON.stringify(student), { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+    };
+    StudentService.prototype.deleteStudent = function (id) {
+        return this.http.delete(this.students + "/" + id, { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
     };
     return StudentService;
 }());
 StudentService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http, account_1.AccountService])
 ], StudentService);
 exports.default = StudentService;
 //# sourceMappingURL=student.service.js.map

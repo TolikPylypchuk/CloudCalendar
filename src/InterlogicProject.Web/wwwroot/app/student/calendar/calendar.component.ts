@@ -5,7 +5,9 @@ import { Subscription } from "rxjs/Subscription";
 
 import * as moment from "moment";
 
-import { StudentService } from "../../common/common";
+import {
+	ClassService, GroupService, StudentService
+} from "../../common/common";
 import { Class } from "../../common/models";
 
 import ModalContentComponent from "./modal/modal-content.component";
@@ -18,18 +20,20 @@ import ModalContentComponent from "./modal/modal-content.component";
 export default class CalendarComponent {
 	options: FC.Options;
 
-	private http: Http;
 	private modalService: NgbModal;
-	private studentService: StudentService;
 
-	private currentSubscription: Subscription = null;
+	private classService: ClassService;
+	private groupService: GroupService;
+	private studentService: StudentService;
 	
 	constructor(
-		http: Http,
 		modalService: NgbModal,
+		classService: ClassService,
+		groupService: GroupService,
 		studentService: StudentService) {
-		this.http = http;
 		this.modalService = modalService;
+		this.classService = classService;
+		this.groupService = groupService;
 		this.studentService = studentService;
 
 		this.options = {
@@ -48,7 +52,7 @@ export default class CalendarComponent {
 				center: "agendaWeek,listWeek",
 				right: "today,prev,next"
 			},
-			height: "auto" as any,
+			height: "auto",
 			minTime: moment.duration("08:00:00"),
 			maxTime: moment.duration("21:00:00"),
 			slotDuration: moment.duration("00:30:00"),
@@ -67,25 +71,19 @@ export default class CalendarComponent {
 		timezone: string | boolean,
 		callback: (data: FC.EventObject[]) => void): void {
 
-		if (this.currentSubscription !== null) {
-			this.currentSubscription.unsubscribe();
-		}
-		
-		this.currentSubscription = this.studentService.getCurrentGroup()
-			.subscribe(group => {
-				if (group) {
-					const request = this.http.get(
-						`/api/classes/groupId/${group.id}` +
-						`/range/${start.format("YYYY-MM-DD")}` +
-						`/${end.format("YYYY-MM-DD")}`);
-
-					request.map(response => response.json())
-						.subscribe(data => {
-							const classes = data as Class[];
-							callback(classes.map(this.classToEvent));
-						});
-				}
-			});
+		this.studentService.getCurrentStudent()
+			.subscribe(student =>
+				this.groupService.getGroup(student.groupId)
+					.subscribe(group => {
+						if (group) {
+							this.classService.getClassesForGroupInRange(
+								group.id, start, end)
+								.subscribe(data => {
+									const classes = data as Class[];
+									callback(classes.map(this.classToEvent));
+								});
+						}
+					}));
 	}
 
 	private eventClicked(event: FC.EventObject): void {

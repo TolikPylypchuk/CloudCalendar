@@ -6,6 +6,7 @@ require("rxjs/add/operator/catch");
 require("rxjs/add/operator/first");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/publish");
+require("rxjs/add/operator/switch");
 var moment = require("moment");
 require("fullcalendar");
 require("fullcalendar/dist/locale/uk");

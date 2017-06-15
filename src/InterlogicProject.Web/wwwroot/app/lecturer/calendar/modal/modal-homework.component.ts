@@ -1,6 +1,8 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
-import { ClassService, LecturerService } from "../../../common/common";
+import {
+	ClassService, HomeworkService, LecturerService, StudentService
+} from "../../../common/common";
 import { Class, Homework, Student } from "../../../common/models";
 
 @Component({
@@ -18,14 +20,22 @@ export default class ModalHomeworkComponent implements OnInit {
 	text: string;
 
 	private classService: ClassService;
+	private homeworkService: HomeworkService;
 	private lecturerService: LecturerService;
+	private studentService; StudentService;
 
 	private allowText = "Дозволити надсилання домашніх завдань";
 	private forbidText = "Обмежити надсилання домашніх завдань";
 
-	constructor(classService: ClassService, lecturerService: LecturerService) {
+	constructor(
+		classService: ClassService,
+		homeworkService: HomeworkService,
+		lecturerService: LecturerService,
+		studentService: StudentService) {
 		this.classService = classService;
+		this.homeworkService = homeworkService;
 		this.lecturerService = lecturerService;
+		this.studentService = studentService;
 	}
 
 	ngOnInit(): void {
@@ -38,12 +48,12 @@ export default class ModalHomeworkComponent implements OnInit {
 					: this.allowText;
 			});
 
-		this.classService.getHomeworks(this.classId)
+		this.homeworkService.getHomeworksByClass(this.classId)
 			.subscribe(homeworks => {
 				this.homeworks = homeworks;
 
 				for (let homework of homeworks) {
-					this.lecturerService.getStudent(homework.studentId)
+					this.studentService.getStudent(homework.studentId)
 						.subscribe(student =>
 							this.students.set(student.id, student));
 				}
@@ -69,7 +79,7 @@ export default class ModalHomeworkComponent implements OnInit {
 			accepted: accepted
 		};
 
-		this.classService.updateHomework(h)
+		this.homeworkService.updateHomework(h)
 			.subscribe(response => {
 				if (response.status === 204) {
 					homework.accepted = accepted;
@@ -78,7 +88,7 @@ export default class ModalHomeworkComponent implements OnInit {
 	}
 
 	deleteHomework(homework: Homework): void {
-		this.classService.deleteHomework(homework.id)
+		this.homeworkService.deleteHomework(homework.id)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.homeworks = this.homeworks.filter(

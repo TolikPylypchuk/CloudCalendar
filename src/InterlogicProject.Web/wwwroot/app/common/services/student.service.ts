@@ -1,76 +1,129 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { ConnectableObservable } from "rxjs/Observable/ConnectableObservable";
+import { ReplaySubject } from "rxjs/ReplaySubject";
 
-import { handleError } from "../functions";
-import { Student, Lecturer, Group, User } from "../models";
+import { getHeaders } from "../functions";
+import { Student, User } from "../models";
+
+import { AccountService } from "../../account/account";
 
 @Injectable()
 export default class StudentService {
-	private currentUserSource = new BehaviorSubject<User>(null);
-	private currentStudentSource = new BehaviorSubject<Student>(null);
-	private currentGroupSource = new BehaviorSubject<Group>(null);
+	private students = "/api/students";
+
+	private currentStudentSource = new ReplaySubject<Student>();
+	private currentUserId: number = 0;
 
 	private http: Http;
 
-	constructor(http: Http) {
-		this.http = http;
+	private accountService: AccountService;
 
-		this.http.get("/api/users/current")
-			.map(response => response.json())
-			.catch(handleError)
-			.first()
-			.subscribe(data => this.initUser(data as User));
+	constructor(http: Http, accountService: AccountService) {
+		this.http = http;
+		this.accountService = accountService;
 	}
 	
-	getCurrentUser(): Observable<User> {
-		return this.currentUserSource.asObservable();
-	}
-
 	getCurrentStudent(): Observable<Student> {
-		return this.currentStudentSource.asObservable();
+		return this.accountService.getCurrentUser()
+			.map(user =>
+				user.id === this.currentUserId
+					? this.currentStudentSource.asObservable()
+					: this.http.get(
+						`${this.students}/userId/${user.id}`,
+						{ headers: getHeaders() })
+						.map(response => {
+							const student = response.json() as Student;
+							this.currentUserId = student.userId;
+							this.currentStudentSource.next(student);
+							return student;
+						}))
+			.switch();
 	}
 
-	getCurrentGroup(): Observable<Group> {
-		return this.currentGroupSource.asObservable();
+	getStudents(): Observable<Student[]> {
+		return this.http.get(
+			this.students,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Student[])
+			.first();
 	}
 
 	getStudent(id: number): Observable<Student> {
-		return this.http.get(`api/students/${id}`)
+		return this.http.get(
+			`${this.students}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Student)
-			.catch(handleError)
 			.first();
 	}
 
-	getLecturer(id: number): Observable<Lecturer> {
-		return this.http.get(`api/lecturers/${id}`)
-			.map(response => response.json() as Lecturer)
-			.catch(handleError)
+	getStudentByUserId(userId: number): Observable<Student> {
+		return this.http.get(
+			`${this.students}/userId/${userId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Student)
 			.first();
 	}
 
-	private initUser(user: User): void {
-		this.currentUserSource.next(user);
-
-		this.http.get(`/api/students/userId/${user.id}`)
-			.map(response => response.json())
-			.catch(handleError)
-			.first()
-			.subscribe(data => this.initStudent(data as Student));
+	getStudentByEmail(email: number): Observable<Student> {
+		return this.http.get(
+			`${this.students}/email/${email}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Student)
+			.first();
 	}
 
-	private initStudent(student: Student) {
-		this.currentStudentSource.next(student);
-
-		this.http.get(`/api/groups/${student.groupId}`)
-			.map(response => response.json())
-			.catch(handleError)
-			.first()
-			.subscribe(data => this.initGroup(data as Group));
+	getStudentByTranscript(transcript: string): Observable<Student> {
+		return this.http.get(
+			`${this.students}/transcript/${transcript}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Student)
+			.first();
 	}
 
-	private initGroup(group: Group) {
-		this.currentGroupSource.next(group);
+	getStudentsByGroup(groupId: number): Observable<Student[]> {
+		return this.http.get(
+			`${this.students}/groupId/${groupId}`,
+			{ headers: getHeaders() })
+			.map(response =>
+				response.status === 200
+					? response.json() as Student[]
+					: null)
+			.first();
+	}
+
+	addStudent(student: Student): ConnectableObservable<Response> {
+		const action = this.http.post(
+			this.students,
+			JSON.stringify(student),
+			{ headers: getHeaders() })
+			.first()
+			.publish();
+
+		action.subscribe(
+			response => {
+				const location = response.headers.get("Location");
+				student.id = +location.substr(location.lastIndexOf("/") + 1);
+			});
+
+		return action;
+	}
+
+	updateStudent(student: Student): ConnectableObservable<Response> {
+		return this.http.put(
+			`${this.students}/${student.id}`,
+			JSON.stringify(student),
+			{ headers: getHeaders() })
+			.first()
+			.publish();
+	}
+
+	deleteStudent(id: number): ConnectableObservable<Response> {
+		return this.http.delete(
+			`${this.students}/${id}`,
+			{ headers: getHeaders() })
+			.first()
+			.publish();
 	}
 }

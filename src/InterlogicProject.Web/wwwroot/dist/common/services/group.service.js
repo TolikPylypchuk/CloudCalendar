@@ -14,21 +14,41 @@ var http_1 = require("@angular/http");
 var functions_1 = require("../functions");
 var GroupService = (function () {
     function GroupService(http) {
-        this.groups = "api/groups";
+        this.groups = "/api/groups";
         this.http = http;
     }
     GroupService.prototype.getGroups = function () {
-        return this.http.get(this.groups)
+        return this.http.get(this.groups, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     GroupService.prototype.getGroup = function (id) {
-        return this.http.get(this.groups + "/" + id)
+        return this.http.get(this.groups + "/" + id, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
     GroupService.prototype.getGroupsByDepartment = function (departmentId) {
-        return this.http.get(this.groups)
+        return this.http.get(this.groups + "/departmentId/" + departmentId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    GroupService.prototype.getGroupsByFaculty = function (facultyId) {
+        return this.http.get(this.groups + "/facultyId/" + facultyId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    GroupService.prototype.getGroupsByYear = function (year) {
+        return this.http.get(this.groups + "/year/" + year, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    GroupService.prototype.getGroupsByFacultyAndYear = function (facultyId, year) {
+        return this.http.get(this.groups + "/facultyId/" + facultyId + "/year/" + year, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    GroupService.prototype.getGroupsByClass = function (classId) {
+        return this.http.get(this.groups + "/classId/" + classId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

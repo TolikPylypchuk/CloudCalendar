@@ -1,61 +1,142 @@
 ﻿import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { ConnectableObservable } from "rxjs/Observable/ConnectableObservable";
+import { ReplaySubject } from "rxjs/ReplaySubject";
 
-import { handleError } from "../functions";
-import { Lecturer, Student, User } from "../models";
+import { getHeaders } from "../functions";
+import { Lecturer, User } from "../models";
+
+import { AccountService } from "../../account/account";
 
 @Injectable()
 export default class LecturerService {
-	private currentUserSource = new BehaviorSubject<User>(null);
-	private currentLecturerSource = new BehaviorSubject<Lecturer>(null);
+	private lecturers = "/api/lecturers";
+
+	private currentLecturerSource = new ReplaySubject<Lecturer>(null);
+	private currentUserId: number = 0;
 
 	private http: Http;
 
-	constructor(http: Http) {
-		this.http = http;
+	private accountService: AccountService;
 
-		this.http.get("/api/users/current")
-			.map(response => response.json())
-			.catch(handleError)
-			.first()
-			.subscribe(data => this.initUser(data as User));
-	}
-	
-	getCurrentUser(): Observable<User> {
-		return this.currentUserSource.asObservable();
+	constructor(http: Http, accountService: AccountService) {
+		this.http = http;
+		this.accountService = accountService;
 	}
 
 	getCurrentLecturer(): Observable<Lecturer> {
-		return this.currentLecturerSource.asObservable();
+		return this.accountService.getCurrentUser()
+			.map(user =>
+				user.id === this.currentUserId
+					? this.currentLecturerSource.asObservable()
+					: this.http.get(
+						`${this.lecturers}/userId/${user.id}`,
+						{ headers: getHeaders() })
+						.map(response => {
+							const lecturer = response.json() as Lecturer;
+							this.currentUserId = lecturer.userId;
+							return lecturer;
+						}))
+			.switch();
+	}
+
+	getLecturers(): Observable<Lecturer[]> {
+		return this.http.get(
+			this.lecturers,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Lecturer[])
+			.first();
 	}
 
 	getLecturer(id: number): Observable<Lecturer> {
-		return this.http.get(`api/lecturers/${id}`)
+		return this.http.get(
+			`${this.lecturers}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Lecturer)
-			.catch(handleError)
 			.first();
 	}
 
-	getStudent(id: number): Observable<Student> {
-		return this.http.get(`api/students/${id}`)
-			.map(response => response.json() as Student)
-			.catch(handleError)
+	getLecturerByUserId(userId: number): Observable<Lecturer> {
+		return this.http.get(
+			`${this.lecturers}/userId/${userId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Lecturer)
 			.first();
 	}
-	
-	private initUser(user: User): void {
-		this.currentUserSource.next(user);
 
-		this.http.get(`/api/lecturers/userId/${user.id}`)
-			.map(response => response.json())
-			.catch(handleError)
+	getLecturerByEmail(email: number): Observable<Lecturer> {
+		return this.http.get(
+			`${this.lecturers}/email/${email}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Lecturer)
+			.first();
+	}
+
+	getLecturersByDepartment(departmentId: number): Observable<Lecturer[]> {
+		return this.http.get(
+			`${this.lecturers}/departmentId/${departmentId}`,
+			{ headers: getHeaders() })
+			.map(response =>
+				response.status === 200
+					? response.json() as Lecturer[]
+					: null)
+			.first();
+	}
+
+	getLecturersByFaculty(facultyId: number): Observable<Lecturer[]> {
+		return this.http.get(
+			`${this.lecturers}/facultyId/${facultyId}`,
+			{ headers: getHeaders() })
+			.map(response =>
+				response.status === 200
+					? response.json() as Lecturer[]
+					: null)
+			.first();
+	}
+
+	getLecturersByClass(classId: number): Observable<Lecturer[]> {
+		return this.http.get(
+			`${this.lecturers}/classId/${classId}`,
+			{ headers: getHeaders() })
+			.map(response =>
+				response.status === 200
+					? response.json() as Lecturer[]
+					: null)
+			.first();
+	}
+
+	addLecturer(lecturer: Lecturer): ConnectableObservable<Response> {
+		const action = this.http.post(
+			this.lecturers,
+			JSON.stringify(lecturer),
+			{ headers: getHeaders() })
 			.first()
-			.subscribe(data => this.initLecturer(data as Lecturer));
+			.publish();
+
+		action.subscribe(
+			response => {
+				const location = response.headers.get("Location");
+				lecturer.id = +location.substr(location.lastIndexOf("/") + 1);
+			});
+
+		return action;
 	}
 
-	private initLecturer(lecturer: Lecturer) {
-		this.currentLecturerSource.next(lecturer);
+	updateLecturer(lecturer: Lecturer): ConnectableObservable<Response> {
+		return this.http.put(
+			`${this.lecturers}/${lecturer.id}`,
+			JSON.stringify(lecturer),
+			{ headers: getHeaders() })
+			.first()
+			.publish();
+	}
+
+	deleteLecturer(id: number): ConnectableObservable<Response> {
+		return this.http.delete(
+			`${this.lecturers}/${id}`,
+			{ headers: getHeaders() })
+			.first()
+			.publish();
 	}
 }

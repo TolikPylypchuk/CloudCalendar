@@ -184,7 +184,6 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPut("{id}")]
 		[SwaggerResponse(204)]
-		[Authorize(Roles = "Student")]
 		public IActionResult Put(
 			[FromRoute] int id,
 			[FromBody] HomeworkDto homeworkDto)
@@ -218,7 +217,6 @@ namespace InterlogicProject.Web.API
 		/// </returns>
 		[HttpPatch("{id}")]
 		[SwaggerResponse(204)]
-		[Authorize(Roles = "Student")]
 		public IActionResult Patch(
 			[FromRoute] int id,
 			[FromBody] HomeworkDto homeworkDto)

@@ -2,7 +2,7 @@
 
 import { FileUploader } from "ng2-file-upload";
 
-import { ClassService } from "../../../common/common";
+import { MaterialService } from "../../../common/common";
 import { Material } from "../../../common/models";
 
 @Component({
@@ -18,10 +18,10 @@ export default class ModalMaterialsComponent implements OnInit {
 	uploader: FileUploader;
 	hasDropZoneOver = false;
 
-	private classService: ClassService;
+	private materialService: MaterialService;
 
-	constructor(classService: ClassService) {
-		this.classService = classService;
+	constructor(materialService: MaterialService) {
+		this.materialService = materialService;
 	}
 
 	ngOnInit(): void {
@@ -30,7 +30,7 @@ export default class ModalMaterialsComponent implements OnInit {
 			url: `api/materials/classId/${this.classId}`
 		});
 
-		this.classService.getMaterials(this.classId)
+		this.materialService.getMaterialsByClass(this.classId)
 			.subscribe(materials => {
 				this.materials = materials;
 			});
@@ -38,7 +38,7 @@ export default class ModalMaterialsComponent implements OnInit {
 		this.uploader.onCompleteAll = () => {
 			this.uploader.clearQueue();
 
-			this.classService.getMaterials(this.classId)
+			this.materialService.getMaterialsByClass(this.classId)
 				.subscribe(materials => {
 					this.materials = materials;
 				});
@@ -46,7 +46,7 @@ export default class ModalMaterialsComponent implements OnInit {
 	}
 
 	deleteMaterial(material: Material): void {
-		this.classService.deleteMaterial(material.id)
+		this.materialService.deleteMaterial(material.id)
 			.subscribe(response => {
 				if (response.status === 204) {
 					this.materials = this.materials.filter(

@@ -8,7 +8,7 @@ import { Comment } from "../models";
 
 @Injectable()
 export default class CommentService {
-	private comments = "api/comments";
+	private comments = "/api/comments";
 
 	private http: Http;
 
@@ -17,48 +17,62 @@ export default class CommentService {
 	}
 
 	getComments(): Observable<Comment[]> {
-		return this.http.get(this.comments)
+		return this.http.get(
+			this.comments,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Comment[])
 			.first();
 	}
 
 	getComment(id: number): Observable<Comment> {
-		return this.http.get(`${this.comments}/${id}`)
+		return this.http.get(
+			`${this.comments}/${id}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Comment)
 			.first();
 	}
 
-	getByClass(classId: number): Observable<Comment[]> {
-		return this.http.get(`${this.comments}/classId/${classId}`)
-			.map(response => response.json() as Comment[])
-			.first();
-	}
-
-	getSomeByClass(classId: number, take: number): Observable<Comment[]> {
-		return this.http.get(`${this.comments}/classId/${classId}/take/${take}`)
-			.map(response => response.json() as Comment[])
-			.first();
-	}
-
-	getByUser(userId: number): Observable<Comment[]> {
-		return this.http.get(`${this.comments}/userId/${userId}`)
-			.map(response => response.json() as Comment[])
-			.first();
-	}
-
-	getByClassAndUser(classId: number, userId: number): Observable<Comment[]> {
+	getCommentsByClass(classId: number): Observable<Comment[]> {
 		return this.http.get(
-			`${this.comments}/classId/${classId}/userId/${userId}`)
+			`${this.comments}/classId/${classId}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Comment[])
 			.first();
 	}
 
-	getSomeByClassAndUser(
+	getSomeCommentsByClass(classId: number, take: number): Observable<Comment[]> {
+		return this.http.get(
+			`${this.comments}/classId/${classId}/take/${take}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Comment[])
+			.first();
+	}
+
+	getCommentsByUser(userId: number): Observable<Comment[]> {
+		return this.http.get(
+			`${this.comments}/userId/${userId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Comment[])
+			.first();
+	}
+
+	getCommentsByClassAndUser(
+		classId: number,
+		userId: number): Observable<Comment[]> {
+		return this.http.get(
+			`${this.comments}/classId/${classId}/userId/${userId}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Comment[])
+			.first();
+	}
+
+	getSomeCommentsByClassAndUser(
 		classId: number,
 		userId: number,
 		take: number): Observable<Comment[]> {
 		return this.http.get(
-			`${this.comments}/classId/${classId}/userId/${userId}/take/${take}`)
+			`${this.comments}/classId/${classId}/userId/${userId}/take/${take}`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Comment[])
 			.first();
 	}
