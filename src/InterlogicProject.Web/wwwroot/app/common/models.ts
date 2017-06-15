@@ -17,6 +17,7 @@ export interface User extends Entity {
 	middleName?: string;
 	lastName?: string;
 	fullName?: string;
+	roles?: string[];
 }
 
 export interface Building extends Entity {

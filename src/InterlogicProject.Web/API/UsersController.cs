@@ -62,8 +62,13 @@ namespace InterlogicProject.Web.API
 		[HttpGet("{id}")]
 		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> GetById([FromRoute] string id)
-			=> Mapper.Map<UserDto>(await this.manager.FindByIdAsync(id));
-
+		{
+			var user = await this.manager.FindByIdAsync(id);
+			user.RoleNames = await this.manager.GetRolesAsync(user);
+			
+			return Mapper.Map<UserDto>(user);
+		}
+		
 		/// <summary>
 		/// Gets a user with the specified email.
 		/// </summary>
@@ -72,7 +77,12 @@ namespace InterlogicProject.Web.API
 		[HttpGet("email/{email}")]
 		[SwaggerResponse(200, Type = typeof(UserDto))]
 		public async Task<UserDto> GetByEmail([FromRoute] string email)
-			=> Mapper.Map<UserDto>(await this.manager.FindByEmailAsync(email));
+		{
+			var user = await this.manager.FindByEmailAsync(email);
+			user.RoleNames = await this.manager.GetRolesAsync(user);
+
+			return Mapper.Map<UserDto>(user);
+		}
 
 		/// <summary>
 		/// Gets the currently logged in user.
@@ -84,7 +94,11 @@ namespace InterlogicProject.Web.API
 		{
 			string name = this.accessor.HttpContext.User.FindFirst(
 				ClaimTypes.NameIdentifier)?.Value;
-			return Mapper.Map<UserDto>(await this.manager.FindByNameAsync(name));
+
+			var user = await this.manager.FindByNameAsync(name);
+			user.RoleNames = await this.manager.GetRolesAsync(user);
+
+			return Mapper.Map<UserDto>(user);
 		}
 	}
 }

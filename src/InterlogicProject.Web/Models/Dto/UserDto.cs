@@ -1,4 +1,6 @@
-﻿namespace InterlogicProject.Web.Models.Dto
+﻿using System.Collections.Generic;
+
+namespace InterlogicProject.Web.Models.Dto
 {
 	public class UserDto
 	{
@@ -9,6 +11,8 @@
 		public string MiddleName { get; set; }
 		public string LastName { get; set; }
 		public string FullName { get; set; }
+
+		public IList<string> Roles { get; set; }
 
 		public override string ToString() => this.FullName;
 	}

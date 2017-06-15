@@ -15,6 +15,7 @@ var lecturer_1 = require("./lecturer/lecturer");
 var routes_module_1 = require("./routes.module");
 var app_component_1 = require("./app.component");
 var navigation_component_1 = require("./navigation.component");
+var start_page_component_1 = require("./start-page.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -24,7 +25,8 @@ AppModule = __decorate([
     core_1.NgModule({
         declarations: [
             app_component_1.default,
-            navigation_component_1.default
+            navigation_component_1.default,
+            start_page_component_1.default
         ],
         imports: [
             ng_bootstrap_1.NgbModule.forRoot(),

@@ -10,11 +10,13 @@ import RoutesModule from "./routes.module";
 
 import AppComponent from "./app.component";
 import NavigationComponent from "./navigation.component";
+import StartPageComponent from "./start-page.component";
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		NavigationComponent
+		NavigationComponent,
+		StartPageComponent
 	],
 	imports: [
 		NgbModule.forRoot(),

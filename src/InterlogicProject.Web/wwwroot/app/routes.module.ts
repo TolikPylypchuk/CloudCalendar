@@ -1,13 +1,13 @@
 ﻿import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { CalendarComponent } from "./student/calendar/calendar";
+import StartPageComponent from "./start-page.component";
 
 import { AuthGuard } from "./account/account";
 
 const routes: Routes = [
-	{ path: "", component: CalendarComponent, canActivate: [ AuthGuard ] }
-]
+	{ path: "", component: StartPageComponent, canActivate: [ AuthGuard ] }
+];
 
 @NgModule({
 	imports: [

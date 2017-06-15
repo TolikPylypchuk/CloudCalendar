@@ -179,7 +179,6 @@ namespace InterlogicProject.Web
 				config.CreateMap<LecturerClass, LecturerClassDto>();
 				config.CreateMap<Material, MaterialDto>();
 				config.CreateMap<Subject, SubjectDto>();
-				config.CreateMap<User, UserDto>();
 
 				config.CreateMap<Lecturer, LecturerDto>()
 					.ForMember(
@@ -222,6 +221,11 @@ namespace InterlogicProject.Web
 					.ForMember(
 						dest => dest.Email,
 						opt => opt.MapFrom(src => src.User.Email));
+
+				config.CreateMap<User, UserDto>()
+					.ForMember(
+						dest => dest.Roles,
+						options => options.MapFrom(src => src.RoleNames));
 			});
 
 			services.AddSwaggerGen(options =>

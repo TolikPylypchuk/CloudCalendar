@@ -121,10 +121,22 @@ export default class AccountService {
 	setLoggingIn(value: boolean): void {
 		this.loggingIn = value;
 	}
+
+	isStudent(): Observable<boolean> {
+		return this.isCurrentUserInRole("student");
+	}
+
+	isLecturer(): Observable<boolean> {
+		return this.isCurrentUserInRole("lecturer");
+	}
+
+	isAdmin(): Observable<boolean> {
+		return this.isCurrentUserInRole("admin");
+	}
 	
 	getToken(): string {
 		const token = localStorage.getItem("ipAuthToken");
-		return token ? JSON.parse(token).token : null;
+		return token ? token : null;
 	}
 
 	getHeaders(): Headers {
@@ -134,5 +146,11 @@ export default class AccountService {
 				"Authorization": `Bearer ${this.getToken()}`
 			})
 			: new Headers({ "Content-Type": "application/json" });
+	}
+
+	private isCurrentUserInRole(role: string): Observable<boolean> {
+		return this.currentUserSource.asObservable()
+			.map(user => user.roles && !!user.roles.find(
+				r => r.toLowerCase() === role.toLowerCase()));
 	}
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 
+import * as $ from "jquery";
+
 import AccountService from "../services/account.service";
 import { LoginModel } from '../models/models';
 
@@ -19,7 +21,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
 	private router: Router;
 	private accountService: AccountService;
 
-	nstructor(router: Router, accountService: AccountService) {
+	constructor(router: Router, accountService: AccountService) {
 		this.router = router;
 		this.accountService = accountService;
 	}
@@ -42,7 +44,12 @@ export default class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	submit(): void {
-		this.accountService.login(this.model)
+		const modelToSubmit: LoginModel = {
+			username: this.model.username + $("#emailDomain").text().trim(),
+			password: this.model.password
+		};
+
+		this.accountService.login(modelToSubmit)
 			.subscribe(
 				(success: boolean) => {
 					if (!success) {

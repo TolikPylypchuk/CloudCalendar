@@ -99,9 +99,18 @@ var AccountService = (function () {
     AccountService.prototype.setLoggingIn = function (value) {
         this.loggingIn = value;
     };
+    AccountService.prototype.isStudent = function () {
+        return this.isCurrentUserInRole("student");
+    };
+    AccountService.prototype.isLecturer = function () {
+        return this.isCurrentUserInRole("lecturer");
+    };
+    AccountService.prototype.isAdmin = function () {
+        return this.isCurrentUserInRole("admin");
+    };
     AccountService.prototype.getToken = function () {
         var token = localStorage.getItem("ipAuthToken");
-        return token ? JSON.parse(token).token : null;
+        return token ? token : null;
     };
     AccountService.prototype.getHeaders = function () {
         return this.isLoggedIn()
@@ -110,6 +119,10 @@ var AccountService = (function () {
                 "Authorization": "Bearer " + this.getToken()
             })
             : new http_1.Headers({ "Content-Type": "application/json" });
+    };
+    AccountService.prototype.isCurrentUserInRole = function (role) {
+        return this.currentUserSource.asObservable()
+            .map(function (user) { return user.roles && !!user.roles.find(function (r) { return r.toLowerCase() === role.toLowerCase(); }); });
     };
     return AccountService;
 }());

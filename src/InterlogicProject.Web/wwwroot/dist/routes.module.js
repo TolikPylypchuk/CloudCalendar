@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var calendar_1 = require("./student/calendar/calendar");
+var start_page_component_1 = require("./start-page.component");
 var account_1 = require("./account/account");
 var routes = [
-    { path: "", component: calendar_1.CalendarComponent, canActivate: [account_1.AuthGuard] }
+    { path: "", component: start_page_component_1.default, canActivate: [account_1.AuthGuard] }
 ];
 var RoutesModule = (function () {
     function RoutesModule() {

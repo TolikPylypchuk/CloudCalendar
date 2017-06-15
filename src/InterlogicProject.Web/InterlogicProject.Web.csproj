@@ -56,6 +56,7 @@
 		<Content Include="wwwroot\app\main.ts" />
 		<Content Include="wwwroot\app\navigation.component.ts" />
 		<Content Include="wwwroot\app\routes.module.ts" />
+		<Content Include="wwwroot\app\start-page.component.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
 		<Content Include="wwwroot\app\student\calendar\calendar.ts" />
