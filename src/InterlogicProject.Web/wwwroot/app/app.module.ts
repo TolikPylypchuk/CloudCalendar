@@ -4,8 +4,9 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CommonModule } from "./common/common";
 import { AccountModule } from "./account/account";
-import { StudentModule } from "./student/student";
 import { LecturerModule } from "./lecturer/lecturer";
+import { StudentModule } from "./student/student";
+import { ViewModule } from "./view/view";
 
 import RoutesModule from "./routes.module";
 
@@ -26,6 +27,7 @@ import StartPageComponent from "./start-page.component";
 		AccountModule,
 		LecturerModule,
 		StudentModule,
+		ViewModule,
 		RoutesModule
 	],
 	bootstrap: [

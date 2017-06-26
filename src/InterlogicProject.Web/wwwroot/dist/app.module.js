@@ -11,8 +11,9 @@ var platform_browser_1 = require("@angular/platform-browser");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var common_1 = require("./common/common");
 var account_1 = require("./account/account");
-var student_1 = require("./student/student");
 var lecturer_1 = require("./lecturer/lecturer");
+var student_1 = require("./student/student");
+var view_1 = require("./view/view");
 var routes_module_1 = require("./routes.module");
 var app_component_1 = require("./app.component");
 var navigation_component_1 = require("./navigation.component");
@@ -36,6 +37,7 @@ AppModule = __decorate([
             account_1.AccountModule,
             lecturer_1.LecturerModule,
             student_1.StudentModule,
+            view_1.ViewModule,
             routes_module_1.default
         ],
         bootstrap: [

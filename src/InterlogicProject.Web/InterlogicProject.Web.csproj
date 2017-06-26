@@ -71,6 +71,12 @@
 		<Content Include="wwwroot\app\student\student.component.ts" />
 		<Content Include="wwwroot\app\student\student.module.ts" />
 		<Content Include="wwwroot\app\student\student.ts" />
+		<Content Include="wwwroot\app\view\components\notifications.component.ts" />
+		<Content Include="wwwroot\app\view\notifications.component.ts" />
+		<Content Include="wwwroot\app\view\routes.module.ts" />
+		<Content Include="wwwroot\app\view\view.component.ts" />
+		<Content Include="wwwroot\app\view\view.module.ts" />
+		<Content Include="wwwroot\app\view\view.ts" />
 		<Content Include="wwwroot\dist\css\style.css" />
 		<Content Include="wwwroot\dist\css\style.min.css" />
 	</ItemGroup>
@@ -131,8 +137,8 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+		<Folder Include="Views\View\" />
 		<Folder Include="Views\Shared\" />
-		<Folder Include="wwwroot\app\view\" />
 		<Folder Include="wwwroot\dist\css\" />
 		<Folder Include="wwwroot\dist\lecturer\" />
 		<Folder Include="wwwroot\dist\student\" />
