@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
@@ -24,6 +28,9 @@ namespace InterlogicProject.Web.API
 	[Produces("application/json")]
 	public class NotificationsController : Controller
 	{
+		private UserManager<User> manager;
+		private IHttpContextAccessor accessor;
+
 		private IRepository<Notification> notifications;
 		private IRepository<UserNotification> userNotifications;
 		private IRepository<GroupClass> groupClasses;
@@ -32,6 +39,12 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Initializes a new instance of the NotificationsController class.
 		/// </summary>
+		/// <param name="manager">
+		/// The manager that this instance will use.
+		/// </param>
+		/// <param name="accessor">
+		/// The HTTP context accessor that this instance will use.
+		/// </param>
 		/// <param name="notifications">
 		/// The repository of notifications that this instance will use.
 		/// </param>
@@ -48,11 +61,16 @@ namespace InterlogicProject.Web.API
 		/// that this instance will use.
 		/// </param>
 		public NotificationsController(
+			UserManager<User> manager,
+			IHttpContextAccessor accessor,
 			IRepository<Notification> notifications,
 			IRepository<UserNotification> userNotifications,
 			IRepository<GroupClass> groupClasses,
 			IRepository<LecturerClass> lecturerClasses)
 		{
+			this.manager = manager;
+			this.accessor = accessor;
+
 			this.notifications = notifications;
 			this.userNotifications = userNotifications;
 			this.groupClasses = groupClasses;
@@ -93,6 +111,25 @@ namespace InterlogicProject.Web.API
 								?.Where(n => n.UserId == userId)
 								 .OrderBy(n => n.Notification.DateTime)
 								 .ProjectTo<NotificationDto>();
+		
+		/// <summary>
+		/// Gets all notifications for the current user.
+		/// </summary>
+		/// <returns>All notifications for the current user.</returns>
+		[HttpGet("user/current")]
+		[SwaggerResponse(200, Type = typeof(IEnumerable<NotificationDto>))]
+		public async Task<IEnumerable<NotificationDto>> GetForCurrentUser()
+		{
+			string name = this.accessor.HttpContext.User.FindFirst(
+				ClaimTypes.NameIdentifier)?.Value;
+
+			var user = await this.manager.FindByNameAsync(name);
+
+			return this.userNotifications.GetAll()
+										?.Where(n => n.UserId == user.Id)
+										 .OrderBy(n => n.Notification.DateTime)
+										 .ProjectTo<NotificationDto>();
+		}
 		
 		/// <summary>
 		/// Gets all notifications between the specified dates.

@@ -132,6 +132,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Views\Shared\" />
+		<Folder Include="wwwroot\app\view\" />
 		<Folder Include="wwwroot\dist\css\" />
 		<Folder Include="wwwroot\dist\lecturer\" />
 		<Folder Include="wwwroot\dist\student\" />

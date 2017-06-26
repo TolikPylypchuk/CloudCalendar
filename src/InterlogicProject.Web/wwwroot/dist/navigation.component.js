@@ -11,10 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var account_1 = require("./account/account");
+var common_1 = require("./common/common");
 var NavigationComponent = (function () {
-    function NavigationComponent(accoutService) {
+    function NavigationComponent(accoutService, notificationService) {
         this.accoutService = accoutService;
+        this.notificationService = notificationService;
     }
+    NavigationComponent.prototype.ngOnInit = function () {
+        this.notificationCount =
+            this.notificationService.getNotificationsForCurrentUser()
+                .map(function (notifications) { return notifications.length; });
+    };
     NavigationComponent.prototype.isLoggedIn = function () {
         return this.accoutService.isLoggedIn();
     };
@@ -30,7 +37,8 @@ NavigationComponent = __decorate([
         selector: "ip-navigation",
         templateUrl: "templates/navigation"
     }),
-    __metadata("design:paramtypes", [account_1.AccountService])
+    __metadata("design:paramtypes", [account_1.AccountService,
+        common_1.NotificationService])
 ], NavigationComponent);
 exports.default = NavigationComponent;
 //# sourceMappingURL=navigation.component.js.map

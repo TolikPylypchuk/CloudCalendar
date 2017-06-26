@@ -24,11 +24,20 @@ var NotificationService = (function () {
     };
     NotificationService.prototype.getNotification = function (id) {
         return this.http.get(this.notifications + "/" + id, { headers: functions_1.getHeaders() })
-            .map(function (response) { return response.json(); })
+            .map(function (response) {
+            return response.status === 200
+                ? response.json()
+                : null;
+        })
             .first();
     };
     NotificationService.prototype.getNotificationsForUser = function (userId) {
         return this.http.get(this.notifications + "/userId/" + userId, { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    NotificationService.prototype.getNotificationsForCurrentUser = function () {
+        return this.http.get(this.notifications + "/user/current", { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };
@@ -54,10 +63,25 @@ var NotificationService = (function () {
         });
         return action;
     };
-    NotificationService.prototype.updateNotification = function (notification) {
-        return this.http.put(this.notifications + "/" + notification.id, JSON.stringify(notification), { headers: functions_1.getHeaders() })
+    NotificationService.prototype.addNotificationForGroupsInClass = function (notification, classId) {
+        var action = this.http.post(this.notifications + "/groups/classId/" + classId, JSON.stringify(notification), { headers: functions_1.getHeaders() })
             .first()
             .publish();
+        action.subscribe(function (response) {
+            var location = response.headers.get("Location");
+            notification.id = +location.substr(location.lastIndexOf("/") + 1);
+        });
+        return action;
+    };
+    NotificationService.prototype.addNotificationForLecturersInClass = function (notification, classId) {
+        var action = this.http.post(this.notifications + "/lecturers/classId/" + classId, JSON.stringify(notification), { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+        action.subscribe(function (response) {
+            var location = response.headers.get("Location");
+            notification.id = +location.substr(location.lastIndexOf("/") + 1);
+        });
+        return action;
     };
     NotificationService.prototype.deleteNotification = function (id) {
         return this.http.delete(this.notifications + "/" + id, { headers: functions_1.getHeaders() })

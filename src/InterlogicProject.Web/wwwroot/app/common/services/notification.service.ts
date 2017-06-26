@@ -22,7 +22,7 @@ export default class NotificationService {
 		return this.http.get(
 			this.notifications,
 			{ headers: getHeaders() })
-			.map(response => response.json() as Notification[])
+            .map(response => response.json() as Notification[])
 			.first();
 	}
 
@@ -30,7 +30,10 @@ export default class NotificationService {
 		return this.http.get(
 			`${this.notifications}/${id}`,
 			{ headers: getHeaders() })
-			.map(response => response.json() as Notification)
+            .map(response =>
+                response.status === 200
+					? response.json() as Notification
+					: null)
 			.first();
 	}
 
@@ -38,10 +41,18 @@ export default class NotificationService {
 		return this.http.get(
 			`${this.notifications}/userId/${userId}`,
 			{ headers: getHeaders() })
+            .map(response => response.json() as Notification[])
+			.first();
+	}
+
+	getNotificationsForCurrentUser(): Observable<Notification[]> {
+		return this.http.get(
+			`${this.notifications}/user/current`,
+			{ headers: getHeaders() })
 			.map(response => response.json() as Notification[])
 			.first();
 	}
-	
+
 	getNotificationsInRange(
 		start: moment.Moment,
 		end: moment.Moment): Observable<Notification[]> {
@@ -49,7 +60,7 @@ export default class NotificationService {
 			`${this.notifications}/range/${start.format("YYYY-MM-DD")}/` +
 			`${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
-			.map(response => response.json() as Notification[])
+            .map(response => response.json() as Notification[])
 			.first();
 	}
 
@@ -61,7 +72,7 @@ export default class NotificationService {
 			`${this.notifications}/userId/${userId}/range/` +
 			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
-			.map(response => response.json() as Notification[])
+            .map(response => response.json() as Notification[])
 			.first();
 	}
 	
@@ -81,17 +92,46 @@ export default class NotificationService {
 			});
 
 		return action;
-	}
+    }
 
-	updateNotification(notification: Notification): ConnectableObservable<Response> {
-		return this.http.put(
-			`${this.notifications}/${notification.id}`,
-			JSON.stringify(notification),
-			{ headers: getHeaders() })
-			.first()
-			.publish();
-	}
+    addNotificationForGroupsInClass(
+        notification: Notification,
+        classId: number): ConnectableObservable<Response> {
+        const action = this.http.post(
+            `${this.notifications}/groups/classId/${classId}`,
+            JSON.stringify(notification),
+            { headers: getHeaders() })
+            .first()
+            .publish();
 
+        action.subscribe(
+            response => {
+                const location = response.headers.get("Location");
+                notification.id = +location.substr(location.lastIndexOf("/") + 1);
+            });
+
+        return action;
+    }
+
+    addNotificationForLecturersInClass(
+        notification: Notification,
+        classId: number): ConnectableObservable<Response> {
+        const action = this.http.post(
+            `${this.notifications}/lecturers/classId/${classId}`,
+            JSON.stringify(notification),
+            { headers: getHeaders() })
+            .first()
+            .publish();
+
+        action.subscribe(
+            response => {
+                const location = response.headers.get("Location");
+                notification.id = +location.substr(location.lastIndexOf("/") + 1);
+            });
+
+        return action;
+    }
+	
 	deleteNotification(id: number): ConnectableObservable<Response> {
 		return this.http.delete(
 			`${this.notifications}/${id}`,

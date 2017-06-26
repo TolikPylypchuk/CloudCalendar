@@ -30,8 +30,19 @@
 				   data-toggle="dropdown" role="button"
 				   aria-haspopup="true" aria-expanded="false">
 					{{ getUserName() | async }}
+					<span *ngIf="notificationCount | async as count"
+						  class="badge badge-warning">
+						{{ count }}
+					</span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" routerLink="/view/notifications">
+						Сповіщення
+						<span *ngIf="notificationCount | async as count"
+							  class="badge badge-warning">
+							{{ count }}
+						</span>
+					</a>
 					<a class="dropdown-item" routerLink="/logout">
 						Вийти
 					</a>
