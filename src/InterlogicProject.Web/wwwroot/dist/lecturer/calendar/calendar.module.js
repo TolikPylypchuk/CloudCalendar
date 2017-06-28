@@ -19,35 +19,35 @@ var modal_materials_component_1 = require("./modal/modal-materials.component");
 var CalendarModule = (function () {
     function CalendarModule() {
     }
+    CalendarModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                calendar_component_1.default,
+                modal_content_component_1.default,
+                modal_comments_component_1.default,
+                modal_homework_component_1.default,
+                modal_materials_component_1.default
+            ],
+            entryComponents: [
+                modal_content_component_1.default
+            ],
+            imports: [
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                ng_bootstrap_1.NgbModalModule,
+                ng_bootstrap_1.NgbTooltipModule,
+                common_1.CommonModule
+            ],
+            exports: [
+                calendar_component_1.default,
+                modal_content_component_1.default,
+                modal_comments_component_1.default,
+                modal_homework_component_1.default,
+                modal_materials_component_1.default
+            ]
+        })
+    ], CalendarModule);
     return CalendarModule;
 }());
-CalendarModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            calendar_component_1.default,
-            modal_content_component_1.default,
-            modal_comments_component_1.default,
-            modal_homework_component_1.default,
-            modal_materials_component_1.default
-        ],
-        entryComponents: [
-            modal_content_component_1.default
-        ],
-        imports: [
-            platform_browser_1.BrowserModule,
-            forms_1.FormsModule,
-            ng_bootstrap_1.NgbModalModule,
-            ng_bootstrap_1.NgbTooltipModule,
-            common_1.CommonModule
-        ],
-        exports: [
-            calendar_component_1.default,
-            modal_content_component_1.default,
-            modal_comments_component_1.default,
-            modal_homework_component_1.default,
-            modal_materials_component_1.default
-        ]
-    })
-], CalendarModule);
 exports.default = CalendarModule;
 //# sourceMappingURL=calendar.module.js.map

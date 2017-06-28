@@ -26,39 +26,39 @@ var subject_service_1 = require("./services/subject.service");
 var CommonModule = (function () {
     function CommonModule() {
     }
+    CommonModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                ng2_file_upload_1.FileSelectDirective,
+                ng2_file_upload_1.FileDropDirective,
+                fullcalendar_component_1.default
+            ],
+            providers: [
+                building_service_1.default,
+                class_service_1.default,
+                classroom_service_1.default,
+                comment_service_1.default,
+                department_service_1.default,
+                faculty_service_1.default,
+                group_service_1.default,
+                homework_service_1.default,
+                lecturer_service_1.default,
+                material_service_1.default,
+                notification_service_1.default,
+                student_service_1.default,
+                subject_service_1.default
+            ],
+            imports: [
+                http_1.HttpModule
+            ],
+            exports: [
+                ng2_file_upload_1.FileSelectDirective,
+                ng2_file_upload_1.FileDropDirective,
+                fullcalendar_component_1.default
+            ]
+        })
+    ], CommonModule);
     return CommonModule;
 }());
-CommonModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            ng2_file_upload_1.FileSelectDirective,
-            ng2_file_upload_1.FileDropDirective,
-            fullcalendar_component_1.default
-        ],
-        providers: [
-            building_service_1.default,
-            class_service_1.default,
-            classroom_service_1.default,
-            comment_service_1.default,
-            department_service_1.default,
-            faculty_service_1.default,
-            group_service_1.default,
-            homework_service_1.default,
-            lecturer_service_1.default,
-            material_service_1.default,
-            notification_service_1.default,
-            student_service_1.default,
-            subject_service_1.default
-        ],
-        imports: [
-            http_1.HttpModule
-        ],
-        exports: [
-            ng2_file_upload_1.FileSelectDirective,
-            ng2_file_upload_1.FileDropDirective,
-            fullcalendar_component_1.default
-        ]
-    })
-], CommonModule);
 exports.default = CommonModule;
 //# sourceMappingURL=common.module.js.map

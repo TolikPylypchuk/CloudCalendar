@@ -23,19 +23,19 @@ var ModalMaterialsComponent = (function () {
             _this.materials = materials;
         });
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalMaterialsComponent.prototype, "classId", void 0);
+    ModalMaterialsComponent = __decorate([
+        core_1.Component({
+            selector: "ip-student-modal-materials",
+            templateUrl: "/templates/student/calendar/modal-materials",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [common_1.MaterialService])
+    ], ModalMaterialsComponent);
     return ModalMaterialsComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalMaterialsComponent.prototype, "classId", void 0);
-ModalMaterialsComponent = __decorate([
-    core_1.Component({
-        selector: "ip-student-modal-materials",
-        templateUrl: "/templates/student/calendar/modal-materials",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [common_1.MaterialService])
-], ModalMaterialsComponent);
 exports.default = ModalMaterialsComponent;
 //# sourceMappingURL=modal-materials.component.js.map

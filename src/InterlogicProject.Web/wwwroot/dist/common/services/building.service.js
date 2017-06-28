@@ -47,11 +47,11 @@ var BuildingService = (function () {
             .first()
             .publish();
     };
+    BuildingService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], BuildingService);
     return BuildingService;
 }());
-BuildingService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], BuildingService);
 exports.default = BuildingService;
 //# sourceMappingURL=building.service.js.map

@@ -13,22 +13,22 @@ var routes_module_1 = require("./routes.module");
 var LecturerModule = (function () {
     function LecturerModule() {
     }
+    LecturerModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                lecturer_component_1.default
+            ],
+            imports: [
+                calendar_1.CalendarModule,
+                routes_module_1.default
+            ],
+            exports: [
+                calendar_1.CalendarModule,
+                lecturer_component_1.default
+            ]
+        })
+    ], LecturerModule);
     return LecturerModule;
 }());
-LecturerModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            lecturer_component_1.default
-        ],
-        imports: [
-            calendar_1.CalendarModule,
-            routes_module_1.default
-        ],
-        exports: [
-            calendar_1.CalendarModule,
-            lecturer_component_1.default
-        ]
-    })
-], LecturerModule);
 exports.default = LecturerModule;
 //# sourceMappingURL=lecturer.module.js.map

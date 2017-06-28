@@ -56,14 +56,14 @@ var LoginComponent = (function () {
     LoginComponent.prototype.cancel = function () {
         this.router.navigate([this.returnUrl()]);
     };
+    LoginComponent = __decorate([
+        core_1.Component({
+            selector: "ip-login",
+            templateUrl: "/templates/account/login"
+        }),
+        __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
+    ], LoginComponent);
     return LoginComponent;
 }());
-LoginComponent = __decorate([
-    core_1.Component({
-        selector: "ip-login",
-        templateUrl: "/templates/account/login"
-    }),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
-], LoginComponent);
 exports.default = LoginComponent;
 //# sourceMappingURL=login.component.js.map

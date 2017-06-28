@@ -47,11 +47,11 @@ var SubjectService = (function () {
             .first()
             .publish();
     };
+    SubjectService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], SubjectService);
     return SubjectService;
 }());
-SubjectService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], SubjectService);
 exports.default = SubjectService;
 //# sourceMappingURL=subject.service.js.map

@@ -1,5 +1,6 @@
 ﻿import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CommonModule } from "../common/common";
 
@@ -15,6 +16,7 @@ import RoutesModule from "./routes.module";
 	],
 	imports: [
 		BrowserModule,
+		NgbModule,
 		RoutesModule
 	],
 	exports: [

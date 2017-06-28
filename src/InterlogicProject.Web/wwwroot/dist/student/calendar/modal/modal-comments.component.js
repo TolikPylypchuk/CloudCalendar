@@ -97,20 +97,20 @@ var ModalCommentsComponent = (function () {
         });
         action.connect();
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalCommentsComponent.prototype, "classId", void 0);
+    ModalCommentsComponent = __decorate([
+        core_1.Component({
+            selector: "ip-student-modal-comments",
+            templateUrl: "/templates/student/calendar/modal-comments",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [account_1.AccountService,
+            common_1.CommentService])
+    ], ModalCommentsComponent);
     return ModalCommentsComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalCommentsComponent.prototype, "classId", void 0);
-ModalCommentsComponent = __decorate([
-    core_1.Component({
-        selector: "ip-student-modal-comments",
-        templateUrl: "/templates/student/calendar/modal-comments",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [account_1.AccountService,
-        common_1.CommentService])
-], ModalCommentsComponent);
 exports.default = ModalCommentsComponent;
 //# sourceMappingURL=modal-comments.component.js.map

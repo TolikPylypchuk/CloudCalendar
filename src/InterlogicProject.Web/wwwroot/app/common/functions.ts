@@ -8,10 +8,12 @@ export function getAuthToken(): string {
 }
 
 export function getHeaders(): Headers {
-	return getAuthToken()
+	const token = getAuthToken();
+
+	return token
 		? new Headers({
 			"Content-Type": "application/json",
-			"Authorization": `Bearer ${getAuthToken()}`
+			"Authorization": `Bearer ${token}`
 		})
 		: new Headers({
 			"Content-Type": "application/json"

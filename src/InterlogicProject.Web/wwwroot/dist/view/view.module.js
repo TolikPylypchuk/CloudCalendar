@@ -8,29 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
+var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var notifications_component_1 = require("./components/notifications.component");
 var view_component_1 = require("./view.component");
 var routes_module_1 = require("./routes.module");
 var ViewModule = (function () {
     function ViewModule() {
     }
+    ViewModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                notifications_component_1.default,
+                view_component_1.default
+            ],
+            imports: [
+                platform_browser_1.BrowserModule,
+                ng_bootstrap_1.NgbModule,
+                routes_module_1.default
+            ],
+            exports: [
+                notifications_component_1.default,
+                view_component_1.default
+            ]
+        })
+    ], ViewModule);
     return ViewModule;
 }());
-ViewModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            notifications_component_1.default,
-            view_component_1.default
-        ],
-        imports: [
-            platform_browser_1.BrowserModule,
-            routes_module_1.default
-        ],
-        exports: [
-            notifications_component_1.default,
-            view_component_1.default
-        ]
-    })
-], ViewModule);
 exports.default = ViewModule;
 //# sourceMappingURL=view.module.js.map

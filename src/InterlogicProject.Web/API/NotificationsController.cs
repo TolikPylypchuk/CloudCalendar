@@ -172,8 +172,12 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Adds a new notification to the database.
 		/// </summary>
-		/// <param name="notificationDto"></param>
+		/// <param name="notificationDto">The notification to add.</param>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
 		[HttpPost]
+		[SwaggerResponse(201)]
 		public IActionResult Post([FromBody] NotificationDto notificationDto)
 		{
 			if (notificationDto?.Text == null ||
@@ -216,8 +220,11 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="classId">The ID of the specified class.</param>
 		/// <param name="notificationDto">The notification to add.</param>
-		/// <returns></returns>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
 		[HttpPost("groups/classId/{classId}")]
+		[SwaggerResponse(201)]
 		public IActionResult PostForGroupsInClass(
 			[FromRoute] int classId,
 			[FromBody] NotificationDto notificationDto)
@@ -270,8 +277,11 @@ namespace InterlogicProject.Web.API
 		/// </summary>
 		/// <param name="classId">The ID of the specified class.</param>
 		/// <param name="notificationDto">The notification to add.</param>
-		/// <returns></returns>
+		/// <returns>
+		/// The action result that represents the status code 201.
+		/// </returns>
 		[HttpPost("lecturers/classId/{classId}")]
+		[SwaggerResponse(201)]
 		public IActionResult PostForLecturersInClass(
 			[FromRoute] int classId,
 			[FromBody] NotificationDto notificationDto)
@@ -317,12 +327,56 @@ namespace InterlogicProject.Web.API
 				new { id = notificationDto.Id },
 				notificationDto);
 		}
-		
+
+		/// <summary>
+		/// Marks the specified notification as seen.
+		/// </summary>
+		/// <param name="id">The ID of the notification to mark.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}/mark/seen")]
+		[SwaggerResponse(204)]
+		public IActionResult MarkAsSeen(int id)
+		{
+			var notification = this.userNotifications.GetById(id);
+
+			notification.IsSeen = true;
+
+			this.userNotifications.Update(notification);
+
+			return this.NoContent();
+		}
+
+		/// <summary>
+		/// Marks the specified notification as not seen.
+		/// </summary>
+		/// <param name="id">The ID of the notification to mark.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
+		[HttpPut("{id}/mark/notSeen")]
+		[SwaggerResponse(204)]
+		public IActionResult MarkAsNotSeen(int id)
+		{
+			var notification = this.userNotifications.GetById(id);
+
+			notification.IsSeen = false;
+
+			this.userNotifications.Update(notification);
+
+			return this.NoContent();
+		}
+
 		/// <summary>
 		/// Deletes a notification from the database.
 		/// </summary>
 		/// <param name="id">The ID of the norification to delete.</param>
+		/// <returns>
+		/// The action result that represents the status code 204.
+		/// </returns>
 		[HttpDelete("{id}")]
+		[SwaggerResponse(204)]
 		public IActionResult Delete([FromRoute] int id)
 		{
 			var notificationToDelete = this.userNotifications.GetById(id);

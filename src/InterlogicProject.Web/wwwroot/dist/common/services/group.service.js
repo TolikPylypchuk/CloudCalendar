@@ -72,11 +72,11 @@ var GroupService = (function () {
             .first()
             .publish();
     };
+    GroupService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], GroupService);
     return GroupService;
 }());
-GroupService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], GroupService);
 exports.default = GroupService;
 //# sourceMappingURL=group.service.js.map

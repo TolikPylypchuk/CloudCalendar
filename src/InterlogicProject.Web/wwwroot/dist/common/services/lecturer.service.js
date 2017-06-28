@@ -104,11 +104,11 @@ var LecturerService = (function () {
             .first()
             .publish();
     };
+    LecturerService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http, account_1.AccountService])
+    ], LecturerService);
     return LecturerService;
 }());
-LecturerService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http, account_1.AccountService])
-], LecturerService);
 exports.default = LecturerService;
 //# sourceMappingURL=lecturer.service.js.map

@@ -13,22 +13,22 @@ var student_component_1 = require("./student.component");
 var StudentModule = (function () {
     function StudentModule() {
     }
+    StudentModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                student_component_1.default
+            ],
+            imports: [
+                calendar_1.CalendarModule,
+                routes_module_1.default
+            ],
+            exports: [
+                calendar_1.CalendarModule,
+                student_component_1.default
+            ]
+        })
+    ], StudentModule);
     return StudentModule;
 }());
-StudentModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            student_component_1.default
-        ],
-        imports: [
-            calendar_1.CalendarModule,
-            routes_module_1.default
-        ],
-        exports: [
-            calendar_1.CalendarModule,
-            student_component_1.default
-        ]
-    })
-], StudentModule);
 exports.default = StudentModule;
 //# sourceMappingURL=student.module.js.map

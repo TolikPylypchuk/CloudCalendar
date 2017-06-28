@@ -24,7 +24,8 @@ export default class NavigationComponent implements OnInit {
 	ngOnInit(): void {
 		this.notificationCount =
 			this.notificationService.getNotificationsForCurrentUser()
-				.map(notifications => notifications.length);
+				.map(notifications =>
+					notifications.filter(n => !n.isSeen).length);
 	}
 
 	isLoggedIn(): boolean {

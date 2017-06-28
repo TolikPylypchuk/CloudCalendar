@@ -10,13 +10,13 @@ var core_1 = require("@angular/core");
 var StudentComponent = (function () {
     function StudentComponent() {
     }
+    StudentComponent = __decorate([
+        core_1.Component({
+            selector: "ip-student",
+            template: "<router-outlet></router-outlet>"
+        })
+    ], StudentComponent);
     return StudentComponent;
 }());
-StudentComponent = __decorate([
-    core_1.Component({
-        selector: "ip-student",
-        template: "<router-outlet></router-outlet>"
-    })
-], StudentComponent);
 exports.default = StudentComponent;
 //# sourceMappingURL=student.component.js.map

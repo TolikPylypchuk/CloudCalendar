@@ -120,11 +120,11 @@ var AccountService = (function () {
         return this.currentUserSource.asObservable()
             .map(function (user) { return user.roles && !!user.roles.find(function (r) { return r.toLowerCase() === role.toLowerCase(); }); });
     };
+    AccountService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http, router_1.Router])
+    ], AccountService);
     return AccountService;
 }());
-AccountService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http, router_1.Router])
-], AccountService);
 exports.default = AccountService;
 //# sourceMappingURL=account.service.js.map

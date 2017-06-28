@@ -50,18 +50,18 @@ var FullcalendarComponent = (function () {
         return $(this.element.nativeElement)
             .fullCalendar("clientEvents", idOrFilter);
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Object)
+    ], FullcalendarComponent.prototype, "options", void 0);
+    FullcalendarComponent = __decorate([
+        core_1.Component({
+            selector: "ip-fullcalendar",
+            template: ""
+        }),
+        __metadata("design:paramtypes", [core_1.ElementRef])
+    ], FullcalendarComponent);
     return FullcalendarComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Object)
-], FullcalendarComponent.prototype, "options", void 0);
-FullcalendarComponent = __decorate([
-    core_1.Component({
-        selector: "ip-fullcalendar",
-        template: ""
-    }),
-    __metadata("design:paramtypes", [core_1.ElementRef])
-], FullcalendarComponent);
 exports.default = FullcalendarComponent;
 //# sourceMappingURL=fullcalendar.component.js.map

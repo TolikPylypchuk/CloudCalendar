@@ -21,14 +21,14 @@ var LogoutComponent = (function () {
         this.accountService.logout();
         this.router.navigate([""]);
     };
+    LogoutComponent = __decorate([
+        core_1.Component({
+            selector: "ip-logout",
+            template: ""
+        }),
+        __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
+    ], LogoutComponent);
     return LogoutComponent;
 }());
-LogoutComponent = __decorate([
-    core_1.Component({
-        selector: "ip-logout",
-        template: ""
-    }),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
-], LogoutComponent);
 exports.default = LogoutComponent;
 //# sourceMappingURL=logout.component.js.map

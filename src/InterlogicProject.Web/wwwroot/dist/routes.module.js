@@ -16,17 +16,17 @@ var routes = [
 var RoutesModule = (function () {
     function RoutesModule() {
     }
+    RoutesModule = __decorate([
+        core_1.NgModule({
+            imports: [
+                router_1.RouterModule.forRoot(routes)
+            ],
+            exports: [
+                router_1.RouterModule
+            ]
+        })
+    ], RoutesModule);
     return RoutesModule;
 }());
-RoutesModule = __decorate([
-    core_1.NgModule({
-        imports: [
-            router_1.RouterModule.forRoot(routes)
-        ],
-        exports: [
-            router_1.RouterModule
-        ]
-    })
-], RoutesModule);
 exports.default = RoutesModule;
 //# sourceMappingURL=routes.module.js.map

@@ -7,10 +7,11 @@ function getAuthToken() {
 }
 exports.getAuthToken = getAuthToken;
 function getHeaders() {
-    return getAuthToken()
+    var token = getAuthToken();
+    return token
         ? new http_1.Headers({
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + getAuthToken()
+            "Authorization": "Bearer " + token
         })
         : new http_1.Headers({
             "Content-Type": "application/json"

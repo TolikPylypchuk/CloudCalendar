@@ -21,29 +21,29 @@ var start_page_component_1 = require("./start-page.component");
 var AppModule = (function () {
     function AppModule() {
     }
+    AppModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                app_component_1.default,
+                navigation_component_1.default,
+                start_page_component_1.default
+            ],
+            imports: [
+                platform_browser_1.BrowserModule,
+                ng_bootstrap_1.NgbModule.forRoot(),
+                common_1.CommonModule,
+                account_1.AccountModule,
+                lecturer_1.LecturerModule,
+                student_1.StudentModule,
+                view_1.ViewModule,
+                routes_module_1.default
+            ],
+            bootstrap: [
+                app_component_1.default
+            ]
+        })
+    ], AppModule);
     return AppModule;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            app_component_1.default,
-            navigation_component_1.default,
-            start_page_component_1.default
-        ],
-        imports: [
-            platform_browser_1.BrowserModule,
-            ng_bootstrap_1.NgbModule.forRoot(),
-            common_1.CommonModule,
-            account_1.AccountModule,
-            lecturer_1.LecturerModule,
-            student_1.StudentModule,
-            view_1.ViewModule,
-            routes_module_1.default
-        ],
-        bootstrap: [
-            app_component_1.default
-        ]
-    })
-], AppModule);
 exports.default = AppModule;
 //# sourceMappingURL=app.module.js.map

@@ -72,7 +72,6 @@
 		<Content Include="wwwroot\app\student\student.module.ts" />
 		<Content Include="wwwroot\app\student\student.ts" />
 		<Content Include="wwwroot\app\view\components\notifications.component.ts" />
-		<Content Include="wwwroot\app\view\notifications.component.ts" />
 		<Content Include="wwwroot\app\view\routes.module.ts" />
 		<Content Include="wwwroot\app\view\view.component.ts" />
 		<Content Include="wwwroot\app\view\view.module.ts" />
@@ -137,7 +136,6 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Views\View\" />
 		<Folder Include="Views\Shared\" />
 		<Folder Include="wwwroot\dist\css\" />
 		<Folder Include="wwwroot\dist\lecturer\" />

@@ -52,22 +52,22 @@ var ModalContentComponent = (function () {
                 (l.middleName[0] + "."); }, "").substring(2)
             : "";
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalContentComponent.prototype, "classId", void 0);
+    ModalContentComponent = __decorate([
+        core_1.Component({
+            selector: "ip-student-modal-content",
+            templateUrl: "/templates/student/calendar/modal-content",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
+            common_1.ClassService,
+            common_1.ClassroomService,
+            common_1.LecturerService])
+    ], ModalContentComponent);
     return ModalContentComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalContentComponent.prototype, "classId", void 0);
-ModalContentComponent = __decorate([
-    core_1.Component({
-        selector: "ip-student-modal-content",
-        templateUrl: "/templates/student/calendar/modal-content",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbActiveModal,
-        common_1.ClassService,
-        common_1.ClassroomService,
-        common_1.LecturerService])
-], ModalContentComponent);
 exports.default = ModalContentComponent;
 //# sourceMappingURL=modal-content.component.js.map

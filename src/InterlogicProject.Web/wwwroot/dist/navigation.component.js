@@ -20,7 +20,9 @@ var NavigationComponent = (function () {
     NavigationComponent.prototype.ngOnInit = function () {
         this.notificationCount =
             this.notificationService.getNotificationsForCurrentUser()
-                .map(function (notifications) { return notifications.length; });
+                .map(function (notifications) {
+                return notifications.filter(function (n) { return !n.isSeen; }).length;
+            });
     };
     NavigationComponent.prototype.isLoggedIn = function () {
         return this.accoutService.isLoggedIn();
@@ -30,15 +32,15 @@ var NavigationComponent = (function () {
             .map(function (user) { return user.firstName + " " + user.lastName; })
             .first();
     };
+    NavigationComponent = __decorate([
+        core_1.Component({
+            selector: "ip-navigation",
+            templateUrl: "templates/navigation"
+        }),
+        __metadata("design:paramtypes", [account_1.AccountService,
+            common_1.NotificationService])
+    ], NavigationComponent);
     return NavigationComponent;
 }());
-NavigationComponent = __decorate([
-    core_1.Component({
-        selector: "ip-navigation",
-        templateUrl: "templates/navigation"
-    }),
-    __metadata("design:paramtypes", [account_1.AccountService,
-        common_1.NotificationService])
-], NavigationComponent);
 exports.default = NavigationComponent;
 //# sourceMappingURL=navigation.component.js.map

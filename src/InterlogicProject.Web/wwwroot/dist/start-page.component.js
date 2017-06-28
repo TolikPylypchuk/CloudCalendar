@@ -24,14 +24,14 @@ var StartPageComponent = (function () {
             return _this.router.navigate([(isStudent ? "student" : "lecturer") + "/calendar"]);
         });
     };
+    StartPageComponent = __decorate([
+        core_1.Component({
+            selector: "ip-start-page",
+            template: ""
+        }),
+        __metadata("design:paramtypes", [router_1.Router, account_1.AccountService])
+    ], StartPageComponent);
     return StartPageComponent;
 }());
-StartPageComponent = __decorate([
-    core_1.Component({
-        selector: "ip-start-page",
-        template: ""
-    }),
-    __metadata("design:paramtypes", [router_1.Router, account_1.AccountService])
-], StartPageComponent);
 exports.default = StartPageComponent;
 //# sourceMappingURL=start-page.component.js.map

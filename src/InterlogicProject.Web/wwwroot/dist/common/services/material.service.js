@@ -44,11 +44,11 @@ var HomeworkService = (function () {
             .first()
             .publish();
     };
+    HomeworkService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], HomeworkService);
     return HomeworkService;
 }());
-HomeworkService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], HomeworkService);
 exports.default = HomeworkService;
 //# sourceMappingURL=material.service.js.map

@@ -105,11 +105,11 @@ var ClassService = (function () {
             .first()
             .publish();
     };
+    ClassService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], ClassService);
     return ClassService;
 }());
-ClassService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], ClassService);
 exports.default = ClassService;
 //# sourceMappingURL=class.service.js.map

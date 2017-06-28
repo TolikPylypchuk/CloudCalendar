@@ -98,22 +98,22 @@ var ModalCommentsComponent = (function () {
         });
         action.connect();
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalCommentsComponent.prototype, "classId", void 0);
+    ModalCommentsComponent = __decorate([
+        core_1.Component({
+            selector: "ip-lecturer-modal-comments",
+            templateUrl: "/templates/lecturer/calendar/modal-comments",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [account_1.AccountService,
+            common_1.ClassService,
+            common_1.CommentService,
+            common_1.LecturerService])
+    ], ModalCommentsComponent);
     return ModalCommentsComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalCommentsComponent.prototype, "classId", void 0);
-ModalCommentsComponent = __decorate([
-    core_1.Component({
-        selector: "ip-lecturer-modal-comments",
-        templateUrl: "/templates/lecturer/calendar/modal-comments",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [account_1.AccountService,
-        common_1.ClassService,
-        common_1.CommentService,
-        common_1.LecturerService])
-], ModalCommentsComponent);
 exports.default = ModalCommentsComponent;
 //# sourceMappingURL=modal-comments.component.js.map

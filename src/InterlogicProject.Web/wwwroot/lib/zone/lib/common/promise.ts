@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -275,7 +275,7 @@ Zone.__load_patch('ZoneAwarePromise', (global: any, Zone: ZoneType, api: _ZonePr
         count++;
       }
       if (!count) resolve(resolvedValues);
-      return promise;
+      return promise as any;
     }
 
     constructor(

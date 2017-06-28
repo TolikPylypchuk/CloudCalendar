@@ -79,17 +79,17 @@ var CalendarComponent = (function () {
                 .format()
         };
     };
+    CalendarComponent = __decorate([
+        core_1.Component({
+            selector: "ip-lecturer-calendar",
+            templateUrl: "/templates/lecturer/calendar",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+            common_1.ClassService,
+            common_1.LecturerService])
+    ], CalendarComponent);
     return CalendarComponent;
 }());
-CalendarComponent = __decorate([
-    core_1.Component({
-        selector: "ip-lecturer-calendar",
-        templateUrl: "/templates/lecturer/calendar",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
-        common_1.ClassService,
-        common_1.LecturerService])
-], CalendarComponent);
 exports.default = CalendarComponent;
 //# sourceMappingURL=calendar.component.js.map

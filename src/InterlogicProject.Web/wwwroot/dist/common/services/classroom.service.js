@@ -57,11 +57,11 @@ var ClassroomService = (function () {
             .first()
             .publish();
     };
+    ClassroomService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], ClassroomService);
     return ClassroomService;
 }());
-ClassroomService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], ClassroomService);
 exports.default = ClassroomService;
 //# sourceMappingURL=classroom.service.js.map

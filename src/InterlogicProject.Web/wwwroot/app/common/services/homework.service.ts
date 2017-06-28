@@ -48,13 +48,13 @@ export default class HomeworkService {
 			.first();
 	}
 
-	getHomeworksByClassAndStudent(
+	getHomeworkByClassAndStudent(
 		classId: number,
-		studentId: number): Observable<Homework[]> {
+		studentId: number): Observable<Homework> {
 		return this.http.get(
 			`${this.homeworks}/classId/${classId}/studentId/${studentId}`,
 			{ headers: getHeaders() })
-			.map(response => response.json() as Homework[])
+			.map(response => response.json() as Homework)
 			.first();
 	}
 

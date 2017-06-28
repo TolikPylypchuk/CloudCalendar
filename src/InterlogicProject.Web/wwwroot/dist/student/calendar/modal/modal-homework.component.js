@@ -29,10 +29,10 @@ var ModalHomeworkComponent = (function () {
             });
             _this.uploader.onCompleteItem = function (item) {
                 _this.uploader.queue = [];
-                _this.homeworkService.getHomeworksByClassAndStudent(_this.classId, _this.currentStudentId)
+                _this.homeworkService.getHomeworkByClassAndStudent(_this.classId, _this.currentStudentId)
                     .subscribe(function (homework) { return _this.homework = homework; });
             };
-            _this.homeworkService.getHomeworksByClassAndStudent(_this.classId, _this.currentStudentId)
+            _this.homeworkService.getHomeworkByClassAndStudent(_this.classId, _this.currentStudentId)
                 .subscribe(function (homework) { return _this.homework = homework; });
         });
         this.classService.getClass(this.classId)
@@ -62,21 +62,21 @@ var ModalHomeworkComponent = (function () {
                 ? "Прийнято"
                 : "Відхилено";
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalHomeworkComponent.prototype, "classId", void 0);
+    ModalHomeworkComponent = __decorate([
+        core_1.Component({
+            selector: "ip-student-modal-homework",
+            templateUrl: "/templates/student/calendar/modal-homework",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [common_1.ClassService,
+            common_1.HomeworkService,
+            common_1.StudentService])
+    ], ModalHomeworkComponent);
     return ModalHomeworkComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalHomeworkComponent.prototype, "classId", void 0);
-ModalHomeworkComponent = __decorate([
-    core_1.Component({
-        selector: "ip-student-modal-homework",
-        templateUrl: "/templates/student/calendar/modal-homework",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [common_1.ClassService,
-        common_1.HomeworkService,
-        common_1.StudentService])
-], ModalHomeworkComponent);
 exports.default = ModalHomeworkComponent;
 //# sourceMappingURL=modal-homework.component.js.map

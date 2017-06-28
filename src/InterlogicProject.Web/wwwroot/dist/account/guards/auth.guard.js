@@ -28,11 +28,11 @@ var AuthGuard = (function () {
     AuthGuard.prototype.canActivateChild = function (route, state) {
         return this.canActivate(route, state);
     };
+    AuthGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
+    ], AuthGuard);
     return AuthGuard;
 }());
-AuthGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
-], AuthGuard);
 exports.default = AuthGuard;
 //# sourceMappingURL=auth.guard.js.map

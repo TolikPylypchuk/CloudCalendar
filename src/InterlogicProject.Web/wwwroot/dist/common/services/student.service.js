@@ -92,11 +92,11 @@ var StudentService = (function () {
             .first()
             .publish();
     };
+    StudentService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http, account_1.AccountService])
+    ], StudentService);
     return StudentService;
 }());
-StudentService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http, account_1.AccountService])
-], StudentService);
 exports.default = StudentService;
 //# sourceMappingURL=student.service.js.map

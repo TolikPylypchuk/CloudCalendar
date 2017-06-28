@@ -37,7 +37,7 @@ var HomeworkService = (function () {
             .map(function (response) { return response.json(); })
             .first();
     };
-    HomeworkService.prototype.getHomeworksByClassAndStudent = function (classId, studentId) {
+    HomeworkService.prototype.getHomeworkByClassAndStudent = function (classId, studentId) {
         return this.http.get(this.homeworks + "/classId/" + classId + "/studentId/" + studentId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
@@ -54,11 +54,11 @@ var HomeworkService = (function () {
             .first()
             .publish();
     };
+    HomeworkService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], HomeworkService);
     return HomeworkService;
 }());
-HomeworkService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], HomeworkService);
 exports.default = HomeworkService;
 //# sourceMappingURL=homework.service.js.map

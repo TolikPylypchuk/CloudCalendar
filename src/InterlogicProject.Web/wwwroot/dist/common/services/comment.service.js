@@ -72,11 +72,11 @@ var CommentService = (function () {
             .first()
             .publish();
     };
+    CommentService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], CommentService);
     return CommentService;
 }());
-CommentService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], CommentService);
 exports.default = CommentService;
 //# sourceMappingURL=comment.service.js.map

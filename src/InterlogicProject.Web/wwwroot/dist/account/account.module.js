@@ -19,26 +19,26 @@ var routes_module_1 = require("./routes.module");
 var AccountModule = (function () {
     function AccountModule() {
     }
+    AccountModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                login_component_1.default,
+                logout_component_1.default
+            ],
+            imports: [
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                http_1.HttpModule,
+                routes_module_1.default
+            ],
+            providers: [
+                account_service_1.default,
+                auth_guard_1.default,
+                not_auth_guard_1.default
+            ]
+        })
+    ], AccountModule);
     return AccountModule;
 }());
-AccountModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            login_component_1.default,
-            logout_component_1.default
-        ],
-        imports: [
-            platform_browser_1.BrowserModule,
-            forms_1.FormsModule,
-            http_1.HttpModule,
-            routes_module_1.default
-        ],
-        providers: [
-            account_service_1.default,
-            auth_guard_1.default,
-            not_auth_guard_1.default
-        ]
-    })
-], AccountModule);
 exports.default = AccountModule;
 //# sourceMappingURL=account.module.js.map

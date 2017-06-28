@@ -10,13 +10,13 @@ var core_1 = require("@angular/core");
 var LecturerComponent = (function () {
     function LecturerComponent() {
     }
+    LecturerComponent = __decorate([
+        core_1.Component({
+            selector: "ip-lecturer",
+            template: "<router-outlet></router-outlet>"
+        })
+    ], LecturerComponent);
     return LecturerComponent;
 }());
-LecturerComponent = __decorate([
-    core_1.Component({
-        selector: "ip-lecturer",
-        template: "<router-outlet></router-outlet>"
-    })
-], LecturerComponent);
 exports.default = LecturerComponent;
 //# sourceMappingURL=lecturer.component.js.map

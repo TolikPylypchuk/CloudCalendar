@@ -52,11 +52,11 @@ var FacultyService = (function () {
             .first()
             .publish();
     };
+    FacultyService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], FacultyService);
     return FacultyService;
 }());
-FacultyService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], FacultyService);
 exports.default = FacultyService;
 //# sourceMappingURL=faculty.service.js.map

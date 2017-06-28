@@ -48,12 +48,12 @@ export default class ModalHomeworkComponent implements OnInit {
 				this.uploader.onCompleteItem = (item: FileItem) => {
 					this.uploader.queue = [];
 
-					this.homeworkService.getHomeworksByClassAndStudent(
+					this.homeworkService.getHomeworkByClassAndStudent(
 						this.classId, this.currentStudentId)
 						.subscribe(homework => this.homework = homework);
 				};
 
-				this.homeworkService.getHomeworksByClassAndStudent(
+				this.homeworkService.getHomeworkByClassAndStudent(
 					this.classId, this.currentStudentId)
 					.subscribe(homework => this.homework = homework);
 			});

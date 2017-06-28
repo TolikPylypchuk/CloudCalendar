@@ -52,11 +52,11 @@ var DepartmentService = (function () {
             .first()
             .publish();
     };
+    DepartmentService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], DepartmentService);
     return DepartmentService;
 }());
-DepartmentService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], DepartmentService);
 exports.default = DepartmentService;
 //# sourceMappingURL=department.service.js.map

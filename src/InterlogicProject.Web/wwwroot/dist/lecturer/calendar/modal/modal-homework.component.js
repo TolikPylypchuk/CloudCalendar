@@ -99,22 +99,22 @@ var ModalHomeworkComponent = (function () {
                 ? "text-success float-right"
                 : "text-danger float-right";
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Number)
+    ], ModalHomeworkComponent.prototype, "classId", void 0);
+    ModalHomeworkComponent = __decorate([
+        core_1.Component({
+            selector: "ip-lecturer-modal-homework",
+            templateUrl: "/templates/lecturer/calendar/modal-homework",
+            styleUrls: ["/dist/css/style.min.css"]
+        }),
+        __metadata("design:paramtypes", [common_1.ClassService,
+            common_1.HomeworkService,
+            common_1.LecturerService,
+            common_1.StudentService])
+    ], ModalHomeworkComponent);
     return ModalHomeworkComponent;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], ModalHomeworkComponent.prototype, "classId", void 0);
-ModalHomeworkComponent = __decorate([
-    core_1.Component({
-        selector: "ip-lecturer-modal-homework",
-        templateUrl: "/templates/lecturer/calendar/modal-homework",
-        styleUrls: ["/dist/css/style.min.css"]
-    }),
-    __metadata("design:paramtypes", [common_1.ClassService,
-        common_1.HomeworkService,
-        common_1.LecturerService,
-        common_1.StudentService])
-], ModalHomeworkComponent);
 exports.default = ModalHomeworkComponent;
 //# sourceMappingURL=modal-homework.component.js.map

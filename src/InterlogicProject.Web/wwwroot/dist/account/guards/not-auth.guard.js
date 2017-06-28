@@ -27,11 +27,11 @@ var NotAuthGuard = (function () {
     NotAuthGuard.prototype.canActivateChild = function (route, state) {
         return this.canActivate(route, state);
     };
+    NotAuthGuard = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
+    ], NotAuthGuard);
     return NotAuthGuard;
 }());
-NotAuthGuard = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [router_1.Router, account_service_1.default])
-], NotAuthGuard);
 exports.default = NotAuthGuard;
 //# sourceMappingURL=not-auth.guard.js.map

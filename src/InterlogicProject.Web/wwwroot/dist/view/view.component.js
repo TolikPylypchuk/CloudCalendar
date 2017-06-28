@@ -10,13 +10,13 @@ var core_1 = require("@angular/core");
 var ViewComponent = (function () {
     function ViewComponent() {
     }
+    ViewComponent = __decorate([
+        core_1.Component({
+            selector: "ip-view",
+            template: "<router-outlet></router-outlet>"
+        })
+    ], ViewComponent);
     return ViewComponent;
 }());
-ViewComponent = __decorate([
-    core_1.Component({
-        selector: "ip-view",
-        template: "<router-outlet></router-outlet>"
-    })
-], ViewComponent);
 exports.default = ViewComponent;
 //# sourceMappingURL=view.component.js.map

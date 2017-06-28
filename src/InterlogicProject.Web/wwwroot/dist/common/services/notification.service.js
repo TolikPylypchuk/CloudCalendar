@@ -83,16 +83,30 @@ var NotificationService = (function () {
         });
         return action;
     };
+    NotificationService.prototype.markNotificationAsSeen = function (notification) {
+        var action = this.http.put(this.notifications + "/" + notification.id + "/mark/seen", "", { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+        action.subscribe(function (response) { return notification.isSeen = true; });
+        return action;
+    };
+    NotificationService.prototype.markNotificationAsNotSeen = function (notification) {
+        var action = this.http.put(this.notifications + "/" + notification.id + "/mark/notSeen", "", { headers: functions_1.getHeaders() })
+            .first()
+            .publish();
+        action.subscribe(function (response) { return notification.isSeen = false; });
+        return action;
+    };
     NotificationService.prototype.deleteNotification = function (id) {
         return this.http.delete(this.notifications + "/" + id, { headers: functions_1.getHeaders() })
             .first()
             .publish();
     };
+    NotificationService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], NotificationService);
     return NotificationService;
 }());
-NotificationService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], NotificationService);
 exports.default = NotificationService;
 //# sourceMappingURL=notification.service.js.map
