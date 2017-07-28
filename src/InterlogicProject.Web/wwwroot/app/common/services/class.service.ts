@@ -72,6 +72,17 @@ export default class ClassService {
 			.first();
 	}
 
+	getClassForGroupByDateTime(
+		groupId: number,
+		dateTime: moment.Moment): Observable<Class> {
+		return this.http.get(
+			`${this.classes}/groupId/${groupId}/` +
+			`dateTime/${dateTime.format("YYYY-MM-DDTHH:mm") }`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class)
+			.first();
+	}
+
 	getClassesForLecturer(lecturerId: number): Observable<Class[]> {
 		return this.http.get(
 			`${this.classes}/lecturerId/${lecturerId}`,
@@ -89,6 +100,17 @@ export default class ClassService {
 			`${start.format("YYYY-MM-DD")}/${end.format("YYYY-MM-DD")}`,
 			{ headers: getHeaders() })
 			.map(response => response.json() as Class[])
+			.first();
+	}
+
+	getClassForLecturerByDateTime(
+		lecturerId: number,
+		dateTime: moment.Moment): Observable<Class> {
+		return this.http.get(
+			`${this.classes}/lecturerId/${lecturerId}/` +
+			`dateTime/${dateTime.format("YYYY-MM-DDTHH:mm")}`,
+			{ headers: getHeaders() })
+			.map(response => response.json() as Class)
 			.first();
 	}
 

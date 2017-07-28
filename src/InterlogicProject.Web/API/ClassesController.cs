@@ -131,6 +131,26 @@ namespace InterlogicProject.Web.API
 						   .ProjectTo<ClassDto>();
 
 		/// <summary>
+		/// Gets a class for the specified group
+		/// with the specified date and number.
+		/// </summary>
+		/// <param name="groupId">The ID of the group.</param>
+		/// <param name="dateTime">The date of the class.</param>
+		/// <returns>
+		/// A class for the specified group with the specified date and number.
+		/// </returns>
+		[HttpGet("groupId/{groupId}/dateTime/{dateTime}")]
+		[SwaggerResponse(200, Type = typeof(ClassDto))]
+		public ClassDto GetForGroupByDateTime(
+			[FromRoute] int groupId,
+			[FromRoute] DateTime dateTime)
+			=> this.classes.GetAll()
+						   .Where(c => c.Groups.Any(gc => gc.GroupId == groupId))
+						   .Where(c => c.DateTime == dateTime)
+						   .ProjectTo<ClassDto>()
+						   .FirstOrDefault();
+
+		/// <summary>
 		/// Gets all classes of the specified lecturer.
 		/// </summary>
 		/// <param name="lecturerId">The ID of the lecturer.</param>
@@ -170,6 +190,27 @@ namespace InterlogicProject.Web.API
 									lc => lc.LecturerId == lecturerId))
 						   .OrderBy(c => c.DateTime)
 						   .ProjectTo<ClassDto>();
+
+		/// <summary>
+		/// Gets a class for the specified lecturer
+		/// with the specified date and number.
+		/// </summary>
+		/// <param name="lecturerId">The ID of the lecturer.</param>
+		/// <param name="dateTime">The date of the class.</param>
+		/// <returns>
+		/// A class for the specified lecturer with the specified date and number.
+		/// </returns>
+		[HttpGet("lecturerId/{lecturerId}/dateTime/{dateTime}")]
+		[SwaggerResponse(200, Type = typeof(ClassDto))]
+		public ClassDto GetForLecturerByDateTime(
+			[FromRoute] int lecturerId,
+			[FromRoute] DateTime dateTime)
+			=> this.classes.GetAll()
+						   .Where(c => c.Lecturers.Any(
+								ls => ls.LecturerId == lecturerId))
+						   .Where(c => c.DateTime == dateTime)
+						   .ProjectTo<ClassDto>()
+						   .FirstOrDefault();
 
 		/// <summary>
 		/// Gets all classes of the specified group and lecturer.

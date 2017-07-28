@@ -52,6 +52,12 @@ var ClassService = (function () {
             .map(function (response) { return response.json(); })
             .first();
     };
+    ClassService.prototype.getClassForGroupByDateTime = function (groupId, dateTime) {
+        return this.http.get(this.classes + "/groupId/" + groupId + "/" +
+            ("dateTime/" + dateTime.format("YYYY-MM-DDTHH:mm")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
     ClassService.prototype.getClassesForLecturer = function (lecturerId) {
         return this.http.get(this.classes + "/lecturerId/" + lecturerId, { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
@@ -60,6 +66,12 @@ var ClassService = (function () {
     ClassService.prototype.getClassesForLecturerInRange = function (lecturerId, start, end) {
         return this.http.get(this.classes + "/lecturerId/" + lecturerId + "/range/" +
             (start.format("YYYY-MM-DD") + "/" + end.format("YYYY-MM-DD")), { headers: functions_1.getHeaders() })
+            .map(function (response) { return response.json(); })
+            .first();
+    };
+    ClassService.prototype.getClassForLecturerByDateTime = function (lecturerId, dateTime) {
+        return this.http.get(this.classes + "/lecturerId/" + lecturerId + "/" +
+            ("dateTime/" + dateTime.format("YYYY-MM-DDTHH:mm")), { headers: functions_1.getHeaders() })
             .map(function (response) { return response.json(); })
             .first();
     };

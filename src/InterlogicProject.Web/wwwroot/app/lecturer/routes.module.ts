@@ -11,7 +11,9 @@ const routes: Routes = [
 		path: "lecturer",
 		component: LecturerComponent,
 		children: [
-			{ path: "calendar", component: CalendarComponent }
+			{ path: "calendar", component: CalendarComponent },
+			{ path: "calendar/:date", component: CalendarComponent },
+			{ path: "calendar/:date/:time", component: CalendarComponent }
 		],
 		canActivate: [ AuthGuard ],
 		canActivateChild: [ AuthGuard ]

@@ -16,7 +16,9 @@ var routes = [
         path: "lecturer",
         component: lecturer_component_1.default,
         children: [
-            { path: "calendar", component: calendar_1.CalendarComponent }
+            { path: "calendar", component: calendar_1.CalendarComponent },
+            { path: "calendar/:date", component: calendar_1.CalendarComponent },
+            { path: "calendar/:date/:time", component: calendar_1.CalendarComponent }
         ],
         canActivate: [account_1.AuthGuard],
         canActivateChild: [account_1.AuthGuard]

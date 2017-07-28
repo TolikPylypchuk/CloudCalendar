@@ -36,7 +36,7 @@ namespace InterlogicProject.DAL.Models
 
 		public virtual ICollection<Comment> Comments { get; set; } =
 			new HashSet<Comment>();
-
+		
 		public override string ToString() => this.Subject.Name;
 	}
 }

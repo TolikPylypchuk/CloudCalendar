@@ -10,44 +10,88 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var ng_bootstrap_1 = require("@ng-bootstrap/ng-bootstrap");
 var moment = require("moment");
 var modal_content_component_1 = require("./modal/modal-content.component");
 var common_1 = require("../../common/common");
 var CalendarComponent = (function () {
-    function CalendarComponent(modalService, classService, lecturerService) {
+    function CalendarComponent(router, route, modalService, classService, lecturerService) {
+        this.router = router;
+        this.route = route;
         this.modalService = modalService;
         this.classService = classService;
         this.lecturerService = lecturerService;
-        this.options = {
-            allDaySlot: false,
-            columnFormat: "dd, DD.MM",
-            defaultView: "agendaWeek",
-            eventClick: this.eventClicked.bind(this),
-            eventBackgroundColor: "#0275D8",
-            eventBorderColor: "#0275D8",
-            eventDurationEditable: false,
-            eventRender: function (event, element) {
-                element.css("cursor", "pointer");
-            },
-            events: this.getEvents.bind(this),
-            header: {
-                left: "title",
-                center: "agendaWeek,listWeek",
-                right: "today prev,next"
-            },
-            height: "auto",
-            minTime: moment.duration("08:00:00"),
-            maxTime: moment.duration("21:00:00"),
-            slotDuration: moment.duration("00:30:00"),
-            slotLabelFormat: "HH:mm",
-            slotLabelInterval: moment.duration("01:00:00"),
-            titleFormat: "DD MMM YYYY",
-            weekends: false,
-            weekNumbers: true,
-            weekNumberTitle: "Тиж "
-        };
     }
+    CalendarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            var paramDate = params["date"];
+            var date;
+            if (paramDate) {
+                date = moment(params["date"], "YYYY-MM-DD", true);
+                if (!date.isValid()) {
+                    date = moment();
+                    _this.router.navigate(["lecturer/calendar"]);
+                }
+            }
+            else {
+                date = moment();
+            }
+            _this.options = {
+                allDaySlot: false,
+                columnFormat: "dd, DD.MM",
+                defaultDate: date,
+                defaultView: "agendaWeek",
+                eventClick: _this.eventClicked.bind(_this),
+                eventBackgroundColor: "#0275D8",
+                eventBorderColor: "#0275D8",
+                eventDurationEditable: false,
+                eventRender: function (event, element) {
+                    element.css("cursor", "pointer");
+                },
+                events: _this.getEvents.bind(_this),
+                header: {
+                    left: "title",
+                    center: "agendaWeek,listWeek",
+                    right: "today prev,next"
+                },
+                height: "auto",
+                minTime: moment.duration("08:00:00"),
+                maxTime: moment.duration("21:00:00"),
+                slotDuration: moment.duration("00:30:00"),
+                slotLabelFormat: "HH:mm",
+                slotLabelInterval: moment.duration("01:00:00"),
+                titleFormat: "DD MMM YYYY",
+                weekends: false,
+                weekNumbers: true,
+                weekNumberTitle: "Тиж "
+            };
+        });
+    };
+    CalendarComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            var date = moment(params["date"], "YYYY-MM-DD", true);
+            var paramTime = params["time"];
+            if (paramTime) {
+                var time = moment(paramTime, ["HH:mm", "H:mm", "HH:m", "H:m"], true);
+                var dateTime_1 = moment(date.format("YYYY-MM-DD") + "T" +
+                    time.format("HH:mm"));
+                if (time.isValid()) {
+                    _this.lecturerService.getCurrentLecturer()
+                        .subscribe(function (lecturer) {
+                        return _this.classService.getClassForLecturerByDateTime(lecturer.id, dateTime_1)
+                            .subscribe(function (c) {
+                            if (c) {
+                                _this.createModal(c.id);
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    };
     CalendarComponent.prototype.getEvents = function (start, end, timezone, callback) {
         var _this = this;
         this.lecturerService.getCurrentLecturer()
@@ -61,9 +105,12 @@ var CalendarComponent = (function () {
         });
     };
     CalendarComponent.prototype.eventClicked = function (event) {
+        this.createModal(event.id);
+    };
+    CalendarComponent.prototype.createModal = function (classId) {
         var modalRef = this.modalService.open(modal_content_component_1.default);
         var modal = modalRef.componentInstance;
-        modal.classId = event.id;
+        modal.classId = classId;
     };
     CalendarComponent.prototype.classToEvent = function (classInfo) {
         return {
@@ -82,7 +129,9 @@ var CalendarComponent = (function () {
             templateUrl: "/templates/lecturer/calendar",
             styleUrls: ["/dist/css/style.min.css"]
         }),
-        __metadata("design:paramtypes", [ng_bootstrap_1.NgbModal,
+        __metadata("design:paramtypes", [router_1.Router,
+            router_1.ActivatedRoute,
+            ng_bootstrap_1.NgbModal,
             common_1.ClassService,
             common_1.LecturerService])
     ], CalendarComponent);
