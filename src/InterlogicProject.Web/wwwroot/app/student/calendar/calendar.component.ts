@@ -79,10 +79,8 @@ export default class CalendarComponent {
 						if (group) {
 							this.classService.getClassesForGroupInRange(
 								group.id, start, end)
-								.subscribe(data => {
-									const classes = data as Class[];
-									callback(classes.map(this.classToEvent));
-								});
+								.subscribe(classes =>
+									callback(classes.map(this.classToEvent)));
 						}
 					}));
 	}

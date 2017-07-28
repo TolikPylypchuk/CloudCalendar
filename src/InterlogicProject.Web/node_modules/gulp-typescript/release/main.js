@@ -1,5 +1,13 @@
 "use strict";
-var fs = require("fs");
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
 var path = require("path");
 var _project = require("./project");
 var utils = require("./utils");
@@ -15,7 +23,7 @@ function compile(param, theReporter) {
             utils.deprecate("ts(tsProject, ...) has been deprecated", "use .pipe(tsProject(reporter)) instead", "As of gulp-typescript 3.0, .pipe(ts(tsProject, ...)) should be written as .pipe(tsProject(reporter)).");
         }
         else {
-            utils.deprecate("ts(tsProject) has been deprecated", "use .pipe(tsProject(reporter)) instead", "As of gulp-typescript 3.0, .pipe(ts(tsProject)) should be written as .pipe(tsProject()).");
+            utils.deprecate("ts(tsProject) has been deprecated", "use .pipe(tsProject()) instead", "As of gulp-typescript 3.0, .pipe(ts(tsProject)) should be written as .pipe(tsProject()).");
         }
     }
     else {
@@ -34,44 +42,38 @@ function getTypeScript(typescript) {
         throw new Error("TypeScript not installed");
     }
 }
-function getCompilerOptions(settings, projectPath, configFileName) {
-    var typescript = getTypeScript(settings.typescript);
+function checkAndNormalizeSettings(settings) {
+    var declarationFiles = settings.declarationFiles, noExternalResolve = settings.noExternalResolve, sortOutput = settings.sortOutput, typescript = settings.typescript, standardSettings = __rest(settings, ["declarationFiles", "noExternalResolve", "sortOutput", "typescript"]);
     if (settings.sourceRoot !== undefined) {
         console.warn('gulp-typescript: sourceRoot isn\'t supported any more. Use sourceRoot option of gulp-sourcemaps instead.');
     }
-    if (settings.noExternalResolve !== undefined) {
+    if (noExternalResolve !== undefined) {
         utils.deprecate("noExternalResolve is deprecated", "use noResolve instead", "The non-standard option noExternalResolve has been removed as of gulp-typescript 3.0.\nUse noResolve instead.");
     }
-    if (settings.sortOutput !== undefined) {
+    if (sortOutput !== undefined) {
         utils.deprecate("sortOutput is deprecated", "your project might work without it", "The non-standard option sortOutput has been removed as of gulp-typescript 3.0.\nYour project will probably compile without this option.\nOtherwise, if you're using gulp-concat, you should remove gulp-concat and use the outFile option instead.");
     }
-    // Copy settings and remove several options
-    var newSettings = {};
-    for (var _i = 0, _a = Object.keys(settings); _i < _a.length; _i++) {
-        var option = _a[_i];
-        if (option === 'declarationFiles') {
-            newSettings.declaration = settings.declarationFiles;
-            continue;
-        }
-        if (option === 'noExternalResolve' ||
-            option === 'sortOutput' ||
-            option === 'typescript' ||
-            option === 'sourceMap' ||
-            option === 'inlineSourceMap' ||
-            option === 'sourceRoot' ||
-            option === 'inlineSources')
-            continue;
-        newSettings[option] = settings[option];
+    if (declarationFiles) {
+        standardSettings.declaration = settings.declarationFiles;
     }
-    var result = typescript.convertCompilerOptionsFromJson(newSettings, projectPath, configFileName);
+    return standardSettings;
+}
+function normalizeCompilerOptions(options) {
+    options.sourceMap = true;
+    options.suppressOutputPathCheck = true;
+    options.inlineSourceMap = false;
+    options.sourceRoot = undefined;
+    options.inlineSources = false;
+}
+function reportErrors(errors, typescript, ignore) {
+    if (ignore === void 0) { ignore = []; }
     var reporter = _reporter.defaultReporter();
-    for (var _b = 0, _c = result.errors; _b < _c.length; _b++) {
-        var error = _c[_b];
+    for (var _i = 0, errors_1 = errors; _i < errors_1.length; _i++) {
+        var error = errors_1[_i];
+        if (ignore.indexOf(error.code) !== -1)
+            continue;
         reporter.error(utils.getError(error, typescript), typescript);
     }
-    result.options.sourceMap = true;
-    result.options.suppressOutputPathCheck = true;
-    return result.options;
 }
 (function (compile) {
     compile.reporter = _reporter;
@@ -79,38 +81,44 @@ function getCompilerOptions(settings, projectPath, configFileName) {
         var tsConfigFileName = undefined;
         var tsConfigContent = undefined;
         var projectDirectory = process.cwd();
+        var typescript;
+        var compilerOptions;
+        var fileName;
+        var rawConfig;
         if (fileNameOrSettings !== undefined) {
             if (typeof fileNameOrSettings === 'string') {
+                fileName = fileNameOrSettings;
+                if (settings === undefined)
+                    settings = {};
+            }
+            else {
+                settings = fileNameOrSettings || {};
+            }
+            typescript = getTypeScript(settings.typescript);
+            settings = checkAndNormalizeSettings(settings);
+            var settingsResult = typescript.convertCompilerOptionsFromJson(settings, projectDirectory);
+            if (settingsResult.errors) {
+                reportErrors(settingsResult.errors, typescript);
+            }
+            compilerOptions = settingsResult.options;
+            if (fileName) {
                 tsConfigFileName = path.resolve(process.cwd(), fileNameOrSettings);
                 projectDirectory = path.dirname(tsConfigFileName);
-                // Load file and strip BOM, since JSON.parse fails to parse if there's a BOM present
-                var tsConfigText = fs.readFileSync(tsConfigFileName).toString();
-                var typescript = getTypeScript(settings && settings.typescript);
-                var tsConfig = typescript.parseConfigFileTextToJson(tsConfigFileName, tsConfigText);
-                tsConfigContent = tsConfig.config || {};
+                var tsConfig = typescript.readConfigFile(tsConfigFileName, typescript.sys.readFile);
                 if (tsConfig.error) {
                     console.log(tsConfig.error.messageText);
                 }
-                var newSettings = {};
-                if (tsConfigContent.compilerOptions) {
-                    for (var _i = 0, _a = Object.keys(tsConfigContent.compilerOptions); _i < _a.length; _i++) {
-                        var key = _a[_i];
-                        newSettings[key] = tsConfigContent.compilerOptions[key];
-                    }
+                var parsed = typescript.parseJsonConfigFileContent(tsConfig.config || {}, getTsconfigSystem(typescript), path.resolve(projectDirectory), compilerOptions, path.basename(tsConfigFileName));
+                rawConfig = parsed.raw;
+                tsConfigContent = parsed.raw;
+                if (parsed.errors) {
+                    reportErrors(parsed.errors, typescript, [18003]);
                 }
-                if (settings) {
-                    for (var _b = 0, _c = Object.keys(settings); _b < _c.length; _b++) {
-                        var key = _c[_b];
-                        newSettings[key] = settings[key];
-                    }
-                }
-                settings = newSettings;
-            }
-            else {
-                settings = fileNameOrSettings;
+                compilerOptions = parsed.options;
             }
         }
-        var project = _project.setupProject(projectDirectory, tsConfigContent, getCompilerOptions(settings, projectDirectory, tsConfigFileName), getTypeScript(settings.typescript));
+        normalizeCompilerOptions(compilerOptions);
+        var project = _project.setupProject(projectDirectory, tsConfigFileName, rawConfig, tsConfigContent, compilerOptions, typescript);
         return project;
     }
     compile.createProject = createProject;
@@ -123,4 +131,12 @@ function getCompilerOptions(settings, projectPath, configFileName) {
     }
     compile.filter = filter;
 })(compile || (compile = {}));
+function getTsconfigSystem(typescript) {
+    return {
+        useCaseSensitiveFileNames: typescript.sys.useCaseSensitiveFileNames,
+        readDirectory: function () { return []; },
+        fileExists: typescript.sys.fileExists,
+        readFile: typescript.sys.readFile
+    };
+}
 module.exports = compile;

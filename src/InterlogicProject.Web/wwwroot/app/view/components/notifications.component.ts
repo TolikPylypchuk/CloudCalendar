@@ -20,7 +20,9 @@ export default class NotificationsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.notificationService.getNotificationsForCurrentUser()
-			.subscribe(notifications => this.notifications = notifications);
+			.subscribe(notifications =>
+				this.notifications = notifications.sort(
+					this.compareByTimeDescending));
 	}
 
 	formatDateTime(dateTime: string): string {
@@ -37,5 +39,18 @@ export default class NotificationsComponent implements OnInit {
 		this.notificationService
 			.markNotificationAsNotSeen(notification)
 			.connect();
+	}
+
+	private compareByTimeDescending(
+		a: Notification,
+		b: Notification): number {
+		const moment1 = moment(a.dateTime);
+		const moment2 = moment(b.dateTime);
+
+		return moment1.isBefore(moment2)
+			? 1
+			: moment1.isAfter(moment2)
+				? -1
+				: 0;
 	}
 }

@@ -60,6 +60,11 @@ export declare class NgbInputDatepicker implements OnChanges, OnDestroy, Control
      */
     outsideDays: 'visible' | 'collapsed' | 'hidden';
     /**
+     * Placement of a datepicker popup. Accepts: "top", "bottom", "left", "right", "bottom-left",
+     * "bottom-right" etc.
+     */
+    placement: string;
+    /**
      * Whether to display days of the week
      */
     showWeekdays: boolean;

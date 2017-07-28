@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 var NgbDatepickerDayView = (function () {
     function NgbDatepickerDayView() {
     }
@@ -9,13 +9,15 @@ export { NgbDatepickerDayView };
 NgbDatepickerDayView.decorators = [
     { type: Component, args: [{
                 selector: '[ngbDatepickerDayView]',
-                styles: ["\n    :host {\n      text-align: center;\n      width: 2rem;\n      height: 2rem;\n      line-height: 2rem;      \n      border-radius: 0.25rem;\n    }\n    :host.outside {\n      opacity: 0.5;\n    }\n  "],
+                changeDetection: ChangeDetectionStrategy.OnPush,
+                styles: ["\n    :host {\n      text-align: center;\n      width: 2rem;\n      height: 2rem;\n      line-height: 2rem;\n      border-radius: 0.25rem;\n    }\n    :host.outside {\n      opacity: 0.5;\n    }\n  "],
                 host: {
+                    'class': 'btn-secondary',
                     '[class.bg-primary]': 'selected',
                     '[class.text-white]': 'selected',
                     '[class.text-muted]': 'isMuted()',
                     '[class.outside]': 'isMuted()',
-                    '[class.btn-secondary]': '!disabled'
+                    '[class.active]': 'focused'
                 },
                 template: "{{ date.day }}"
             },] },
@@ -26,6 +28,7 @@ NgbDatepickerDayView.propDecorators = {
     'currentMonth': [{ type: Input },],
     'date': [{ type: Input },],
     'disabled': [{ type: Input },],
+    'focused': [{ type: Input },],
     'selected': [{ type: Input },],
 };
 //# sourceMappingURL=datepicker-day-view.js.map

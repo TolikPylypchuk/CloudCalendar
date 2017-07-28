@@ -69,51 +69,51 @@ var Positioning = (function () {
     };
     Positioning.prototype.positionElements = function (hostElement, targetElement, placement, appendToBody) {
         var hostElPosition = appendToBody ? this.offset(hostElement, false) : this.position(hostElement, false);
-        var shiftWidth = {
-            left: hostElPosition.left,
-            center: hostElPosition.left + hostElPosition.width / 2 - targetElement.offsetWidth / 2,
-            right: hostElPosition.left + hostElPosition.width
-        };
-        var shiftHeight = {
-            top: hostElPosition.top,
-            center: hostElPosition.top + hostElPosition.height / 2 - targetElement.offsetHeight / 2,
-            bottom: hostElPosition.top + hostElPosition.height
-        };
         var targetElBCR = targetElement.getBoundingClientRect();
         var placementPrimary = placement.split('-')[0] || 'top';
         var placementSecondary = placement.split('-')[1] || 'center';
         var targetElPosition = {
-            height: targetElBCR.height || targetElement.offsetHeight,
-            width: targetElBCR.width || targetElement.offsetWidth,
-            top: 0,
-            bottom: targetElBCR.height || targetElement.offsetHeight,
-            left: 0,
-            right: targetElBCR.width || targetElement.offsetWidth
+            'height': targetElBCR.height || targetElement.offsetHeight,
+            'width': targetElBCR.width || targetElement.offsetWidth,
+            'top': 0,
+            'bottom': targetElBCR.height || targetElement.offsetHeight,
+            'left': 0,
+            'right': targetElBCR.width || targetElement.offsetWidth
         };
         switch (placementPrimary) {
             case 'top':
                 targetElPosition.top = hostElPosition.top - targetElement.offsetHeight;
-                targetElPosition.bottom += hostElPosition.top - targetElement.offsetHeight;
-                targetElPosition.left = shiftWidth[placementSecondary];
-                targetElPosition.right += shiftWidth[placementSecondary];
                 break;
             case 'bottom':
-                targetElPosition.top = shiftHeight[placementPrimary];
-                targetElPosition.bottom += shiftHeight[placementPrimary];
-                targetElPosition.left = shiftWidth[placementSecondary];
-                targetElPosition.right += shiftWidth[placementSecondary];
+                targetElPosition.top = hostElPosition.top + hostElPosition.height;
                 break;
             case 'left':
-                targetElPosition.top = shiftHeight[placementSecondary];
-                targetElPosition.bottom += shiftHeight[placementSecondary];
                 targetElPosition.left = hostElPosition.left - targetElement.offsetWidth;
-                targetElPosition.right += hostElPosition.left - targetElement.offsetWidth;
                 break;
             case 'right':
-                targetElPosition.top = shiftHeight[placementSecondary];
-                targetElPosition.bottom += shiftHeight[placementSecondary];
-                targetElPosition.left = shiftWidth[placementPrimary];
-                targetElPosition.right += shiftWidth[placementPrimary];
+                targetElPosition.left = hostElPosition.left + hostElPosition.width;
+                break;
+        }
+        switch (placementSecondary) {
+            case 'top':
+                targetElPosition.top = hostElPosition.top;
+                break;
+            case 'bottom':
+                targetElPosition.top = hostElPosition.top + hostElPosition.height - targetElement.offsetHeight;
+                break;
+            case 'left':
+                targetElPosition.left = hostElPosition.left;
+                break;
+            case 'right':
+                targetElPosition.left = hostElPosition.left + hostElPosition.width - targetElement.offsetWidth;
+                break;
+            case 'center':
+                if (placementPrimary === 'top' || placementPrimary === 'bottom') {
+                    targetElPosition.left = hostElPosition.left + hostElPosition.width / 2 - targetElement.offsetWidth / 2;
+                }
+                else {
+                    targetElPosition.top = hostElPosition.top + hostElPosition.height / 2 - targetElement.offsetHeight / 2;
+                }
                 break;
         }
         targetElPosition.top = Math.round(targetElPosition.top);

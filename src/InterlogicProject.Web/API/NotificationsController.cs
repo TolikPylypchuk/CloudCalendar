@@ -246,17 +246,19 @@ namespace InterlogicProject.Web.API
 				};
 
 			var notificationsToAdd =
-				this.groupClasses.GetAll()
-								 .Where(gc => gc.ClassId == classId)
-								 .Select(gc => gc.Group)
-								 .SelectMany(g => g.Students)
-								 .Select(s => new UserNotification
-								 {
-									 Notification = notification,
-									 UserId = s.UserId,
-									 IsSeen = false
-								 });
-
+				from gc in this.groupClasses.GetAll()
+				where gc.ClassId == classId
+				select gc.Group into g
+				from s in g.Students
+				where String.IsNullOrEmpty(notificationDto.UserId) ||
+				      s.UserId != notificationDto.UserId
+				select new UserNotification
+				{
+					Notification = notification,
+					UserId = s.UserId,
+					IsSeen = false
+				};
+			
 			if (!notificationsToAdd.Any())
 			{
 				return this.BadRequest();
@@ -303,15 +305,17 @@ namespace InterlogicProject.Web.API
 				};
 
 			var notificationsToAdd =
-				this.lecturerClasses.GetAll()
-									.Where(lc => lc.ClassId == classId)
-									.Select(lc => lc.Lecturer)
-									.Select(l => new UserNotification
-									{
-										Notification = notification,
-										UserId = l.UserId,
-										IsSeen = false
-									});
+				from lc in this.lecturerClasses.GetAll()
+				where lc.ClassId == classId
+				select lc.Lecturer into l
+				where String.IsNullOrEmpty(notificationDto.UserId) ||
+				      l.UserId != notificationDto.UserId
+				select new UserNotification
+				{
+					Notification = notification,
+					UserId = l.UserId,
+					IsSeen = false
+				};
 
 			if (!notificationsToAdd.Any())
 			{

@@ -16,8 +16,8 @@ var modal_content_component_1 = require("./modal/modal-content.component");
 var common_1 = require("../../common/common");
 var CalendarComponent = (function () {
     function CalendarComponent(modalService, classService, lecturerService) {
-        this.currentSubscription = null;
         this.modalService = modalService;
+        this.classService = classService;
         this.lecturerService = lecturerService;
         this.options = {
             allDaySlot: false,
@@ -36,6 +36,7 @@ var CalendarComponent = (function () {
                 center: "agendaWeek,listWeek",
                 right: "today prev,next"
             },
+            height: "auto",
             minTime: moment.duration("08:00:00"),
             maxTime: moment.duration("21:00:00"),
             slotDuration: moment.duration("00:30:00"),
@@ -49,16 +50,12 @@ var CalendarComponent = (function () {
     }
     CalendarComponent.prototype.getEvents = function (start, end, timezone, callback) {
         var _this = this;
-        if (this.currentSubscription !== null) {
-            this.currentSubscription.unsubscribe();
-        }
-        this.currentSubscription = this.lecturerService.getCurrentLecturer()
+        this.lecturerService.getCurrentLecturer()
             .subscribe(function (lecturer) {
             if (lecturer) {
                 _this.classService.getClassesForLecturerInRange(lecturer.id, start, end)
-                    .subscribe(function (data) {
-                    var classes = data;
-                    callback(classes.map(_this.classToEvent));
+                    .subscribe(function (classes) {
+                    return callback(classes.map(_this.classToEvent));
                 });
             }
         });

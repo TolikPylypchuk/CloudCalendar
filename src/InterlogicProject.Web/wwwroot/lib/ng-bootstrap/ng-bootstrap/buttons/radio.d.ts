@@ -1,5 +1,6 @@
 import { Renderer2, ElementRef, OnDestroy } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { NgbButtonLabel } from './label';
 /**
  * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
  * specified via ngModel.
@@ -22,14 +23,6 @@ export declare class NgbRadioGroup implements ControlValueAccessor {
     private _updateRadiosValue();
     private _updateRadiosDisabled();
 }
-export declare class NgbActiveLabel {
-    private _renderer;
-    private _elRef;
-    constructor(_renderer: Renderer2, _elRef: ElementRef);
-    active: boolean;
-    disabled: boolean;
-    focused: boolean;
-}
 /**
  * Marks an input of type "radio" as part of the NgbRadioGroup.
  */
@@ -46,15 +39,12 @@ export declare class NgbRadio implements OnDestroy {
     */
     value: any;
     /**
-     * A flag indicating if a given radio button is checked.
-     */
-    checked: boolean;
-    /**
      * A flag indicating if a given radio button is disabled.
      */
     disabled: boolean;
     focused: boolean;
-    constructor(_group: NgbRadioGroup, _label: NgbActiveLabel, _renderer: Renderer2, _element: ElementRef);
+    readonly checked: boolean;
+    constructor(_group: NgbRadioGroup, _label: NgbButtonLabel, _renderer: Renderer2, _element: ElementRef);
     ngOnDestroy(): void;
     onChange(): void;
     updateValue(value: any): void;

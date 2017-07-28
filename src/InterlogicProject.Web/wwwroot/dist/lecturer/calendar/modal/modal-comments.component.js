@@ -11,36 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var moment = require("moment");
-var account_1 = require("../../../account/account");
 var common_1 = require("../../../common/common");
 var ModalCommentsComponent = (function () {
-    function ModalCommentsComponent(accountService, classService, commentService, lecturerService) {
+    function ModalCommentsComponent(classService, commentService, lecturerService, notificationService) {
         this.comments = [];
         this.currentComment = {
             text: ""
         };
         this.editedCommentId = 0;
         this.editedCommentOriginalText = "";
-        this.accountService = accountService;
         this.classService = classService;
         this.commentService = commentService;
         this.lecturerService = lecturerService;
+        this.notificationService = notificationService;
     }
     ModalCommentsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.accountService.getCurrentUser()
-            .subscribe(function (user) {
-            if (user) {
-                _this.currentComment.userId = user.id;
-                _this.currentComment.userFirstName = user.firstName;
-                _this.currentComment.userMiddleName = user.middleName;
-                _this.currentComment.userLastName = user.lastName;
-                _this.currentComment.userFullName = user.fullName;
-                _this.currentComment.classId = _this.classId;
-            }
+        this.lecturerService.getCurrentLecturer()
+            .subscribe(function (lecturer) {
+            _this.currentComment.userId = lecturer.userId;
+            _this.currentComment.userFirstName = lecturer.firstName;
+            _this.currentComment.userMiddleName = lecturer.middleName;
+            _this.currentComment.userLastName = lecturer.lastName;
+            _this.currentComment.userFullName = lecturer.fullName;
+            _this.currentComment.classId = _this.classId;
+            _this.currentLecturer = lecturer;
         });
         this.commentService.getCommentsByClass(this.classId)
             .subscribe(function (data) { return _this.comments = data; });
+        this.classService.getClass(this.classId)
+            .subscribe(function (c) { return _this.currentClass = c; });
     };
     ModalCommentsComponent.prototype.formatDateTime = function (dateTime, format) {
         return moment.utc(dateTime).format(format);
@@ -65,6 +65,17 @@ var ModalCommentsComponent = (function () {
                     classId: _this.currentComment.classId,
                     text: ""
                 };
+                var notification_1 = {
+                    dateTime: moment().toISOString(),
+                    text: _this.getNotificationText(),
+                    userId: _this.currentLecturer.userId
+                };
+                var action_1 = _this.notificationService.addNotificationForGroupsInClass(notification_1, _this.classId);
+                action_1.subscribe(function () {
+                    return _this.notificationService.addNotificationForLecturersInClass(notification_1, _this.classId)
+                        .connect();
+                });
+                action_1.connect();
             }
         });
         action.connect();
@@ -98,6 +109,11 @@ var ModalCommentsComponent = (function () {
         });
         action.connect();
     };
+    ModalCommentsComponent.prototype.getNotificationText = function () {
+        return this.currentLecturer.firstName + " " + this.currentLecturer.lastName + " " +
+            ("\u0434\u043E\u0434\u0430\u0432 \u043A\u043E\u043C\u0435\u043D\u0442\u0430\u0440 \u0434\u043E \u043F\u0430\u0440\u0438 '" + this.currentClass.subjectName + "' ") +
+            (moment(this.currentClass.dateTime).format("DD.MM.YYYY") + ".");
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", Number)
@@ -108,10 +124,10 @@ var ModalCommentsComponent = (function () {
             templateUrl: "/templates/lecturer/calendar/modal-comments",
             styleUrls: ["/dist/css/style.min.css"]
         }),
-        __metadata("design:paramtypes", [account_1.AccountService,
-            common_1.ClassService,
+        __metadata("design:paramtypes", [common_1.ClassService,
             common_1.CommentService,
-            common_1.LecturerService])
+            common_1.LecturerService,
+            common_1.NotificationService])
     ], ModalCommentsComponent);
     return ModalCommentsComponent;
 }());

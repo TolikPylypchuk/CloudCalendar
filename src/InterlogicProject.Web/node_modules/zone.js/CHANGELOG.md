@@ -1,3 +1,81 @@
+<a name="0.8.16"></a>
+## [0.8.16](https://github.com/angular/zone.js/compare/v0.8.15...0.8.16) (2017-07-27)
+
+
+### Bug Fixes
+
+* **console:** console.log in nodejs should run in root Zone ([#855](https://github.com/angular/zone.js/issues/855)) ([5900d3a](https://github.com/angular/zone.js/commit/5900d3a))
+* **promise:** fix [#850](https://github.com/angular/zone.js/issues/850), check Promise.then writable ([#851](https://github.com/angular/zone.js/issues/851)) ([6e44cab](https://github.com/angular/zone.js/commit/6e44cab))
+* **spec:** do not count requestAnimationFrame as a pending timer ([#854](https://github.com/angular/zone.js/issues/854)) ([eca04b0](https://github.com/angular/zone.js/commit/eca04b0))
+
+
+### Features
+
+* **spec:** add an option to FakeAsyncTestZoneSpec to flush periodic timers ([#857](https://github.com/angular/zone.js/issues/857)) ([5c5ca1a](https://github.com/angular/zone.js/commit/5c5ca1a))
+
+
+
+<a name="0.8.15"></a>
+## [0.8.15](https://github.com/angular/zone.js/compare/v0.8.13...0.8.15) (2017-07-27)
+
+
+### Features
+
+* **rxjs:** fix [#830](https://github.com/angular/zone.js/issues/830), monkey patch rxjs to make rxjs run in correct zone ([#843](https://github.com/angular/zone.js/issues/843)) ([1ed83d0](https://github.com/angular/zone.js/commit/1ed83d0))
+
+
+
+<a name="0.8.14"></a>
+## [0.8.14](https://github.com/angular/zone.js/compare/v0.8.13...0.8.14) (2017-07-20)
+
+
+### Bug Fixes
+
+* **event:** fix [#836](https://github.com/angular/zone.js/issues/836), handle event callback call removeEventListener case ([#839](https://github.com/angular/zone.js/issues/839)) ([f301fa2](https://github.com/angular/zone.js/commit/f301fa2))
+* **event:** fix memory leak for once, add more test cases ([#841](https://github.com/angular/zone.js/issues/841)) ([2143d9c](https://github.com/angular/zone.js/commit/2143d9c))
+* **task:** fix [#832](https://github.com/angular/zone.js/issues/832), fix [#835](https://github.com/angular/zone.js/issues/835), task.data should be an object ([#834](https://github.com/angular/zone.js/issues/834)) ([3a4bfbd](https://github.com/angular/zone.js/commit/3a4bfbd))
+
+
+### Features
+
+* **rxjs:** fix [#830](https://github.com/angular/zone.js/issues/830), monkey patch rxjs to make rxjs run in correct zone ([#843](https://github.com/angular/zone.js/issues/843)) ([1ed83d0](https://github.com/angular/zone.js/commit/1ed83d0))
+
+
+
+<a name="0.8.14"></a>
+## [0.8.14](https://github.com/angular/zone.js/compare/v0.8.13...0.8.14) (2017-07-18)
+
+
+### Bug Fixes
+
+* **event:** fix [#836](https://github.com/angular/zone.js/issues/836), handle event callback call removeEventListener case ([#839](https://github.com/angular/zone.js/issues/839)) ([f301fa2](https://github.com/angular/zone.js/commit/f301fa2))
+* **event:** fix memory leak for once, add more test cases ([#841](https://github.com/angular/zone.js/issues/841)) ([2143d9c](https://github.com/angular/zone.js/commit/2143d9c))
+* **task:** fix [#832](https://github.com/angular/zone.js/issues/832), fix [#835](https://github.com/angular/zone.js/issues/835), task.data should be an object ([#834](https://github.com/angular/zone.js/issues/834)) ([3a4bfbd](https://github.com/angular/zone.js/commit/3a4bfbd))
+
+
+
+<a name="0.8.13"></a>
+## [0.8.13](https://github.com/angular/zone.js/compare/v0.8.12...0.8.13) (2017-07-12)
+
+
+### Bug Fixes
+
+* **promise:** fix [#806](https://github.com/angular/zone.js/issues/806), remove duplicate consolelog ([#807](https://github.com/angular/zone.js/issues/807)) ([f439fe2](https://github.com/angular/zone.js/commit/f439fe2))
+* **spec:** fakeAsyncTestSpec should handle requestAnimationFrame ([#805](https://github.com/angular/zone.js/issues/805)) ([8260f1d](https://github.com/angular/zone.js/commit/8260f1d)), closes [#804](https://github.com/angular/zone.js/issues/804)
+* **websocket:** fix [#824](https://github.com/angular/zone.js/issues/824), patch websocket onproperties correctly in PhantomJS ([#826](https://github.com/angular/zone.js/issues/826)) ([273cb85](https://github.com/angular/zone.js/commit/273cb85))
+
+
+### Features
+
+* **FakeAsyncTestZoneSpec:** FakeAsyncTestZoneSpec.flush() passes limit along to scheduler ([#831](https://github.com/angular/zone.js/issues/831)) ([667cd6f](https://github.com/angular/zone.js/commit/667cd6f))
+
+
+### Performance Improvements
+
+* **eventListener:** fix [#798](https://github.com/angular/zone.js/issues/798), improve EventTarget.addEventListener performance ([#812](https://github.com/angular/zone.js/issues/812)) ([b3a76d3](https://github.com/angular/zone.js/commit/b3a76d3))
+
+
+
 <a name="0.8.12"></a>
 ## [0.8.12](https://github.com/angular/zone.js/compare/v0.8.11...0.8.12) (2017-06-07)
 

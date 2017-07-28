@@ -8,6 +8,9 @@
 		<OutputType>Exe</OutputType>
 		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
 	</PropertyGroup>
+	<PropertyGroup>
+		<TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="Data\**" />
 		<Compile Remove="wwwroot\files\**" />
@@ -96,7 +99,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
-		<PackageReference Include="AutoMapper" Version="6.1.0" />
+		<PackageReference Include="AutoMapper" Version="6.1.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.2" />

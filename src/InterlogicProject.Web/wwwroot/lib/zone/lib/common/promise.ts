@@ -27,8 +27,9 @@ Zone.__load_patch('ZoneAwarePromise', (global: any, Zone: ZoneType, api: _ZonePr
             rejection instanceof Error ? rejection.message : rejection, '; Zone:',
             (<Zone>e.zone).name, '; Task:', e.task && (<Task>e.task).source, '; Value:', rejection,
             rejection instanceof Error ? rejection.stack : undefined);
+      } else {
+        console.error(e);
       }
-      console.error(e);
     }
   };
 
@@ -328,6 +329,13 @@ Zone.__load_patch('ZoneAwarePromise', (global: any, Zone: ZoneType, api: _ZonePr
     const originalThen = proto.then;
     // Keep a reference to the original method.
     proto[symbolThen] = originalThen;
+
+    // check Ctor.prototype.then propertyDescritor is writable or not
+    // in meteor env, writable is false, we have to make it to be true.
+    const prop = Object.getOwnPropertyDescriptor(Ctor.prototype, 'then');
+    if (prop && prop.writable === false && prop.configurable) {
+      Object.defineProperty(Ctor.prototype, 'then', {writable: true});
+    }
 
     Ctor.prototype.then = function(onResolve: any, onReject: any) {
       const wrapped = new ZoneAwarePromise((resolve, reject) => {

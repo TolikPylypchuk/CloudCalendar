@@ -12,12 +12,14 @@
     "noEmitOnError": false,
     "stripInternal": true,
     "sourceMap": true,
+    "moduleResolution": "node",
     "lib": ["es5", "dom", "es2015.promise"]
   },
   "exclude": [
     "node_modules",
     "build",
     "build-esm",
-    "dist"
+    "dist",
+    "lib/closure"
   ]
 }

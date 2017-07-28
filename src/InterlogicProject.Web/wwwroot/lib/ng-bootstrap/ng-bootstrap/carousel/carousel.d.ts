@@ -1,4 +1,4 @@
-import { TemplateRef, QueryList, OnDestroy, AfterContentChecked, OnInit } from '@angular/core';
+import { TemplateRef, QueryList, OnDestroy, AfterContentChecked, OnInit, EventEmitter } from '@angular/core';
 import { NgbCarouselConfig } from './carousel-config';
 /**
  * Represents an individual slide to be used within a carousel.
@@ -34,6 +34,11 @@ export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnIn
      * The active slide id.
      */
     activeId: string;
+    /**
+     * A carousel slide event fired when the slide transition is completed.
+     * See NgbSlideEvent for payload details
+     */
+    slide: EventEmitter<NgbSlideEvent>;
     constructor(config: NgbCarouselConfig);
     ngAfterContentChecked(): void;
     ngOnInit(): void;
@@ -60,7 +65,7 @@ export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnIn
     cycle(): void;
     cycleToNext(): void;
     cycleToPrev(): void;
-    cycleToSelected(slideIdx: string): void;
+    cycleToSelected(slideIdx: string, direction: NgbSlideEventDirection): void;
     keyPrev(): void;
     keyNext(): void;
     private _restartTimer();
@@ -70,5 +75,30 @@ export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnIn
     private _getSlideIdxById(slideId);
     private _getNextSlide(currentSlideId);
     private _getPrevSlide(currentSlideId);
+    private _getSlideEventDirection(currentActiveSlideId, nextActiveSlideId);
+}
+/**
+* The payload of the slide event fired when the slide transition is completed
+*/
+export interface NgbSlideEvent {
+    /**
+     * Previous slide id
+     */
+    prev: string;
+    /**
+     * New slide ids
+     */
+    current: string;
+    /**
+     * Slide event direction
+     */
+    direction: NgbSlideEventDirection;
+}
+/**
+ * Enum to define the carousel slide event direction
+ */
+export declare enum NgbSlideEventDirection {
+    LEFT,
+    RIGHT,
 }
 export declare const NGB_CAROUSEL_DIRECTIVES: (typeof NgbSlide | typeof NgbCarousel)[];

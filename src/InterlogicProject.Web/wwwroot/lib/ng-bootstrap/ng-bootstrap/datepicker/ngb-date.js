@@ -42,6 +42,7 @@ var NgbDate = (function () {
             return this.year > other.year;
         }
     };
+    NgbDate.prototype.toStruct = function () { return { year: this.year, month: this.month, day: this.day }; };
     NgbDate.prototype.toString = function () { return this.year + "-" + this.month + "-" + this.day; };
     return NgbDate;
 }());

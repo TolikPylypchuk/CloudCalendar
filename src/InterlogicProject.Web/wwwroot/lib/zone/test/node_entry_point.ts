@@ -8,7 +8,7 @@
 
 // Must be loaded before zone loads, so that zone can detect WTF.
 import './wtf_mock';
-import './custom_error';
+import './test_fake_polyfill';
 
 // Setup tests for Zone without microtask support
 import '../lib/zone';
@@ -22,6 +22,7 @@ import '../lib/zone-spec/proxy';
 import '../lib/zone-spec/sync-test';
 import '../lib/zone-spec/task-tracking';
 import '../lib/zone-spec/wtf';
+import '../lib/rxjs/rxjs';
 
 // Setup test environment
 import './test-env-setup-jasmine';

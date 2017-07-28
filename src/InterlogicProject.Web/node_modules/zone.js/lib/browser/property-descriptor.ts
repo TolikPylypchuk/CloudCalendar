@@ -222,11 +222,11 @@ const IDBIndexEventNames =
     ['upgradeneeded', 'complete', 'abort', 'success', 'error', 'blocked', 'versionchange', 'close'];
 const websocketEventNames = ['close', 'error', 'open', 'message'];
 
-const eventNames = globalEventHandlersEventNames.concat(
+export const eventNames = globalEventHandlersEventNames.concat(
     webglEventNames, formEventNames, detailEventNames, documentEventNames, windowEventNames,
     htmlElementEventNames, ieElementEventNames);
 
-export function propertyDescriptorPatch(_global: any) {
+export function propertyDescriptorPatch(api: _ZonePrivate, _global: any) {
   if (isNode && !isMix) {
     return;
   }
@@ -279,7 +279,7 @@ export function propertyDescriptorPatch(_global: any) {
     patchViaCapturingAllTheEvents();
     patchClass('XMLHttpRequest');
     if (supportsWebSocket) {
-      webSocketPatch.apply(_global);
+      webSocketPatch.apply(api, _global);
     }
   }
 }

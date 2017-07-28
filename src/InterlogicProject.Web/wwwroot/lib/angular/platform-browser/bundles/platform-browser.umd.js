@@ -1,5 +1,5 @@
 /**
- * @license Angular v4.2.4
+ * @license Angular v4.3.2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -36,7 +36,7 @@ function __extends(d, b) {
 }
 
 /**
- * @license Angular v4.2.4
+ * @license Angular v4.3.2
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -1781,7 +1781,7 @@ var BrowserDomAdapter = (function (_super) {
      * @param {?} name
      * @return {?}
      */
-    BrowserDomAdapter.prototype.getCookie = function (name) { return parseCookieValue(document.cookie, name); };
+    BrowserDomAdapter.prototype.getCookie = function (name) { return _angular_common.ɵparseCookieValue(document.cookie, name); };
     /**
      * @param {?} name
      * @param {?} value
@@ -1822,23 +1822,6 @@ function relativePath(url) {
         '/' + urlParsingNode.pathname;
 }
 /**
- * @param {?} cookieStr
- * @param {?} name
- * @return {?}
- */
-function parseCookieValue(cookieStr, name) {
-    name = encodeURIComponent(name);
-    for (var _i = 0, _a = cookieStr.split(';'); _i < _a.length; _i++) {
-        var cookie = _a[_i];
-        var /** @type {?} */ eqIndex = cookie.indexOf('=');
-        var _b = eqIndex == -1 ? [cookie, ''] : [cookie.slice(0, eqIndex), cookie.slice(eqIndex + 1)], cookieName = _b[0], cookieValue = _b[1];
-        if (cookieName.trim() === name) {
-            return decodeURIComponent(cookieValue);
-        }
-    }
-    return null;
-}
-/**
  * @license
  * Copyright Google Inc. All Rights Reserved.
  *
@@ -1851,9 +1834,9 @@ function parseCookieValue(cookieStr, name) {
  * Note: Document might not be available in the Application Context when Application and Rendering
  * Contexts are not the same (e.g. when running the application into a Web Worker).
  *
- * \@stable
+ * @deprecated import from `\@angular/common` instead.
  */
-var DOCUMENT = new _angular_core.InjectionToken('DocumentToken');
+var DOCUMENT$1 = _angular_common.DOCUMENT;
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1996,7 +1979,7 @@ BrowserPlatformLocation.decorators = [
  * @nocollapse
  */
 BrowserPlatformLocation.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -2152,7 +2135,7 @@ Meta.decorators = [
  * @nocollapse
  */
 Meta.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -2188,7 +2171,7 @@ var SERVER_TRANSITION_PROVIDERS = [
     {
         provide: _angular_core.APP_INITIALIZER,
         useFactory: appInitializerFactory,
-        deps: [TRANSITION_ID, DOCUMENT, _angular_core.Injector],
+        deps: [TRANSITION_ID, DOCUMENT$1, _angular_core.Injector],
         multi: true
     },
 ];
@@ -2309,7 +2292,7 @@ Title.decorators = [
  * @nocollapse
  */
 Title.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -2640,7 +2623,7 @@ DomSharedStylesHost.decorators = [
  * @nocollapse
  */
 DomSharedStylesHost.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -3119,7 +3102,7 @@ DomEventsPlugin.decorators = [
  * @nocollapse
  */
 DomEventsPlugin.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -3260,7 +3243,7 @@ HammerGesturesPlugin.decorators = [
  * @nocollapse
  */
 HammerGesturesPlugin.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
     { type: HammerGestureConfig, decorators: [{ type: _angular_core.Inject, args: [HAMMER_GESTURE_CONFIG,] },] },
 ]; };
 /**
@@ -3396,7 +3379,7 @@ KeyEventsPlugin.decorators = [
  * @nocollapse
  */
 KeyEventsPlugin.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @license
@@ -3556,7 +3539,7 @@ var HTML_ATTRS = tagSet('abbr,accesskey,align,alt,autoplay,axis,bgcolor,border,c
     'ismap,itemscope,itemprop,kind,label,lang,language,loop,media,muted,nohref,nowrap,open,preload,rel,rev,role,rows,rowspan,rules,' +
     'scope,scrolling,shape,size,sizes,span,srclang,start,summary,tabindex,target,title,translate,type,usemap,' +
     'valign,value,vspace,width');
-// NB: This currently conciously doesn't support SVG. SVG sanitization has had several security
+// NB: This currently consciously doesn't support SVG. SVG sanitization has had several security
 // issues in the past, so it seems safer to leave it out if possible. If support for binding SVG via
 // innerHTML is required, SVG attributes should be added here.
 // NB: Sanitization does not allow <form> elements or other active elements (<button> etc). Those
@@ -4070,7 +4053,7 @@ DomSanitizerImpl.decorators = [
  * @nocollapse
  */
 DomSanitizerImpl.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT,] },] },
+    { type: undefined, decorators: [{ type: _angular_core.Inject, args: [DOCUMENT$1,] },] },
 ]; };
 /**
  * @abstract
@@ -4163,7 +4146,7 @@ var INTERNAL_BROWSER_PLATFORM_PROVIDERS = [
     { provide: _angular_core.PLATFORM_ID, useValue: _angular_common.ɵPLATFORM_BROWSER_ID },
     { provide: _angular_core.PLATFORM_INITIALIZER, useValue: initDomAdapter, multi: true },
     { provide: _angular_common.PlatformLocation, useClass: BrowserPlatformLocation },
-    { provide: DOCUMENT, useFactory: _document, deps: [] },
+    { provide: DOCUMENT$1, useFactory: _document, deps: [] },
 ];
 /**
  * \@security Replacing built-in sanitization providers exposes the application to XSS risks.
@@ -4458,7 +4441,7 @@ var By = (function () {
 /**
  * \@stable
  */
-var VERSION = new _angular_core.Version('4.2.4');
+var VERSION = new _angular_core.Version('4.3.2');
 
 exports.BrowserModule = BrowserModule;
 exports.platformBrowser = platformBrowser;
@@ -4468,7 +4451,7 @@ exports.disableDebugTools = disableDebugTools;
 exports.enableDebugTools = enableDebugTools;
 exports.By = By;
 exports.NgProbeToken = NgProbeToken$1;
-exports.DOCUMENT = DOCUMENT;
+exports.DOCUMENT = DOCUMENT$1;
 exports.EVENT_MANAGER_PLUGINS = EVENT_MANAGER_PLUGINS;
 exports.EventManager = EventManager;
 exports.HAMMER_GESTURE_CONFIG = HAMMER_GESTURE_CONFIG;

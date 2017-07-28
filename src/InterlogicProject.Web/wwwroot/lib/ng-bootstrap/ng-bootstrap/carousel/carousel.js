@@ -1,4 +1,4 @@
-import { Component, Directive, TemplateRef, ContentChildren, Input } from '@angular/core';
+import { Component, Directive, TemplateRef, ContentChildren, Input, Output, EventEmitter } from '@angular/core';
 import { NgbCarouselConfig } from './carousel-config';
 var nextId = 0;
 /**
@@ -31,6 +31,11 @@ NgbSlide.propDecorators = {
  */
 var NgbCarousel = (function () {
     function NgbCarousel(config) {
+        /**
+         * A carousel slide event fired when the slide transition is completed.
+         * See NgbSlideEvent for payload details
+         */
+        this.slide = new EventEmitter();
         this.interval = config.interval;
         this.wrap = config.wrap;
         this.keyboard = config.keyboard;
@@ -45,7 +50,7 @@ var NgbCarousel = (function () {
      * Navigate to a slide with the specified identifier.
      */
     NgbCarousel.prototype.select = function (slideId) {
-        this.cycleToSelected(slideId);
+        this.cycleToSelected(slideId, this._getSlideEventDirection(this.activeId, slideId));
         this._restartTimer();
     };
     /**
@@ -70,11 +75,14 @@ var NgbCarousel = (function () {
      * Restarts cycling through the carousel slides from left to right.
      */
     NgbCarousel.prototype.cycle = function () { this._startTimer(); };
-    NgbCarousel.prototype.cycleToNext = function () { this.cycleToSelected(this._getNextSlide(this.activeId)); };
-    NgbCarousel.prototype.cycleToPrev = function () { this.cycleToSelected(this._getPrevSlide(this.activeId)); };
-    NgbCarousel.prototype.cycleToSelected = function (slideIdx) {
+    NgbCarousel.prototype.cycleToNext = function () { this.cycleToSelected(this._getNextSlide(this.activeId), NgbSlideEventDirection.LEFT); };
+    NgbCarousel.prototype.cycleToPrev = function () { this.cycleToSelected(this._getPrevSlide(this.activeId), NgbSlideEventDirection.RIGHT); };
+    NgbCarousel.prototype.cycleToSelected = function (slideIdx, direction) {
         var selectedSlide = this._getSlideById(slideIdx);
         if (selectedSlide) {
+            if (selectedSlide.id !== this.activeId) {
+                this.slide.emit({ prev: this.activeId, current: selectedSlide.id, direction: direction });
+            }
             this.activeId = selectedSlide.id;
         }
     };
@@ -120,6 +128,11 @@ var NgbCarousel = (function () {
         return isFirstSlide ? (this.wrap ? slideArr[slideArr.length - 1].id : slideArr[0].id) :
             slideArr[currentSlideIdx - 1].id;
     };
+    NgbCarousel.prototype._getSlideEventDirection = function (currentActiveSlideId, nextActiveSlideId) {
+        var currentActiveSlideIdx = this._getSlideIdxById(currentActiveSlideId);
+        var nextActiveSlideIdx = this._getSlideIdxById(nextActiveSlideId);
+        return currentActiveSlideIdx > nextActiveSlideIdx ? NgbSlideEventDirection.RIGHT : NgbSlideEventDirection.LEFT;
+    };
     return NgbCarousel;
 }());
 export { NgbCarousel };
@@ -136,7 +149,7 @@ NgbCarousel.decorators = [
                     '(keydown.arrowLeft)': 'keyPrev()',
                     '(keydown.arrowRight)': 'keyNext()'
                 },
-                template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" (click)=\"cycleToSelected(slide.id)\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"left carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
+                template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" \n          (click)=\"cycleToSelected(slide.id, _getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"left carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
             },] },
 ];
 /** @nocollapse */
@@ -149,6 +162,15 @@ NgbCarousel.propDecorators = {
     'wrap': [{ type: Input },],
     'keyboard': [{ type: Input },],
     'activeId': [{ type: Input },],
+    'slide': [{ type: Output },],
 };
+/**
+ * Enum to define the carousel slide event direction
+ */
+export var NgbSlideEventDirection;
+(function (NgbSlideEventDirection) {
+    NgbSlideEventDirection[NgbSlideEventDirection["LEFT"] = 'left'] = "LEFT";
+    NgbSlideEventDirection[NgbSlideEventDirection["RIGHT"] = 'right'] = "RIGHT";
+})(NgbSlideEventDirection || (NgbSlideEventDirection = {}));
 export var NGB_CAROUSEL_DIRECTIVES = [NgbCarousel, NgbSlide];
 //# sourceMappingURL=carousel.js.map

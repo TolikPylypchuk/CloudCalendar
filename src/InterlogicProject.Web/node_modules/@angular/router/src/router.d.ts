@@ -318,6 +318,8 @@ export declare class PreActivation {
     traverse(parentContexts: ChildrenOutletContexts): void;
     checkGuards(): Observable<boolean>;
     resolveData(): Observable<any>;
+    isDeactivating(): boolean;
+    isActivating(): boolean;
     private traverseChildRoutes(futureNode, currNode, contexts, futurePath);
     private traverseRoutes(futureNode, currNode, parentContexts, futurePath);
     private shouldRunGuardsAndResolvers(curr, future, mode);
@@ -330,5 +332,6 @@ export declare class PreActivation {
     private runCanDeactivate(component, curr);
     private runResolve(future);
     private resolveNode(resolve, future);
+    private getResolver(injectionToken, future);
     private getToken(token, snapshot);
 }

@@ -1,5 +1,6 @@
-import { Directive, forwardRef, Optional, Input, Renderer2, ElementRef } from '@angular/core';
+import { Directive, forwardRef, Input, Renderer2, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgbButtonLabel } from './label';
 var NGB_RADIO_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return NgbRadioGroup; }),
@@ -56,58 +57,6 @@ NgbRadioGroup.decorators = [
 ];
 /** @nocollapse */
 NgbRadioGroup.ctorParameters = function () { return []; };
-var NgbActiveLabel = (function () {
-    function NgbActiveLabel(_renderer, _elRef) {
-        this._renderer = _renderer;
-        this._elRef = _elRef;
-    }
-    Object.defineProperty(NgbActiveLabel.prototype, "active", {
-        set: function (isActive) {
-            if (isActive) {
-                this._renderer.addClass(this._elRef.nativeElement, 'active');
-            }
-            else {
-                this._renderer.removeClass(this._elRef.nativeElement, 'active');
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbActiveLabel.prototype, "disabled", {
-        set: function (isDisabled) {
-            if (isDisabled) {
-                this._renderer.addClass(this._elRef.nativeElement, 'disabled');
-            }
-            else {
-                this._renderer.removeClass(this._elRef.nativeElement, 'disabled');
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbActiveLabel.prototype, "focused", {
-        set: function (isFocused) {
-            if (isFocused) {
-                this._renderer.addClass(this._elRef.nativeElement, 'focus');
-            }
-            else {
-                this._renderer.removeClass(this._elRef.nativeElement, 'focus');
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return NgbActiveLabel;
-}());
-export { NgbActiveLabel };
-NgbActiveLabel.decorators = [
-    { type: Directive, args: [{ selector: 'label.btn' },] },
-];
-/** @nocollapse */
-NgbActiveLabel.ctorParameters = function () { return [
-    { type: Renderer2, },
-    { type: ElementRef, },
-]; };
 /**
  * Marks an input of type "radio" as part of the NgbRadioGroup.
  */
@@ -118,9 +67,7 @@ var NgbRadio = (function () {
         this._renderer = _renderer;
         this._element = _element;
         this._value = null;
-        if (this._group) {
-            this._group.register(this);
-        }
+        this._group.register(this);
     }
     Object.defineProperty(NgbRadio.prototype, "value", {
         get: function () { return this._value; },
@@ -131,26 +78,13 @@ var NgbRadio = (function () {
             this._value = value;
             var stringValue = value ? value.toString() : '';
             this._renderer.setProperty(this._element.nativeElement, 'value', stringValue);
-            if (this._group) {
-                this._group.onRadioValueUpdate();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbRadio.prototype, "checked", {
-        get: function () { return this._checked; },
-        /**
-         * A flag indicating if a given radio button is checked.
-         */
-        set: function (value) {
-            this._checked = this._element.nativeElement.hasAttribute('checked') ? true : value;
+            this._group.onRadioValueUpdate();
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NgbRadio.prototype, "disabled", {
-        get: function () { return (this._group && this._group.disabled) || this._disabled; },
+        get: function () { return this._group.disabled || this._disabled; },
         /**
          * A flag indicating if a given radio button is disabled.
          */
@@ -170,32 +104,24 @@ var NgbRadio = (function () {
         enumerable: true,
         configurable: true
     });
-    NgbRadio.prototype.ngOnDestroy = function () {
-        if (this._group) {
-            this._group.unregister(this);
-        }
-    };
-    NgbRadio.prototype.onChange = function () {
-        if (this._group) {
-            this._group.onRadioChange(this);
-        }
-    };
+    Object.defineProperty(NgbRadio.prototype, "checked", {
+        get: function () { return this._checked; },
+        enumerable: true,
+        configurable: true
+    });
+    NgbRadio.prototype.ngOnDestroy = function () { this._group.unregister(this); };
+    NgbRadio.prototype.onChange = function () { this._group.onRadioChange(this); };
     NgbRadio.prototype.updateValue = function (value) {
-        this._checked = (this.value === value && value !== null);
+        this._checked = this.value === value;
         this._label.active = this._checked;
     };
-    NgbRadio.prototype.updateDisabled = function () {
-        var disabled = (this._group && this._group.disabled) || this._disabled;
-        if (this._label) {
-            this._label.disabled = disabled;
-        }
-    };
+    NgbRadio.prototype.updateDisabled = function () { this._label.disabled = this.disabled; };
     return NgbRadio;
 }());
 export { NgbRadio };
 NgbRadio.decorators = [
     { type: Directive, args: [{
-                selector: 'input[type=radio]',
+                selector: '[ngbButton][type=radio]',
                 host: {
                     '[checked]': 'checked',
                     '[disabled]': 'disabled',
@@ -207,14 +133,13 @@ NgbRadio.decorators = [
 ];
 /** @nocollapse */
 NgbRadio.ctorParameters = function () { return [
-    { type: NgbRadioGroup, decorators: [{ type: Optional },] },
-    { type: NgbActiveLabel, decorators: [{ type: Optional },] },
+    { type: NgbRadioGroup, },
+    { type: NgbButtonLabel, },
     { type: Renderer2, },
     { type: ElementRef, },
 ]; };
 NgbRadio.propDecorators = {
     'value': [{ type: Input, args: ['value',] },],
-    'checked': [{ type: Input, args: ['checked',] },],
     'disabled': [{ type: Input, args: ['disabled',] },],
 };
 //# sourceMappingURL=radio.js.map

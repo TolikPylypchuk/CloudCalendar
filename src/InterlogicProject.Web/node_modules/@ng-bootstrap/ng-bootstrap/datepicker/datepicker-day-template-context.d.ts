@@ -16,6 +16,10 @@ export interface DayTemplateContext {
      */
     disabled: boolean;
     /**
+     * True if current date is focused
+     */
+    focused: boolean;
+    /**
      * True if current date is selected
      */
     selected: boolean;

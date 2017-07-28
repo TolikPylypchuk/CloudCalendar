@@ -2,9 +2,10 @@
 
 import * as moment from "moment";
 
-import { AccountService } from "../../../account/account";
-import { CommentService } from "../../../common/common";
-import { Comment } from "../../../common/models";
+import {
+	ClassService, CommentService, NotificationService, StudentService
+} from "../../../common/common";
+import { Class, Comment, Notification, Student } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-comments",
@@ -16,6 +17,8 @@ export default class ModalCommentsComponent implements OnInit {
 
 	comments: Comment[] = [];
 
+	currentStudent: Student;
+	currentClass: Class;
 	currentComment: Comment = {
 		text: ""
 	};
@@ -23,27 +26,38 @@ export default class ModalCommentsComponent implements OnInit {
 	editedCommentId = 0;
 	editedCommentOriginalText = "";
 
-	private accountService: AccountService;
+	private classService: ClassService;
 	private commentService: CommentService;
+	private notificationService: NotificationService;
+	private studentService: StudentService;
 
 	constructor(
-		accountService: AccountService,
-		commentService: CommentService) {
-		this.accountService = accountService;
+		classService: ClassService,
+		commentService: CommentService,
+		notificationService: NotificationService,
+		studentService: StudentService) {
+		this.classService = classService;
 		this.commentService = commentService;
+		this.notificationService = notificationService;
+		this.studentService = studentService;
 	}
 
 	ngOnInit(): void {
-		this.accountService.getCurrentUser()
-			.subscribe(user => {
-				if (user) {
-					this.currentComment.userId = user.id;
-					this.currentComment.userFirstName = user.firstName;
-					this.currentComment.userMiddleName = user.middleName;
-					this.currentComment.userLastName = user.lastName;
-					this.currentComment.userFullName = user.fullName;
-					this.currentComment.classId = this.classId;
-				}
+		this.studentService.getCurrentStudent()
+			.subscribe(student => {
+				this.currentStudent = student;
+
+				this.currentComment.userId = student.userId;
+				this.currentComment.userFirstName = student.firstName;
+				this.currentComment.userMiddleName = student.middleName;
+				this.currentComment.userLastName = student.lastName;
+				this.currentComment.userFullName = student.fullName;
+				this.currentComment.classId = this.classId;
+
+				this.classService.getClass(this.classId)
+					.subscribe(c => {
+						this.currentClass = c;
+					});
 			});
 
 		this.commentService.getCommentsByClass(this.classId)
@@ -78,7 +92,24 @@ export default class ModalCommentsComponent implements OnInit {
 					classId: this.currentComment.classId,
 					text: ""
 				};
-			}
+
+				const notification: Notification = {
+					dateTime: moment().toISOString(),
+					text: this.getNotificationText(),
+					userId: this.currentStudent.userId
+				};
+
+				const action =
+					this.notificationService.addNotificationForGroupsInClass(
+						notification, this.classId);
+
+				action.subscribe(() =>
+					this.notificationService.addNotificationForLecturersInClass(
+						notification, this.classId)
+						.connect());
+
+				action.connect();
+			};
 		});
 
 		action.connect();
@@ -119,5 +150,11 @@ export default class ModalCommentsComponent implements OnInit {
 		});
 
 		action.connect();
+	}
+
+	private getNotificationText(): string {
+		return `${this.currentStudent.firstName} ${this.currentStudent.lastName} ` +
+			`додав коментар до пари '${this.currentClass.subjectName}' ` +
+			`${moment(this.currentClass.dateTime).format("DD.MM.YYYY")}.`;
 	}
 }

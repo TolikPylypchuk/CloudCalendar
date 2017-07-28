@@ -67,6 +67,8 @@ var NgbPopover = (function () {
             if (this.container === 'body') {
                 window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
             }
+            // position popover along the element
+            positionElements(this._elementRef.nativeElement, this._windowRef.location.nativeElement, this.placement, this.container === 'body');
             // we need to manually invoke change detection since events registered via
             // Renderer::listen() are not picked up by change detection with the OnPush strategy
             this._windowRef.changeDetectorRef.markForCheck();

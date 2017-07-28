@@ -57,9 +57,8 @@ var CalendarComponent = (function () {
                 .subscribe(function (group) {
                 if (group) {
                     _this.classService.getClassesForGroupInRange(group.id, start, end)
-                        .subscribe(function (data) {
-                        var classes = data;
-                        callback(classes.map(_this.classToEvent));
+                        .subscribe(function (classes) {
+                        return callback(classes.map(_this.classToEvent));
                     });
                 }
             });

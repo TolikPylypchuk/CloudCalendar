@@ -36,6 +36,7 @@ export default class LecturerService {
 						.map(response => {
 							const lecturer = response.json() as Lecturer;
 							this.currentUserId = lecturer.userId;
+							this.currentLecturerSource.next(lecturer);
 							return lecturer;
 						}))
 			.switch();

@@ -32,6 +32,7 @@ var LecturerService = (function () {
                     .map(function (response) {
                     var lecturer = response.json();
                     _this.currentUserId = lecturer.userId;
+                    _this.currentLecturerSource.next(lecturer);
                     return lecturer;
                 });
         })

@@ -11,7 +11,7 @@ var Trigger = (function () {
 }());
 export { Trigger };
 var DEFAULT_ALIASES = {
-    hover: ['mouseenter', 'mouseleave']
+    'hover': ['mouseenter', 'mouseleave']
 };
 export function parseTriggers(triggers, aliases) {
     if (aliases === void 0) { aliases = DEFAULT_ALIASES; }

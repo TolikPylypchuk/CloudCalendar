@@ -6,8 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {findEventTasks} from '../common/events';
 import {patchTimer} from '../common/timers';
-import {findEventTask, patchClass, patchEventTargetMethods, patchMethod, patchOnProperties, patchPrototype, zoneSymbol} from '../common/utils';
+import {patchClass, patchMacroTask, patchMethod, patchOnProperties, patchPrototype, zoneSymbol} from '../common/utils';
 
 import {propertyPatch} from './define-property';
 import {eventTargetPatch} from './event-target';
@@ -38,11 +39,11 @@ Zone.__load_patch('blocking', (global: any, Zone: ZoneType, api: _ZonePrivate) =
 });
 
 Zone.__load_patch('EventTarget', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
-  eventTargetPatch(global);
+  eventTargetPatch(global, api);
   // patch XMLHttpRequestEventTarget's addEventListener/removeEventListener
   const XMLHttpRequestEventTarget = (global as any)['XMLHttpRequestEventTarget'];
   if (XMLHttpRequestEventTarget && XMLHttpRequestEventTarget.prototype) {
-    patchEventTargetMethods(XMLHttpRequestEventTarget.prototype);
+    api.patchEventTarget(global, [XMLHttpRequestEventTarget.prototype]);
   }
   patchClass('MutationObserver');
   patchClass('WebKitMutationObserver');
@@ -50,9 +51,19 @@ Zone.__load_patch('EventTarget', (global: any, Zone: ZoneType, api: _ZonePrivate
 });
 
 Zone.__load_patch('on_property', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
-  propertyDescriptorPatch(global);
+  propertyDescriptorPatch(api, global);
   propertyPatch();
   registerElementPatch(global);
+});
+
+Zone.__load_patch('canvas', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
+  const HTMLCanvasElement = global['HTMLCanvasElement'];
+  if (typeof HTMLCanvasElement !== 'undefined' && HTMLCanvasElement.prototype &&
+      HTMLCanvasElement.prototype.toBlob) {
+    patchMacroTask(HTMLCanvasElement.prototype, 'toBlob', (self: any, args: any[]) => {
+      return {name: 'HTMLCanvasElement.toBlob', target: self, callbackIndex: 0, args: args};
+    });
+  }
 });
 
 Zone.__load_patch('XHR', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
@@ -81,8 +92,11 @@ Zone.__load_patch('XHR', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
       const data = <XHROptions>task.data;
       // remove existing event listener
       const listener = data.target[XHR_LISTENER];
+      const oriAddListener = data.target[zoneSymbol('addEventListener')];
+      const oriRemoveListener = data.target[zoneSymbol('removeEventListener')];
+
       if (listener) {
-        data.target.removeEventListener('readystatechange', listener);
+        oriRemoveListener.apply(data.target, ['readystatechange', listener]);
       }
       const newListener = data.target[XHR_LISTENER] = () => {
         if (data.target.readyState === data.target.DONE) {
@@ -94,7 +108,7 @@ Zone.__load_patch('XHR', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
           }
         }
       };
-      data.target.addEventListener('readystatechange', newListener);
+      oriAddListener.apply(data.target, ['readystatechange', newListener]);
 
       const storedTask: Task = data.target[XHR_TASK];
       if (!storedTask) {
@@ -167,7 +181,7 @@ Zone.__load_patch('PromiseRejectionEvent', (global: any, Zone: ZoneType, api: _Z
   // handle unhandled promise rejection
   function findPromiseRejectionHandler(evtName: string) {
     return function(e: any) {
-      const eventTasks = findEventTask(global, evtName);
+      const eventTasks = findEventTasks(global, evtName);
       eventTasks.forEach(eventTask => {
         // windows has added unhandledrejection event listener
         // trigger the event listener
@@ -191,6 +205,6 @@ Zone.__load_patch('PromiseRejectionEvent', (global: any, Zone: ZoneType, api: _Z
 
 
 Zone.__load_patch('util', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
-  api.patchEventTargetMethods = patchEventTargetMethods;
   api.patchOnProperties = patchOnProperties;
+  api.patchMethod = patchMethod;
 });

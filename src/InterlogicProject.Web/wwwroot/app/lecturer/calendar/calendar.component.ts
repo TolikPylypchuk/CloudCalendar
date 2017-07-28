@@ -1,7 +1,6 @@
 ﻿import { Component } from "@angular/core";
 import { Http } from "@angular/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs/Subscription";
 
 import * as moment from "moment";
 
@@ -22,14 +21,14 @@ export default class CalendarComponent {
 
 	private classService: ClassService;
 	private lecturerService: LecturerService;
-
-	private currentSubscription: Subscription = null;
 	
 	constructor(
 		modalService: NgbModal,
 		classService: ClassService,
 		lecturerService: LecturerService) {
 		this.modalService = modalService;
+
+		this.classService = classService;
 		this.lecturerService = lecturerService;
 
 		this.options = {
@@ -49,6 +48,7 @@ export default class CalendarComponent {
 				center: "agendaWeek,listWeek",
 				right: "today prev,next"
 			},
+			height: "auto",
 			minTime: moment.duration("08:00:00"),
 			maxTime: moment.duration("21:00:00"),
 			slotDuration: moment.duration("00:30:00"),
@@ -66,20 +66,13 @@ export default class CalendarComponent {
 		end: moment.Moment,
 		timezone: string | boolean,
 		callback: (data: FC.EventObject[]) => void): void {
-
-		if (this.currentSubscription !== null) {
-			this.currentSubscription.unsubscribe();
-		}
-
-		this.currentSubscription = this.lecturerService.getCurrentLecturer()
+		this.lecturerService.getCurrentLecturer()
 			.subscribe(lecturer => {
 				if (lecturer) {
 					this.classService.getClassesForLecturerInRange(
 						lecturer.id, start, end)
-						.subscribe(data => {
-							const classes = data as Class[];
-							callback(classes.map(this.classToEvent));
-						});
+						.subscribe(classes =>
+							callback(classes.map(this.classToEvent)));
 				}
 			});
 	}

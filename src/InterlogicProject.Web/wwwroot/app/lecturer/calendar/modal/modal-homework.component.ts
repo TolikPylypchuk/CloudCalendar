@@ -1,9 +1,12 @@
 ﻿import { Component, Input, OnInit } from "@angular/core";
 
+import * as moment from "moment";
+
 import {
-	ClassService, HomeworkService, LecturerService, StudentService
+	ClassService, HomeworkService, LecturerService,
+	NotificationService, StudentService
 } from "../../../common/common";
-import { Class, Homework, Student } from "../../../common/models";
+import { Class, Homework, Lecturer, Student } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-homework",
@@ -14,6 +17,7 @@ export default class ModalHomeworkComponent implements OnInit {
 	@Input() classId: number;
 
 	currentClass: Class;
+	currentLecturer: Lecturer;
 	homeworks: Homework[] = [];
 	students = new Map<number, Student>();
 
@@ -22,6 +26,7 @@ export default class ModalHomeworkComponent implements OnInit {
 	private classService: ClassService;
 	private homeworkService: HomeworkService;
 	private lecturerService: LecturerService;
+	private notificationService: NotificationService;
 	private studentService; StudentService;
 
 	private allowText = "Дозволити надсилання домашніх завдань";
@@ -31,10 +36,12 @@ export default class ModalHomeworkComponent implements OnInit {
 		classService: ClassService,
 		homeworkService: HomeworkService,
 		lecturerService: LecturerService,
+		notificationService: NotificationService,
 		studentService: StudentService) {
 		this.classService = classService;
 		this.homeworkService = homeworkService;
 		this.lecturerService = lecturerService;
+		this.notificationService = notificationService;
 		this.studentService = studentService;
 	}
 
@@ -47,6 +54,9 @@ export default class ModalHomeworkComponent implements OnInit {
 					? this.forbidText
 					: this.allowText;
 			});
+
+		this.lecturerService.getCurrentLecturer()
+			.subscribe(lecturer => this.currentLecturer = lecturer);
 
 		this.homeworkService.getHomeworksByClass(this.classId)
 			.subscribe(homeworks => {
@@ -70,6 +80,15 @@ export default class ModalHomeworkComponent implements OnInit {
 				this.text = this.currentClass.homeworkEnabled
 					? this.forbidText
 					: this.allowText;
+
+				this.notificationService.addNotificationForGroupsInClass(
+					{
+						dateTime: moment().toISOString(),
+						text: this.getHomeworkNotificationText(
+							this.currentClass.homeworkEnabled)
+					},
+					this.classId)
+					.connect();
 			}
 		});
 
@@ -127,5 +146,22 @@ export default class ModalHomeworkComponent implements OnInit {
 			: accepted
 				? "text-success float-right"
 				: "text-danger float-right";
+	}
+
+	private getHomeworkNotificationText(enabled: boolean): string {
+		return `${this.currentLecturer.firstName} ` +
+			`${this.currentLecturer.lastName} ${enabled ? "увімкнув" : "вимкнув"} ` +
+			`додавання домашнього завдання до пари '${this.currentClass.subjectName}' ` +
+			`${moment(this.currentClass.dateTime).format("DD.MM.YYYY")}.`;
+	}
+
+	private getCheckNotificationText(approved: boolean | null): string {
+		const classInfo = `'${this.currentClass.subjectName}' ` +
+			`${moment(this.currentClass.dateTime).format("DD.MM.YYYY")}`;
+
+		return approved === null
+			? `Результат перевірки вашого завдання до пари ${classInfo} скасовано.`
+			: `Ваше домашнє завдання до пари ${classInfo}` +
+				`${approved ? "прийнято" : "відхилено"}.`;
 	}
 }

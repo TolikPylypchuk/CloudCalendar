@@ -11,5 +11,10 @@ export declare class NgbDate {
     equals(other: NgbDate): boolean;
     before(other: NgbDate): boolean;
     after(other: NgbDate): boolean;
+    toStruct(): {
+        year: number;
+        month: number;
+        day: number;
+    };
     toString(): string;
 }

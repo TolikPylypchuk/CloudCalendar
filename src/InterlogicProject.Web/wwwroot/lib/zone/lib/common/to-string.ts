@@ -11,11 +11,17 @@ import {zoneSymbol} from './utils';
 // look like native function
 Zone.__load_patch('toString', (global: any, Zone: ZoneType, api: _ZonePrivate) => {
   // patch Func.prototype.toString to let them look like native
-  const originalFunctionToString = Function.prototype.toString;
+  const originalFunctionToString = (Zone as any)['__zone_symbol__originalToString'] =
+      Function.prototype.toString;
   Function.prototype.toString = function() {
     if (typeof this === 'function') {
-      if (this[zoneSymbol('OriginalDelegate')]) {
-        return originalFunctionToString.apply(this[zoneSymbol('OriginalDelegate')], arguments);
+      const originalDelegate = this[zoneSymbol('OriginalDelegate')];
+      if (originalDelegate) {
+        if (typeof originalDelegate === 'function') {
+          return originalFunctionToString.apply(this[zoneSymbol('OriginalDelegate')], arguments);
+        } else {
+          return Object.prototype.toString.call(originalDelegate);
+        }
       }
       if (this === Promise) {
         const nativePromise = global[zoneSymbol('Promise')];

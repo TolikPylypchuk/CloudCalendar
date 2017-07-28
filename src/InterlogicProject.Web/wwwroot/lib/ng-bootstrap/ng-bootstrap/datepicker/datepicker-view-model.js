@@ -1,3 +1,4 @@
+// clang-format on
 export var NavigationEvent;
 (function (NavigationEvent) {
     NavigationEvent[NavigationEvent["PREV"] = 0] = "PREV";

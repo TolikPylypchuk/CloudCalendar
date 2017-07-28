@@ -20,7 +20,9 @@ var NotificationsComponent = (function () {
     NotificationsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.notificationService.getNotificationsForCurrentUser()
-            .subscribe(function (notifications) { return _this.notifications = notifications; });
+            .subscribe(function (notifications) {
+            return _this.notifications = notifications.sort(_this.compareByTimeDescending);
+        });
     };
     NotificationsComponent.prototype.formatDateTime = function (dateTime) {
         return moment(dateTime).format("DD.MM.YYYY HH:mm");
@@ -34,6 +36,15 @@ var NotificationsComponent = (function () {
         this.notificationService
             .markNotificationAsNotSeen(notification)
             .connect();
+    };
+    NotificationsComponent.prototype.compareByTimeDescending = function (a, b) {
+        var moment1 = moment(a.dateTime);
+        var moment2 = moment(b.dateTime);
+        return moment1.isBefore(moment2)
+            ? 1
+            : moment1.isAfter(moment2)
+                ? -1
+                : 0;
     };
     NotificationsComponent = __decorate([
         core_1.Component({

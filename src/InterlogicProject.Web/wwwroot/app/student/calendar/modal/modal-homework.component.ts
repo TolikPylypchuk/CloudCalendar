@@ -1,11 +1,13 @@
 ﻿import { Component, Input, OnInit } from "@angular/core"
-
 import { FileUploader, FileItem } from "ng2-file-upload";
 
+import * as moment from "moment";
+
 import {
-	ClassService, HomeworkService, StudentService
+	ClassService, HomeworkService, NotificationService, StudentService
 } from "../../../common/common";
-import { Class, Homework } from "../../../common/models";
+import { getAuthToken } from "../../../common/functions";
+import { Class, Homework, Student } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-homework",
@@ -23,14 +25,17 @@ export default class ModalHomeworkComponent implements OnInit {
 
 	private classService: ClassService;
 	private homeworkService: HomeworkService;
+	private notificationService: NotificationService;
 	private studentService: StudentService;
 
 	constructor(
 		classService: ClassService,
 		homeworkService: HomeworkService,
+		notificationService: NotificationService,
 		studentService: StudentService) {
 		this.classService = classService;
 		this.homeworkService = homeworkService;
+		this.notificationService = notificationService;
 		this.studentService = studentService;
 	}
 
@@ -40,17 +45,28 @@ export default class ModalHomeworkComponent implements OnInit {
 				this.currentStudentId = student.id;
 
 				this.uploader = new FileUploader(
-				{
-					url: `api/homeworks/classId/${this.classId}` +
-							`/studentId/${student.id}`
-				});
-				
-				this.uploader.onCompleteItem = (item: FileItem) => {
-					this.uploader.queue = [];
+					{
+						url: `/api/homeworks/classId/${this.classId}` +
+							`/studentId/${student.id}`,
+						authToken: `Bearer ${getAuthToken()}`,
+						removeAfterUpload: true
+					});
 
+				this.uploader.onCompleteItem = (item: FileItem) => {
 					this.homeworkService.getHomeworkByClassAndStudent(
 						this.classId, this.currentStudentId)
 						.subscribe(homework => this.homework = homework);
+				};
+
+				this.uploader.onCompleteAll = () => {
+					this.notificationService.addNotificationForLecturersInClass(
+						{
+							dateTime: moment().toISOString(),
+							text: this.getNotificationText(student),
+							userId: student.userId
+						},
+						this.currentClass.id)
+						.connect();
 				};
 
 				this.homeworkService.getHomeworkByClassAndStudent(
@@ -88,5 +104,11 @@ export default class ModalHomeworkComponent implements OnInit {
 			: this.homework.accepted
 				? "Прийнято"
 				: "Відхилено";
+	}
+
+	private getNotificationText(student: Student): string {
+		return `${student.firstName} ${student.lastName} додав домашню роботу ` +
+			`до пари '${this.currentClass.subjectName}' ` +
+			`${moment(this.currentClass.dateTime).format("DD.MM.YYYY")}.`;
 	}
 }

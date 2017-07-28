@@ -29,14 +29,18 @@ var NgbModalWindow = (function () {
         }
     };
     NgbModalWindow.prototype.ngOnDestroy = function () {
-        if (this._elWithFocus && document.body.contains(this._elWithFocus)) {
-            this._elWithFocus['focus'].apply(this._elWithFocus, []);
+        var body = document.body;
+        var elWithFocus = this._elWithFocus;
+        var elementToFocus;
+        if (elWithFocus && elWithFocus['focus'] && body.contains(elWithFocus)) {
+            elementToFocus = elWithFocus;
         }
         else {
-            document.body['focus'].apply(document.body, []);
+            elementToFocus = body;
         }
+        elementToFocus['focus'].apply(elementToFocus, []);
         this._elWithFocus = null;
-        this._renderer.removeClass(document.body, 'modal-open');
+        this._renderer.removeClass(body, 'modal-open');
     };
     return NgbModalWindow;
 }());

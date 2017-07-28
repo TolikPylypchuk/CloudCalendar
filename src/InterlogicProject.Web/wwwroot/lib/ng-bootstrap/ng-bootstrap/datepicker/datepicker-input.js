@@ -32,6 +32,11 @@ var NgbInputDatepicker = (function () {
         this._calendar = _calendar;
         this._cRef = null;
         /**
+         * Placement of a datepicker popup. Accepts: "top", "bottom", "left", "right", "bottom-left",
+         * "bottom-right" etc.
+         */
+        this.placement = 'bottom-left';
+        /**
          * An event fired when navigation happens and currently displayed month changes.
          * See NgbDatepickerNavigateEvent for the payload info.
          */
@@ -41,7 +46,7 @@ var NgbInputDatepicker = (function () {
         this._validatorChange = function () { };
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
             if (_this._cRef) {
-                positionElements(_this._elRef.nativeElement, _this._cRef.location.nativeElement, 'bottom-left');
+                positionElements(_this._elRef.nativeElement, _this._cRef.location.nativeElement, _this.placement);
             }
         });
     }
@@ -77,7 +82,7 @@ var NgbInputDatepicker = (function () {
     };
     NgbInputDatepicker.prototype.manualDateChange = function (value) {
         this._model = this._service.toValidDate(this._parserFormatter.parse(value), null);
-        this._onChange(this._model ? { year: this._model.year, month: this._model.month, day: this._model.day } : value);
+        this._onChange(this._model ? this._model.toStruct() : (value === '' ? null : value));
         this._writeModelValue(this._model);
     };
     NgbInputDatepicker.prototype.isOpen = function () { return !!this._cRef; };
@@ -200,6 +205,7 @@ NgbInputDatepicker.propDecorators = {
     'maxDate': [{ type: Input },],
     'navigation': [{ type: Input },],
     'outsideDays': [{ type: Input },],
+    'placement': [{ type: Input },],
     'showWeekdays': [{ type: Input },],
     'showWeekNumbers': [{ type: Input },],
     'startDate': [{ type: Input },],

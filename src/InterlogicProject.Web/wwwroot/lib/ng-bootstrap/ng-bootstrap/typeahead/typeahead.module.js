@@ -18,7 +18,7 @@ export { NgbTypeaheadModule };
 NgbTypeaheadModule.decorators = [
     { type: NgModule, args: [{
                 declarations: [NgbTypeahead, NgbHighlight, NgbTypeaheadWindow],
-                exports: [NgbTypeahead],
+                exports: [NgbTypeahead, NgbHighlight],
                 imports: [CommonModule],
                 entryComponents: [NgbTypeaheadWindow]
             },] },

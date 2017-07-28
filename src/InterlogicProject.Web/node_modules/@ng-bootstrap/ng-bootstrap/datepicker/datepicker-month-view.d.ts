@@ -6,17 +6,13 @@ import { DayTemplateContext } from './datepicker-day-template-context';
 export declare class NgbDatepickerMonthView {
     i18n: NgbDatepickerI18n;
     dayTemplate: TemplateRef<DayTemplateContext>;
-    disabled: boolean;
     month: MonthViewModel;
     outsideDays: 'visible' | 'hidden' | 'collapsed';
-    selectedDate: NgbDate;
     showWeekdays: any;
     showWeekNumbers: any;
     select: EventEmitter<NgbDate>;
     constructor(i18n: NgbDatepickerI18n);
     doSelect(day: DayViewModel): void;
-    isDisabled(day: DayViewModel): boolean;
-    isSelected(date: NgbDate): boolean;
     isCollapsed(week: WeekViewModel): boolean;
     isHidden(day: DayViewModel): boolean;
 }

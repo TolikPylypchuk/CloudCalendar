@@ -123,6 +123,14 @@ gulp.task('build/webapis-shadydom.min.js', ['compile-esm'], function(cb) {
     return generateScript('./lib/browser/shadydom.ts', 'webapis-shadydom.min.js', true, cb);
 });
 
+gulp.task('build/zone-patch-cordova.js', ['compile-esm'], function(cb) {
+    return generateScript('./lib/extra/cordova.ts', 'zone-patch-cordova.js', false, cb);
+});
+
+gulp.task('build/zone-patch-cordova.min.js', ['compile-esm'], function(cb) {
+    return generateScript('./lib/extra/cordova.ts', 'zone-patch-cordova.min.js', true, cb);
+});
+
 gulp.task('build/bluebird.js', ['compile-esm'], function(cb) {
     return generateScript('./lib/extra/bluebird.ts', 'zone-bluebird.js', false, cb);
 });
@@ -191,6 +199,19 @@ gulp.task('build/sync-test.js', ['compile-esm'], function(cb) {
   return generateScript('./lib/zone-spec/sync-test.ts', 'sync-test.js', false, cb);
 });
 
+gulp.task('build/rxjs.js', ['compile-esm'], function(cb) {
+  return generateScript('./lib/rxjs/rxjs.ts', 'zone-patch-rxjs.js', false, cb);
+});
+
+gulp.task('build/rxjs.min.js', ['compile-esm'], function(cb) {
+  return generateScript('./lib/rxjs/rxjs.ts', 'zone-patch-rxjs.min.js', true, cb);
+});
+
+gulp.task('build/closure.js', function() {
+  return gulp.src('./lib/closure/zone_externs.js')
+             .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('build', [
   'build/zone.js',
   'build/zone.js.d.ts',
@@ -204,6 +225,8 @@ gulp.task('build', [
   'build/webapis-notification.min.js',
   'build/webapis-shadydom.js',
   'build/webapis-shadydom.min.js',
+  'build/zone-patch-cordova.js',
+  'build/zone-patch-cordova.min.js',
   'build/zone-mix.js',
   'build/bluebird.js',
   'build/bluebird.min.js',
@@ -221,7 +244,10 @@ gulp.task('build', [
   'build/wtf.min.js',
   'build/async-test.js',
   'build/fake-async-test.js',
-  'build/sync-test.js'
+  'build/sync-test.js',
+  'build/rxjs.js',
+  'build/rxjs.min.js',
+  'build/closure.js'
 ]);
 
 gulp.task('test/node', ['compile'], function(cb) {
