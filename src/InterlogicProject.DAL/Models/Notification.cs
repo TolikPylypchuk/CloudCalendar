@@ -13,5 +13,10 @@ namespace InterlogicProject.DAL.Models
 
 		[Required(ErrorMessage = "Вкажіть дату і час сповіщення")]
 		public DateTime DateTime { get; set; }
+
+		public int? ClassId { get; set; }
+
+		[ForeignKey(nameof(ClassId))]
+		public Class Class { get; set; }
 	}
 }

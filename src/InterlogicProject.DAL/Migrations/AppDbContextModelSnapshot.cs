@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -11,7 +12,7 @@ namespace InterlogicProject.DAL.Migrations
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 			modelBuilder
-				.HasAnnotation("ProductVersion", "1.1.1")
+				.HasAnnotation("ProductVersion", "1.1.2")
 				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 			modelBuilder.Entity("InterlogicProject.DAL.Models.Building", b =>
@@ -299,6 +300,8 @@ namespace InterlogicProject.DAL.Migrations
 					b.Property<int>("Id")
 						.ValueGeneratedOnAdd();
 
+					b.Property<int?>("ClassId");
+
 					b.Property<DateTime>("DateTime");
 
 					b.Property<string>("Text")
@@ -306,6 +309,8 @@ namespace InterlogicProject.DAL.Migrations
 						.HasMaxLength(300);
 
 					b.HasKey("Id");
+
+					b.HasIndex("ClassId");
 
 					b.ToTable("Notifications");
 				});
@@ -669,6 +674,13 @@ namespace InterlogicProject.DAL.Migrations
 						.WithMany()
 						.HasForeignKey("ClassId")
 						.OnDelete(DeleteBehavior.Cascade);
+				});
+
+			modelBuilder.Entity("InterlogicProject.DAL.Models.Notification", b =>
+				{
+					b.HasOne("InterlogicProject.DAL.Models.Class", "Class")
+						.WithMany()
+						.HasForeignKey("ClassId");
 				});
 
 			modelBuilder.Entity("InterlogicProject.DAL.Models.Student", b =>
