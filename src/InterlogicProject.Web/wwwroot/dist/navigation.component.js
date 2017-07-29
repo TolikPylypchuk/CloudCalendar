@@ -14,15 +14,21 @@ var account_1 = require("./account/account");
 var common_1 = require("./common/common");
 var NavigationComponent = (function () {
     function NavigationComponent(accoutService, notificationService) {
+        this.notificationCount = 0;
         this.accoutService = accoutService;
         this.notificationService = notificationService;
     }
     NavigationComponent.prototype.ngOnInit = function () {
-        this.notificationCount =
-            this.notificationService.getNotificationsForCurrentUser()
-                .map(function (notifications) {
-                return notifications.filter(function (n) { return !n.isSeen; }).length;
-            });
+        var _this = this;
+        this.notificationService.getNotificationsForCurrentUser()
+            .map(function (notifications) {
+            return notifications.filter(function (n) { return !n.isSeen; }).length;
+        })
+            .subscribe(function (count) { return _this.notificationCount = count; });
+        this.notificationService.notificationsMarkObservable()
+            .subscribe(function (seen) {
+            return seen ? _this.notificationCount-- : _this.notificationCount++;
+        });
     };
     NavigationComponent.prototype.isLoggedIn = function () {
         return this.accoutService.isLoggedIn();

@@ -12,7 +12,7 @@ export default class NavigationComponent implements OnInit {
     private accoutService: AccountService;
 	private notificationService: NotificationService;
 
-	notificationCount: Observable<number>;
+	notificationCount = 0;
 
     constructor(
         accoutService: AccountService,
@@ -22,10 +22,14 @@ export default class NavigationComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.notificationCount =
-			this.notificationService.getNotificationsForCurrentUser()
-				.map(notifications =>
-					notifications.filter(n => !n.isSeen).length);
+		this.notificationService.getNotificationsForCurrentUser()
+			.map(notifications =>
+				notifications.filter(n => !n.isSeen).length)
+			.subscribe(count => this.notificationCount = count);
+
+		this.notificationService.notificationsMarkObservable()
+			.subscribe(seen =>
+				seen ? this.notificationCount-- : this.notificationCount++);
 	}
 
 	isLoggedIn(): boolean {

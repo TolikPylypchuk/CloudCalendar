@@ -2,6 +2,7 @@
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { ConnectableObservable } from "rxjs/Observable/ConnectableObservable";
+import { Subject } from "rxjs/Subject";
 
 import * as moment from "moment";
 
@@ -13,6 +14,8 @@ export default class NotificationService {
 	private notifications = "/api/notifications";
 
 	private http: Http;
+
+	private notificationsSubject = new Subject<boolean>();
 
 	constructor(http: Http) {
 		this.http = http;
@@ -143,6 +146,8 @@ export default class NotificationService {
 
 		action.subscribe(response => notification.isSeen = true);
 
+		this.notificationsSubject.next(true);
+
 		return action;
 	}
 
@@ -157,6 +162,8 @@ export default class NotificationService {
 
 		action.subscribe(response => notification.isSeen = false);
 
+		this.notificationsSubject.next(false);
+
 		return action;
 	}
 
@@ -166,5 +173,9 @@ export default class NotificationService {
 			{ headers: getHeaders() })
 			.first()
 			.publish();
+	}
+
+	notificationsMarkObservable(): Observable<boolean> {
+		return this.notificationsSubject;
 	}
 }

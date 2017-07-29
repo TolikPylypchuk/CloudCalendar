@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
+var Subject_1 = require("rxjs/Subject");
 var functions_1 = require("../functions");
 var NotificationService = (function () {
     function NotificationService(http) {
         this.notifications = "/api/notifications";
+        this.notificationsSubject = new Subject_1.Subject();
         this.http = http;
     }
     NotificationService.prototype.getNotifications = function () {
@@ -88,6 +90,7 @@ var NotificationService = (function () {
             .first()
             .publish();
         action.subscribe(function (response) { return notification.isSeen = true; });
+        this.notificationsSubject.next(true);
         return action;
     };
     NotificationService.prototype.markNotificationAsNotSeen = function (notification) {
@@ -95,12 +98,16 @@ var NotificationService = (function () {
             .first()
             .publish();
         action.subscribe(function (response) { return notification.isSeen = false; });
+        this.notificationsSubject.next(false);
         return action;
     };
     NotificationService.prototype.deleteNotification = function (id) {
         return this.http.delete(this.notifications + "/" + id, { headers: functions_1.getHeaders() })
             .first()
             .publish();
+    };
+    NotificationService.prototype.notificationsMarkObservable = function () {
+        return this.notificationsSubject;
     };
     NotificationService = __decorate([
         core_1.Injectable(),
