@@ -63,7 +63,8 @@ export default class ModalHomeworkComponent implements OnInit {
 						{
 							dateTime: moment().toISOString(),
 							text: this.getNotificationText(student),
-							userId: student.userId
+							userId: student.userId,
+							classId: this.classId
 						},
 						this.currentClass.id)
 						.connect();

@@ -10,11 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var moment = require("moment");
+var account_1 = require("../../account/account");
 var common_1 = require("../../common/common");
 var NotificationsComponent = (function () {
-    function NotificationsComponent(notificationService) {
+    function NotificationsComponent(router, accountService, classService, notificationService) {
         this.notifications = [];
+        this.router = router;
+        this.accountService = accountService;
+        this.classService = classService;
         this.notificationService = notificationService;
     }
     NotificationsComponent.prototype.ngOnInit = function () {
@@ -37,6 +42,24 @@ var NotificationsComponent = (function () {
             .markNotificationAsNotSeen(notification)
             .connect();
     };
+    NotificationsComponent.prototype.goToClass = function (notification) {
+        var _this = this;
+        this.classService.getClass(notification.classId)
+            .subscribe(function (c) {
+            if (c) {
+                _this.accountService.isStudent()
+                    .subscribe(function (isStudent) {
+                    var path = isStudent ? "student" : "lecturer";
+                    var dateTime = moment(c.dateTime);
+                    _this.router.navigate([
+                        path + "/calendar",
+                        dateTime.format("YYYY-MM-DD"),
+                        dateTime.format("HH:mm")
+                    ]);
+                });
+            }
+        });
+    };
     NotificationsComponent.prototype.compareByTimeDescending = function (a, b) {
         var moment1 = moment(a.dateTime);
         var moment2 = moment(b.dateTime);
@@ -51,7 +74,10 @@ var NotificationsComponent = (function () {
             selector: "ip-view-notifications",
             templateUrl: "/templates/view/notifications"
         }),
-        __metadata("design:paramtypes", [common_1.NotificationService])
+        __metadata("design:paramtypes", [router_1.Router,
+            account_1.AccountService,
+            common_1.ClassService,
+            common_1.NotificationService])
     ], NotificationsComponent);
     return NotificationsComponent;
 }());

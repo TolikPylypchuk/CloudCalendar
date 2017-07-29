@@ -96,7 +96,8 @@ export default class ModalCommentsComponent implements OnInit {
 				const notification: Notification = {
 					dateTime: moment().toISOString(),
 					text: this.getNotificationText(),
-					userId: this.currentStudent.userId
+					userId: this.currentStudent.userId,
+					classId: this.classId
 				};
 
 				const action =

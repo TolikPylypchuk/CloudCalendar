@@ -40,7 +40,8 @@ var ModalHomeworkComponent = (function () {
                 _this.notificationService.addNotificationForLecturersInClass({
                     dateTime: moment().toISOString(),
                     text: _this.getNotificationText(student),
-                    userId: student.userId
+                    userId: student.userId,
+                    classId: _this.classId
                 }, _this.currentClass.id)
                     .connect();
             };

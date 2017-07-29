@@ -203,7 +203,10 @@ namespace InterlogicProject.Web
 						opt => opt.MapFrom(src => src.Notification.Text))
 					.ForMember(
 						dest => dest.DateTime,
-						opt => opt.MapFrom(src => src.Notification.DateTime));
+						opt => opt.MapFrom(src => src.Notification.DateTime))
+					.ForMember(
+						dest => dest.ClassId,
+						opt => opt.MapFrom(src => src.Notification.ClassId));
 
 				config.CreateMap<Student, StudentDto>()
 					.ForMember(

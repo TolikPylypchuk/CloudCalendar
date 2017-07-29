@@ -40,8 +40,7 @@ export default class CalendarComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit(): void {
-		this.route.params.subscribe((params: Params) =>
-		{
+		this.route.params.subscribe((params: Params) => {
 			const paramDate = params["date"];
 
 			let date: moment.Moment;
@@ -53,8 +52,7 @@ export default class CalendarComponent implements OnInit, AfterViewInit {
 					date = moment();
 					this.router.navigate([ "student/calendar" ]);
 				}
-			} else
-			{
+			} else {
 				date = moment();
 			}
 			

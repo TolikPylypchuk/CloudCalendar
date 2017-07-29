@@ -64,7 +64,8 @@ export default class ModalMaterialsComponent implements OnInit {
 			this.notificationService.addNotificationForGroupsInClass(
 				{
 					dateTime: moment().toISOString(),
-					text: this.getNotificationText()
+					text: this.getNotificationText(),
+					classId: this.classId
 				},
 				this.classId)
 				.connect();

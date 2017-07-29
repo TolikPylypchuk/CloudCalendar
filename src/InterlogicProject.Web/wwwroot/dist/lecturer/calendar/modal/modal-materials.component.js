@@ -41,7 +41,8 @@ var ModalMaterialsComponent = (function () {
                 .subscribe(function (materials) { return _this.materials = materials; });
             _this.notificationService.addNotificationForGroupsInClass({
                 dateTime: moment().toISOString(),
-                text: _this.getNotificationText()
+                text: _this.getNotificationText(),
+                classId: _this.classId
             }, _this.classId)
                 .connect();
         };

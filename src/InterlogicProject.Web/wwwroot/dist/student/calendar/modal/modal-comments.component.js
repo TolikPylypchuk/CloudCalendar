@@ -71,7 +71,8 @@ var ModalCommentsComponent = (function () {
                 var notification_1 = {
                     dateTime: moment().toISOString(),
                     text: _this.getNotificationText(),
-                    userId: _this.currentStudent.userId
+                    userId: _this.currentStudent.userId,
+                    classId: _this.classId
                 };
                 var action_1 = _this.notificationService.addNotificationForGroupsInClass(notification_1, _this.classId);
                 action_1.subscribe(function () {

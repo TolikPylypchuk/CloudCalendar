@@ -194,7 +194,8 @@ namespace InterlogicProject.Web.API
 				?? new Notification
 				{
 					DateTime = notificationDto.DateTime,
-					Text = notificationDto.Text
+					Text = notificationDto.Text,
+					ClassId = notificationDto.ClassId
 				};
 			
 			var notificationToAdd = new UserNotification
@@ -242,7 +243,8 @@ namespace InterlogicProject.Web.API
 				?? new Notification
 				{
 					DateTime = notificationDto.DateTime,
-					Text = notificationDto.Text
+					Text = notificationDto.Text,
+					ClassId = notificationDto.ClassId
 				};
 
 			var notificationsToAdd =
@@ -301,7 +303,8 @@ namespace InterlogicProject.Web.API
 				?? new Notification
 				{
 					DateTime = notificationDto.DateTime,
-					Text = notificationDto.Text
+					Text = notificationDto.Text,
+					ClassId = notificationDto.ClassId
 				};
 
 			var notificationsToAdd =
@@ -344,9 +347,7 @@ namespace InterlogicProject.Web.API
 		public IActionResult MarkAsSeen(int id)
 		{
 			var notification = this.userNotifications.GetById(id);
-
 			notification.IsSeen = true;
-
 			this.userNotifications.Update(notification);
 
 			return this.NoContent();
@@ -364,9 +365,7 @@ namespace InterlogicProject.Web.API
 		public IActionResult MarkAsNotSeen(int id)
 		{
 			var notification = this.userNotifications.GetById(id);
-
 			notification.IsSeen = false;
-
 			this.userNotifications.Update(notification);
 
 			return this.NoContent();

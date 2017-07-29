@@ -91,6 +91,7 @@ export interface Notification extends EntityWithUser {
 	text?: string;
 	dateTime?: string;
 	isSeen?: boolean;
+	classId?: number;
 }
 
 export interface Student extends GenericUser<number> {

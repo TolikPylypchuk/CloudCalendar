@@ -8,6 +8,7 @@ namespace InterlogicProject.Web.Models.Dto
 		public string Text { get; set; }
 		public bool? IsSeen { get; set; }
 		public DateTime DateTime { get; set; }
+		public int? ClassId { get; set; }
 
 		public string UserId { get; set; }
 		public string UserFirstName { get; set; }
