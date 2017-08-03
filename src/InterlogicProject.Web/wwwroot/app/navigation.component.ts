@@ -29,7 +29,8 @@ export default class NavigationComponent implements OnInit {
 
 		this.notificationService.notificationsMarkObservable()
 			.subscribe(seen =>
-				seen ? this.notificationCount-- : this.notificationCount++);
+				this.notificationCount == 0 ? this.notificationCount :
+					seen ? this.notificationCount-- : this.notificationCount++);
 	}
 
 	isLoggedIn(): boolean {

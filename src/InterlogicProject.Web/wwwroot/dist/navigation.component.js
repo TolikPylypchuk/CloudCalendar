@@ -27,7 +27,8 @@ var NavigationComponent = (function () {
             .subscribe(function (count) { return _this.notificationCount = count; });
         this.notificationService.notificationsMarkObservable()
             .subscribe(function (seen) {
-            return seen ? _this.notificationCount-- : _this.notificationCount++;
+            return _this.notificationCount == 0 ? _this.notificationCount :
+                seen ? _this.notificationCount-- : _this.notificationCount++;
         });
     };
     NavigationComponent.prototype.isLoggedIn = function () {
