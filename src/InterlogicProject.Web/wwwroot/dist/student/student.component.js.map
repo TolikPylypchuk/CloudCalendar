@@ -1,1 +1,0 @@
-{"version":3,"file":"student.component.js","sourceRoot":"","sources":["../../app/student/student.component.ts"],"names":[],"mappings":";;;;;;;;AAAA,sCAA0C;AAM1C;IAAA;IAAwC,CAAC;IAApB,gBAAgB;QAJpC,gBAAS,CAAC;YACV,QAAQ,EAAE,YAAY;YACtB,QAAQ,EAAE,iCAAiC;SAC3C,CAAC;OACmB,gBAAgB,CAAI;IAAD,uBAAC;CAAA,AAAzC,IAAyC;kBAApB,gBAAgB"}

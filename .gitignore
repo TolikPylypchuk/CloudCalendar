@@ -28,6 +28,8 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+**/dist/**
+**/wwwroot/files/**
 .vs/
 
 # Web publish log #
