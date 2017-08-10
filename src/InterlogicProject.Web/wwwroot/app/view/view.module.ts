@@ -25,6 +25,7 @@ import RoutesModule from "./routes.module";
 	imports: [
 		BrowserModule,
 		NgbModule,
+		CommonModule,
 		RoutesModule
 	],
 	exports: [

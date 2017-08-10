@@ -17,8 +17,10 @@ const routes: Routes = [
 		children: [
 			{ path: "groups", component: GroupsComponent },
 			{ path: "group/:id", component: GroupComponent },
+			{ path: "group/:id/:date", component: GroupComponent },
 			{ path: "lecturers", component: LecturersComponent },
 			{ path: "lecturer/:id", component: LecturerComponent },
+			{ path: "lecturer/:id/:date", component: LecturerComponent },
 			{ path: "notifications", component: NotificationsComponent }
 		],
 		canActivate: [ AuthGuard ],
