@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import * as moment from "moment";
 
-import { ClassService } from "../../common/common";
-import { Class } from "../../common/models";
+import { ClassService, LecturerService } from "../../common/common";
+import { Class, Lecturer } from "../../common/models";
 
 @Component({
 	selector: "ip-view-lecturer",
@@ -13,19 +13,23 @@ import { Class } from "../../common/models";
 export default class LecturerComponent implements OnInit {
 	options: FC.Options;
 	lecturerId: number;
+	lecturer: Lecturer;
 
 	private router: Router;
 	private route: ActivatedRoute;
 
 	private classService: ClassService;
+	private lecturerService: LecturerService;
 
 	constructor(
 		router: Router,
 		route: ActivatedRoute,
-		classService: ClassService) {
+		classService: ClassService,
+		lecturerService: LecturerService) {
 		this.router = router;
 		this.route = route;
 		this.classService = classService;
+		this.lecturerService = lecturerService;
 	}
 
 	ngOnInit(): void {
@@ -35,6 +39,9 @@ export default class LecturerComponent implements OnInit {
 			if (!this.lecturerId) {
 				this.router.navigate([ "view/lecturers" ]);
 			}
+
+			this.lecturerService.getLecturer(this.lecturerId)
+				.subscribe(lecturer => this.lecturer = lecturer);
 
 			const paramDate = params["date"];
 

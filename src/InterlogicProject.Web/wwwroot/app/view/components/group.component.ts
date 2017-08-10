@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import * as moment from "moment";
 
-import { ClassService } from "../../common/common";
-import { Class } from "../../common/models";
+import { ClassService, GroupService } from "../../common/common";
+import { Class, Group } from "../../common/models";
 
 @Component({
 	selector: "ip-view-group",
@@ -13,19 +13,23 @@ import { Class } from "../../common/models";
 export default class GroupComponent implements OnInit {
 	options: FC.Options;
 	groupId: number;
+	group: Group;
 
 	private router: Router;
 	private route: ActivatedRoute;
 
 	private classService: ClassService;
+	private groupService: GroupService;
 
 	constructor(
 		router: Router,
 		route: ActivatedRoute,
-		classService: ClassService) {
+		classService: ClassService,
+		groupService: GroupService) {
 		this.router = router;
 		this.route = route;
 		this.classService = classService;
+		this.groupService = groupService;
 	}
 
 	ngOnInit(): void {
@@ -35,6 +39,9 @@ export default class GroupComponent implements OnInit {
 			if (!this.groupId) {
 				this.router.navigate(["view/groups"]);
 			}
+
+			this.groupService.getGroup(this.groupId)
+				.subscribe(group => this.group = group);
 
 			const paramDate = params["date"];
 
