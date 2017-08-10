@@ -45,6 +45,11 @@ var NgbCarousel = (function () {
         this.activeId = activeSlide ? activeSlide.id : (this.slides.length ? this.slides.first.id : null);
     };
     NgbCarousel.prototype.ngOnInit = function () { this._startTimer(); };
+    NgbCarousel.prototype.ngOnChanges = function (changes) {
+        if ('interval' in changes && !changes['interval'].isFirstChange()) {
+            this._restartTimer();
+        }
+    };
     NgbCarousel.prototype.ngOnDestroy = function () { clearInterval(this._slideChangeInterval); };
     /**
      * Navigate to a slide with the specified identifier.

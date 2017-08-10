@@ -19,7 +19,7 @@ var NgbModalStack = (function () {
             throw new Error("The specified modal container \"" + containerSelector + "\" was not found in the DOM.");
         }
         var activeModal = new NgbActiveModal();
-        var contentRef = this._getContentRef(moduleCFR, contentInjector, content, activeModal);
+        var contentRef = this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
         var windowCmptRef;
         var backdropCmptRef;
         var ngbModalRef;

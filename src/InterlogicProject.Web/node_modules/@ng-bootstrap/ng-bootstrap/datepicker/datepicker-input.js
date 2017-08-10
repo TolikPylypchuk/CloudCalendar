@@ -80,10 +80,13 @@ var NgbInputDatepicker = (function () {
         this._model = this._calendar.isValid(value) ? ngbDate : null;
         this._writeModelValue(this._model);
     };
-    NgbInputDatepicker.prototype.manualDateChange = function (value) {
+    NgbInputDatepicker.prototype.manualDateChange = function (value, updateView) {
+        if (updateView === void 0) { updateView = false; }
         this._model = this._service.toValidDate(this._parserFormatter.parse(value), null);
         this._onChange(this._model ? this._model.toStruct() : (value === '' ? null : value));
-        this._writeModelValue(this._model);
+        if (updateView && this._model) {
+            this._writeModelValue(this._model);
+        }
     };
     NgbInputDatepicker.prototype.isOpen = function () { return !!this._cRef; };
     /**
@@ -105,6 +108,8 @@ var NgbInputDatepicker = (function () {
                 _this._onChange(selectedDate);
                 _this.close();
             });
+            // focus handling
+            this._cRef.instance.focus();
         }
     };
     /**
@@ -181,7 +186,12 @@ NgbInputDatepicker.decorators = [
     { type: Directive, args: [{
                 selector: 'input[ngbDatepicker]',
                 exportAs: 'ngbDatepicker',
-                host: { '(change)': 'manualDateChange($event.target.value)', '(keyup.esc)': 'close()', '(blur)': 'onBlur()' },
+                host: {
+                    '(input)': 'manualDateChange($event.target.value)',
+                    '(change)': 'manualDateChange($event.target.value, true)',
+                    '(keyup.esc)': 'close()',
+                    '(blur)': 'onBlur()'
+                },
                 providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, NgbDatepickerService]
             },] },
 ];

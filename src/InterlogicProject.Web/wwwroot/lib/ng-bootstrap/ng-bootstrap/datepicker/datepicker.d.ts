@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, OnChanges, TemplateRef, OnInit, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, OnChanges, TemplateRef, OnInit, SimpleChanges, EventEmitter, OnDestroy, ElementRef } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { NgbCalendar } from './ngb-calendar';
 import { NgbDate } from './ngb-date';
@@ -37,6 +37,7 @@ export declare class NgbDatepicker implements OnDestroy, OnChanges, OnInit, Cont
     private _calendar;
     i18n: NgbDatepickerI18n;
     private _cd;
+    private _elementRef;
     model: DatepickerViewModel;
     private _subscription;
     /**
@@ -102,7 +103,11 @@ export declare class NgbDatepicker implements OnDestroy, OnChanges, OnInit, Cont
     navigate: EventEmitter<NgbDatepickerNavigateEvent>;
     onChange: (_: any) => void;
     onTouched: () => void;
-    constructor(_keyMapService: NgbDatepickerKeyMapService, _service: NgbDatepickerService, _calendar: NgbCalendar, i18n: NgbDatepickerI18n, config: NgbDatepickerConfig, _cd: ChangeDetectorRef);
+    constructor(_keyMapService: NgbDatepickerKeyMapService, _service: NgbDatepickerService, _calendar: NgbCalendar, i18n: NgbDatepickerI18n, config: NgbDatepickerConfig, _cd: ChangeDetectorRef, _elementRef: ElementRef);
+    /**
+     * Manually focus the datepicker
+     */
+    focus(): void;
     getHeaderHeight(): number;
     getHeaderMargin(): number;
     /**

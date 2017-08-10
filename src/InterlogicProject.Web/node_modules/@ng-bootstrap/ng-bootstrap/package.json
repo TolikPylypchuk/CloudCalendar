@@ -1,18 +1,18 @@
 {
   "_args": [
     [
-      "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.29",
+      "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.30",
       "D:\\OneDrive\\Documents\\Visual Studio 2017\\Projects\\InterlogicProject\\src\\InterlogicProject.Web"
     ]
   ],
-  "_from": "@ng-bootstrap/ng-bootstrap@>=1.0.0-alpha.29 <2.0.0-0",
-  "_id": "@ng-bootstrap/ng-bootstrap@1.0.0-alpha.29",
+  "_from": "@ng-bootstrap/ng-bootstrap@>=1.0.0-alpha.30 <2.0.0-0",
+  "_id": "@ng-bootstrap/ng-bootstrap@1.0.0-alpha.30",
   "_inCache": true,
   "_location": "/@ng-bootstrap/ng-bootstrap",
   "_nodeVersion": "6.9.5",
   "_npmOperationalInternal": {
     "host": "s3://npm-registry-packages",
-    "tmp": "tmp/ng-bootstrap-1.0.0-alpha.29.tgz_1501004197487_0.18560094246640801"
+    "tmp": "tmp/ng-bootstrap-1.0.0-alpha.30.tgz_1501780239003_0.17329447576776147"
   },
   "_npmUser": {
     "email": "foxandxss@gmail.com",
@@ -22,19 +22,19 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "@ng-bootstrap/ng-bootstrap",
-    "raw": "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.29",
-    "rawSpec": "^1.0.0-alpha.29",
+    "raw": "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.30",
+    "rawSpec": "^1.0.0-alpha.30",
     "scope": "@ng-bootstrap",
-    "spec": ">=1.0.0-alpha.29 <2.0.0-0",
+    "spec": ">=1.0.0-alpha.30 <2.0.0-0",
     "type": "range"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.29.tgz",
-  "_shasum": "ca2fa1d2dd94e8f077921e59d78ac51075bcdcd6",
+  "_resolved": "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.30.tgz",
+  "_shasum": "e4e83d6bd1dcbd2b00c8c04e7d116a51f623c264",
   "_shrinkwrap": null,
-  "_spec": "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.29",
+  "_spec": "@ng-bootstrap/ng-bootstrap@^1.0.0-alpha.30",
   "_where": "D:\\OneDrive\\Documents\\Visual Studio 2017\\Projects\\InterlogicProject\\src\\InterlogicProject.Web",
   "author": {
     "name": "https://github.com/ng-bootstrap/ng-bootstrap/graphs/contributors"
@@ -47,8 +47,8 @@
   "devDependencies": {},
   "directories": {},
   "dist": {
-    "shasum": "ca2fa1d2dd94e8f077921e59d78ac51075bcdcd6",
-    "tarball": "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.29.tgz"
+    "shasum": "e4e83d6bd1dcbd2b00c8c04e7d116a51f623c264",
+    "tarball": "https://registry.npmjs.org/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-1.0.0-alpha.30.tgz"
   },
   "homepage": "https://github.com/ng-bootstrap/ng-bootstrap#readme",
   "installable": true,
@@ -98,5 +98,5 @@
   },
   "scripts": {},
   "typings": "index.d.ts",
-  "version": "1.0.0-alpha.29"
+  "version": "1.0.0-alpha.30"
 }

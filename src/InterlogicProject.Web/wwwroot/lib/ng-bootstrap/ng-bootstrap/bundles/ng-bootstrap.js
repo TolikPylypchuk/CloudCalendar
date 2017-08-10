@@ -1562,13 +1562,14 @@ var NGB_DATEPICKER_VALUE_ACCESSOR = {
  * A lightweight and highly configurable datepicker directive
  */
 var NgbDatepicker = (function () {
-    function NgbDatepicker(_keyMapService, _service, _calendar, i18n, config, _cd) {
+    function NgbDatepicker(_keyMapService, _service, _calendar, i18n, config, _cd, _elementRef) {
         var _this = this;
         this._keyMapService = _keyMapService;
         this._service = _service;
         this._calendar = _calendar;
         this.i18n = i18n;
         this._cd = _cd;
+        this._elementRef = _elementRef;
         /**
          * An event fired when navigation happens and currently displayed month changes.
          * See NgbDatepickerNavigateEvent for the payload info.
@@ -1609,6 +1610,10 @@ var NgbDatepicker = (function () {
             _cd.markForCheck();
         });
     }
+    /**
+     * Manually focus the datepicker
+     */
+    NgbDatepicker.prototype.focus = function () { this._elementRef.nativeElement.focus(); };
     NgbDatepicker.prototype.getHeaderHeight = function () {
         var h = this.showWeekdays ? 6.25 : 4.25;
         return this.displayMonths === 1 || this.navigation !== 'select' ? h - 2 : h;
@@ -1735,7 +1740,8 @@ NgbDatepicker = __decorate([
         changeDetection: core_1.ChangeDetectionStrategy.OnPush,
         host: {
             'class': 'd-inline-block rounded',
-            '[attr.tabindex]': 'disabled ? undefined : "0"',
+            'tabindex': '0',
+            '[attr.tabindex]': 'model.disabled ? undefined : "0"',
             '(blur)': 'showFocus(false)',
             '(focus)': 'showFocus(true)',
             '(keydown)': 'onKeyDown($event)'
@@ -1746,7 +1752,7 @@ NgbDatepicker = __decorate([
     }),
     __metadata("design:paramtypes", [datepicker_keymap_service_1.NgbDatepickerKeyMapService, datepicker_service_1.NgbDatepickerService,
         ngb_calendar_1.NgbCalendar, datepicker_i18n_1.NgbDatepickerI18n, datepicker_config_1.NgbDatepickerConfig,
-        core_1.ChangeDetectorRef])
+        core_1.ChangeDetectorRef, core_1.ElementRef])
 ], NgbDatepicker);
 exports.NgbDatepicker = NgbDatepicker;
 //# sourceMappingURL=datepicker.js.map
@@ -2603,6 +2609,7 @@ var NGB_RADIO_VALUE_ACCESSOR = {
     useExisting: core_1.forwardRef(function () { return NgbRadioGroup; }),
     multi: true
 };
+var nextId = 0;
 /**
  * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
  * specified via ngModel.
@@ -2611,6 +2618,11 @@ var NgbRadioGroup = (function () {
     function NgbRadioGroup() {
         this._radios = new Set();
         this._value = null;
+        /**
+         * The name of the group. Unless enclosed inputs specify a name, this name is used as the name of the
+         * enclosed inputs. If not specified, a name is generated automatically.
+         */
+        this.name = "ngb-radio-" + nextId++;
         this.onChange = function (_) { };
         this.onTouched = function () { };
     }
@@ -2644,6 +2656,10 @@ var NgbRadioGroup = (function () {
     NgbRadioGroup.prototype._updateRadiosDisabled = function () { this._radios.forEach(function (radio) { return radio.updateDisabled(); }); };
     return NgbRadioGroup;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], NgbRadioGroup.prototype, "name", void 0);
 NgbRadioGroup = __decorate([
     core_1.Directive({
         selector: '[ngbRadioGroup]',
@@ -2668,7 +2684,7 @@ var NgbRadio = (function () {
         get: function () { return this._value; },
         /**
          * You can specify model value of a given radio by binding to the value property.
-        */
+         */
         set: function (value) {
             this._value = value;
             var stringValue = value ? value.toString() : '';
@@ -2704,6 +2720,11 @@ var NgbRadio = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NgbRadio.prototype, "nameAttr", {
+        get: function () { return this.name || this._group.name; },
+        enumerable: true,
+        configurable: true
+    });
     NgbRadio.prototype.ngOnDestroy = function () { this._group.unregister(this); };
     NgbRadio.prototype.onChange = function () { this._group.onRadioChange(this); };
     NgbRadio.prototype.updateValue = function (value) {
@@ -2713,6 +2734,10 @@ var NgbRadio = (function () {
     NgbRadio.prototype.updateDisabled = function () { this._label.disabled = this.disabled; };
     return NgbRadio;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NgbRadio.prototype, "name", void 0);
 __decorate([
     core_1.Input('value'),
     __metadata("design:type", Object),
@@ -2729,6 +2754,7 @@ NgbRadio = __decorate([
         host: {
             '[checked]': 'checked',
             '[disabled]': 'disabled',
+            '[name]': 'nameAttr',
             '(change)': 'onChange()',
             '(focus)': 'focused = true',
             '(blur)': 'focused = false'
@@ -2800,6 +2826,11 @@ var NgbCarousel = (function () {
         this.activeId = activeSlide ? activeSlide.id : (this.slides.length ? this.slides.first.id : null);
     };
     NgbCarousel.prototype.ngOnInit = function () { this._startTimer(); };
+    NgbCarousel.prototype.ngOnChanges = function (changes) {
+        if ('interval' in changes && !changes['interval'].isFirstChange()) {
+            this._restartTimer();
+        }
+    };
     NgbCarousel.prototype.ngOnDestroy = function () { clearInterval(this._slideChangeInterval); };
     /**
      * Navigate to a slide with the specified identifier.
@@ -3143,10 +3174,13 @@ var NgbInputDatepicker = (function () {
         this._model = this._calendar.isValid(value) ? ngbDate : null;
         this._writeModelValue(this._model);
     };
-    NgbInputDatepicker.prototype.manualDateChange = function (value) {
+    NgbInputDatepicker.prototype.manualDateChange = function (value, updateView) {
+        if (updateView === void 0) { updateView = false; }
         this._model = this._service.toValidDate(this._parserFormatter.parse(value), null);
         this._onChange(this._model ? this._model.toStruct() : (value === '' ? null : value));
-        this._writeModelValue(this._model);
+        if (updateView && this._model) {
+            this._writeModelValue(this._model);
+        }
     };
     NgbInputDatepicker.prototype.isOpen = function () { return !!this._cRef; };
     /**
@@ -3168,6 +3202,8 @@ var NgbInputDatepicker = (function () {
                 _this._onChange(selectedDate);
                 _this.close();
             });
+            // focus handling
+            this._cRef.instance.focus();
         }
     };
     /**
@@ -3295,7 +3331,12 @@ NgbInputDatepicker = __decorate([
     core_1.Directive({
         selector: 'input[ngbDatepicker]',
         exportAs: 'ngbDatepicker',
-        host: { '(change)': 'manualDateChange($event.target.value)', '(keyup.esc)': 'close()', '(blur)': 'onBlur()' },
+        host: {
+            '(input)': 'manualDateChange($event.target.value)',
+            '(change)': 'manualDateChange($event.target.value, true)',
+            '(keyup.esc)': 'close()',
+            '(blur)': 'onBlur()'
+        },
         providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, datepicker_service_1.NgbDatepickerService]
     }),
     __metadata("design:paramtypes", [ngb_date_parser_formatter_1.NgbDateParserFormatter, core_1.ElementRef, core_1.ViewContainerRef,
@@ -4020,7 +4061,7 @@ var NgbModalStack = (function () {
             throw new Error("The specified modal container \"" + containerSelector + "\" was not found in the DOM.");
         }
         var activeModal = new modal_ref_1.NgbActiveModal();
-        var contentRef = this._getContentRef(moduleCFR, contentInjector, content, activeModal);
+        var contentRef = this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
         var windowCmptRef;
         var backdropCmptRef;
         var ngbModalRef;

@@ -99,7 +99,7 @@ export declare class NgbInputDatepicker implements OnChanges, OnDestroy, Control
         [key: string]: any;
     };
     writeValue(value: any): void;
-    manualDateChange(value: string): void;
+    manualDateChange(value: string, updateView?: boolean): void;
     isOpen(): boolean;
     /**
      * Opens the datepicker with the selected date indicated by the ngModel value.

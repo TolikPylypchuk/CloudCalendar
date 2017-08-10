@@ -1,4 +1,4 @@
-import { TemplateRef, QueryList, OnDestroy, AfterContentChecked, OnInit, EventEmitter } from '@angular/core';
+import { TemplateRef, QueryList, AfterContentChecked, OnInit, OnChanges, OnDestroy, EventEmitter } from '@angular/core';
 import { NgbCarouselConfig } from './carousel-config';
 /**
  * Represents an individual slide to be used within a carousel.
@@ -15,7 +15,7 @@ export declare class NgbSlide {
 /**
  * Directive to easily create carousels based on Bootstrap's markup.
  */
-export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnInit {
+export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnInit, OnChanges {
     slides: QueryList<NgbSlide>;
     private _slideChangeInterval;
     /**
@@ -42,6 +42,7 @@ export declare class NgbCarousel implements AfterContentChecked, OnDestroy, OnIn
     constructor(config: NgbCarouselConfig);
     ngAfterContentChecked(): void;
     ngOnInit(): void;
+    ngOnChanges(changes: any): void;
     ngOnDestroy(): void;
     /**
      * Navigate to a slide with the specified identifier.

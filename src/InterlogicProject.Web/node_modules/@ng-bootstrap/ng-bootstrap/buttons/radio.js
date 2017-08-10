@@ -6,6 +6,7 @@ var NGB_RADIO_VALUE_ACCESSOR = {
     useExisting: forwardRef(function () { return NgbRadioGroup; }),
     multi: true
 };
+var nextId = 0;
 /**
  * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
  * specified via ngModel.
@@ -14,6 +15,11 @@ var NgbRadioGroup = (function () {
     function NgbRadioGroup() {
         this._radios = new Set();
         this._value = null;
+        /**
+         * The name of the group. Unless enclosed inputs specify a name, this name is used as the name of the
+         * enclosed inputs. If not specified, a name is generated automatically.
+         */
+        this.name = "ngb-radio-" + nextId++;
         this.onChange = function (_) { };
         this.onTouched = function () { };
     }
@@ -57,6 +63,9 @@ NgbRadioGroup.decorators = [
 ];
 /** @nocollapse */
 NgbRadioGroup.ctorParameters = function () { return []; };
+NgbRadioGroup.propDecorators = {
+    'name': [{ type: Input },],
+};
 /**
  * Marks an input of type "radio" as part of the NgbRadioGroup.
  */
@@ -73,7 +82,7 @@ var NgbRadio = (function () {
         get: function () { return this._value; },
         /**
          * You can specify model value of a given radio by binding to the value property.
-        */
+         */
         set: function (value) {
             this._value = value;
             var stringValue = value ? value.toString() : '';
@@ -109,6 +118,11 @@ var NgbRadio = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NgbRadio.prototype, "nameAttr", {
+        get: function () { return this.name || this._group.name; },
+        enumerable: true,
+        configurable: true
+    });
     NgbRadio.prototype.ngOnDestroy = function () { this._group.unregister(this); };
     NgbRadio.prototype.onChange = function () { this._group.onRadioChange(this); };
     NgbRadio.prototype.updateValue = function (value) {
@@ -125,6 +139,7 @@ NgbRadio.decorators = [
                 host: {
                     '[checked]': 'checked',
                     '[disabled]': 'disabled',
+                    '[name]': 'nameAttr',
                     '(change)': 'onChange()',
                     '(focus)': 'focused = true',
                     '(blur)': 'focused = false'
@@ -139,6 +154,7 @@ NgbRadio.ctorParameters = function () { return [
     { type: ElementRef, },
 ]; };
 NgbRadio.propDecorators = {
+    'name': [{ type: Input },],
     'value': [{ type: Input, args: ['value',] },],
     'disabled': [{ type: Input, args: ['disabled',] },],
 };

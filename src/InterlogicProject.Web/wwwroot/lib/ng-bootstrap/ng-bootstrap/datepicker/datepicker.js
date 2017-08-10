@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, forwardRef, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, forwardRef, EventEmitter, Output, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbCalendar } from './ngb-calendar';
 import { NgbDate } from './ngb-date';
@@ -18,13 +18,14 @@ var NGB_DATEPICKER_VALUE_ACCESSOR = {
  * A lightweight and highly configurable datepicker directive
  */
 var NgbDatepicker = (function () {
-    function NgbDatepicker(_keyMapService, _service, _calendar, i18n, config, _cd) {
+    function NgbDatepicker(_keyMapService, _service, _calendar, i18n, config, _cd, _elementRef) {
         var _this = this;
         this._keyMapService = _keyMapService;
         this._service = _service;
         this._calendar = _calendar;
         this.i18n = i18n;
         this._cd = _cd;
+        this._elementRef = _elementRef;
         /**
          * An event fired when navigation happens and currently displayed month changes.
          * See NgbDatepickerNavigateEvent for the payload info.
@@ -65,6 +66,10 @@ var NgbDatepicker = (function () {
             _cd.markForCheck();
         });
     }
+    /**
+     * Manually focus the datepicker
+     */
+    NgbDatepicker.prototype.focus = function () { this._elementRef.nativeElement.focus(); };
     NgbDatepicker.prototype.getHeaderHeight = function () {
         var h = this.showWeekdays ? 6.25 : 4.25;
         return this.displayMonths === 1 || this.navigation !== 'select' ? h - 2 : h;
@@ -144,7 +149,8 @@ NgbDatepicker.decorators = [
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 host: {
                     'class': 'd-inline-block rounded',
-                    '[attr.tabindex]': 'disabled ? undefined : "0"',
+                    'tabindex': '0',
+                    '[attr.tabindex]': 'model.disabled ? undefined : "0"',
                     '(blur)': 'showFocus(false)',
                     '(focus)': 'showFocus(true)',
                     '(keydown)': 'onKeyDown($event)'
@@ -162,6 +168,7 @@ NgbDatepicker.ctorParameters = function () { return [
     { type: NgbDatepickerI18n, },
     { type: NgbDatepickerConfig, },
     { type: ChangeDetectorRef, },
+    { type: ElementRef, },
 ]; };
 NgbDatepicker.propDecorators = {
     'dayTemplate': [{ type: Input },],
