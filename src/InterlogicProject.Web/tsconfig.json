@@ -15,7 +15,7 @@
 		"noEmitOnError": false,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitUseStrict": false,
-		"outDir": "./wwwroot/dist/",
+		"outDir": "./wwwroot/dist/js/",
 		"removeComments": false,
 		"rootDir": "./wwwroot/app",
 		"skipDefaultLibCheck": true,
