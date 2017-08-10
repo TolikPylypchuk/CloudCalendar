@@ -252,11 +252,15 @@ namespace InterlogicProject.Web
 			IHostingEnvironment env,
 			ILoggerFactory loggerFactory)
 		{
+			loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+			
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			if (env.IsDevelopment())
 			{
+				loggerFactory.AddDebug(LogLevel.Debug);
+
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
 				
