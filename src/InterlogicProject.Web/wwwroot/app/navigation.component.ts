@@ -22,11 +22,13 @@ export default class NavigationComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.notificationService.getNotificationsForCurrentUser()
-			.map(notifications =>
-				notifications.filter(n => !n.isSeen).length)
-			.subscribe(count => this.notificationCount = count);
-
+		if (this.isLoggedIn()) {
+			this.notificationService.getNotificationsForCurrentUser()
+				.map(notifications =>
+					notifications.filter(n => !n.isSeen).length)
+				.subscribe(count => this.notificationCount = count);
+		}
+		
 		this.notificationService.notificationsMarkObservable()
 			.subscribe(seen =>
 				this.notificationCount == 0 ? this.notificationCount :
