@@ -76,8 +76,9 @@
 		<Content Include="wwwroot\app\student\student.ts" />
 		<Content Include="wwwroot\app\view\components\group.component.ts" />
 		<Content Include="wwwroot\app\view\components\groups.component.ts" />
+		<Content Include="wwwroot\app\view\components\lecturer.component.ts" />
+		<Content Include="wwwroot\app\view\components\lecturers.component.ts" />
 		<Content Include="wwwroot\app\view\components\notifications.component.ts" />
-		<Content Include="wwwroot\app\view\components\students.component.ts" />
 		<Content Include="wwwroot\app\view\routes.module.ts" />
 		<Content Include="wwwroot\app\view\view.component.ts" />
 		<Content Include="wwwroot\app\view\view.module.ts" />

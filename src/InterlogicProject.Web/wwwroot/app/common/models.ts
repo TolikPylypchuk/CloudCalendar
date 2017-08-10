@@ -2,6 +2,10 @@
 	id?: number;
 }
 
+export interface NameableEntity extends Entity {
+	name?: string;
+}
+
 export interface EntityWithUser extends Entity {
 	userId?: string;
 	userFirstName?: string;
@@ -47,20 +51,17 @@ export interface Comment extends EntityWithUser {
 	dateTime?: string;
 }
 
-export interface Department extends Entity {
-	name?: string;
+export interface Department extends NameableEntity {
 	facultyId?: number;
 }
 
-export interface Faculty extends Entity {
-	name?: string;
+export interface Faculty extends NameableEntity {
 	buildingId?: number;
 	buildingName?: string;
 	buildingAddress?: string;
 }
 
-export interface Group extends Entity {
-	name?: string;
+export interface Group extends NameableEntity {
 	year?: number;
 	curatorId?: number;
 }
@@ -102,8 +103,6 @@ export interface Student extends GenericUser<number> {
 	userId?: string;
 }
 
-export interface Subject extends Entity {
-	name?: string;
-}
+export interface Subject extends NameableEntity { }
 
 export interface User extends GenericUser<string> { }

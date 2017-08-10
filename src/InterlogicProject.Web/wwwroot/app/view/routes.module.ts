@@ -6,6 +6,8 @@ import { AuthGuard } from "../account/account";
 import ViewComponent from "./view.component";
 import GroupsComponent from "./components/groups.component";
 import GroupComponent from "./components/group.component";
+import LecturersComponent from "./components/lecturers.component";
+import LecturerComponent from "./components/lecturer.component";
 import NotificationsComponent from "./components/notifications.component";
 
 const routes: Routes = [
@@ -15,6 +17,8 @@ const routes: Routes = [
 		children: [
 			{ path: "groups", component: GroupsComponent },
 			{ path: "group/:id", component: GroupComponent },
+			{ path: "lecturers", component: LecturersComponent },
+			{ path: "lecturer/:id", component: LecturerComponent },
 			{ path: "notifications", component: NotificationsComponent }
 		],
 		canActivate: [ AuthGuard ],

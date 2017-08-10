@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 
 import { Faculty, Group } from "../../common/models";
 import { FacultyService, GroupService } from "../../common/common";
+import { compareByName } from "../../common/functions";
 
 @Component({
 	selector: "ip-view-groups",
@@ -25,14 +26,14 @@ export default class GroupsComponent implements OnInit {
 	ngOnInit(): void {
 		this.facultyService.getFaculties()
 			.subscribe(faculties => {
-				this.faculties = faculties.sort(this.compareByName);
+				this.faculties = faculties.sort(compareByName);
 
 				for (const faculty of faculties) {
 					this.groupService.getGroupsByFaculty(faculty.id)
 						.subscribe(groups =>
 							this.groups.set(
 								faculty.id,
-								groups.sort(this.compareByName)));
+								groups.sort(compareByName)));
 				}
 			});
 	}
@@ -43,9 +44,5 @@ export default class GroupsComponent implements OnInit {
 
 	getGroups(facultyId: number): Group[] {
 		return this.groups.get(facultyId);
-	}
-
-	private compareByName(a: { name: string }, b: { name: string }): number {
-		return a.name.localeCompare(b.name);
 	}
 }

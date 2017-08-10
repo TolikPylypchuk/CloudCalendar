@@ -6,6 +6,8 @@ import { CommonModule } from "../common/common";
 
 import GroupsComponent from "./components/groups.component";
 import GroupComponent from "./components/group.component";
+import LecturersComponent from "./components/lecturers.component";
+import LecturerComponent from "./components/lecturer.component";
 import NotificationsComponent from "./components/notifications.component";
 import ViewComponent from "./view.component";
 
@@ -15,6 +17,8 @@ import RoutesModule from "./routes.module";
 	declarations: [
 		GroupsComponent,
 		GroupComponent,
+		LecturersComponent,
+		LecturerComponent,
 		NotificationsComponent,
 		ViewComponent
 	],
@@ -26,6 +30,8 @@ import RoutesModule from "./routes.module";
 	exports: [
 		GroupsComponent,
 		GroupComponent,
+		LecturersComponent,
+		LecturerComponent,
 		NotificationsComponent,
 		ViewComponent
 	]
