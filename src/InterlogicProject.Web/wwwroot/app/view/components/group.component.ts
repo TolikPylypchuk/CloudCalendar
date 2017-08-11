@@ -63,11 +63,11 @@ export default class GroupComponent implements OnInit {
 				columnFormat: "dd, DD.MM",
 				defaultDate: date,
 				defaultView: "agendaWeek",
-				eventBackgroundColor: "#0275D8",
-				eventBorderColor: "#0275D8",
 				eventDurationEditable: false,
 				eventRender: (event: FC.EventObject, element: JQuery) => {
-					element.css("cursor", "pointer");
+					element.css("border-style", "hidden");
+					element.addClass("bg-primary");
+					element.addClass("text-white");
 				},
 				events: this.getEvents.bind(this),
 				header: {

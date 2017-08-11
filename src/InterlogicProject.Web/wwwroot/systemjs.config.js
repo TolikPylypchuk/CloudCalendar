@@ -17,6 +17,7 @@ System.config({
 		"jquery": "lib/jquery/dist/jquery.js",
 		"moment": "lib/moment/moment.js",
 		"ng2-file-upload": "lib/ng2-file-upload/ng2-file-upload.umd.js",
+		"popper.js": "lib/popper.js/dist/umd/popper.js",
 		"reflect-metadata": "lib/reflect-metadata/Reflect.js",
 		"rxjs": "lib/rxjs",
 		"zone.js": "lib/zone.js/dist/zone.js"

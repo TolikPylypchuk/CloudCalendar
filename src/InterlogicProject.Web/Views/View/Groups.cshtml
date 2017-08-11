@@ -1,7 +1,9 @@
-﻿<div class="container my-3">
+﻿<h2 class="h2 text-center mt-3">Виберіть групу</h2>
+
+<div class="container my-3">
 	<div class="row">
-		<div class="col-md-2"></div>
-		<div id="accordion" class="col-md-8" role="tablist"
+		<div class="col-md-1"></div>
+		<div id="accordion" class="col-md-10" role="tablist"
 		     aria-multiselectable="true">
 			<div class="card" *ngFor="let faculty of getFaculties()">
 				<div class="card-header" role="tab" id="heading{{ faculty.id }}">
@@ -16,7 +18,7 @@
 
 				<div id="collapse{{ faculty.id }}" class="collapse" role="tabpanel"
 				     [attr.aria-labelledby]="'heading' + faculty.id">
-					<div class="card-block">
+					<div class="card-body">
 						<div *ngFor="let group of getGroups(faculty.id)">
 							<a routerLink="/view/group/{{ group.id }}"
 							   class="btn btn-link">
@@ -27,6 +29,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-2"></div>
+		<div class="col-md-1"></div>
 	</div>
 </div>

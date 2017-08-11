@@ -15,6 +15,11 @@ gulp.task("copy-ng2-file-upload", () => {
 			   .pipe(gulp.dest("./wwwroot/lib/ng2-file-upload/"));
 });
 
+gulp.task("copy-popper", () => {
+	return gulp.src("./node_modules/popper.js/**")
+		.pipe(gulp.dest("./wwwroot/lib/popper.js/"));
+});
+
 gulp.task("copy-rxjs", () => {
 	return gulp.src("./node_modules/rxjs/**")
 			   .pipe(gulp.dest("./wwwroot/lib/rxjs/"));

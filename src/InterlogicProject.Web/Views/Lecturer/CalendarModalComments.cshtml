@@ -31,11 +31,11 @@
 			</span>
 		</div>
 
-		<div class="card-block" *ngIf="comment.id !== editedCommentId">
+		<div class="card-body" *ngIf="comment.id !== editedCommentId">
 			<p>{{ comment.text }}</p>
 		</div>
 
-		<div class="card-block" *ngIf="comment.id === editedCommentId">
+		<div class="card-body" *ngIf="comment.id === editedCommentId">
 			<form class="mt-3" (ngSubmit)="updateComment(comment)">
 				<textarea type="text" class=" form-control"
 						  placeholder="Коментувати..."

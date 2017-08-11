@@ -62,11 +62,12 @@ export default class CalendarComponent implements OnInit, AfterViewInit {
 				defaultDate: date,
 				defaultView: "agendaWeek",
 				eventClick: this.eventClicked.bind(this),
-				eventBackgroundColor: "#0275D8",
-				eventBorderColor: "#0275D8",
 				eventDurationEditable: false,
 				eventRender: (event: FC.EventObject, element: JQuery) => {
+					element.css("border-style", "hidden");
 					element.css("cursor", "pointer");
+					element.addClass("bg-primary");
+					element.addClass("text-white");
 				},
 				events: this.getEvents.bind(this),
 				header: {

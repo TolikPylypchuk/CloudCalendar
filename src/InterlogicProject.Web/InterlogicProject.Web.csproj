@@ -13,12 +13,20 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="Data\**" />
+		<Compile Remove="wwwroot\dist\lecturer\**" />
+		<Compile Remove="wwwroot\dist\student\**" />
 		<Compile Remove="wwwroot\files\**" />
 		<Content Remove="Data\**" />
+		<Content Remove="wwwroot\dist\lecturer\**" />
+		<Content Remove="wwwroot\dist\student\**" />
 		<Content Remove="wwwroot\files\**" />
 		<EmbeddedResource Remove="Data\**" />
+		<EmbeddedResource Remove="wwwroot\dist\lecturer\**" />
+		<EmbeddedResource Remove="wwwroot\dist\student\**" />
 		<EmbeddedResource Remove="wwwroot\files\**" />
 		<None Remove="Data\**" />
+		<None Remove="wwwroot\dist\lecturer\**" />
+		<None Remove="wwwroot\dist\student\**" />
 		<None Remove="wwwroot\files\**" />
 	</ItemGroup>
 	<ItemGroup>
@@ -146,8 +154,6 @@
 	<ItemGroup>
 		<Folder Include="Views\Shared\" />
 		<Folder Include="wwwroot\dist\css\" />
-		<Folder Include="wwwroot\dist\lecturer\" />
-		<Folder Include="wwwroot\dist\student\" />
 	</ItemGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
 		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>

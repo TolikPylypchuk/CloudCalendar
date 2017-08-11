@@ -3,14 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
 	<title>Interlogic Project</title>
 
 	<environment names="Development">
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/tether/dist/css/*.css"
-		      asp-href-exclude="~/lib/tether/dist/css/*.min.css" />
 		<link rel="stylesheet" type="text/css"
 		      asp-href-include="~/lib/bootstrap/dist/css/*.css"
 		      asp-href-exclude="~/lib/bootstrap/dist/css/*.min.css" />
@@ -60,7 +57,7 @@
 	<environment names="Development">
 		<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
 
-		<script asp-src-include="~/lib/tether/dist/js/tether.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 		<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
@@ -74,7 +71,7 @@
 	<environment names="Staging, Production">
 		<script asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
 
-		<script asp-src-include="~/lib/tether/dist/js/tether.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
 		<script asp-src-include="~/lib/es6-shim/es6-shim.min.js"></script>
