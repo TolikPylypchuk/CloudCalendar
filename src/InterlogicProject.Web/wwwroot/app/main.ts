@@ -12,8 +12,6 @@ import * as moment from "moment";
 import "fullcalendar";
 import "fullcalendar/dist/locale/uk";
 
-import "popper.js";
-
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
 import AppModule from "./app.module";

@@ -57,7 +57,9 @@
 	<environment names="Development">
 		<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+		<script asp-src-include="~/lib/popper.js/dist/umd/*.js"
+		        asp-src-exclude="~/lib/popper.js/dist/umd/*.min.js"></script>
+
 		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 		<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
@@ -70,8 +72,7 @@
 
 	<environment names="Staging, Production">
 		<script asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+		<script asp-src-include="~/lib/popper.js/dist/umd/*.min.js"></script>
 		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
 		<script asp-src-include="~/lib/es6-shim/es6-shim.min.js"></script>
