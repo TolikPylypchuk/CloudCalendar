@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@angular/core"), require("@angular/common"), require("@angular/forms"), require("rxjs/Subject"), require("rxjs/observable/fromEvent"), require("rxjs/operator/do"), require("rxjs/operator/filter"), require("rxjs/operator/let"));
+		module.exports = factory(require("@angular/core"), require("@angular/common"), require("@angular/forms"), require("rxjs/BehaviorSubject"), require("rxjs/Subject"), require("rxjs/observable/fromEvent"), require("rxjs/operator/do"), require("rxjs/operator/filter"), require("rxjs/operator/let"), require("rxjs/operator/switchMap"));
 	else if(typeof define === 'function' && define.amd)
-		define(["@angular/core", "@angular/common", "@angular/forms", "rxjs/Subject", "rxjs/observable/fromEvent", "rxjs/operator/do", "rxjs/operator/filter", "rxjs/operator/let"], factory);
+		define(["@angular/core", "@angular/common", "@angular/forms", "rxjs/BehaviorSubject", "rxjs/Subject", "rxjs/observable/fromEvent", "rxjs/operator/do", "rxjs/operator/filter", "rxjs/operator/let", "rxjs/operator/switchMap"], factory);
 	else if(typeof exports === 'object')
-		exports["ngb"] = factory(require("@angular/core"), require("@angular/common"), require("@angular/forms"), require("rxjs/Subject"), require("rxjs/observable/fromEvent"), require("rxjs/operator/do"), require("rxjs/operator/filter"), require("rxjs/operator/let"));
+		exports["ngb"] = factory(require("@angular/core"), require("@angular/common"), require("@angular/forms"), require("rxjs/BehaviorSubject"), require("rxjs/Subject"), require("rxjs/observable/fromEvent"), require("rxjs/operator/do"), require("rxjs/operator/filter"), require("rxjs/operator/let"), require("rxjs/operator/switchMap"));
 	else
-		root["ngb"] = factory(root["ng"]["core"], root["ng"]["common"], root["ng"]["forms"], root["Rx"], root["Rx"], root["Rx"], root["Rx"], root["Rx"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__) {
+		root["ngb"] = factory(root["ng"]["core"], root["ng"]["common"], root["ng"]["forms"], root["Rx"], root["Rx"], root["Rx"], root["Rx"], root["Rx"], root["Rx"], root["Rx"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__, __WEBPACK_EXTERNAL_MODULE_82__, __WEBPACK_EXTERNAL_MODULE_83__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 82);
+/******/ 	return __webpack_require__(__webpack_require__.s = 84);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -458,7 +458,8 @@ exports.NgbButtonLabel = NgbButtonLabel;
 var Positioning = (function () {
     function Positioning() {
     }
-    Positioning.prototype.getStyle = function (element, prop) { return window.getComputedStyle(element)[prop]; };
+    Positioning.prototype.getAllStyles = function (element) { return window.getComputedStyle(element); };
+    Positioning.prototype.getStyle = function (element, prop) { return this.getAllStyles(element)[prop]; };
     Positioning.prototype.isStaticPositioned = function (element) {
         return (this.getStyle(element, 'position') || 'static') === 'static';
     };
@@ -524,6 +525,7 @@ var Positioning = (function () {
     };
     Positioning.prototype.positionElements = function (hostElement, targetElement, placement, appendToBody) {
         var hostElPosition = appendToBody ? this.offset(hostElement, false) : this.position(hostElement, false);
+        var targetElStyles = this.getAllStyles(targetElement);
         var targetElBCR = targetElement.getBoundingClientRect();
         var placementPrimary = placement.split('-')[0] || 'top';
         var placementSecondary = placement.split('-')[1] || 'center';
@@ -537,13 +539,15 @@ var Positioning = (function () {
         };
         switch (placementPrimary) {
             case 'top':
-                targetElPosition.top = hostElPosition.top - targetElement.offsetHeight;
+                targetElPosition.top =
+                    hostElPosition.top - (targetElement.offsetHeight + parseFloat(targetElStyles.marginBottom));
                 break;
             case 'bottom':
                 targetElPosition.top = hostElPosition.top + hostElPosition.height;
                 break;
             case 'left':
-                targetElPosition.left = hostElPosition.left - targetElement.offsetWidth;
+                targetElPosition.left =
+                    hostElPosition.left - (targetElement.offsetWidth + parseFloat(targetElStyles.marginRight));
                 break;
             case 'right':
                 targetElPosition.left = hostElPosition.left + hostElPosition.width;
@@ -854,9 +858,10 @@ var dropdown_config_1 = __webpack_require__(33);
 var dropdown_2 = __webpack_require__(56);
 exports.NgbDropdown = dropdown_2.NgbDropdown;
 exports.NgbDropdownToggle = dropdown_2.NgbDropdownToggle;
+exports.NgbDropdownMenu = dropdown_2.NgbDropdownMenu;
 var dropdown_config_2 = __webpack_require__(33);
 exports.NgbDropdownConfig = dropdown_config_2.NgbDropdownConfig;
-var NGB_DROPDOWN_DIRECTIVES = [dropdown_1.NgbDropdownToggle, dropdown_1.NgbDropdown];
+var NGB_DROPDOWN_DIRECTIVES = [dropdown_1.NgbDropdown, dropdown_1.NgbDropdownToggle, dropdown_1.NgbDropdownMenu];
 var NgbDropdownModule = NgbDropdownModule_1 = (function () {
     function NgbDropdownModule() {
     }
@@ -1335,9 +1340,9 @@ var ngb_calendar_1 = __webpack_require__(3);
 var ngb_date_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(0);
 var util_1 = __webpack_require__(1);
-var Subject_1 = __webpack_require__(77);
+var Subject_1 = __webpack_require__(78);
 var datepicker_tools_1 = __webpack_require__(54);
-var filter_1 = __webpack_require__(80);
+var filter_1 = __webpack_require__(81);
 var NgbDatepickerService = (function () {
     function NgbDatepickerService(_calendar) {
         this._calendar = _calendar;
@@ -1747,7 +1752,7 @@ NgbDatepicker = __decorate([
             '(keydown)': 'onKeyDown($event)'
         },
         styles: ["\n    :host {\n      border: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-header {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month:first-child {\n      margin-left: 0 !important;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n    }\n  "],
-        template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\" let-focused=\"focused\">\n      <div ngbDatepickerDayView\n        [date]=\"date\"\n        [currentMonth]=\"currentMonth\"\n        [selected]=\"selected\"\n        [disabled]=\"disabled\"\n        [focused]=\"focused\">\n      </div>\n    </ng-template>\n\n    <div class=\"ngb-dp-header bg-faded pt-1 rounded-top\" [style.height.rem]=\"getHeaderHeight()\"\n         [style.marginBottom.rem]=\"-getHeaderMargin()\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"model.firstDate\"\n        [minDate]=\"model.minDate\"\n        [maxDate]=\"model.maxDate\"\n        [months]=\"model.months.length\"\n        [disabled]=\"model.disabled\"\n        [showWeekNumbers]=\"showWeekNumbers\"\n        [showSelect]=\"navigation === 'select'\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months d-flex px-1 pb-1\">\n      <ng-template ngFor let-month [ngForOf]=\"model.months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block ml-3\">\n          <div *ngIf=\"navigation !== 'select' || displayMonths > 1\" class=\"ngb-dp-month-name text-center\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [outsideDays]=\"(displayMonths === 1 ? outsideDays : 'hidden')\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
+        template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\" let-focused=\"focused\">\n      <div ngbDatepickerDayView\n        [date]=\"date\"\n        [currentMonth]=\"currentMonth\"\n        [selected]=\"selected\"\n        [disabled]=\"disabled\"\n        [focused]=\"focused\">\n      </div>\n    </ng-template>\n\n    <div class=\"ngb-dp-header bg-light pt-1 rounded-top\" [style.height.rem]=\"getHeaderHeight()\"\n         [style.marginBottom.rem]=\"-getHeaderMargin()\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"model.firstDate\"\n        [minDate]=\"model.minDate\"\n        [maxDate]=\"model.maxDate\"\n        [months]=\"model.months.length\"\n        [disabled]=\"model.disabled\"\n        [showWeekNumbers]=\"showWeekNumbers\"\n        [showSelect]=\"navigation === 'select'\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months d-flex px-1 pb-1\">\n      <ng-template ngFor let-month [ngForOf]=\"model.months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block ml-3\">\n          <div *ngIf=\"navigation !== 'select' || displayMonths > 1\" class=\"ngb-dp-month-name text-center\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [outsideDays]=\"(displayMonths === 1 ? outsideDays : 'hidden')\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
         providers: [NGB_DATEPICKER_VALUE_ACCESSOR, datepicker_service_1.NgbDatepickerService, datepicker_keymap_service_1.NgbDatepickerKeyMapService]
     }),
     __metadata("design:paramtypes", [datepicker_keymap_service_1.NgbDatepickerKeyMapService, datepicker_service_1.NgbDatepickerService,
@@ -2421,7 +2426,7 @@ NgbAccordion = __decorate([
         selector: 'ngb-accordion',
         exportAs: 'ngbAccordion',
         host: { 'role': 'tablist', '[attr.aria-multiselectable]': '!closeOtherPanels' },
-        template: "\n  <div class=\"card\">\n    <ng-template ngFor let-panel [ngForOf]=\"panels\">\n      <div role=\"tab\" id=\"{{panel.id}}-header\"\n        [class]=\"'card-header ' + (panel.type ? 'card-'+panel.type: type ? 'card-'+type : '')\" [class.active]=\"isOpen(panel.id)\">\n        <a href (click)=\"!!toggle(panel.id)\" [class.text-muted]=\"panel.disabled\" [attr.tabindex]=\"(panel.disabled ? '-1' : null)\"\n          [attr.aria-expanded]=\"isOpen(panel.id)\" [attr.aria-controls]=\"(isOpen(panel.id) ? panel.id : null)\"\n          [attr.aria-disabled]=\"panel.disabled\">\n          {{panel.title}}<ng-template [ngTemplateOutlet]=\"panel.titleTpl?.templateRef\"></ng-template>\n        </a>\n      </div>\n      <div id=\"{{panel.id}}\" role=\"tabpanel\" [attr.aria-labelledby]=\"panel.id + '-header'\" class=\"card-block\" *ngIf=\"isOpen(panel.id)\">\n        <ng-template [ngTemplateOutlet]=\"panel.contentTpl.templateRef\"></ng-template>\n      </div>\n    </ng-template>\n  </div>\n"
+        template: "\n  <div class=\"card\">\n    <ng-template ngFor let-panel [ngForOf]=\"panels\">\n      <div role=\"tab\" id=\"{{panel.id}}-header\"\n        [class]=\"'card-header ' + (panel.type ? 'card-'+panel.type: type ? 'card-'+type : '')\" [class.active]=\"isOpen(panel.id)\">\n        <a href (click)=\"!!toggle(panel.id)\" [class.text-muted]=\"panel.disabled\" [attr.tabindex]=\"(panel.disabled ? '-1' : null)\"\n          [attr.aria-expanded]=\"isOpen(panel.id)\" [attr.aria-controls]=\"(isOpen(panel.id) ? panel.id : null)\"\n          [attr.aria-disabled]=\"panel.disabled\">\n          {{panel.title}}<ng-template [ngTemplateOutlet]=\"panel.titleTpl?.templateRef\"></ng-template>\n        </a>\n      </div>\n      <div id=\"{{panel.id}}\" role=\"tabpanel\" [attr.aria-labelledby]=\"panel.id + '-header'\" class=\"card-body\" *ngIf=\"isOpen(panel.id)\">\n        <ng-template [ngTemplateOutlet]=\"panel.contentTpl.templateRef\"></ng-template>\n      </div>\n    </ng-template>\n  </div>\n"
     }),
     __metadata("design:paramtypes", [accordion_config_1.NgbAccordionConfig])
 ], NgbAccordion);
@@ -2663,7 +2668,7 @@ __decorate([
 NgbRadioGroup = __decorate([
     core_1.Directive({
         selector: '[ngbRadioGroup]',
-        host: { 'data-toggle': 'buttons', 'class': 'btn-group', 'role': 'group' },
+        host: { 'data-toggle': 'buttons', 'role': 'group' },
         providers: [NGB_RADIO_VALUE_ACCESSOR]
     })
 ], NgbRadioGroup);
@@ -2958,7 +2963,7 @@ NgbCarousel = __decorate([
             '(keydown.arrowLeft)': 'keyPrev()',
             '(keydown.arrowRight)': 'keyNext()'
         },
-        template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" \n          (click)=\"cycleToSelected(slide.id, _getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"left carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
+        template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" \n          (click)=\"cycleToSelected(slide.id, _getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
     }),
     __metadata("design:paramtypes", [carousel_config_1.NgbCarouselConfig])
 ], NgbCarousel);
@@ -3062,9 +3067,9 @@ NgbDatepickerDayView = __decorate([
     core_1.Component({
         selector: '[ngbDatepickerDayView]',
         changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-        styles: ["\n    :host {\n      text-align: center;\n      width: 2rem;\n      height: 2rem;\n      line-height: 2rem;\n      border-radius: 0.25rem;\n    }\n    :host.outside {\n      opacity: 0.5;\n    }\n  "],
+        styles: ["\n    :host {\n      text-align: center;\n      width: 2rem;\n      height: 2rem;\n      line-height: 2rem;\n      border-radius: 0.25rem;\n      background: transparent;\n    }\n    :host.outside {\n      opacity: 0.5;\n    }\n  "],
         host: {
-            'class': 'btn-secondary',
+            'class': 'btn-light',
             '[class.bg-primary]': 'selected',
             '[class.text-white]': 'selected',
             '[class.text-muted]': 'isMuted()',
@@ -3745,8 +3750,54 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var core_1 = __webpack_require__(0);
 var dropdown_config_1 = __webpack_require__(33);
+/**
+ */
+var NgbDropdownMenu = (function () {
+    function NgbDropdownMenu(dropdown, _elementRef) {
+        this.dropdown = dropdown;
+        this._elementRef = _elementRef;
+        this.isOpen = false;
+    }
+    NgbDropdownMenu.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
+    return NgbDropdownMenu;
+}());
+NgbDropdownMenu = __decorate([
+    core_1.Directive({ selector: '[ngbDropdownMenu]', host: { '[class.dropdown-menu]': 'true', '[class.show]': 'dropdown.isOpen()' } }),
+    __param(0, core_1.Inject(core_1.forwardRef(function () { return NgbDropdown; }))),
+    __metadata("design:paramtypes", [Object, core_1.ElementRef])
+], NgbDropdownMenu);
+exports.NgbDropdownMenu = NgbDropdownMenu;
+/**
+ * Allows the dropdown to be toggled via click. This directive is optional.
+ */
+var NgbDropdownToggle = (function () {
+    function NgbDropdownToggle(dropdown, _elementRef) {
+        this.dropdown = dropdown;
+        this._elementRef = _elementRef;
+    }
+    NgbDropdownToggle.prototype.toggleOpen = function () { this.dropdown.toggle(); };
+    NgbDropdownToggle.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
+    return NgbDropdownToggle;
+}());
+NgbDropdownToggle = __decorate([
+    core_1.Directive({
+        selector: '[ngbDropdownToggle]',
+        host: {
+            'class': 'dropdown-toggle',
+            'aria-haspopup': 'true',
+            '[attr.aria-expanded]': 'dropdown.isOpen()',
+            '(click)': 'toggleOpen()'
+        }
+    }),
+    __param(0, core_1.Inject(core_1.forwardRef(function () { return NgbDropdown; }))),
+    __metadata("design:paramtypes", [Object, core_1.ElementRef])
+], NgbDropdownToggle);
+exports.NgbDropdownToggle = NgbDropdownToggle;
 /**
  * Transforms a node into a dropdown.
  */
@@ -3797,9 +3848,17 @@ var NgbDropdown = (function () {
             this.open();
         }
     };
-    NgbDropdown.prototype.closeFromOutsideClick = function ($event) {
+    NgbDropdown.prototype.closeFromClick = function ($event) {
         if (this.autoClose && $event.button !== 2 && !this._isEventFromToggle($event)) {
-            this.close();
+            if (this.autoClose === true) {
+                this.close();
+            }
+            else if (this.autoClose === 'inside' && this._isEventFromMenu($event)) {
+                this.close();
+            }
+            else if (this.autoClose === 'outside' && !this._isEventFromMenu($event)) {
+                this.close();
+            }
         }
     };
     NgbDropdown.prototype.closeFromOutsideEsc = function () {
@@ -3807,24 +3866,25 @@ var NgbDropdown = (function () {
             this.close();
         }
     };
-    Object.defineProperty(NgbDropdown.prototype, "toggleElement", {
-        /**
-         * @internal
-         */
-        set: function (toggleElement) { this._toggleElement = toggleElement; },
-        enumerable: true,
-        configurable: true
-    });
-    NgbDropdown.prototype._isEventFromToggle = function ($event) { return !!this._toggleElement && this._toggleElement.contains($event.target); };
+    NgbDropdown.prototype._isEventFromToggle = function ($event) { return this._toggle ? this._toggle.isEventFrom($event) : false; };
+    NgbDropdown.prototype._isEventFromMenu = function ($event) { return this._menu ? this._menu.isEventFrom($event) : false; };
     return NgbDropdown;
 }());
+__decorate([
+    core_1.ContentChild(NgbDropdownMenu),
+    __metadata("design:type", NgbDropdownMenu)
+], NgbDropdown.prototype, "_menu", void 0);
+__decorate([
+    core_1.ContentChild(NgbDropdownToggle),
+    __metadata("design:type", NgbDropdownToggle)
+], NgbDropdown.prototype, "_toggle", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
 ], NgbDropdown.prototype, "up", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Object)
 ], NgbDropdown.prototype, "autoClose", void 0);
 __decorate([
     core_1.Input('open'),
@@ -3843,36 +3903,12 @@ NgbDropdown = __decorate([
             '[class.dropup]': 'up',
             '[class.show]': 'isOpen()',
             '(keyup.esc)': 'closeFromOutsideEsc()',
-            '(document:click)': 'closeFromOutsideClick($event)'
+            '(document:click)': 'closeFromClick($event)'
         }
     }),
     __metadata("design:paramtypes", [dropdown_config_1.NgbDropdownConfig])
 ], NgbDropdown);
 exports.NgbDropdown = NgbDropdown;
-/**
- * Allows the dropdown to be toggled via click. This directive is optional.
- */
-var NgbDropdownToggle = (function () {
-    function NgbDropdownToggle(dropdown, elementRef) {
-        this.dropdown = dropdown;
-        dropdown.toggleElement = elementRef.nativeElement;
-    }
-    NgbDropdownToggle.prototype.toggleOpen = function () { this.dropdown.toggle(); };
-    return NgbDropdownToggle;
-}());
-NgbDropdownToggle = __decorate([
-    core_1.Directive({
-        selector: '[ngbDropdownToggle]',
-        host: {
-            'class': 'dropdown-toggle',
-            'aria-haspopup': 'true',
-            '[attr.aria-expanded]': 'dropdown.isOpen()',
-            '(click)': 'toggleOpen()'
-        }
-    }),
-    __metadata("design:paramtypes", [NgbDropdown, core_1.ElementRef])
-], NgbDropdownToggle);
-exports.NgbDropdownToggle = NgbDropdownToggle;
 //# sourceMappingURL=dropdown.js.map
 
 /***/ }),
@@ -4505,8 +4541,9 @@ NgbPopoverWindow = __decorate([
     core_1.Component({
         selector: 'ngb-popover-window',
         changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-        host: { '[class]': '"popover show popover-" + placement', 'role': 'tooltip', '[id]': 'id' },
-        template: "\n    <h3 class=\"popover-title\">{{title}}</h3><div class=\"popover-content\"><ng-content></ng-content></div>\n    "
+        host: { '[class]': '"popover bs-popover-" + placement', 'role': 'tooltip', '[id]': 'id' },
+        template: "\n    <div class=\"arrow\"></div>\n    <h3 class=\"popover-header\">{{title}}</h3><div class=\"popover-body\"><ng-content></ng-content></div>",
+        styles: ["\n    :host.bs-popover-top .arrow, :host.bs-popover-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-popover-left .arrow, :host.bs-popover-right .arrow {\n      top: 50%;\n    }\n  "]
     })
 ], NgbPopoverWindow);
 exports.NgbPopoverWindow = NgbPopoverWindow;
@@ -5270,8 +5307,9 @@ NgbTooltipWindow = __decorate([
     core_1.Component({
         selector: 'ngb-tooltip-window',
         changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-        host: { '[class]': '"tooltip show tooltip-" + placement', 'role': 'tooltip', '[id]': 'id' },
-        template: "\n    <div class=\"tooltip-inner\"><ng-content></ng-content></div>\n    "
+        host: { '[class]': '"tooltip show bs-tooltip-" + placement', 'role': 'tooltip', '[id]': 'id' },
+        template: "<div class=\"arrow\"></div><div class=\"tooltip-inner\"><ng-content></ng-content></div>",
+        styles: ["\n    :host.bs-tooltip-top .arrow, :host.bs-tooltip-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-tooltip-left .arrow, :host.bs-tooltip-right .arrow {\n      top: 50%;\n    }\n  "]
     })
 ], NgbTooltipWindow);
 exports.NgbTooltipWindow = NgbTooltipWindow;
@@ -5488,9 +5526,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(0);
 var forms_1 = __webpack_require__(5);
-var let_1 = __webpack_require__(81);
-var do_1 = __webpack_require__(79);
-var fromEvent_1 = __webpack_require__(78);
+var BehaviorSubject_1 = __webpack_require__(77);
+var let_1 = __webpack_require__(82);
+var do_1 = __webpack_require__(80);
+var switchMap_1 = __webpack_require__(83);
+var fromEvent_1 = __webpack_require__(79);
 var positioning_1 = __webpack_require__(9);
 var typeahead_window_1 = __webpack_require__(42);
 var popup_1 = __webpack_require__(7);
@@ -5527,14 +5567,16 @@ var NgbTypeahead = (function () {
         this.popupId = "ngb-typeahead-" + nextWindowId++;
         this._onTouched = function () { };
         this._onChange = function (_) { };
+        this.container = config.container;
         this.editable = config.editable;
         this.focusFirst = config.focusFirst;
         this.showHint = config.showHint;
         this._valueChanges = fromEvent_1.fromEvent(_elementRef.nativeElement, 'input', function ($event) { return $event.target.value; });
+        this._resubscribeTypeahead = new BehaviorSubject_1.BehaviorSubject(null);
         this._popupService = new popup_1.PopupService(typeahead_window_1.NgbTypeaheadWindow, _injector, _viewContainerRef, _renderer, componentFactoryResolver);
         this._zoneSubscription = ngZone.onStable.subscribe(function () {
             if (_this.isPopupOpen()) {
-                positioning_1.positionElements(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, 'bottom-left');
+                positioning_1.positionElements(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, 'bottom-left', _this.container === 'body');
             }
         });
     }
@@ -5547,14 +5589,16 @@ var NgbTypeahead = (function () {
             }
         });
         var results$ = let_1.letProto.call(inputValues$, this.ngbTypeahead);
-        var userInput$ = do_1._do.call(results$, function () {
+        var processedResults$ = do_1._do.call(results$, function () {
             if (!_this.editable) {
                 _this._onChange(undefined);
             }
         });
+        var userInput$ = switchMap_1.switchMap.call(this._resubscribeTypeahead, function () { return processedResults$; });
         this._subscription = this._subscribeToUserInput(userInput$);
     };
     NgbTypeahead.prototype.ngOnDestroy = function () {
+        this._closePopup();
         this._unsubscribeFromUserInput();
         this._zoneSubscription.unsubscribe();
     };
@@ -5571,7 +5615,10 @@ var NgbTypeahead = (function () {
         }
     };
     NgbTypeahead.prototype.isPopupOpen = function () { return this._windowRef != null; };
-    NgbTypeahead.prototype.handleBlur = function () { this._onTouched(); };
+    NgbTypeahead.prototype.handleBlur = function () {
+        this._resubscribeTypeahead.next(null);
+        this._onTouched();
+    };
     NgbTypeahead.prototype.handleKeyDown = function (event) {
         if (!this.isPopupOpen()) {
             return;
@@ -5600,6 +5647,7 @@ var NgbTypeahead = (function () {
                     break;
                 case Key.Escape:
                     event.preventDefault();
+                    this._resubscribeTypeahead.next(null);
                     this.dismissPopup();
                     break;
             }
@@ -5612,6 +5660,9 @@ var NgbTypeahead = (function () {
             this._windowRef.instance.id = this.popupId;
             this._windowRef.instance.selectEvent.subscribe(function (result) { return _this._selectResultClosePopup(result); });
             this._windowRef.instance.activeChangeEvent.subscribe(function (activeId) { return _this.activeDescendant = activeId; });
+            if (this.container === 'body') {
+                window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
+            }
         }
     };
     NgbTypeahead.prototype._closePopup = function () {
@@ -5622,6 +5673,7 @@ var NgbTypeahead = (function () {
     NgbTypeahead.prototype._selectResult = function (result) {
         var defaultPrevented = false;
         this.selectItem.emit({ item: result, preventDefault: function () { defaultPrevented = true; } });
+        this._resubscribeTypeahead.next(null);
         if (!defaultPrevented) {
             this.writeValue(result);
             this._onChange(result);
@@ -5683,6 +5735,10 @@ var NgbTypeahead = (function () {
     };
     return NgbTypeahead;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NgbTypeahead.prototype, "container", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
@@ -6225,6 +6281,18 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_81__;
 
 /***/ }),
 /* 82 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_82__;
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_83__;
+
+/***/ }),
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

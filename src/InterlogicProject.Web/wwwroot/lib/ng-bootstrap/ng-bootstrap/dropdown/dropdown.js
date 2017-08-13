@@ -1,5 +1,54 @@
-import { Directive, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { forwardRef, Inject, Directive, Input, Output, EventEmitter, ElementRef, ContentChild } from '@angular/core';
 import { NgbDropdownConfig } from './dropdown-config';
+/**
+ */
+var NgbDropdownMenu = (function () {
+    function NgbDropdownMenu(dropdown, _elementRef) {
+        this.dropdown = dropdown;
+        this._elementRef = _elementRef;
+        this.isOpen = false;
+    }
+    NgbDropdownMenu.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
+    return NgbDropdownMenu;
+}());
+export { NgbDropdownMenu };
+NgbDropdownMenu.decorators = [
+    { type: Directive, args: [{ selector: '[ngbDropdownMenu]', host: { '[class.dropdown-menu]': 'true', '[class.show]': 'dropdown.isOpen()' } },] },
+];
+/** @nocollapse */
+NgbDropdownMenu.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Inject, args: [forwardRef(function () { return NgbDropdown; }),] },] },
+    { type: ElementRef, },
+]; };
+/**
+ * Allows the dropdown to be toggled via click. This directive is optional.
+ */
+var NgbDropdownToggle = (function () {
+    function NgbDropdownToggle(dropdown, _elementRef) {
+        this.dropdown = dropdown;
+        this._elementRef = _elementRef;
+    }
+    NgbDropdownToggle.prototype.toggleOpen = function () { this.dropdown.toggle(); };
+    NgbDropdownToggle.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
+    return NgbDropdownToggle;
+}());
+export { NgbDropdownToggle };
+NgbDropdownToggle.decorators = [
+    { type: Directive, args: [{
+                selector: '[ngbDropdownToggle]',
+                host: {
+                    'class': 'dropdown-toggle',
+                    'aria-haspopup': 'true',
+                    '[attr.aria-expanded]': 'dropdown.isOpen()',
+                    '(click)': 'toggleOpen()'
+                }
+            },] },
+];
+/** @nocollapse */
+NgbDropdownToggle.ctorParameters = function () { return [
+    { type: undefined, decorators: [{ type: Inject, args: [forwardRef(function () { return NgbDropdown; }),] },] },
+    { type: ElementRef, },
+]; };
 /**
  * Transforms a node into a dropdown.
  */
@@ -50,9 +99,17 @@ var NgbDropdown = (function () {
             this.open();
         }
     };
-    NgbDropdown.prototype.closeFromOutsideClick = function ($event) {
+    NgbDropdown.prototype.closeFromClick = function ($event) {
         if (this.autoClose && $event.button !== 2 && !this._isEventFromToggle($event)) {
-            this.close();
+            if (this.autoClose === true) {
+                this.close();
+            }
+            else if (this.autoClose === 'inside' && this._isEventFromMenu($event)) {
+                this.close();
+            }
+            else if (this.autoClose === 'outside' && !this._isEventFromMenu($event)) {
+                this.close();
+            }
         }
     };
     NgbDropdown.prototype.closeFromOutsideEsc = function () {
@@ -60,15 +117,8 @@ var NgbDropdown = (function () {
             this.close();
         }
     };
-    Object.defineProperty(NgbDropdown.prototype, "toggleElement", {
-        /**
-         * @internal
-         */
-        set: function (toggleElement) { this._toggleElement = toggleElement; },
-        enumerable: true,
-        configurable: true
-    });
-    NgbDropdown.prototype._isEventFromToggle = function ($event) { return !!this._toggleElement && this._toggleElement.contains($event.target); };
+    NgbDropdown.prototype._isEventFromToggle = function ($event) { return this._toggle ? this._toggle.isEventFrom($event) : false; };
+    NgbDropdown.prototype._isEventFromMenu = function ($event) { return this._menu ? this._menu.isEventFrom($event) : false; };
     return NgbDropdown;
 }());
 export { NgbDropdown };
@@ -81,7 +131,7 @@ NgbDropdown.decorators = [
                     '[class.dropup]': 'up',
                     '[class.show]': 'isOpen()',
                     '(keyup.esc)': 'closeFromOutsideEsc()',
-                    '(document:click)': 'closeFromOutsideClick($event)'
+                    '(document:click)': 'closeFromClick($event)'
                 }
             },] },
 ];
@@ -90,37 +140,11 @@ NgbDropdown.ctorParameters = function () { return [
     { type: NgbDropdownConfig, },
 ]; };
 NgbDropdown.propDecorators = {
+    '_menu': [{ type: ContentChild, args: [NgbDropdownMenu,] },],
+    '_toggle': [{ type: ContentChild, args: [NgbDropdownToggle,] },],
     'up': [{ type: Input },],
     'autoClose': [{ type: Input },],
     '_open': [{ type: Input, args: ['open',] },],
     'openChange': [{ type: Output },],
 };
-/**
- * Allows the dropdown to be toggled via click. This directive is optional.
- */
-var NgbDropdownToggle = (function () {
-    function NgbDropdownToggle(dropdown, elementRef) {
-        this.dropdown = dropdown;
-        dropdown.toggleElement = elementRef.nativeElement;
-    }
-    NgbDropdownToggle.prototype.toggleOpen = function () { this.dropdown.toggle(); };
-    return NgbDropdownToggle;
-}());
-export { NgbDropdownToggle };
-NgbDropdownToggle.decorators = [
-    { type: Directive, args: [{
-                selector: '[ngbDropdownToggle]',
-                host: {
-                    'class': 'dropdown-toggle',
-                    'aria-haspopup': 'true',
-                    '[attr.aria-expanded]': 'dropdown.isOpen()',
-                    '(click)': 'toggleOpen()'
-                }
-            },] },
-];
-/** @nocollapse */
-NgbDropdownToggle.ctorParameters = function () { return [
-    { type: NgbDropdown, },
-    { type: ElementRef, },
-]; };
 //# sourceMappingURL=dropdown.js.map

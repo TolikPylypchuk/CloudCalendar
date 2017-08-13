@@ -4,6 +4,7 @@
  * order to provide default values for all the typeaheads used in the application.
  */
 export declare class NgbTypeaheadConfig {
+    container: any;
     editable: boolean;
     focusFirst: boolean;
     showHint: boolean;

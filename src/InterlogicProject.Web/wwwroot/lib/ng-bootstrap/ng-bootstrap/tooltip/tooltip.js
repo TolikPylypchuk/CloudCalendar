@@ -15,8 +15,9 @@ NgbTooltipWindow.decorators = [
     { type: Component, args: [{
                 selector: 'ngb-tooltip-window',
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                host: { '[class]': '"tooltip show tooltip-" + placement', 'role': 'tooltip', '[id]': 'id' },
-                template: "\n    <div class=\"tooltip-inner\"><ng-content></ng-content></div>\n    "
+                host: { '[class]': '"tooltip show bs-tooltip-" + placement', 'role': 'tooltip', '[id]': 'id' },
+                template: "<div class=\"arrow\"></div><div class=\"tooltip-inner\"><ng-content></ng-content></div>",
+                styles: ["\n    :host.bs-tooltip-top .arrow, :host.bs-tooltip-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-tooltip-left .arrow, :host.bs-tooltip-right .arrow {\n      top: 50%;\n    }\n  "]
             },] },
 ];
 /** @nocollapse */

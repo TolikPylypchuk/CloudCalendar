@@ -1,4 +1,5 @@
 export declare class Positioning {
+    private getAllStyles(element);
     private getStyle(element, prop);
     private isStaticPositioned(element);
     private offsetParent(element);

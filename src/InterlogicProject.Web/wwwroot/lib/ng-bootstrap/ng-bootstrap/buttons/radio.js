@@ -57,7 +57,7 @@ export { NgbRadioGroup };
 NgbRadioGroup.decorators = [
     { type: Directive, args: [{
                 selector: '[ngbRadioGroup]',
-                host: { 'data-toggle': 'buttons', 'class': 'btn-group', 'role': 'group' },
+                host: { 'data-toggle': 'buttons', 'role': 'group' },
                 providers: [NGB_RADIO_VALUE_ACCESSOR]
             },] },
 ];

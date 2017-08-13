@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { NgbDropdown, NgbDropdownToggle } from './dropdown';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from './dropdown';
 import { NgbDropdownConfig } from './dropdown-config';
-export { NgbDropdown, NgbDropdownToggle } from './dropdown';
+export { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from './dropdown';
 export { NgbDropdownConfig } from './dropdown-config';
-var NGB_DROPDOWN_DIRECTIVES = [NgbDropdownToggle, NgbDropdown];
+var NGB_DROPDOWN_DIRECTIVES = [NgbDropdown, NgbDropdownToggle, NgbDropdownMenu];
 var NgbDropdownModule = (function () {
     function NgbDropdownModule() {
     }

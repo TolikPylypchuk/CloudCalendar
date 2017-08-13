@@ -15,8 +15,9 @@ NgbPopoverWindow.decorators = [
     { type: Component, args: [{
                 selector: 'ngb-popover-window',
                 changeDetection: ChangeDetectionStrategy.OnPush,
-                host: { '[class]': '"popover show popover-" + placement', 'role': 'tooltip', '[id]': 'id' },
-                template: "\n    <h3 class=\"popover-title\">{{title}}</h3><div class=\"popover-content\"><ng-content></ng-content></div>\n    "
+                host: { '[class]': '"popover bs-popover-" + placement', 'role': 'tooltip', '[id]': 'id' },
+                template: "\n    <div class=\"arrow\"></div>\n    <h3 class=\"popover-header\">{{title}}</h3><div class=\"popover-body\"><ng-content></ng-content></div>",
+                styles: ["\n    :host.bs-popover-top .arrow, :host.bs-popover-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-popover-left .arrow, :host.bs-popover-right .arrow {\n      top: 50%;\n    }\n  "]
             },] },
 ];
 /** @nocollapse */
