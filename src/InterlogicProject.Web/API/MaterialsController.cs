@@ -89,7 +89,6 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Adds a new material to the database.
 		/// </summary>
-		/// <param name="file">The file to add.</param>
 		/// <param name="classId">The class related to the material.</param>
 		/// <returns>
 		/// The action result that represents the status code 201.
@@ -98,9 +97,10 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(201)]
 		[Authorize(Roles = "Lecturer")]
 		public async Task<IActionResult> Post(
-			[FromBody] IFormFile file,
 			[FromRoute] int classId)
 		{
+			var file = this.Request.Form.Files.FirstOrDefault();
+
 			if (file == null || classId <= 0)
 			{
 				return this.BadRequest();

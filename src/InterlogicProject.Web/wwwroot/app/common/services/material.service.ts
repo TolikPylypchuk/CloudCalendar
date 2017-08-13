@@ -44,15 +44,15 @@ export default class HomeworkService {
 		return this.http.put(
 			`${this.materials}/${material.id }`,
 			JSON.stringify(material),
-			{
-				headers: new Headers({ "Content-Type": "application/json" })
-			})
+			{ headers: getHeaders() })
 			.first()
 			.publish();
 	}
 
 	deleteMaterial(id: number): ConnectableObservable<Response> {
-		return this.http.delete(`${this.materials}/${id }`)
+		return this.http.delete(
+			`${this.materials}/${id}`,
+			{ headers: getHeaders() })
 			.first()
 			.publish();
 	}

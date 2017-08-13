@@ -121,7 +121,6 @@ namespace InterlogicProject.Web.API
 		/// <summary>
 		/// Adds a new homework to the database.
 		/// </summary>
-		/// <param name="file">The file to add.</param>
 		/// <param name="classId">The class related to the homework.</param>
 		/// <param name="studentId">The student that posted the homework.</param>
 		/// <returns>
@@ -131,10 +130,11 @@ namespace InterlogicProject.Web.API
 		[SwaggerResponse(201)]
 		[Authorize(Roles = "Student")]
 		public async Task<IActionResult> Post(
-			[FromBody] IFormFile file,
 			[FromRoute] int classId,
 			[FromRoute] int studentId)
 		{
+			var file = this.Request.Form.Files.FirstOrDefault();
+
 			if (file == null || classId <= 0 || studentId <= 0)
 			{
 				return this.BadRequest();
