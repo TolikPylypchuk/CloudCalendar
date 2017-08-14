@@ -6,7 +6,7 @@ import { NotificationService } from "./common/common";
 
 @Component({
 	selector: "ip-navigation",
-	templateUrl: "templates/navigation"
+	templateUrl: "./navigation.component.html"
 })
 export class NavigationComponent implements OnInit {
     private accoutService: AccountService;
@@ -28,7 +28,7 @@ export class NavigationComponent implements OnInit {
 					notifications.filter(n => !n.isSeen).length)
 				.subscribe(count => this.notificationCount = count);
 		}
-		
+
 		this.notificationService.notificationsMarkObservable()
 			.subscribe(seen =>
 				this.notificationCount == 0 ? this.notificationCount :

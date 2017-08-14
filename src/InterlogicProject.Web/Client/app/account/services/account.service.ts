@@ -63,39 +63,44 @@ export class AccountService {
 			return Observable.of(null);
 		}
 
-		return this.http.post(
-			this.authUrl,
-			JSON.stringify(model),
-			{ headers: this.getHeaders() })
-			.map((response: Response) => {
-				const token = response.json() && response.json().token;
+		return this.getEmailDomain()
+			.concatMap(domain =>
+				this.http.post(
+					this.authUrl,
+					JSON.stringify({
+						username: `${model.username}@${domain}`,
+						password: model.password
+					}),
+					{ headers: this.getHeaders() })
+					.map((response: Response) => {
+						const token = response.json() && response.json().token;
 
-				if (token) {
-					localStorage.setItem("ipAuthToken", token);
-					this.loggedIn = true;
+						if (token) {
+							localStorage.setItem("ipAuthToken", token);
+							this.loggedIn = true;
 
-					this.http.get(
-						this.currentUserUrl,
-						{
-							headers: this.getHeaders()
-						})
-						.map(response =>
-							response.status === 200
-								? response.json() as User
-								: null)
-						.subscribe((user: User) => {
-							this.currentUserSource.next(user);
-							this.router.navigate(
-								[ this.returnUrl ? this.returnUrl : "" ]);
-							this.setReturnUrl("");
-						});
+							this.http.get(
+								this.currentUserUrl,
+								{
+									headers: this.getHeaders()
+								})
+								.map(response =>
+									response.status === 200
+										? response.json() as User
+										: null)
+								.subscribe((user: User) => {
+									this.currentUserSource.next(user);
+									this.router.navigate(
+										[this.returnUrl ? this.returnUrl : ""]);
+									this.setReturnUrl("");
+								});
 
-					this.loggingIn = false;
-					return true;
-				}
+							this.loggingIn = false;
+							return true;
+						}
 
-				return false;
-			})
+						return false;
+					}))
 			.first();
 	}
 
@@ -129,7 +134,15 @@ export class AccountService {
 	isAdmin(): Observable<boolean> {
 		return this.isCurrentUserInRole("admin");
 	}
-	
+
+	getEmailDomain(): Observable<string> {
+		return this.http.get(
+			"api/users/email-domain",
+			{ headers: this.getHeaders() })
+			.map(response => response.text())
+			.first();
+	}
+
 	getToken(): string {
 		const token = localStorage.getItem("ipAuthToken");
 		return token ? token : null;

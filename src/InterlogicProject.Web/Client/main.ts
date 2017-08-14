@@ -1,20 +1,14 @@
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/throw";
+import "./imports";
 
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/publish";
-import "rxjs/add/operator/switch";
+import { enableProdMode } from "@angular/core";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { environment } from "./environments/environment";
 
 import * as moment from "moment";
 
-import "fullcalendar";
-import "fullcalendar/dist/locale/uk";
-
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-
 import { AppModule } from "./app/app.module";
+
+declare var module: any;
 
 moment.locale("uk");
 
@@ -22,4 +16,22 @@ if (environment.production) {
 	enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+const bootApplication = () => {
+	platformBrowserDynamic().bootstrapModule(AppModule);
+};
+
+if (module["hot"]) {
+	module["hot"].accept();
+	module["hot"].dispose(() => {
+		const oldRootElem = document.querySelector("ip-app");
+		const newRootElem = document.createElement("ip-app");
+		oldRootElem.parentNode.insertBefore(newRootElem, oldRootElem);
+		platformBrowserDynamic().destroy();
+	});
+}
+
+if (document.readyState === "complete") {
+	bootApplication();
+} else {
+	document.addEventListener("DOMContentLoaded", bootApplication);
+}

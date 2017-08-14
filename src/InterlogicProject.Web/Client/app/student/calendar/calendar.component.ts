@@ -4,7 +4,9 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 
+import { JQuery } from "jquery";
 import * as moment from "moment";
+import * as FC from "fullcalendar";
 
 import { ClassService, StudentService } from "../../common/common";
 import { Class } from "../../common/models";
@@ -13,8 +15,7 @@ import { ModalContentComponent } from "./modal/modal-content.component";
 
 @Component({
 	selector: "ip-student-calendar",
-	templateUrl: "templates/student/calendar",
-	styleUrls: [ "/dist/css/style.min.css" ]
+	templateUrl: "./calendar.component.html",
 })
 export class CalendarComponent implements OnInit, AfterViewInit {
 	options: FC.Options;
@@ -25,7 +26,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
 	private classService: ClassService;
 	private studentService: StudentService;
-	
+
 	constructor(
 		router: Router,
 		route: ActivatedRoute,
@@ -55,7 +56,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 			} else {
 				date = moment();
 			}
-			
+
 			this.options = {
 				allDaySlot: false,
 				columnFormat: "dd, DD.MM",
@@ -120,7 +121,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 			}
 		});
 	}
-	
+
 	private getEvents(
 		start: moment.Moment,
 		end: moment.Moment,

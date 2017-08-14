@@ -5,8 +5,7 @@ import { Material } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-materials",
-	templateUrl: "/templates/student/calendar/modal-materials",
-	styleUrls: [ "/dist/css/style.min.css" ]
+	templateUrl: "./modal-materials.component.html"
 })
 export class ModalMaterialsComponent implements OnInit {
 	@Input() classId: number;
@@ -14,7 +13,7 @@ export class ModalMaterialsComponent implements OnInit {
 	materialService: MaterialService;
 
 	materials: Material[] = [];
-	
+
 	constructor(classService: MaterialService) {
 		this.materialService = classService;
 	}

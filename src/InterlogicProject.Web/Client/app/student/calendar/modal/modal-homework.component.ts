@@ -11,8 +11,7 @@ import { Class, Homework, Student } from "../../../common/models";
 
 @Component({
 	selector: "ip-student-modal-homework",
-	templateUrl: "/templates/student/calendar/modal-homework",
-	styleUrls: [ "/dist/css/style.min.css" ]
+	templateUrl: "./modal-homework.component.html"
 })
 export class ModalHomeworkComponent implements OnInit {
 	@Input() classId: number;
@@ -78,7 +77,7 @@ export class ModalHomeworkComponent implements OnInit {
 		this.classService.getClass(this.classId)
 			.subscribe(c => this.currentClass = c);
 	}
-	
+
 	deleteHomework(): void {
 		const action = this.homeworkService.deleteHomework(this.homework.id);
 

@@ -10,8 +10,7 @@ import { Class, Comment, Lecturer, Notification } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-comments",
-	templateUrl: "/templates/lecturer/calendar/modal-comments",
-	styleUrls: ["/dist/css/style.min.css" ]
+	templateUrl: "./modal-comments.component.html"
 })
 export class ModalCommentsComponent implements OnInit {
 	@Input() classId: number;
@@ -89,7 +88,7 @@ export class ModalCommentsComponent implements OnInit {
 					classId: this.currentComment.classId,
 					text: ""
 				};
-				
+
 				const notification: Notification = {
 					dateTime: moment().toISOString(),
 					text: this.getNotificationText(),

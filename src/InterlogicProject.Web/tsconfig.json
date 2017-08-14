@@ -1,7 +1,4 @@
 {
-	"include": [
-		"Client/app/"
-	],
 	"compileOnSave": true,
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
@@ -19,9 +16,8 @@
 		"noEmitOnError": false,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitUseStrict": false,
-		"outDir": "wwwroot/dist/js",
+		"outDir": "wwwroot/dist",
 		"removeComments": false,
-		"rootDir": "./wwwroot/app",
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
@@ -31,8 +27,6 @@
 		]
 	},
 	"exclude": [
-		"./node_modules/",
-		"./wwwroot/lib/",
 		"**/*.spec.ts",
 		"**/*.spec.tsx"
 	]

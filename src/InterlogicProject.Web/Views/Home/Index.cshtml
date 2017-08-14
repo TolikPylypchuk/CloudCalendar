@@ -5,48 +5,11 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
+	<base href="/" />
+
 	<title>Interlogic Project</title>
 
-	<environment names="Development">
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/bootstrap/dist/css/*.css"
-		      asp-href-exclude="~/lib/bootstrap/dist/css/*.min.css" />
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/fontawesome/css/*.css"
-		      asp-href-exclude="~/lib/fontawesome/css/*.min.css" />
-
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/fullcalendar/dist/*.css"
-		      asp-href-exclude="~/lib/fullcalendar/dist/*.min.css,
-			                    ~/lib/fullcalendar/dist/*.print.css" />
-		<link rel="stylesheet" type="text/css" media="print"
-		      asp-href-include="~/lib/fullcalendar/dist/*.print.css" />
-
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/dist/css/style.css" />
-	</environment>
-
-	<environment names="Staging, Production">
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/tether/dist/css/*.min.css" />
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/fontawesome/css/*.min.css" />
-
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/lib/fullcalendar/dist/*.min.css"
-		      asp-href-exclude="~/lib/fullcalendar/dist/*.print.min.css" />
-		<link rel="stylesheet" type="text/css" media="print"
-		      asp-href-include="~/lib/fullcalendar/dist/*.print.min.css" />
-
-		<link rel="stylesheet" type="text/css"
-		      asp-href-include="~/dist/css/style.min.css" />
-	</environment>
-
-	<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-
-	<base href="/" />
+	<link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
@@ -54,37 +17,10 @@
 		<p class="m-3">Завантаження...</p>
 	</ip-app>
 
-	<environment names="Development">
-		<script asp-src-include="~/lib/jquery/dist/jquery.js"></script>
-
-		<script asp-src-include="~/lib/popper.js/dist/umd/*.js"
-		        asp-src-exclude="~/lib/popper.js/dist/umd/*.min.js"></script>
-
-		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-
-		<script asp-src-include="~/lib/es6-shim/es6-shim.js"></script>
-		<script asp-src-include="~/lib/zone.js/dist/zone.js"></script>
-		<script asp-src-include="~/lib/reflect-metadata/Reflect.js"></script>
-		<script asp-src-include="~/lib/systemjs/dist/system.js"></script>
-
-		<script asp-src-include="~/systemjs.config.js"></script>
-	</environment>
-
-	<environment names="Staging, Production">
-		<script asp-src-include="~/lib/jquery/dist/jquery.min.js"></script>
-		<script asp-src-include="~/lib/popper.js/dist/umd/*.min.js"></script>
-		<script asp-src-include="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
-		<script asp-src-include="~/lib/es6-shim/es6-shim.min.js"></script>
-		<script asp-src-include="~/lib/zone.js/dist/zone.min.js"></script>
-		<script asp-src-include="~/lib/reflect-metadata/Reflect.js"></script>
-		<script asp-src-include="~/lib/systemjs/dist/system-production.js"></script>
-
-		<script asp-src-include="~/systemjs.config.min.js"></script>
-	</environment>
-	
-	<script>
-		System.import("dist/js/main").then(null, console.error.bind(console));
-	</script>
+	<script src="~/dist/inline.bundle.js" asp-append-version="true"></script>
+	<script src="~/dist/polyfills.bundle.js" asp-append-version="true"></script>
+	<script src="~/dist/vendor.bundle.js" asp-append-version="true"></script>
+	<script src="~/dist/styles.bundle.js" asp-append-version="true"></script>
+	<script src="~/dist/main.bundle.js" asp-append-version="true"></script>
 </body>
 </html>

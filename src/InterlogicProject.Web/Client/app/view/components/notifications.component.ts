@@ -10,7 +10,7 @@ import { ClassService, NotificationService } from "../../common/common";
 
 @Component({
 	selector: "ip-view-notifications",
-	templateUrl: "/templates/view/notifications"
+	templateUrl: "./notifications.component.html"
 })
 export class NotificationsComponent implements OnInit {
 	private router: Router;

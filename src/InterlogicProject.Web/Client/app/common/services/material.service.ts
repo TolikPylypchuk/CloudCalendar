@@ -7,7 +7,7 @@ import { getHeaders } from "../functions";
 import { Material } from "../models";
 
 @Injectable()
-export class HomeworkService {
+export class MaterialService {
 	private materials = "/api/materials";
 
 	private http: Http;

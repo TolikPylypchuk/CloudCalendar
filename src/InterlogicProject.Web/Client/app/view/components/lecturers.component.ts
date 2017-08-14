@@ -8,7 +8,7 @@ import { compareByName, compareByLastName } from "../../common/functions";
 
 @Component({
 	selector: "ip-view-lecturers",
-	templateUrl: "/templates/view/lecturers"
+	templateUrl: "./lecturers.component.html"
 })
 export class LecturersComponent implements OnInit {
 	private facultyService: FacultyService;

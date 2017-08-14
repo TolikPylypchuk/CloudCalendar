@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -14,6 +15,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 using InterlogicProject.DAL.Models;
 using InterlogicProject.Web.Models.Dto;
+using InterlogicProject.Web.Services;
 
 namespace InterlogicProject.Web.API
 {
@@ -27,6 +29,7 @@ namespace InterlogicProject.Web.API
 	{
 		private UserManager<User> manager;
 		private IHttpContextAccessor accessor;
+		private IOptionsSnapshot<Settings> settings;
 
 		/// <summary>
 		/// Initializes a new instance of the UsersController class.
@@ -37,12 +40,17 @@ namespace InterlogicProject.Web.API
 		/// <param name="accessor">
 		/// The HTTP context accessor that this instance will use.
 		/// </param>
+		/// <param name="settings">
+		/// The application settings that this instance will use.
+		/// </param>
 		public UsersController(
 			UserManager<User> manager,
-			IHttpContextAccessor accessor)
+			IHttpContextAccessor accessor,
+			IOptionsSnapshot<Settings> settings)
 		{
 			this.manager = manager;
 			this.accessor = accessor;
+			this.settings = settings;
 		}
 
 		/// <summary>
@@ -65,10 +73,10 @@ namespace InterlogicProject.Web.API
 		{
 			var user = await this.manager.FindByIdAsync(id);
 			user.RoleNames = await this.manager.GetRolesAsync(user);
-			
+
 			return Mapper.Map<UserDto>(user);
 		}
-		
+
 		/// <summary>
 		/// Gets a user with the specified email.
 		/// </summary>
@@ -100,5 +108,18 @@ namespace InterlogicProject.Web.API
 
 			return Mapper.Map<UserDto>(user);
 		}
+
+		/// <summary>
+		/// Gets the email domain of the users of this application.
+		/// </summary>
+		/// <returns>
+		/// The email domain of the users of this application.
+		/// </returns>
+		[AllowAnonymous]
+		[HttpGet("email-domain")]
+		[Produces("text/plain")]
+		[SwaggerResponse(200, Type = typeof(string))]
+		public string GetEmailDomain()
+			=> this.settings.Value.EmailDomain;
 	}
 }

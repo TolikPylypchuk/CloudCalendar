@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
+import { Observable } from "rxjs/Observable";
 
 import * as $ from "jquery";
 
@@ -8,13 +9,15 @@ import { LoginModel } from '../models/models';
 
 @Component({
 	selector: "ip-login",
-	templateUrl: "/templates/account/login"
+	templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit, OnDestroy {
 	model: LoginModel = {
 		username: "",
 		password: ""
 	};
+
+	emailDomain = "";
 
 	loginError = false;
 
@@ -28,10 +31,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.accountService.setLoggingIn(true);
+
+		this.accountService.getEmailDomain()
+			.subscribe(domain => this.emailDomain = domain);
 	}
 
 	ngOnDestroy(): void {
 		this.accountService.setLoggingIn(false);
+	}
+
+	getEmailDomain(): string {
+		return this.emailDomain;
 	}
 
 	returnUrl(): string {
@@ -44,12 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	submit(): void {
-		const modelToSubmit: LoginModel = {
-			username: this.model.username + $("#emailDomain").text().trim(),
-			password: this.model.password
-		};
-
-		this.accountService.login(modelToSubmit)
+		this.accountService.login(this.model)
 			.subscribe(
 				(success: boolean) => {
 					if (!success) {

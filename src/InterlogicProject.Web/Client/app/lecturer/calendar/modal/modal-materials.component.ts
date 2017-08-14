@@ -11,8 +11,7 @@ import { Class, Lecturer, Material } from "../../../common/models";
 
 @Component({
 	selector: "ip-lecturer-modal-materials",
-	templateUrl: "/templates/lecturer/calendar/modal-materials",
-	styleUrls: [ "/dist/css/style.min.css" ]
+	templateUrl: "./modal-materials.component.html"
 })
 export class ModalMaterialsComponent implements OnInit {
 	@Input() classId: number;
@@ -84,7 +83,7 @@ export class ModalMaterialsComponent implements OnInit {
 
 		action.connect();
 	}
-	
+
 	fileOverDropZone(e: any): void {
 		this.hasDropZoneOver = e;
 	}

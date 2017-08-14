@@ -13,86 +13,20 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="Data\**" />
-		<Compile Remove="wwwroot\dist\lecturer\**" />
-		<Compile Remove="wwwroot\dist\student\**" />
+		<Compile Remove="wwwroot\dist\**" />
 		<Compile Remove="wwwroot\files\**" />
 		<Content Remove="Data\**" />
-		<Content Remove="wwwroot\dist\lecturer\**" />
-		<Content Remove="wwwroot\dist\student\**" />
+		<Content Remove="wwwroot\dist\**" />
 		<Content Remove="wwwroot\files\**" />
 		<EmbeddedResource Remove="Data\**" />
-		<EmbeddedResource Remove="wwwroot\dist\lecturer\**" />
-		<EmbeddedResource Remove="wwwroot\dist\student\**" />
+		<EmbeddedResource Remove="wwwroot\dist\**" />
 		<EmbeddedResource Remove="wwwroot\files\**" />
 		<None Remove="Data\**" />
-		<None Remove="wwwroot\dist\lecturer\**" />
-		<None Remove="wwwroot\dist\student\**" />
+		<None Remove="wwwroot\dist\**" />
 		<None Remove="wwwroot\files\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="wwwroot/app\lecturer\calendar\modal-materials.component.ts" />
-	  <Content Remove="wwwroot/app\student\calendar\modal-materials.component.ts" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="wwwroot\app\account\account.module.ts" />
-		<Content Include="wwwroot\app\account\account.ts" />
-		<Content Include="wwwroot\app\account\components\login.component.ts" />
-		<Content Include="wwwroot\app\account\components\logout.component.ts" />
-		<Content Include="wwwroot\app\account\guards\auth.guard.ts" />
-		<Content Include="wwwroot\app\account\guards\not-auth.guard.ts" />
-		<Content Include="wwwroot\app\account\models\models.ts" />
-		<Content Include="wwwroot\app\account\routes.module.ts" />
-		<Content Include="wwwroot\app\account\services\account.service.ts" />
-		<Content Include="wwwroot\app\app.component.ts" />
-		<Content Include="wwwroot\app\app.module.ts" />
-		<Content Include="wwwroot\app\common\common.module.ts" />
-		<Content Include="wwwroot\app\common\common.ts" />
-		<Content Include="wwwroot\app\common\components\fullcalendar.component.ts" />
-		<Content Include="wwwroot\app\common\functions.ts" />
-		<Content Include="wwwroot\app\common\models.ts" />
-		<Content Include="wwwroot\app\common\services\building.service.ts" />
-		<Content Include="wwwroot\app\common\services\class.service.ts" />
-		<Content Include="wwwroot\app\common\services\classroom.service.ts" />
-		<Content Include="wwwroot\app\common\services\comment.service.ts" />
-		<Content Include="wwwroot\app\common\services\department.service.ts" />
-		<Content Include="wwwroot\app\common\services\faculty.service.ts" />
-		<Content Include="wwwroot\app\common\services\group.service.ts" />
-		<Content Include="wwwroot\app\common\services\homework.service.ts" />
-		<Content Include="wwwroot\app\common\services\lecturer.service.ts" />
-		<Content Include="wwwroot\app\common\services\material.service.ts" />
-		<Content Include="wwwroot\app\common\services\notification.service.ts" />
-		<Content Include="wwwroot\app\common\services\student.service.ts" />
-		<Content Include="wwwroot\app\common\services\subject.service.ts" />
-		<Content Include="wwwroot\app\lecturer\calendar\modal\modal-materials.component.ts" />
-		<Content Include="wwwroot\app\lecturer\lecturer.component.ts" />
-		<Content Include="wwwroot\app\lecturer\lecturer.module.ts" />
-		<Content Include="wwwroot\app\lecturer\lecturer.ts" />
-		<Content Include="wwwroot\app\lecturer\routes.module.ts" />
-		<Content Include="wwwroot\app\main.ts" />
-		<Content Include="wwwroot\app\navigation.component.ts" />
-		<Content Include="wwwroot\app\routes.module.ts" />
-		<Content Include="wwwroot\app\start-page.component.ts" />
-		<Content Include="wwwroot\app\student\calendar\calendar.component.ts" />
-		<Content Include="wwwroot\app\student\calendar\calendar.module.ts" />
-		<Content Include="wwwroot\app\student\calendar\calendar.ts" />
-		<Content Include="wwwroot\app\student\calendar\modal\modal-comments.component.ts" />
-		<Content Include="wwwroot\app\student\calendar\modal\modal-content.component.ts" />
-		<Content Include="wwwroot\app\student\calendar\modal\modal-materials.component.ts" />
-		<Content Include="wwwroot\app\student\routes.module.ts" />
-		<Content Include="wwwroot\app\student\student.component.ts" />
-		<Content Include="wwwroot\app\student\student.module.ts" />
-		<Content Include="wwwroot\app\student\student.ts" />
-		<Content Include="wwwroot\app\view\components\group.component.ts" />
-		<Content Include="wwwroot\app\view\components\groups.component.ts" />
-		<Content Include="wwwroot\app\view\components\lecturer.component.ts" />
-		<Content Include="wwwroot\app\view\components\lecturers.component.ts" />
-		<Content Include="wwwroot\app\view\components\notifications.component.ts" />
-		<Content Include="wwwroot\app\view\routes.module.ts" />
-		<Content Include="wwwroot\app\view\view.component.ts" />
-		<Content Include="wwwroot\app\view\view.module.ts" />
-		<Content Include="wwwroot\app\view\view.ts" />
-		<Content Include="wwwroot\dist\css\style.css" />
-		<Content Include="wwwroot\dist\css\style.min.css" />
+	  <Content Remove="wwwroot/favicon.ico" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
@@ -102,6 +36,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
+		<PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="1.1.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
@@ -121,16 +56,14 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.0.0" />
 		<PackageReference Include="System.ValueTuple" Version="4.4.0" />
+		<PackageReference Include="Webpack" Version="4.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild1-final" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Update=".bowerrc">
-			<DependentUpon>bower.json</DependentUpon>
-		</Content>
-		<Content Update="bundleconfig.json.bindings">
-			<DependentUpon>bundleconfig.json</DependentUpon>
+		<Content Update="package-lock.json">
+			<DependentUpon>package.json</DependentUpon>
 		</Content>
 		<Content Update="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css">
 			<DependentUpon>fullcalendar.css</DependentUpon>
@@ -153,7 +86,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Views\Shared\" />
-		<Folder Include="wwwroot\dist\css\" />
 	</ItemGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
 		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>

@@ -7,7 +7,7 @@ import { compareByName } from "../../common/functions";
 
 @Component({
 	selector: "ip-view-groups",
-	templateUrl: "/templates/view/groups"
+	templateUrl: "./groups.component.html"
 })
 export class GroupsComponent implements OnInit {
 	private facultyService: FacultyService;

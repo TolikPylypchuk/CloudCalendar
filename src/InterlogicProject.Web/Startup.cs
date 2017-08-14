@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -253,21 +254,25 @@ namespace InterlogicProject.Web
 			ILoggerFactory loggerFactory)
 		{
 			loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-			
+			loggerFactory.AddDebug();
+
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
+			app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+			{
+				HotModuleReplacement = true
+			});
+
 			if (env.IsDevelopment())
 			{
-				loggerFactory.AddDebug(LogLevel.Debug);
-
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
-				
+
 				DataInitializer.InitializeDatabaseAsync(
 					app.ApplicationServices).Wait();
 			}
-			
+
 			app.UseJwtBearerAuthentication(new JwtBearerOptions
 			{
 				AutomaticAuthenticate = true,
@@ -299,7 +304,7 @@ namespace InterlogicProject.Web
 					name: "spa-fallback",
 					defaults: new { controller = "Home", action = "Index" });
 			});
-			
+
 			app.UseSwagger(c =>
 			{
 				c.PreSerializeFilters.Add(
