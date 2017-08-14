@@ -1,14 +1,1 @@
-[
-	{
-		"inputFiles": [
-			"./wwwroot/dist/css/style.css"
-		],
-		"outputFileName": "./wwwroot/dist/css/style.min.css"
-	},
-	{
-		"inputFiles": [
-			"./wwwroot/systemjs.config.js"
-		],
-		"outputFileName": "./wwwroot/systemjs.config.min.js"
-	}
-]
+[]
