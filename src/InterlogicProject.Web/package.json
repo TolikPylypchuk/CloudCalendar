@@ -25,6 +25,7 @@
 		"@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.1",
 		"bootstrap": "4.0.0-beta",
 		"core-js": "^2.5.0",
+		"font-awesome": "^4.7.0",
 		"fullcalendar": "^3.4.0",
 		"moment": "^2.18.1",
 		"ng2-file-upload": "^1.2.1",

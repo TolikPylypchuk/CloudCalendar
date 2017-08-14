@@ -30,7 +30,6 @@ const baseHref = "";
 const deployUrl = "";
 
 const postcssPlugins = function () {
-	// safe settings based on: https://github.com/ben-eb/cssnano/issues/358#issuecomment-283696193
 	const importantCommentRe = /@preserve|@license|[@#]\s*source(?:Mapping)?URL|^!/i;
 	const minimizeOptions = {
 		autoprefixer: false,
@@ -41,22 +40,17 @@ const postcssPlugins = function () {
 	return [
 		postcssUrl({
 			url: (URL) => {
-				// Only convert root relative URLs, which CSS-Loader won't process into require().
 				if (!URL.startsWith('/') || URL.startsWith('//')) {
 					return URL;
 				}
 				if (deployUrl.match(/:\/\//)) {
-				// If deployUrl contains a scheme, ignore baseHref use deployUrl as is.
 					return `${deployUrl.replace(/\/$/, '')}${URL}`;
 				}
 				else if (baseHref.match(/:\/\//)) {
-				// If baseHref contains a scheme, include it as is.
 					return baseHref.replace(/\/$/, '') +
 						`/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
 				}
 				else {
-				// Join together base-href, deploy-url and the original URL.
-				// Also dedupe multiple slashes into single ones.
 					return `/${baseHref}/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
 				}
 			}
@@ -64,6 +58,15 @@ const postcssPlugins = function () {
 		autoprefixer()
 	].concat(minimizeCss ? [cssnano(minimizeOptions)] : []);
 };
+
+const stylePaths = [
+	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
+	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap-grid.css"),
+	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap-reboot.css"),
+	// path.join(process.cwd(), "node_modules/font-awesome/css/font-awesome.css"),
+	path.join(process.cwd(), "node_modules/fullcalendar/dist/fullcalendar.css"),
+	path.join(process.cwd(), "Client/css/style.css")
+];
 
 module.exports = {
 	resolve: {
@@ -92,6 +95,10 @@ module.exports = {
 		],
 		styles: [
 			"./node_modules/bootstrap/dist/css/bootstrap.css",
+			"./node_modules/bootstrap/dist/css/bootstrap-grid.css",
+			"./node_modules/bootstrap/dist/css/bootstrap-reboot.css",
+			// "./node_modules/font-awesome/css/font-awesome.css",
+			"./node_modules/fullcalendar/dist/fullcalendar.css",
 			"./Client/css/style.css"
 		]
 	},
@@ -124,9 +131,7 @@ module.exports = {
 				loader: "url-loader?name=[name].[hash:20].[ext]&limit=10000"
 			},
 			{
-				exclude: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				exclude: stylePaths,
 				test: /\.css$/,
 				use: [
 					"exports-loader?module.exports.toString()",
@@ -147,9 +152,7 @@ module.exports = {
 				]
 			},
 			{
-				exclude: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				exclude: stylePaths,
 				test: /\.scss$|\.sass$/,
 				use: [
 					"exports-loader?module.exports.toString()",
@@ -178,9 +181,7 @@ module.exports = {
 				]
 			},
 			{
-				exclude: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				exclude: stylePaths,
 				test: /\.less$/,
 				use: [
 					"exports-loader?module.exports.toString()",
@@ -207,9 +208,7 @@ module.exports = {
 				]
 			},
 			{
-				exclude: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				exclude: stylePaths,
 				test: /\.styl$/,
 				use: [
 					"exports-loader?module.exports.toString()",
@@ -237,9 +236,7 @@ module.exports = {
 				]
 			},
 			{
-				include: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				include: stylePaths,
 				test: /\.css$/,
 				use: [
 					"style-loader",
@@ -260,9 +257,7 @@ module.exports = {
 				]
 			},
 			{
-				include: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				include: stylePaths,
 				test: /\.scss$|\.sass$/,
 				use: [
 					"style-loader",
@@ -291,9 +286,7 @@ module.exports = {
 				]
 			},
 			{
-				include: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				include: stylePaths,
 				test: /\.less$/,
 				use: [
 					"style-loader",
@@ -320,9 +313,7 @@ module.exports = {
 				]
 			},
 			{
-				include: [
-					path.join(process.cwd(), "Client/css/style.css")
-				],
+				include: stylePaths,
 				test: /\.styl$/,
 				use: [
 					"style-loader",
@@ -377,11 +368,8 @@ module.exports = {
 		new ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
-			"window.jQuery": "jquery"
-		}),
-		new ProvidePlugin({
-			Popper: "popper.js",
-			"window.Popper": "popper.js"
+			"window.jQuery": "jquery",
+			Popper: [ "popper.js", "default" ]
 		}),
 		new BaseHrefWebpackPlugin({ }),
 		new CommonsChunkPlugin({
