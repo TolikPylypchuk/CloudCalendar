@@ -259,13 +259,13 @@ namespace InterlogicProject.Web
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
-			app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-			{
-				HotModuleReplacement = true
-			});
-
 			if (env.IsDevelopment())
 			{
+				app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+				{
+					HotModuleReplacement = true
+				});
+
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
 
@@ -287,7 +287,7 @@ namespace InterlogicProject.Web
 					ValidateAudience = true,
 					ValidAudience =
 						this.Configuration["Authentication:Audience"],
-					ValidateLifetime = true,
+					ValidateLifetime = false,
 					ClockSkew = TimeSpan.Zero
 				}
 			});

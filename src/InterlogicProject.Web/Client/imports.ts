@@ -11,5 +11,6 @@ import "rxjs/add/operator/switch";
 import "jquery";
 import "popper.js";
 import "bootstrap/dist/js/bootstrap";
+import "font-awesome-webpack";
 import "fullcalendar";
 import "fullcalendar/dist/locale/uk";
