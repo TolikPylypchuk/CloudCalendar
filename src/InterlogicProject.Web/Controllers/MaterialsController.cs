@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +18,7 @@ using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Models.Dto;
 using InterlogicProject.Web.Services;
 
-namespace InterlogicProject.Web.API
+namespace InterlogicProject.Web.Controllers
 {
 	/// <summary>
 	/// An API for materials.

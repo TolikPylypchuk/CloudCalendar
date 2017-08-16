@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
@@ -59,12 +60,13 @@ namespace InterlogicProject.Web
 			services.Configure<Settings>(
 				this.Configuration.GetSection("Settings"));
 
-			services.AddDbContext<AppDbContext>(
+			services.AddDbContextPool<AppDbContext>(
 				options =>
 					options.UseSqlServer(
 						this.Configuration.GetConnectionString(
-							"DefaultConnection")),
-				ServiceLifetime.Scoped);
+							"DefaultConnection")));
+
+			#region Identity and JWT
 
 			services.AddIdentity<User, IdentityRole>(options => {
 				options.User.RequireUniqueEmail = true;
@@ -82,6 +84,30 @@ namespace InterlogicProject.Web
 			}).AddEntityFrameworkStores<AppDbContext>()
 			  .AddUserValidator<CustomUserValidator>()
 			  .AddErrorDescriber<CustomIdentityErrorDescriber>();
+
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+					.AddJwtBearer(options =>
+					{
+						options.TokenValidationParameters =
+							new TokenValidationParameters
+						{
+							ClockSkew = TimeSpan.Zero,
+							IssuerSigningKey = this.SigningKey,
+							RoleClaimType = ClaimTypes.Role,
+							ValidateIssuerSigningKey = true,
+							ValidateIssuer = true,
+							ValidIssuer =
+								this.Configuration["Authentication:Issuer"],
+							ValidateAudience = true,
+							ValidAudience =
+								this.Configuration["Authentication:Audience"],
+							ValidateLifetime = false
+						};
+					});
+
+			#endregion
+
+			#region Repositories
 
 			services.AddScoped<
 				IRepository<Building>,
@@ -135,25 +161,28 @@ namespace InterlogicProject.Web
 				IRepository<Subject>,
 				SubjectRepository>();
 
+			#endregion
+
+			#region Singletons
+
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddSingleton<UserClaimsPrincipalFactory<User, IdentityRole>>();
 			services.AddSingleton<IdentityResolver>();
 
 			services.AddSingleton(
-				(serviceProvider) => new TokenProviderOptions
+				serviceProvider => new TokenProviderOptions
 				{
-					Path =
-						this.Configuration["Authentication:TokenPath"],
-					Issuer =
-						this.Configuration["Authentication:Issuer"],
-					Audience =
-						this.Configuration["Authentication:Audience"],
+					Path = this.Configuration["Authentication:TokenPath"],
+					Issuer = this.Configuration["Authentication:Issuer"],
+					Audience = this.Configuration["Authentication:Audience"],
 					Expiration = TimeSpan.FromDays(7),
 					SigningCredentials = new SigningCredentials(
-						this.SigningKey, SecurityAlgorithms.HmacSha256),
-					IdentityResolver =
-						serviceProvider.GetService<IdentityResolver>()
+					this.SigningKey, SecurityAlgorithms.HmacSha256),
+					IdentityResolver = serviceProvider
+						.GetService<IdentityResolver>()
 				});
+
+			#endregion
 
 			services.AddRouting(options =>
 			{
@@ -164,6 +193,8 @@ namespace InterlogicProject.Web
 			{
 				options.UseCommaDelimitedArrayModelBinding();
 			});
+
+			#region AutoMapper and Swagger
 
 			Mapper.Initialize(config =>
 			{
@@ -246,6 +277,8 @@ namespace InterlogicProject.Web
 				options.DescribeAllEnumsAsStrings();
 				options.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
 			});
+
+			#endregion
 		}
 
 		public void Configure(
@@ -255,10 +288,7 @@ namespace InterlogicProject.Web
 		{
 			loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
-
-			app.UseDefaultFiles();
-			app.UseStaticFiles();
-
+			
 			if (env.IsDevelopment())
 			{
 				app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
@@ -268,30 +298,15 @@ namespace InterlogicProject.Web
 
 				app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
-
+				
 				DataInitializer.InitializeDatabaseAsync(
-					app.ApplicationServices).Wait();
+				 	app.ApplicationServices).Wait();
 			}
 
-			app.UseJwtBearerAuthentication(new JwtBearerOptions
-			{
-				AutomaticAuthenticate = true,
-				AutomaticChallenge = true,
-				TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = this.SigningKey,
-					ValidateIssuer = true,
-					ValidIssuer =
-						this.Configuration["Authentication:Issuer"],
-					ValidateAudience = true,
-					ValidAudience =
-						this.Configuration["Authentication:Audience"],
-					ValidateLifetime = false,
-					ClockSkew = TimeSpan.Zero
-				}
-			});
+			app.UseDefaultFiles();
+			app.UseStaticFiles();
 
+			app.UseAuthentication();
 			app.UseMiddleware<TokenProviderMiddleware>();
 
 			app.UseMvc(routes =>

@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26014.0
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9D914570-D92A-47F8-8480-E7B04841ED30}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0245FA54-FA26-4B02-AB92-5D2083087050}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		global.json = global.json
+		LICENSE.md = LICENSE.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterlogicProject.Web", "src\InterlogicProject.Web\InterlogicProject.Web.csproj", "{3100D2F3-3242-4F1B-B144-EC34ACA188D9}"
@@ -35,5 +39,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3100D2F3-3242-4F1B-B144-EC34ACA188D9} = {9D914570-D92A-47F8-8480-E7B04841ED30}
 		{C3769F8B-1D33-4029-99D4-612B9839BD81} = {9D914570-D92A-47F8-8480-E7B04841ED30}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95240B21-7579-477C-82D1-7F00E2744D59}
 	EndGlobalSection
 EndGlobal

@@ -63,7 +63,6 @@ const stylePaths = [
 	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap.css"),
 	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap-grid.css"),
 	path.join(process.cwd(), "node_modules/bootstrap/dist/css/bootstrap-reboot.css"),
-	// path.join(process.cwd(), "node_modules/font-awesome/css/font-awesome.css"),
 	path.join(process.cwd(), "node_modules/fullcalendar/dist/fullcalendar.css"),
 	path.join(process.cwd(), "Client/css/style.css")
 ];
@@ -97,7 +96,6 @@ module.exports = {
 			"./node_modules/bootstrap/dist/css/bootstrap.css",
 			"./node_modules/bootstrap/dist/css/bootstrap-grid.css",
 			"./node_modules/bootstrap/dist/css/bootstrap-reboot.css",
-			// "./node_modules/font-awesome/css/font-awesome.css",
 			"./node_modules/fullcalendar/dist/fullcalendar.css",
 			"./Client/css/style.css"
 		]
@@ -106,7 +104,7 @@ module.exports = {
 		path: path.join(process.cwd(), "wwwroot/dist"),
 		filename: "[name].bundle.js",
 		chunkFilename: "[id].chunk.js",
-		publicPath: "/app/"
+		publicPath: "/dist/"
   	},
 	module: {
 		rules: [

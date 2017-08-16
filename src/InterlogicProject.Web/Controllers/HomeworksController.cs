@@ -20,7 +20,7 @@ using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Models.Dto;
 using InterlogicProject.Web.Services;
 
-namespace InterlogicProject.Web.API
+namespace InterlogicProject.Web.Controllers
 {
 	/// <summary>
 	/// An API for homeworks.

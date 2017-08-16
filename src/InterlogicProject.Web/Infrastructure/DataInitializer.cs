@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -33,7 +32,7 @@ namespace InterlogicProject.Web.Infrastructure
 		{
 			var roleManager = serviceProvider
 				.GetRequiredService<RoleManager<IdentityRole>>();
-			
+
 			foreach (var roleName in roleNames)
 			{
 				var role = await roleManager.FindByNameAsync(roleName);
@@ -53,7 +52,7 @@ namespace InterlogicProject.Web.Infrastructure
 				.GetRequiredService<UserManager<User>>();
 			var settings = serviceProvider
 				.GetRequiredService<IOptionsSnapshot<Settings>>().Value;
-			
+
 			if (userManager.Users.Any())
 			{
 				return;
@@ -82,7 +81,7 @@ namespace InterlogicProject.Web.Infrastructure
 				await userManager.CreateAsync(
 					user, settings.EmailDomain);
 				await userManager.AddToRoleAsync(user, "Lecturer");
-				
+
 				if (lecturers.FirstOrDefault(l => l.User.Email == user.Email)
 					?.IsAdmin == true)
 				{
@@ -142,7 +141,7 @@ namespace InterlogicProject.Web.Infrastructure
 		private static IList<Building> ReadBuildings()
 		{
 			string data = null;
-			
+
 			using (var reader = File.OpenText(@"Data\Buildings.txt"))
 			{
 				data = reader.ReadToEnd();
@@ -498,7 +497,7 @@ namespace InterlogicProject.Web.Infrastructure
 					});
 				}
 			}
-			
+
 			return result;
 		}
 

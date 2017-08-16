@@ -13,7 +13,7 @@ using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
 using InterlogicProject.Web.Models.Dto;
 
-namespace InterlogicProject.Web.API
+namespace InterlogicProject.Web.Controllers
 {
 	/// <summary>
 	/// An API for faculties.

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 	<PropertyGroup>
-		<TargetFramework>netcoreapp1.1</TargetFramework>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
 		<AssemblyName>InterlogicProject.DAL</AssemblyName>
-		<PackageTargetFallback Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+		<AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -12,12 +12,11 @@
 		<EmbeddedResource Include="compiler\resources\**\*" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="NETStandard.Library" Version="1.6.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-		<PackageReference Include="System.ValueTuple" Version="4.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+		<PackageReference Include="NETStandard.Library" Version="2.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.1.0-preview4-final" />
