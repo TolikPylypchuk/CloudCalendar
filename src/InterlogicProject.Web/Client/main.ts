@@ -2,7 +2,6 @@ import "./imports";
 
 import { enableProdMode } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { environment } from "./environments/environment";
 
 import * as moment from "moment";
 
@@ -12,22 +11,20 @@ declare var module: any;
 
 moment.locale("uk");
 
-if (environment.production) {
-	enableProdMode();
-}
-
 const bootApplication = () => {
 	platformBrowserDynamic().bootstrapModule(AppModule);
 };
 
-if (module["hot"]) {
-	module["hot"].accept();
-	module["hot"].dispose(() => {
+if (module.hot) {
+	module.hot.accept();
+	module.hot.dispose(() => {
 		const oldRootElem = document.querySelector("ip-app");
 		const newRootElem = document.createElement("ip-app");
 		oldRootElem.parentNode.insertBefore(newRootElem, oldRootElem);
 		platformBrowserDynamic().destroy();
 	});
+} else {
+	enableProdMode();
 }
 
 if (document.readyState === "complete") {

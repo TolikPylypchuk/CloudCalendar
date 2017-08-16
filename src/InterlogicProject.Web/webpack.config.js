@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const ProgressPlugin = require("webpack/lib/ProgressPlugin");
 const CircularDependencyPlugin = require("circular-dependency-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const postcssUrl = require("postcss-url");
 const cssnano = require("cssnano");

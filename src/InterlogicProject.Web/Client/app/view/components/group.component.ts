@@ -1,9 +1,7 @@
 ﻿import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
-import { JQuery } from "jquery";
 import * as moment from "moment";
-import * as FC from "fullcalendar";
 
 import { ClassService, GroupService } from "../../common/common";
 import { Class, Group } from "../../common/models";

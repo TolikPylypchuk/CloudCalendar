@@ -4,9 +4,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 
-import { JQuery } from "jquery";
 import * as moment from "moment";
-import * as FC from "fullcalendar";
 
 import { ClassService, StudentService } from "../../common/common";
 import { Class } from "../../common/models";

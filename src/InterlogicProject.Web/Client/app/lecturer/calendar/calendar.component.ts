@@ -3,9 +3,7 @@ import { Http } from "@angular/http";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { JQuery } from "jquery";
 import * as moment from "moment";
-import * as FC from "fullcalendar";
 
 import { ModalContentComponent } from "./modal/modal-content.component";
 
