@@ -20,6 +20,9 @@ using Swashbuckle.AspNetCore.Swagger;
 using InterlogicProject.DAL;
 using InterlogicProject.DAL.Models;
 using InterlogicProject.DAL.Repositories;
+
+using InterlogicProject.ScheduleClient.Services;
+
 using InterlogicProject.Web.Infrastructure;
 using InterlogicProject.Web.Models.Dto;
 using InterlogicProject.Web.Security;
@@ -47,6 +50,9 @@ namespace InterlogicProject.Web
 
 			services.AddNodeServices(options =>
 				options.InvocationTimeoutMilliseconds = 600_000);
+
+			services.AddScheduleClient(
+				configuration.GetSection("ScheduleClient"));
 
 			#endregion
 
