@@ -33,6 +33,7 @@
 	  <None Remove="npm-debug.log" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\InterlogicProject.ScheduleClient\InterlogicProject.ScheduleClient.csproj" />
 		<ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
 	</ItemGroup>
 	<ItemGroup>
