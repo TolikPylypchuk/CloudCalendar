@@ -30,6 +30,9 @@
 	  <Content Remove="wwwroot/favicon.ico" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="npm-debug.log" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
 	</ItemGroup>
 	<ItemGroup>
