@@ -30,6 +30,7 @@ obj/
 TestResults/
 **/dist/**
 **/wwwroot/files/**
+**/node_modules/**
 .vs/
 
 # Web publish log #
