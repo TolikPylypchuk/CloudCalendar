@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -8,6 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InterlogicProject.Web.Infrastructure
 {
+	[ExcludeFromCodeCoverage]
 	public class AuthorizationHeaderParameterOperationFilter : IOperationFilter
 	{
 		public void Apply(Operation operation, OperationFilterContext context)
@@ -15,11 +17,11 @@ namespace InterlogicProject.Web.Infrastructure
 			var filterPipeline = context.ApiDescription
 				.ActionDescriptor.FilterDescriptors;
 
-			var isAuthorized = filterPipeline
+			bool isAuthorized = filterPipeline
 				.Select(filterInfo => filterInfo.Filter)
 				.Any(filter => filter is AuthorizeFilter);
 
-			var allowAnonymous = filterPipeline
+			bool allowAnonymous = filterPipeline
 				.Select(filterInfo => filterInfo.Filter)
 				.Any(filter => filter is IAllowAnonymousFilter);
 

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 namespace InterlogicProject.Web.Infrastructure
 {
+	[ExcludeFromCodeCoverage]
 	public class CommaDelimitedArrayModelBinderProvider : IModelBinderProvider
 	{
 		public IModelBinder GetBinder(ModelBinderProviderContext context)

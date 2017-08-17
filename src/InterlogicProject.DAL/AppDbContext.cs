@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using InterlogicProject.DAL.Models;
 
 namespace InterlogicProject.DAL
 {
+	[ExcludeFromCodeCoverage]
 	public class AppDbContext : IdentityDbContext<User>
 	{
 		public AppDbContext(DbContextOptions<AppDbContext> options)

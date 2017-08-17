@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InterlogicProject.ScheduleClient.Services
 {
-	public static class Extensions
+	[ExcludeFromCodeCoverage]
+	public static class ServiceCollectionExtensions
 	{
 		public static IServiceCollection AddScheduleClient(
 			this IServiceCollection services,

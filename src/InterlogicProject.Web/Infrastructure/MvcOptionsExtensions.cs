@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 namespace InterlogicProject.Web.Infrastructure
 {
+	[ExcludeFromCodeCoverage]
 	public static class MvcOptionsExtensions
 	{
 		public static void UseCommaDelimitedArrayModelBinding(
