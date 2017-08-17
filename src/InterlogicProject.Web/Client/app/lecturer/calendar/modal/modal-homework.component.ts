@@ -26,7 +26,7 @@ export class ModalHomeworkComponent implements OnInit {
 	private homeworkService: HomeworkService;
 	private lecturerService: LecturerService;
 	private notificationService: NotificationService;
-	private studentService; StudentService;
+	private studentService: StudentService;
 
 	private allowText = "Дозволити надсилання домашніх завдань";
 	private forbidText = "Обмежити надсилання домашніх завдань";

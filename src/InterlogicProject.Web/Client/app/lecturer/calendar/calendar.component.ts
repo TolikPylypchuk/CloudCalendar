@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { Http } from "@angular/http";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -62,12 +61,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 				defaultView: "agendaWeek",
 				eventClick: this.eventClicked.bind(this),
 				eventDurationEditable: false,
-				eventRender: (event: FC.EventObject, element: JQuery) => {
-					element.css("border-style", "hidden");
-					element.css("cursor", "pointer");
-					element.addClass("bg-primary");
-					element.addClass("text-white");
-				},
+				eventRender:
+					(event: FC.EventObject, element: JQuery<HTMLElement>) => {
+						element.css("border-style", "hidden");
+						element.css("cursor", "pointer");
+						element.addClass("bg-primary");
+						element.addClass("text-white");
+					},
 				events: this.getEvents.bind(this),
 				header: {
 					left: "title",

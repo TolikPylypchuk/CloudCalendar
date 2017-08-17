@@ -64,11 +64,12 @@ export class GroupComponent implements OnInit {
 				defaultDate: date,
 				defaultView: "agendaWeek",
 				eventDurationEditable: false,
-				eventRender: (event: FC.EventObject, element: JQuery) => {
-					element.css("border-style", "hidden");
-					element.addClass("bg-primary");
-					element.addClass("text-white");
-				},
+				eventRender:
+					(event: FC.EventObject, element: JQuery<HTMLElement>) => {
+						element.css("border-style", "hidden");
+						element.addClass("bg-primary");
+						element.addClass("text-white");
+					},
 				events: this.getEvents.bind(this),
 				header: {
 					left: "title",

@@ -2,7 +2,6 @@
 
 import * as moment from "moment";
 
-import { AccountService } from "../../../account/account";
 import {
 	ClassService, CommentService, LecturerService, NotificationService
 } from "../../../common/common";

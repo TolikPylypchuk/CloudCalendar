@@ -3,14 +3,13 @@
 import * as $ from "jquery";
 
 import "fullcalendar";
-import { Options } from "fullcalendar";
 
 @Component({
 	selector: "ip-fullcalendar",
 	template: ""
 })
 export class FullcalendarComponent implements AfterViewInit {
-	@Input() options: Options;
+	@Input() options: FC.Options;
 	text: string;
 	calendarInitiated: boolean;
 
@@ -21,36 +20,37 @@ export class FullcalendarComponent implements AfterViewInit {
 	}
 	
 	ngAfterViewInit() {
-		setTimeout(() => $("ip-fullcalendar").fullCalendar(this.options), 100);
+		setTimeout(() => ($ as any)("ip-fullcalendar").fullCalendar(this.options), 100);
 	}
 	
-	fullCalendar(...args: any[]) {
+	fullCalendar(...args: any[]): void {
 		if (!args) {
 			return;
 		}
 
 		switch (args.length) {
-			case 0:
-				return;
 			case 1:
-				return $(this.element.nativeElement)
+				($ as any)(this.element.nativeElement)
 					.fullCalendar(args[0]);
+				break;
 			case 2:
-				return $(this.element.nativeElement)
+				($ as any)(this.element.nativeElement)
 					.fullCalendar(args[0], args[1]);
+				break;
 			case 3:
-				return $(this.element.nativeElement)
+				($ as any)(this.element.nativeElement)
 					.fullCalendar(args[0], args[1], args[2]);
+				break;
 		}
 	}
 
 	updateEvent(event) {
-		return $(this.element.nativeElement)
+		return ($ as any)(this.element.nativeElement)
 			.fullCalendar("updateEvent", event);
 	}
 
 	clientEvents(idOrFilter) {
-		return $(this.element.nativeElement)
+		return ($ as any)(this.element.nativeElement)
 			.fullCalendar("clientEvents", idOrFilter);
 	}
 }

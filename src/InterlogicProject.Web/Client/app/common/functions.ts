@@ -1,6 +1,4 @@
-﻿import { Response, Headers } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import { ErrorObservable } from "rxjs/Observable/ErrorObservable";
+﻿import { Headers } from "@angular/http";
 
 import { NameableEntity, GenericUser } from "./models";
 
@@ -29,14 +27,14 @@ export function compareByName(a: NameableEntity, b: NameableEntity): number {
 export function compareByFirstName<T>(
 	a: GenericUser<T>,
 	b: GenericUser<T>): number {
-	let result = 0;
+	let result: number;
 
 	result = a.firstName.localeCompare(b.firstName);
 
-	if (result == 0) {
+	if (result === 0) {
 		result = a.middleName.localeCompare(b.middleName);
 
-		if (result == 0) {
+		if (result === 0) {
 			result = a.lastName.localeCompare(b.lastName);
 		}
 	}
@@ -47,14 +45,14 @@ export function compareByFirstName<T>(
 export function compareByLastName<T>(
 	a: GenericUser<T>,
 	b: GenericUser<T>): number {
-	let result = 0;
+	let result: number;
 
 	result = a.lastName.localeCompare(b.lastName);
 
-	if (result == 0) {
+	if (result === 0) {
 		result = a.firstName.localeCompare(b.firstName);
 
-		if (result == 0) {
+		if (result === 0) {
 			result = a.middleName.localeCompare(b.middleName);
 		}
 	}

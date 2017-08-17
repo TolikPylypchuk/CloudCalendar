@@ -7,14 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="Moq" Version="4.7.99" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\InterlogicProject.ScheduleClient\InterlogicProject.ScheduleClient.csproj" />
+    <Folder Include="DAL\" />
+    <Folder Include="Web\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\InterlogicProject.DAL\InterlogicProject.DAL.csproj" />
+    <ProjectReference Include="..\..\src\InterlogicProject.ScheduleClient\InterlogicProject.ScheduleClient.csproj" />
     <ProjectReference Include="..\..\src\InterlogicProject.Web\InterlogicProject.Web.csproj" />
   </ItemGroup>
 

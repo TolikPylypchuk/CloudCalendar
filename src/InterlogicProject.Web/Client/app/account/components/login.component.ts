@@ -1,11 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs/Observable";
-
-import * as $ from "jquery";
 
 import { AccountService } from "../services/account.service";
-import { LoginModel } from '../models/models';
+import { LoginModel } from "../models/models";
 
 @Component({
 	selector: "ip-login",

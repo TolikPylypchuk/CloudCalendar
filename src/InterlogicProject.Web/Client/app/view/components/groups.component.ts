@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs/Observable";
 
 import { Faculty, Group } from "../../common/models";
 import { FacultyService, GroupService } from "../../common/common";

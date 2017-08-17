@@ -76,6 +76,62 @@
 	<ItemGroup>
 		<Folder Include="Views\Shared\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Client\app\account\components\login.component.html">
+	    <DependentUpon>login.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\app.component.html">
+	    <DependentUpon>app.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\lecturer\calendar\calendar.component.html">
+	    <DependentUpon>calendar.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\lecturer\calendar\modal\modal-comments.component.html">
+	    <DependentUpon>modal-comments.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\lecturer\calendar\modal\modal-content.component.html">
+	    <DependentUpon>modal-content.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\lecturer\calendar\modal\modal-homework.component.html">
+	    <DependentUpon>modal-homework.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\lecturer\calendar\modal\modal-materials.component.html">
+	    <DependentUpon>modal-materials.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\navigation.component.html">
+	    <DependentUpon>navigation.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\student\calendar\calendar.component.html">
+	    <DependentUpon>calendar.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\student\calendar\modal\modal-comments.component.html">
+	    <DependentUpon>modal-comments.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\student\calendar\modal\modal-content.component.html">
+	    <DependentUpon>modal-content.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\student\calendar\modal\modal-homework.component.html">
+	    <DependentUpon>modal-homework.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\student\calendar\modal\modal-materials.component.html">
+	    <DependentUpon>modal-materials.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\view\components\group.component.html">
+	    <DependentUpon>group.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\view\components\groups.component.html">
+	    <DependentUpon>groups.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\view\components\lecturer.component.html">
+	    <DependentUpon>lecturer.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\view\components\lecturers.component.html">
+	    <DependentUpon>lecturers.component.ts</DependentUpon>
+	  </None>
+	  <None Update="Client\app\view\components\notifications.component.html">
+	    <DependentUpon>notifications.component.ts</DependentUpon>
+	  </None>
+	</ItemGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
 		<DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
 	</PropertyGroup>

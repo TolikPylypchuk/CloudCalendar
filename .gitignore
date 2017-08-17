@@ -41,6 +41,8 @@ TestResults/
 
 /_ReSharper.*
 *.ReSharper.*
+*.DotSettings.user
+*.sln.DotSettings
 
 # Packages #
 

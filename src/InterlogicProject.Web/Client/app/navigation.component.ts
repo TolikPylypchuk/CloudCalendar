@@ -31,7 +31,7 @@ export class NavigationComponent implements OnInit {
 
 		this.notificationService.notificationsMarkObservable()
 			.subscribe(seen =>
-				this.notificationCount == 0 ? this.notificationCount :
+				this.notificationCount === 0 ? this.notificationCount :
 					seen ? this.notificationCount-- : this.notificationCount++);
 	}
 

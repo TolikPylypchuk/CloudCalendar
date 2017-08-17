@@ -140,7 +140,7 @@ namespace InterlogicProject.Web.Infrastructure
 
 		private static IList<Building> ReadBuildings()
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Buildings.txt"))
 			{
@@ -166,7 +166,7 @@ namespace InterlogicProject.Web.Infrastructure
 		private static IList<Classroom> ReadClassrooms(
 			IEnumerable<Building> buildings)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Classrooms.txt"))
 			{
@@ -193,7 +193,7 @@ namespace InterlogicProject.Web.Infrastructure
 		private static IList<Faculty> ReadFaculties(
 			IEnumerable<Building> buildings)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Faculties.txt"))
 			{
@@ -220,7 +220,7 @@ namespace InterlogicProject.Web.Infrastructure
 		private static IList<Department> ReadDepartments(
 			IEnumerable<Faculty> faculties)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Departments.txt"))
 
@@ -247,7 +247,7 @@ namespace InterlogicProject.Web.Infrastructure
 
 		private static IList<Subject> ReadSubjects()
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Subjects.txt"))
 			{
@@ -271,7 +271,7 @@ namespace InterlogicProject.Web.Infrastructure
 
 		private static IList<User> ReadUsers(Settings settings)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Users.txt"))
 			{
@@ -309,7 +309,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Department> departments,
 			IEnumerable<User> users)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Lecturers.txt"))
 			{
@@ -340,7 +340,7 @@ namespace InterlogicProject.Web.Infrastructure
 		private static IList<Group> ReadGroups(
 			IEnumerable<Lecturer> lecturers)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Groups.txt"))
 			{
@@ -369,7 +369,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Group> groups,
 			IEnumerable<User> users)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Students.txt"))
 			{
@@ -400,7 +400,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Subject> subjects,
 			out int classesInWeek)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\Classes.txt"))
 			{
@@ -456,7 +456,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Classroom> classrooms,
 			int classesInWeek)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\ClassPlaces.txt"))
 			{
@@ -506,7 +506,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Class> classes,
 			int classesInWeek)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\LecturersClasses.txt"))
 			{
@@ -556,7 +556,7 @@ namespace InterlogicProject.Web.Infrastructure
 			IEnumerable<Class> classes,
 			int classesInWeek)
 		{
-			string data = null;
+			string data;
 
 			using (var reader = File.OpenText(@"Data\GroupsClasses.txt"))
 			{

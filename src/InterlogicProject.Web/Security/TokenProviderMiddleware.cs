@@ -60,7 +60,7 @@ namespace InterlogicProject.Web.Security
 
 		private async Task GenerateToken(HttpContext context)
 		{
-			string body = null;
+			string body;
 
 			using (var reader = new StreamReader(context.Request.Body))
 			{
@@ -88,7 +88,7 @@ namespace InterlogicProject.Web.Security
 			}
 
 			var now = DateTime.UtcNow;
-			
+
 			var claims = new List<Claim>
 			{
 				new Claim(
@@ -101,11 +101,11 @@ namespace InterlogicProject.Web.Security
 					JwtRegisteredClaimNames.Iat,
 					new DateTimeOffset(now).ToUniversalTime()
 						.ToUnixTimeSeconds().ToString(),
-					ClaimValueTypes.Integer64)
+					ClaimValueTypes.Integer64),
+				identity.Claims.FirstOrDefault(
+					claim => claim.Type == ClaimTypes.Role)
 			};
 
-			claims.Add(identity.Claims.FirstOrDefault(
-				claim => claim.Type == ClaimTypes.Role));
 
 			var jwt = new JwtSecurityToken(
 				issuer: this.Options.Issuer,

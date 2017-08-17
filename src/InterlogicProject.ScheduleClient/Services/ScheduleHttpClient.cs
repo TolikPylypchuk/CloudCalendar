@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Options;
+
+using Newtonsoft.Json;
 
 using InterlogicProject.ScheduleClient.Models;
 
@@ -18,12 +23,36 @@ namespace InterlogicProject.ScheduleClient.Services
 
 		private IOptionsSnapshot<ScheduleHttpClientOptions> Options { get; }
 
-		public Task<IList<Class>> GetScheduleAsync(int year, int semester)
+		public async Task<IList<Class>> GetScheduleAsync(int year, int semester)
 		{
-			throw new NotImplementedException();
+			IList<Class> result;
+
+			using (var stream = await this.GetStreamAsync(year, semester))
+			using (var reader = new StreamReader(stream))
+			using (var jsonReader = new JsonTextReader(reader))
+			{
+				var serializer = new JsonSerializer();
+				result = serializer.Deserialize<List<Class>>(jsonReader);
+			}
+
+			return result;
 		}
 
-		private Uri GetScheduleURL(int year, int semester)
+		private Task<Stream> GetStreamAsync(int year, int semester)
+		{
+			var client = new HttpClient();
+
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(
+				new MediaTypeWithQualityHeaderValue("application/json"));
+			client.DefaultRequestHeaders.Add(
+				"User-Agent", "Interlogic Project");
+
+			return client.GetStreamAsync(
+				this.GetScheduleUri(year, semester));
+		}
+
+		private Uri GetScheduleUri(int year, int semester)
 		{
 			return new Uri(
 				new Uri($"{this.Options.Value.Schema}://{this.Options.Value.Host}" +

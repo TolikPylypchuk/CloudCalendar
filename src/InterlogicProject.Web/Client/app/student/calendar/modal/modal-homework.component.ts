@@ -1,5 +1,5 @@
 ﻿import { Component, Input, OnInit } from "@angular/core"
-import { FileUploader, FileItem } from "ng2-file-upload";
+import { FileUploader } from "ng2-file-upload";
 
 import * as moment from "moment";
 
@@ -51,7 +51,7 @@ export class ModalHomeworkComponent implements OnInit {
 						removeAfterUpload: true
 					});
 
-				this.uploader.onCompleteItem = (item: FileItem) => {
+				this.uploader.onCompleteItem = () => {
 					this.homeworkService.getHomeworkByClassAndStudent(
 						this.classId, this.currentStudentId)
 						.subscribe(homework => this.homework = homework);

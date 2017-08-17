@@ -144,7 +144,7 @@ export class NotificationService {
 			.first()
 			.publish();
 
-		action.subscribe(response => notification.isSeen = true);
+		action.subscribe(() => notification.isSeen = true);
 
 		this.notificationsSubject.next(true);
 
@@ -160,7 +160,7 @@ export class NotificationService {
 			.first()
 			.publish();
 
-		action.subscribe(response => notification.isSeen = false);
+		action.subscribe(() => notification.isSeen = false);
 
 		this.notificationsSubject.next(false);
 

@@ -5,7 +5,7 @@ import { ConnectableObservable } from "rxjs/Observable/ConnectableObservable";
 import { ReplaySubject } from "rxjs/ReplaySubject";
 
 import { getHeaders } from "../functions";
-import { Lecturer, User } from "../models";
+import { Lecturer } from "../models";
 
 import { AccountService } from "../../account/account";
 
@@ -39,7 +39,7 @@ export class LecturerService {
 							this.currentLecturerSource.next(lecturer);
 							return lecturer;
 						}))
-			.switch();
+			.switch() as any;
 	}
 
 	getLecturers(): Observable<Lecturer[]> {

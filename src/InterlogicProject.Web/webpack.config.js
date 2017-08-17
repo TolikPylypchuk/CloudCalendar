@@ -38,19 +38,19 @@ const postcssPlugins = function () {
 	};
 	return [
 		postcssUrl({
-			url: (URL) => {
-				if (!URL.startsWith('/') || URL.startsWith('//')) {
-					return URL;
+			url: (url) => {
+				if (!url.startsWith('/') || url.startsWith('//')) {
+					return url;
 				}
 				if (deployUrl.match(/:\/\//)) {
-					return `${deployUrl.replace(/\/$/, '')}${URL}`;
+					return `${deployUrl.replace(/\/$/, '')}${url}`;
 				}
 				else if (baseHref.match(/:\/\//)) {
 					return baseHref.replace(/\/$/, '') +
-						`/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
+						`/${deployUrl}/${url}`.replace(/\/\/+/g, '/');
 				}
 				else {
-					return `/${baseHref}/${deployUrl}/${URL}`.replace(/\/\/+/g, '/');
+					return `/${baseHref}/${deployUrl}/${url}`.replace(/\/\/+/g, '/');
 				}
 			}
 		}),
