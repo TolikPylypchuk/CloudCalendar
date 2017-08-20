@@ -51,7 +51,7 @@ namespace InterlogicProject.Web
 			services.AddNodeServices(options =>
 				options.InvocationTimeoutMilliseconds = 600_000);
 
-			services.AddScheduleClient(
+			services.AddSchedule(
 				configuration.GetSection("ScheduleClient"));
 
 			#endregion

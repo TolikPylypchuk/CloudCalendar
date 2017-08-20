@@ -6,14 +6,11 @@ using ScheduleClass = InterlogicProject.ScheduleClient.Models.Class;
 
 namespace InterlogicProject.ScheduleClient.Services
 {
-	public class CalendarService : ICalendarService
+	public interface ICalendarService
 	{
-		public IList<CalendarClass> CreateCalendar(
+		IList<CalendarClass> CreateCalendar(
 			IList<ScheduleClass> schedule,
 			DateTime start,
-			DateTime end)
-		{
-			throw new NotImplementedException();
-		}
+			DateTime end);
 	}
 }

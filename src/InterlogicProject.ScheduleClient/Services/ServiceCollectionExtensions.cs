@@ -9,21 +9,23 @@ namespace InterlogicProject.ScheduleClient.Services
 	[ExcludeFromCodeCoverage]
 	public static class ServiceCollectionExtensions
 	{
-		public static IServiceCollection AddScheduleClient(
+		public static IServiceCollection AddSchedule(
 			this IServiceCollection services,
 			IConfiguration configuration)
 		{
 			services.AddScoped<IScheduleSource, ScheduleHttpClient>();
+			services.AddScoped<ICalendarService, CalendarService>();
 			services.Configure<ScheduleHttpClientOptions>(configuration);
 
 			return services;
 		}
 
-		public static IServiceCollection AddScheduleClient(
+		public static IServiceCollection AddSchedule(
 			this IServiceCollection services,
 			Action<ScheduleHttpClientOptions> action)
 		{
 			services.AddScoped<IScheduleSource, ScheduleHttpClient>();
+			services.AddScoped<ICalendarService, CalendarService>();
 			services.Configure(action);
 
 			return services;
