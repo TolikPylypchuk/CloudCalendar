@@ -16,11 +16,14 @@ namespace InterlogicProject.ScheduleClient.Services
 	public class ScheduleHttpClient : IScheduleSource
 	{
 		public ScheduleHttpClient(
+			HttpClient client,
 			IOptionsSnapshot<ScheduleHttpClientOptions> options)
 		{
+			this.HttpClient = client;
 			this.Options = options;
 		}
 
+		private HttpClient HttpClient { get; }
 		private IOptionsSnapshot<ScheduleHttpClientOptions> Options { get; }
 
 		public async Task<IList<Class>> GetScheduleAsync(int year, int semester)
@@ -40,15 +43,13 @@ namespace InterlogicProject.ScheduleClient.Services
 
 		private Task<Stream> GetStreamAsync(int year, int semester)
 		{
-			var client = new HttpClient();
-
-			client.DefaultRequestHeaders.Accept.Clear();
-			client.DefaultRequestHeaders.Accept.Add(
+			this.HttpClient.DefaultRequestHeaders.Accept.Clear();
+			this.HttpClient.DefaultRequestHeaders.Accept.Add(
 				new MediaTypeWithQualityHeaderValue("application/json"));
-			client.DefaultRequestHeaders.Add(
+			this.HttpClient.DefaultRequestHeaders.Add(
 				"User-Agent", "Interlogic Project");
 
-			return client.GetStreamAsync(
+			return this.HttpClient.GetStreamAsync(
 				this.GetScheduleUri(year, semester));
 		}
 

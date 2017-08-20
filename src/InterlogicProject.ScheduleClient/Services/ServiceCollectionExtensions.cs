@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace InterlogicProject.ScheduleClient.Services
 			this IServiceCollection services,
 			IConfiguration configuration)
 		{
+			services.AddScoped(provider => new HttpClient());
 			services.AddScoped<IScheduleSource, ScheduleHttpClient>();
 			services.AddScoped<ICalendarService, CalendarService>();
 			services.Configure<ScheduleHttpClientOptions>(configuration);
@@ -24,6 +26,7 @@ namespace InterlogicProject.ScheduleClient.Services
 			this IServiceCollection services,
 			Action<ScheduleHttpClientOptions> action)
 		{
+			services.AddScoped(provider => new HttpClient());
 			services.AddScoped<IScheduleSource, ScheduleHttpClient>();
 			services.AddScoped<ICalendarService, CalendarService>();
 			services.Configure(action);

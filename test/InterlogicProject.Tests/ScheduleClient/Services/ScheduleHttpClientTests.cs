@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,7 +33,8 @@ namespace InterlogicProject.Tests.ScheduleClient.Services
 		[TestMethod]
         public void GetScheduleAsync()
         {
-			var client = new ScheduleHttpClient(this.mockOptions.Object);
+			var client = new ScheduleHttpClient(
+				new HttpClient(), this.mockOptions.Object);
 
 	        var schedule = client.GetScheduleAsync(2016, 2).Result;
 
