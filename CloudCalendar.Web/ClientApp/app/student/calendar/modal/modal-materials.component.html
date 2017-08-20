@@ -1,0 +1,16 @@
+﻿<h5>Матеріали</h5>
+
+<div *ngIf="materials.length === 0">
+	<p>Матеріалів до цієї пари немає.</p>
+</div>
+
+<div *ngFor="let material of materials">
+	<div class="card my-2">
+		<div class="card-body pl-3 py-2">
+			<a href="/files/materials/{{ material.classId }}_{{ material.fileName }}"
+			   target="_blank">
+				{{ material.fileName }}
+			</a>
+		</div>
+	</div>
+</div>

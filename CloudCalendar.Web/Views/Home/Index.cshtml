@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Cloud Calendar";
+}
+
+<!--
+	Use <app asp-prerender-module="/ClientApp/dist/main-server.js">
+	to enable server-side prerendering. I disabled it because jQuery
+	only runs inside a browser and I cannot get rid of it because of
+	FullCalendar which is a jQuery plugin.
+-->
+
+<app>
+	<p class="m-3">Завантаження...</p>
+</app>
+
+@section scripts {
+	<script src="~/dist/vendor.js" asp-append-version="true"></script>
+    <script src="~/dist/main-client.js" asp-append-version="true"></script>
+}

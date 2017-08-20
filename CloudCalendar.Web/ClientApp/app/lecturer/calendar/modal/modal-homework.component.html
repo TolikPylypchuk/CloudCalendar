@@ -1,0 +1,53 @@
+﻿<h5>Домашні завдання</h5>
+
+<div *ngIf="currentClass">
+	<div class="btn-group my-3">
+		<button class="btn btn-primary" (click)="homeworkEnabledClick()">
+			{{ text }}
+		</button>
+	</div>
+
+	<p *ngIf="currentClass.homeworkEnabled && homeworks.length === 0">
+		Ніхто не надіслав домашнього завдання.
+	</p>
+
+	<div *ngFor="let homework of homeworks">
+		<div class="card my-2">
+			<div class="card-header">
+				<span>
+					{{ getStudentName(homework.studentId) }}
+				</span>
+
+				<span [class]="getAcceptedClass(homework.accepted)">
+					{{ getAcceptedText(homework.accepted) }}
+				</span>
+			</div>
+			<div class="card-body">
+				<span>
+					<a href="/files/homeworks/{{ homework.classId }}_{{ homework.studentId }}_{{ homework.fileName }}"
+					   target="_blank">
+						{{ homework.fileName }}
+					</a>
+				</span>
+
+				<button class="btn btn-sm btn-danger float-right"
+						ngbTooltip="Відхилити"
+						(mouseup)="acceptHomework(homework, false)">
+					<i aria-hidden="true" class="fa fa-ban"></i>
+				</button>
+
+				<button class="btn btn-sm btn-primary float-right mx-2"
+						ngbTooltip="Скасувати перевірку"
+						(mouseup)="acceptHomework(homework, null)">
+					<i aria-hidden="true" class="fa fa-circle-o"></i>
+				</button>
+
+				<button class="btn btn-sm btn-success float-right"
+						ngbTooltip="Прийняти"
+						(mouseup)="acceptHomework(homework, true)">
+					<i aria-hidden="true" class="fa fa-check"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

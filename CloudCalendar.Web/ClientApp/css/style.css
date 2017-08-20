@@ -1,0 +1,18 @@
+﻿button:enabled {
+  cursor: pointer; }
+
+button:disabled {
+  cursor: default; }
+
+label.btn {
+  cursor: pointer; }
+
+.drop-zone {
+  border: dotted 3px lightgray;
+  background-color: #F9F9F9;
+  cursor: default; }
+
+.nv-file-over {
+  border: dotted 3px #5CB85C;
+  background-color: #F9F9F9; }
+

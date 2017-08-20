@@ -1,0 +1,48 @@
+﻿<div class="p-3">
+	<h1 class="h1 text-center m-1">Сповіщення</h1>
+	<p *ngIf="notifications.length === 0" class="text-center my-3 mx-1">
+		Немає сповіщень.
+	</p>
+
+	<div class="container">
+		<div *ngFor="let notification of notifications" class="row py-3">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="card">
+					<div class="card-header">
+						<span class="float-left">
+							{{ formatDateTime(notification.dateTime) }}
+						</span>
+						<span class="float-right">
+							<button *ngIf="notification.classId"
+									class="btn btn-sm btn-success"
+									ngbTooltip="Перейти до пари"
+									(click)="goToClass(notification)">
+								<i class="fa fa-arrow-right" aria-hidden="true"></i>
+							</button>
+
+							<button *ngIf="!notification.isSeen; else notificationSeen"
+									class="btn btn-sm btn-success"
+									ngbTooltip="Позначити як прочитане"
+									(click)="markAsSeen(notification)">
+								<i class="fa fa-check-square-o" aria-hidden="true"></i>
+							</button>
+
+							<ng-template #notificationSeen>
+								<button class="btn btn-sm btn-info"
+										ngbTooltip="Позначити як непрочитане"
+										(click)="markAsNotSeen(notification)">
+									<i class="fa fa-square-o" aria-hidden="true"></i>
+								</button>
+							</ng-template>
+						</span>
+					</div>
+					<div class="card-body">
+						<p>{{ notification.text }}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+</div>

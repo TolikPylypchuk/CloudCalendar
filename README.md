@@ -1,4 +1,4 @@
-# Interlogic Project
+# Cloud Calendar
 
 A calendar web-site for students and lecturers of a university.
 

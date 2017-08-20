@@ -1,0 +1,34 @@
+﻿<div class="modal-header">
+	<h4 class="modal-title">{{ subjectName }}</h4>
+	<button type="button" class="close" aria-label="Close"
+			(click)="activeModal.dismiss('')">
+		<i class="fa fa-remove" aria-hidden="true"></i>
+	</button>
+</div>
+
+<div class="modal-body">
+	<h5>{{ type }}</h5>
+	<p>{{ formatDateTime(dateTime) }}, ауд. {{ formatClassrooms(classrooms) }}</p>
+	<p>{{ formatGroups(groups) }}</p>
+	<hr />
+
+	<lecturer-modal-homework [classId]="classId">
+	</lecturer-modal-homework>
+
+	<hr />
+
+	<lecturer-modal-materials [classId]="classId">
+	</lecturer-modal-materials>
+
+	<hr />
+
+	<lecturer-modal-comments [classId]="classId">
+	</lecturer-modal-comments>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-light"
+			(click)="activeModal.close('')">
+		Закрити
+	</button>
+</div>
