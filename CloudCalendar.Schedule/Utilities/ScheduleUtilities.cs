@@ -6,17 +6,14 @@ using CloudCalendar.Data.Models;
 using CloudCalendar.Data.Repositories;
 
 using CalendarClass = CloudCalendar.Data.Models.Class;
-
 using CalendarClassroom = CloudCalendar.Data.Models.Classroom;
-using ScheduleClassroom = CloudCalendar.Schedule.Models.Classroom;
-
 using CalendarGroup = CloudCalendar.Data.Models.Group;
-using ScheduleGroup = CloudCalendar.Schedule.Models.Group;
-
 using CalendarLecturer = CloudCalendar.Data.Models.Lecturer;
-using ScheduleLecturer = CloudCalendar.Schedule.Models.Lecturer;
-
 using CalendarSubject = CloudCalendar.Data.Models.Subject;
+
+using ScheduleClassroom = CloudCalendar.Schedule.Models.Classroom;
+using ScheduleGroup = CloudCalendar.Schedule.Models.Group;
+using ScheduleLecturer = CloudCalendar.Schedule.Models.Lecturer;
 
 namespace CloudCalendar.Schedule.Utilities
 {

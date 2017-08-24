@@ -1,4 +1,4 @@
-﻿namespace CloudCalendar.Schedule.Services
+﻿namespace CloudCalendar.Schedule.Services.Options
 {
 	public class ScheduleHttpClientOptions
 	{

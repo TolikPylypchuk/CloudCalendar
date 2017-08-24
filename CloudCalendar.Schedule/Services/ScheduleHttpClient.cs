@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 using CloudCalendar.Schedule.Models;
+using CloudCalendar.Schedule.Services.Options;
 
 namespace CloudCalendar.Schedule.Services
 {
@@ -20,11 +21,11 @@ namespace CloudCalendar.Schedule.Services
 			IOptionsSnapshot<ScheduleHttpClientOptions> options)
 		{
 			this.HttpClient = client;
-			this.Options = options;
+			this.Options = options.Value;
 		}
 
 		private HttpClient HttpClient { get; }
-		private IOptionsSnapshot<ScheduleHttpClientOptions> Options { get; }
+		private ScheduleHttpClientOptions Options { get; }
 
 		public async Task<IList<Class>> GetScheduleAsync(int year, int semester)
 		{
@@ -56,9 +57,9 @@ namespace CloudCalendar.Schedule.Services
 		private Uri GetScheduleUri(int year, int semester)
 		{
 			return new Uri(
-				new Uri($"{this.Options.Value.Schema}://{this.Options.Value.Host}" +
-					$":{this.Options.Value.Port}"),
-				String.Format(this.Options.Value.PathFormat, year, semester));
+				new Uri($"{this.Options.Schema}://{this.Options.Host}" +
+					$":{this.Options.Port}"),
+				String.Format(this.Options.PathFormat, year, semester));
 		}
 	}
 }

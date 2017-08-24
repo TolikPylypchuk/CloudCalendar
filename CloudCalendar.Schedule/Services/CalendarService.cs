@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+
+using Microsoft.Extensions.Options;
 
 using CloudCalendar.Data.Repositories;
 using CloudCalendar.Data.Models;
+using CloudCalendar.Schedule.Services.Options;
 using CloudCalendar.Schedule.Utilities;
 
 using static CloudCalendar.Schedule.Utilities.ScheduleUtilities;
@@ -19,18 +23,21 @@ namespace CloudCalendar.Schedule.Services
 			IRepository<Classroom> classrooms,
 			IRepository<Group> groups,
 			IRepository<Lecturer> lecturers,
-			IRepository<Subject> subjects)
+			IRepository<Subject> subjects,
+			IOptionsSnapshot<ScheduleOptions> options)
 		{
 			this.Classrooms = classrooms;
 			this.Groups = groups;
 			this.Lecturers = lecturers;
 			this.Subjects = subjects;
+			this.Options = options.Value;
 		}
 
 		public IRepository<Classroom> Classrooms { get; }
 		public IRepository<Group> Groups { get; }
 		public IRepository<Lecturer> Lecturers { get; }
 		public IRepository<Subject> Subjects { get; }
+		public ScheduleOptions Options { get; }
 
 		private Dictionary<
 			int,
@@ -69,10 +76,14 @@ namespace CloudCalendar.Schedule.Services
 							(frequency == ClassFrequency.Numerator) == numerator)
 						{
 							var day = GetDayOfWeek(scheduleClass.DayOfWeek);
+							var time = TimeSpan.ParseExact(
+								this.Options.ClassStarts[scheduleClass.Number - 1],
+								"g", // The hour:minute format specifier
+								CultureInfo.InvariantCulture);
 
 							var calendarClass = new CalendarClass
 							{
-								DateTime = date.AddDays((int)day - 1),
+								DateTime = date.AddDays((int)day - 1) + time,
 								SubjectId = GetSubjectId(
 									scheduleClass.Subject.Name,
 									this.Subjects),
@@ -87,14 +98,16 @@ namespace CloudCalendar.Schedule.Services
 				}
 			}
 			
-			return result;
+			return result.Where(c => c.DateTime >= start)
+						 .Where(c => c.DateTime <= end)
+						 .ToList();
 		}
 
 		private void AddClassInfo(
 			CalendarClass calendarClass,
 			ScheduleClass scheduleClass)
 		{
-			if (!this.cache.ContainsKey(scheduleClass.Id))
+			if (this.cache.ContainsKey(scheduleClass.Id))
 			{
 				(calendarClass.Places,
 				 calendarClass.Groups,

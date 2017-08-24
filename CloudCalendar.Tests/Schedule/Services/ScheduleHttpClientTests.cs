@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 using CloudCalendar.Schedule.Services;
+using CloudCalendar.Schedule.Services.Options;
 
 namespace CloudCalendar.Tests.Schedule.Services
 {
@@ -15,17 +16,18 @@ namespace CloudCalendar.Tests.Schedule.Services
 		Mock<IOptionsSnapshot<ScheduleHttpClientOptions>> mockOptions;
 
 		[TestInitialize]
-		public void Init()
+		public void Initialize()
 		{
 			var options = new ScheduleHttpClientOptions
 			{
 				Schema = "http",
 				Host = "localhost",
 				Port = 8080,
-				PathFormat = "classes/year/{0}/semester/{1}"
+				PathFormat = "/classes/year/{0}/semester/{1}"
 			};
 
-			this.mockOptions = new Mock<IOptionsSnapshot<ScheduleHttpClientOptions>>();
+			this.mockOptions =
+				new Mock<IOptionsSnapshot<ScheduleHttpClientOptions>>();
 			this.mockOptions.Setup(o => o.Value)
 				.Returns(options);
 		}

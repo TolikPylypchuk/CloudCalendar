@@ -55,8 +55,15 @@ namespace CloudCalendar.Web
 			services.AddNodeServices(options =>
 				options.InvocationTimeoutMilliseconds = 600_000);
 
+			#endregion
+
+			#region Schedule
+
 			services.AddSchedule(
-				this.Configuration.GetSection("ScheduleClient"));
+				this.Configuration.GetSection("Schedule"));
+
+			services.AddScheduleClient(
+				this.Configuration.GetSection("ScheduleSource"));
 
 			#endregion
 
