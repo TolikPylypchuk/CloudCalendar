@@ -140,7 +140,7 @@ namespace CloudCalendar.Tests.Schedule.Services
 		}
 
 		[TestMethod]
-		public void CreateCalendar()
+		public void CreateCalendarWeekly()
 		{
 			var calendarService = new CalendarService(
 				this.mockClassrooms.Object,
@@ -207,6 +207,174 @@ namespace CloudCalendar.Tests.Schedule.Services
 				new DateTime(2017, 09, 8));
 
 			Assert.AreEqual(3, calendarClasses.Count);
+
+			calendarClasses = calendarClasses.OrderBy(c => c.DateTime).ToList();
+
+			Assert.AreEqual(
+				new DateTime(2017, 08, 21, 10, 10, 0),
+				calendarClasses[0].DateTime);
+
+			Assert.AreEqual(
+				new DateTime(2017, 08, 28, 10, 10, 0),
+				calendarClasses[1].DateTime);
+
+			Assert.AreEqual(
+				new DateTime(2017, 09, 04, 10, 10, 0),
+				calendarClasses[2].DateTime);
+		}
+
+		[TestMethod]
+		public void CreateCalendarNumerator()
+		{
+			var calendarService = new CalendarService(
+				this.mockClassrooms.Object,
+				this.mockGroups.Object,
+				this.mockLecturers.Object,
+				this.mockSubjects.Object,
+				this.mockOptions.Object);
+
+			var calendarClasses = calendarService.CreateCalendar(
+				new List<ScheduleClass>
+				{
+					new ScheduleClass
+					{
+						Id = 1,
+						Number = 2,
+						DayOfWeek = "понеділок",
+						Frequency = "по чисельнику",
+						Classrooms = new List<ScheduleClassroom>
+						{
+							new ScheduleClassroom
+							{
+								Id = 1,
+								Number = "111",
+								Building = new ScheduleBuilding
+								{
+									Id = 1,
+									Name = "a"
+								}
+							}
+						},
+						Groups = new List<ScheduleGroup>
+						{
+							new ScheduleGroup
+							{
+								Id = 1,
+								Name = "group0",
+								Year = 2016
+							}
+						},
+						Lecturers = new List<ScheduleLecturer>
+						{
+							new ScheduleLecturer
+							{
+								Id = 1,
+								FirstName = "a",
+								MiddleName = "b",
+								LastName = "c",
+								Faculty = new ScheduleFaculty
+								{
+									Id = 1,
+									Name = "f"
+								}
+							}
+						},
+						Subject = new ScheduleSubject
+						{
+							Id = 1,
+							Name = "s"
+						},
+						Type = "Лекція"
+					}
+				},
+				new DateTime(2017, 08, 17),
+				new DateTime(2017, 09, 8));
+
+			Assert.AreEqual(1, calendarClasses.Count);
+
+			Assert.AreEqual(
+				new DateTime(2017, 08, 28, 10, 10, 0),
+				calendarClasses[0].DateTime);
+		}
+
+		[TestMethod]
+		public void CreateCalendarDenominator()
+		{
+			var calendarService = new CalendarService(
+				this.mockClassrooms.Object,
+				this.mockGroups.Object,
+				this.mockLecturers.Object,
+				this.mockSubjects.Object,
+				this.mockOptions.Object);
+
+			var calendarClasses = calendarService.CreateCalendar(
+				new List<ScheduleClass>
+				{
+					new ScheduleClass
+					{
+						Id = 1,
+						Number = 2,
+						DayOfWeek = "понеділок",
+						Frequency = "по знаменнику",
+						Classrooms = new List<ScheduleClassroom>
+						{
+							new ScheduleClassroom
+							{
+								Id = 1,
+								Number = "111",
+								Building = new ScheduleBuilding
+								{
+									Id = 1,
+									Name = "a"
+								}
+							}
+						},
+						Groups = new List<ScheduleGroup>
+						{
+							new ScheduleGroup
+							{
+								Id = 1,
+								Name = "group0",
+								Year = 2016
+							}
+						},
+						Lecturers = new List<ScheduleLecturer>
+						{
+							new ScheduleLecturer
+							{
+								Id = 1,
+								FirstName = "a",
+								MiddleName = "b",
+								LastName = "c",
+								Faculty = new ScheduleFaculty
+								{
+									Id = 1,
+									Name = "f"
+								}
+							}
+						},
+						Subject = new ScheduleSubject
+						{
+							Id = 1,
+							Name = "s"
+						},
+						Type = "Лекція"
+					}
+				},
+				new DateTime(2017, 08, 17),
+				new DateTime(2017, 09, 8));
+
+			Assert.AreEqual(2, calendarClasses.Count);
+			
+			calendarClasses = calendarClasses.OrderBy(c => c.DateTime).ToList();
+
+			Assert.AreEqual(
+				new DateTime(2017, 08, 21, 10, 10, 0),
+				calendarClasses[0].DateTime);
+			
+			Assert.AreEqual(
+				new DateTime(2017, 09, 04, 10, 10, 0),
+				calendarClasses[1].DateTime);
 		}
 	}
 }
