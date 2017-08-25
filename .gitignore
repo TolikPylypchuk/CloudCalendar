@@ -25,12 +25,10 @@ bin/
 Bin/
 obj/
 Obj/
+dist/
 
-# Visual Studio 2015 cache/options directory
+# Visual Studio cache/options directory
 .vs/
-/wwwroot/dist/
-/ClientApp/dist/
-
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -173,7 +171,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-**/node_modules
+node_modules/
 
 **/yarn.lock
 
