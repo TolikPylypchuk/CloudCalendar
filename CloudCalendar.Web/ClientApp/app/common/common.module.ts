@@ -9,6 +9,7 @@ import { BuildingService } from "./services/building.service";
 import { ClassService } from "./services/class.service";
 import { ClassroomService } from "./services/classroom.service";
 import { CommentService } from "./services/comment.service";
+import { ConfigService } from "./services/config.service";
 import { DepartmentService } from "./services/department.service";
 import { FacultyService } from "./services/faculty.service";
 import { GroupService } from "./services/group.service";
@@ -31,6 +32,7 @@ import { SubjectService } from "./services/subject.service";
 		ClassService,
 		ClassroomService,
 		CommentService,
+		ConfigService,
 		DepartmentService,
 		FacultyService,
 		GroupService,

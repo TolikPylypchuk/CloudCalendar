@@ -25,10 +25,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Building> buildings;
 
 		/// <summary>
-		/// Initializes a new instance of the BuildingsController class.
+		/// Initializes a new instance of the
+		/// <see cref="BuildingsController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of buildings that this instance will use.
 		/// </param>
 		public BuildingsController(IRepository<Building> repo)
 		{

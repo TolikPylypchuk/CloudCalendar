@@ -31,19 +31,22 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<LecturerClass> lecturerClasses;
 
 		/// <summary>
-		/// Initializes a new instance of the ClassesController class.
+		/// Initializes a new instance of the
+		/// <see cref="ClassesController"/> class.
 		/// </summary>
 		/// <param name="classes">
-		/// The repository that this instance will use.
+		/// The repository of classes that this instance will use.
 		/// </param>
 		/// <param name="classPlaces">
-		/// The repository that this instance will use.
+		/// The repository of class places that this instance will use.
 		/// </param>
 		/// <param name="groupClasses">
-		/// The repository that this instance will use.
+		/// The repository of group-class relations
+		/// that this instance will use.
 		/// </param>
 		/// <param name="lecturerClasses">
-		/// The repository that this instance will use.
+		/// The repository of group-class relations
+		/// that this instance will use.
 		/// </param>
 		public ClassesController(
 			IRepository<Class> classes,

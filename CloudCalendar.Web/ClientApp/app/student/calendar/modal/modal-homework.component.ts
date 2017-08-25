@@ -84,7 +84,7 @@ export class ModalHomeworkComponent implements OnInit {
 
 		action.subscribe(response => {
 			if (response.status === 204) {
-				this.homework = null;
+				this.homework = null as Homework;
 			}
 		});
 

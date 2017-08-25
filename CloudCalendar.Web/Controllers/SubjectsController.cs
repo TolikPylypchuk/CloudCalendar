@@ -25,10 +25,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Subject> subjects;
 
 		/// <summary>
-		/// Initializes a new instance of the SubjectsController class.
+		/// Initializes a new instance of the
+		/// <see cref="SubjectsController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of subjects that this instance will use.
 		/// </param>
 		public SubjectsController(IRepository<Subject> repo)
 		{

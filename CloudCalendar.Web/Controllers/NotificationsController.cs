@@ -37,10 +37,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<LecturerClass> lecturerClasses;
 
 		/// <summary>
-		/// Initializes a new instance of the NotificationsController class.
+		/// Initializes a new instance of the
+		/// <see cref="NotificationsController"/> class.
 		/// </summary>
 		/// <param name="manager">
-		/// The manager that this instance will use.
+		/// The user manager that this instance will use.
 		/// </param>
 		/// <param name="accessor">
 		/// The HTTP context accessor that this instance will use.

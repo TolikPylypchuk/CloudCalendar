@@ -6,7 +6,9 @@ import * as moment from "moment";
 
 import { ModalContentComponent } from "./modal/modal-content.component";
 
-import { ClassService, LecturerService } from "../../common/common";
+import {
+	ClassService, ConfigService, LecturerService
+} from "../../common/common";
 import { Class } from "../../common/models";
 
 @Component({
@@ -17,11 +19,15 @@ import { Class } from "../../common/models";
 export class CalendarComponent implements OnInit, AfterViewInit {
 	options: FC.Options;
 
+	hours: string;
+	minutes: string;
+
 	private router: Router;
 	private route: ActivatedRoute;
 	private modalService: NgbModal;
 
 	private classService: ClassService;
+	private configService: ConfigService;
 	private lecturerService: LecturerService;
 
 	constructor(
@@ -29,12 +35,14 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 		route: ActivatedRoute,
 		modalService: NgbModal,
 		classService: ClassService,
+		configService: ConfigService,
 		lecturerService: LecturerService) {
 		this.router = router;
 		this.route = route;
 		this.modalService = modalService;
 
 		this.classService = classService;
+		this.configService = configService;
 		this.lecturerService = lecturerService;
 	}
 
@@ -55,37 +63,43 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 				date = moment();
 			}
 
-			this.options = {
-				allDaySlot: false,
-				columnFormat: "dd, DD.MM",
-				defaultDate: date,
-				defaultView: "agendaWeek",
-				eventClick: this.eventClicked.bind(this),
-				eventDurationEditable: false,
-				eventRender:
-					(event: FC.EventObject, element: JQuery<HTMLElement>) => {
-						element.css("border-style", "hidden");
-						element.css("cursor", "pointer");
-						element.addClass("bg-primary");
-						element.addClass("text-white");
-					},
-				events: this.getEvents.bind(this),
-				header: {
-					left: "title",
-					center: "agendaWeek,listWeek",
-					right: "today prev,next"
-				},
-				height: "auto",
-				minTime: moment.duration("08:00:00"),
-				maxTime: moment.duration("21:00:00"),
-				slotDuration: moment.duration("00:30:00"),
-				slotLabelFormat: "HH:mm",
-				slotLabelInterval: moment.duration("01:00:00"),
-				titleFormat: "DD MMM YYYY",
-				weekends: false,
-				weekNumbers: true,
-				weekNumberTitle: "Тиж "
-			};
+			this.configService.getScheduleOptions()
+				.subscribe(options => {
+					const hoursAndMinutes = options.classDuration.split(":");
+					[this.hours, this.minutes] = hoursAndMinutes;
+
+					this.options = {
+						allDaySlot: false,
+						columnFormat: "dd, DD.MM",
+						defaultDate: date,
+						defaultView: "agendaWeek",
+						eventClick: this.eventClicked.bind(this),
+						eventDurationEditable: false,
+						eventRender:
+							(event: FC.EventObject, element: JQuery<HTMLElement>) => {
+								element.css("border-style", "hidden");
+								element.css("cursor", "pointer");
+								element.addClass("bg-primary");
+								element.addClass("text-white");
+							},
+						events: this.getEvents.bind(this),
+						header: {
+							left: "title",
+							center: "agendaWeek,listWeek",
+							right: "today prev,next"
+						},
+						height: "auto",
+						minTime: moment.duration("08:00:00"),
+						maxTime: moment.duration("21:00:00"),
+						slotDuration: moment.duration("00:30:00"),
+						slotLabelFormat: "HH:mm",
+						slotLabelInterval: moment.duration("01:00:00"),
+						titleFormat: "DD MMM YYYY",
+						weekends: false,
+						weekNumbers: true,
+						weekNumberTitle: "Тиж "
+					};
+				});
 		});
 	}
 
@@ -132,7 +146,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 					this.classService.getClassesForLecturerInRange(
 						lecturer.id, start, end)
 						.subscribe(classes =>
-							callback(classes.map(this.classToEvent)));
+							callback(classes.map(this.classToEvent.bind(this))));
 				}
 			});
 	}
@@ -153,8 +167,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 			title: `${classInfo.subjectName}: ${classInfo.type}`,
 			start: moment.utc(classInfo.dateTime).format(),
 			end: moment.utc(classInfo.dateTime)
-					   .add(1, "hours")
-					   .add(20, "minutes")
+					   .add(this.hours, "hours")
+					   .add(this.minutes, "minutes")
 					   .format()
 		};
 	}

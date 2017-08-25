@@ -106,3 +106,9 @@ export interface Student extends GenericUser<number> {
 export interface Subject extends NameableEntity { }
 
 export interface User extends GenericUser<string> { }
+
+export interface ScheduleOptions {
+	classStarts?: string[];
+	classEnds?: string[];
+	classDuration?: string;
+}

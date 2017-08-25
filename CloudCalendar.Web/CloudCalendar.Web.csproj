@@ -31,11 +31,16 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="ClientApp\app\common\services\config.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CloudCalendar.Data\CloudCalendar.Data.csproj" />
     <ProjectReference Include="..\CloudCalendar.Schedule\CloudCalendar.Schedule.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\common\services\config.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

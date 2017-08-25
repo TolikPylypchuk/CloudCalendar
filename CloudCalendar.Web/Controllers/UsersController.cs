@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -15,7 +14,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 using CloudCalendar.Data.Models;
 using CloudCalendar.Web.Models.Dto;
-using CloudCalendar.Web.Services;
 
 namespace CloudCalendar.Web.Controllers
 {
@@ -29,28 +27,23 @@ namespace CloudCalendar.Web.Controllers
 	{
 		private UserManager<User> manager;
 		private IHttpContextAccessor accessor;
-		private IOptionsSnapshot<Settings> settings;
 
 		/// <summary>
-		/// Initializes a new instance of the UsersController class.
+		/// Initializes a new instance of the
+		/// <see cref="UsersController"/> class.
 		/// </summary>
 		/// <param name="manager">
-		/// The manager that this instance will use.
+		/// The user manager that this instance will use.
 		/// </param>
 		/// <param name="accessor">
 		/// The HTTP context accessor that this instance will use.
 		/// </param>
-		/// <param name="settings">
-		/// The application settings that this instance will use.
-		/// </param>
 		public UsersController(
 			UserManager<User> manager,
-			IHttpContextAccessor accessor,
-			IOptionsSnapshot<Settings> settings)
+			IHttpContextAccessor accessor)
 		{
 			this.manager = manager;
 			this.accessor = accessor;
-			this.settings = settings;
 		}
 
 		/// <summary>
@@ -108,18 +101,5 @@ namespace CloudCalendar.Web.Controllers
 
 			return Mapper.Map<UserDto>(user);
 		}
-
-		/// <summary>
-		/// Gets the email domain of the users of this application.
-		/// </summary>
-		/// <returns>
-		/// The email domain of the users of this application.
-		/// </returns>
-		[AllowAnonymous]
-		[HttpGet("email-domain")]
-		[Produces("text/plain")]
-		[SwaggerResponse(200, Type = typeof(string))]
-		public string GetEmailDomain()
-			=> this.settings.Value.EmailDomain;
 	}
 }

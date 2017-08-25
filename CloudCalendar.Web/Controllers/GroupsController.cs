@@ -27,7 +27,8 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Group> groups;
 
 		/// <summary>
-		/// Initializes a new instance of the GroupsController class.
+		/// Initializes a new instance of the
+		/// <see cref="GroupsController"/> class.
 		/// </summary>
 		/// <param name="repo">
 		/// The repository that this instance will use.

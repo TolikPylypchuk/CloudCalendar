@@ -34,13 +34,14 @@ namespace CloudCalendar.Web.Controllers
 		private Settings settings;
 
 		/// <summary>
-		/// Initializes a new instance of the HomeworksController class.
+		/// Initializes a new instance of the
+		/// <see cref="HomeworksController"/> class.
 		/// </summary>
 		/// <param name="env">
 		/// The hosting environment that this instance will use.
 		/// </param>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of homeworks that this instance will use.
 		/// </param>
 		/// <param name="options">
 		/// The application settings that this instance will use.

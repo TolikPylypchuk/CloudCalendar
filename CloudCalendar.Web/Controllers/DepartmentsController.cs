@@ -26,10 +26,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Department> departments;
 
 		/// <summary>
-		/// Initializes a new instance of the DepartmentsController class.
+		/// Initializes a new instance of the
+		/// <see cref="DepartmentsController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of departments that this instance will use.
 		/// </param>
 		public DepartmentsController(IRepository<Department> repo)
 		{

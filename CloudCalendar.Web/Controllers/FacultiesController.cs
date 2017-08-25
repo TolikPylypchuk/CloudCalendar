@@ -26,10 +26,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Faculty> faculties;
 
 		/// <summary>
-		/// Initializes a new instance of the FacultiesController class.
+		/// Initializes a new instance of the
+		/// <see cref="FacultiesController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of faculties that this instance will use.
 		/// </param>
 		public FacultiesController(IRepository<Faculty> repo)
 		{

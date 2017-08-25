@@ -27,10 +27,11 @@ namespace CloudCalendar.Web.Controllers
 		private IRepository<Comment> comments;
 
 		/// <summary>
-		/// Initializes a new instance of the CommentsController class.
+		/// Initializes a new instance of the
+		/// <see cref="CommentsController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of comments that this instance will use.
 		/// </param>
 		public CommentsController(IRepository<Comment> repo)
 		{

@@ -29,10 +29,11 @@ namespace CloudCalendar.Web.Controllers
 		private UserManager<User> manager;
 
 		/// <summary>
-		/// Initializes a new instance of the StudentsController class.
+		/// Initializes a new instance of the
+		/// <see cref="StudentsController"/> class.
 		/// </summary>
 		/// <param name="repo">
-		/// The repository that this instance will use.
+		/// The repository of students that this instance will use.
 		/// </param>
 		/// <param name="manager">
 		/// The user manager that this instance will use.

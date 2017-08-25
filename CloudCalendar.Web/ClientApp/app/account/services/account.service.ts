@@ -140,7 +140,7 @@ export class AccountService {
 
 	getEmailDomain(): Observable<string> {
 		return this.http.get(
-			"api/users/email-domain",
+			"api/config/email-domain",
 			{ headers: this.getHeaders() })
 			.map(response => response.text())
 			.first();
