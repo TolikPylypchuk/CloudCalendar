@@ -5,10 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 
-using CloudCalendar.Schedule.Services;
 using CloudCalendar.Schedule.Services.Options;
 
-namespace CloudCalendar.Tests.Schedule.Services
+namespace CloudCalendar.Schedule.Services
 {
 	[TestClass]
 	public class ScheduleHttpClientTests
@@ -33,7 +32,7 @@ namespace CloudCalendar.Tests.Schedule.Services
 		}
 
 		[TestMethod]
-		public void GetScheduleAsync()
+		public void GetScheduleAsyncShouldGetTheSchedule()
 		{
 			var client = new ScheduleHttpClient(
 				new HttpClient(), this.mockOptions.Object);

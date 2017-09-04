@@ -9,7 +9,6 @@ using Moq;
 
 using CloudCalendar.Data.Models;
 using CloudCalendar.Data.Repositories;
-using CloudCalendar.Schedule.Services;
 using CloudCalendar.Schedule.Services.Options;
 
 using CalendarBuilding = CloudCalendar.Data.Models.Building;
@@ -27,7 +26,7 @@ using ScheduleGroup = CloudCalendar.Schedule.Models.Group;
 using ScheduleLecturer = CloudCalendar.Schedule.Models.Lecturer;
 using ScheduleSubject = CloudCalendar.Schedule.Models.Subject;
 
-namespace CloudCalendar.Tests.Schedule.Services
+namespace CloudCalendar.Schedule.Services
 {
 	[TestClass]
 	public class CalendarServiceTests
@@ -140,7 +139,7 @@ namespace CloudCalendar.Tests.Schedule.Services
 		}
 
 		[TestMethod]
-		public void CreateCalendarWeekly()
+		public void WeeklyClassesShouldBeEveryWeek()
 		{
 			var calendarService = new CalendarService(
 				this.mockClassrooms.Object,
@@ -224,7 +223,7 @@ namespace CloudCalendar.Tests.Schedule.Services
 		}
 
 		[TestMethod]
-		public void CreateCalendarNumerator()
+		public void NumeratorClassesShouldBeTwiceAWeek()
 		{
 			var calendarService = new CalendarService(
 				this.mockClassrooms.Object,
@@ -298,7 +297,7 @@ namespace CloudCalendar.Tests.Schedule.Services
 		}
 
 		[TestMethod]
-		public void CreateCalendarDenominator()
+		public void DenominatorClassesShouldBeTwiceAWeek()
 		{
 			var calendarService = new CalendarService(
 				this.mockClassrooms.Object,

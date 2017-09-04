@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>CloudCalendar</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Web\" />
   </ItemGroup>
 
 </Project>
