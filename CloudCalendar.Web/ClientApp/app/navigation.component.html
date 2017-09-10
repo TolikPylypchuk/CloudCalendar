@@ -23,6 +23,16 @@
 					Викладачі
 				</a>
 			</li>
+			<li *ngIf="isAdmin() | async" class="nav-item">
+				<a class="nav-link" routerLink="/admin/users">
+					Користувачі
+				</a>
+			</li>
+			<li *ngIf="isAdmin() | async" class="nav-item">
+				<a class="nav-link" routerLink="/admin/settings">
+					Налаштування
+				</a>
+			</li>
 		</ul>
 		<ul *ngIf="isLoggedIn()" class="nav navbar-nav">
 			<li class="nav-item dropdown">

@@ -58,7 +58,6 @@ namespace CloudCalendar.Data.Repositories
 					.Include(lc => lc.Lecturer)
 						.ThenInclude(l => l.Department)
 							.ThenInclude(d => d.Faculty)
-								.ThenInclude(f => f.Building)
 					.Include(lc => lc.Lecturer)
 						.ThenInclude(l => l.User);
 	}

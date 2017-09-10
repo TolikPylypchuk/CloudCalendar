@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,20 +54,7 @@ namespace CloudCalendar.Web.Controllers
 		[SwaggerResponse(200, Type = typeof(FacultyDto))]
 		public FacultyDto GetById([FromRoute] int id)
 			=> Mapper.Map<FacultyDto>(this.faculties.GetById(id));
-
-		/// <summary>
-		/// Gets all faculties with the specified building.
-		/// </summary>
-		/// <param name="buildingId">The ID of the building.</param>
-		/// <returns>All faculties with the specified building.</returns>
-		[HttpGet("buildingId/{buildingId}")]
-		[SwaggerResponse(200, Type = typeof(IEnumerable<FacultyDto>))]
-		public IEnumerable<FacultyDto> GetForBuilding(
-			[FromRoute] int buildingId)
-			=> this.faculties.GetAll()
-							?.Where(f => f.BuildingId == buildingId)
-							 .ProjectTo<FacultyDto>();
-
+		
 		/// <summary>
 		/// Adds a new faculty to the database.
 		/// </summary>
@@ -81,16 +67,14 @@ namespace CloudCalendar.Web.Controllers
 		[Authorize(Roles = "Admin")]
 		public IActionResult Post([FromBody] FacultyDto facultyDto)
 		{
-			if (facultyDto?.Name == null ||
-				facultyDto.BuildingId == 0)
+			if (facultyDto?.Name == null)
 			{
 				return this.BadRequest();
 			}
 
 			var facultyToAdd = new Faculty
 			{
-				Name = facultyDto.Name,
-				BuildingId = facultyDto.BuildingId
+				Name = facultyDto.Name
 			};
 
 			this.faculties.Add(facultyToAdd);
@@ -132,12 +116,7 @@ namespace CloudCalendar.Web.Controllers
 			{
 				facultyToUpdate.Name = facultyDto.Name;
 			}
-
-			if (facultyDto.BuildingId != 0)
-			{
-				facultyToUpdate.BuildingId = facultyDto.BuildingId;
-			}
-
+			
 			this.faculties.Update(facultyToUpdate);
 
 			return this.NoContent();
@@ -174,12 +153,7 @@ namespace CloudCalendar.Web.Controllers
 			{
 				facultyToUpdate.Name = facultyDto.Name;
 			}
-
-			if (facultyDto.BuildingId != 0)
-			{
-				facultyToUpdate.BuildingId = facultyDto.BuildingId;
-			}
-
+			
 			this.faculties.Update(facultyToUpdate);
 
 			return this.NoContent();

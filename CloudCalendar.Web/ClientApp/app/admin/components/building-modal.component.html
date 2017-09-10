@@ -1,0 +1,50 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+	<div class="modal-header">
+		<h4 class="modal-title">
+			{{ isEditing ? "Редагувати" : "Додати" }} корпус
+		</h4>
+		<button type="button" class="close" aria-label="Close"
+		        (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<p *ngIf="error" class="text-danger text-center">
+			{{ errorText }}
+		</p>
+
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						<label for="buildingName" class="form-control-label">
+							Назва
+						</label>
+						<input id="buildingName" name="name" [(ngModel)]="building.name"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<label for="buildingAddress" class="form-control-label">
+						Адреса
+					</label>
+					<input id="buildingAddress" name="address" [(ngModel)]="building.address"
+					       class="form-control" required (change)="change()" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-success">
+			OK
+		</button>
+		<button type="button" class="btn btn-secondary"
+		        (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+	</div>
+</form>

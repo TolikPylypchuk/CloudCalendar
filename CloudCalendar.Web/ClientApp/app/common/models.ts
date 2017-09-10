@@ -56,9 +56,6 @@ export interface Department extends NameableEntity {
 }
 
 export interface Faculty extends NameableEntity {
-	buildingId?: number;
-	buildingName?: string;
-	buildingAddress?: string;
 }
 
 export interface Group extends NameableEntity {

@@ -26,7 +26,6 @@ namespace CloudCalendar.Data.Repositories
 
 			var entry = this.Context.Entry(result);
 
-			entry.Reference(f => f.Building).Load();
 			entry.Collection(f => f.Departments).Load();
 
 			return result;
@@ -43,7 +42,6 @@ namespace CloudCalendar.Data.Repositories
 
 			var entry = this.Context.Entry(result);
 
-			entry.Reference(f => f.Building).Load();
 			entry.Collection(f => f.Departments).Load();
 
 			return result;
@@ -53,9 +51,6 @@ namespace CloudCalendar.Data.Repositories
 			 => base.GetAll()
 					.Include(f => f.Departments)
 						.ThenInclude(d => d.Lecturers)
-							.ThenInclude(lecturer => lecturer.User)
-					.Include(f => f.Building)
-						.ThenInclude(b => b.Faculties)
-							.ThenInclude(f => f.Departments);
+							.ThenInclude(lecturer => lecturer.User);
 	}
 }

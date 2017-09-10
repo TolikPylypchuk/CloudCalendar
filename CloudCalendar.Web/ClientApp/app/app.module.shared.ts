@@ -6,6 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { CommonModule } from "./common/common";
 import { AccountModule } from "./account/account";
+import { AdminModule } from "./admin/admin";
 import { LecturerModule } from "./lecturer/lecturer";
 import { StudentModule } from "./student/student";
 import { ViewModule } from "./view/view";
@@ -28,7 +29,8 @@ import { StartPageComponent } from "./start-page.component";
 		FormsModule,
 	    NgbModule.forRoot(),
 	    CommonModule,
-	    AccountModule,
+		AccountModule,
+		AdminModule,
 	    LecturerModule,
 	    StudentModule,
 	    ViewModule,

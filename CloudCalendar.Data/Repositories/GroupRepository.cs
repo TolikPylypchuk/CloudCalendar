@@ -55,9 +55,6 @@ namespace CloudCalendar.Data.Repositories
 						.ThenInclude(curator => curator.User)
 					.Include(group => group.Curator)
 						.ThenInclude(curator => curator.Department)
-							.ThenInclude(d => d.Faculty)
-								.ThenInclude(f => f.Building)
-					.Include(group => group.Students)
-						.ThenInclude(student => student.User);
+							.ThenInclude(d => d.Faculty);
 	}
 }

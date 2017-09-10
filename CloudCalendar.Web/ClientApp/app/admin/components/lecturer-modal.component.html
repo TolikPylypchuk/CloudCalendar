@@ -1,0 +1,112 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+	<div class="modal-header">
+		<h4 class="modal-title">
+			{{ isEditing ? "Редагувати" : "Додати" }} користувача
+		</h4>
+		<button type="button" class="close" aria-label="Close"
+		        (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<p *ngIf="error" class="text-danger text-center">
+						{{ errorText }}
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col text-center">
+					<div class="form-check form-check-inline">
+						<label *ngFor="let authority of authorities" class="form-check-label">
+							<input class="form-check-inline" type="checkbox"
+							       (change)="authorityChecked(authority)"
+							       [attr.checked]="isAuthorityChecked(authority) ? true : null" />
+							{{ getAuthorityName(authority) }}
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md">
+					<div class="form-group">
+						<label for="username" class="form-control-label">
+							Ім'я користувача
+						</label>
+						<input id="username" name="username" [(ngModel)]="user.username"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="form-group">
+						<label for="faculty">Факультет</label>
+						<select class="form-control" id="faculty" name="faculty"
+						        [(ngModel)]="user.faculty"
+						        (change)="change()">
+							<option *ngIf="!isEditing" selected [value]="null">
+								Виберіть факультет
+							</option>
+							<option *ngFor="let faculty of faculties"
+							        [ngValue]="faculty">
+								{{ faculty.name }}
+							</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md">
+					<div class="form-group">
+						<label for="firstName" class="form-control-label">
+							Ім'я
+						</label>
+						<input id="firstName" name="firstName" [(ngModel)]="user.firstName"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="form-group">
+						<label for="middleName" class="form-control-label">
+							По-батькові
+						</label>
+						<input id="middleName" name="middleName" [(ngModel)]="user.middleName"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md">
+					<div class="form-group">
+						<label for="firstName" class="form-control-label">
+							Прізвище
+						</label>
+						<input id="lastName" name="lastName" [(ngModel)]="user.lastName"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="form-group">
+						<label for="position" class="form-control-label">
+							Посада
+						</label>
+						<input id="position" name="position" [(ngModel)]="user.position"
+						       class="form-control" required (change)="change()" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-success">
+			OK
+		</button>
+		<button type="button" class="btn btn-secondary"
+		        (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+	</div>
+</form>

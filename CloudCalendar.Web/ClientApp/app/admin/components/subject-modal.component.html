@@ -1,0 +1,35 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+	<div class="modal-header">
+		<h4 class="modal-title">
+			{{ isEditing ? "Редагувати" : "Додати" }} предмет
+		</h4>
+		<button type="button" class="close" aria-label="Close"
+		        (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<p *ngIf="error" class="text-danger text-center">
+			{{ errorText }}
+		</p>
+				
+		<div class="form-group">
+			<label for="subjectName" class="form-control-label">
+				Назва
+			</label>
+			<input id="subjectName" name="name" [(ngModel)]="subject.name"
+			       class="form-control" required (change)="change()" />
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-success">
+			OK
+		</button>
+		<button type="button" class="btn btn-secondary"
+		        (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+	</div>
+</form>

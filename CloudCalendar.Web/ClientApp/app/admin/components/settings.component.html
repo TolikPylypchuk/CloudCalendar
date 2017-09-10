@@ -1,0 +1,151 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md text-center mb-3">
+			<h2 class="h2">Факультети</h2>
+			<button class="btn btn-primary m-3"
+					(click)="addFacultyClicked()">
+				Додати факультет
+			</button>
+
+			<div id="faculties" role="tablist" aria-multiselectable="true">
+				<div class="card" *ngFor="let faculty of faculties">
+					<div class="card-header" role="tab" id="{{ faculty.id }}">
+						<span class="h6 m-0">
+							<a data-toggle="collapse" data-parent="#faculties"
+							   href="#faculty{{ faculty.id }}" aria-expanded="false"
+							   [attr.aria-controls]="'faculty' + faculty.id">
+								{{ faculty.name }}
+							</a>
+						</span>
+						<span class="btn-group float-right my-1">
+							<button class="btn btn-sm btn-success"
+									(click)="editFacultyClicked(faculty)">
+								<i class="fa fa-edit" aria-hidden="true"></i>
+							</button>
+							<button class="btn btn-sm btn-danger"
+									(click)="deleteFacultyClicked(faculty.id)">
+								<i class="fa fa-remove" aria-hidden="true"></i>
+							</button>
+						</span>
+					</div>
+					<div id="faculty{{ faculty.id }}" class="collapse"
+						 role="tabpanel" [attr.aria-labelledby]="faculty.id">
+						<button class="btn btn-sm btn-primary m-2"
+								(click)="addDepartmentClicked(faculty)">
+							Додати
+						</button>
+
+						<div *ngFor="let department of departments.get(faculty.id)">
+							<div class="dropdown-divider m-0"></div>
+							<div class="clearfix px-3 py-2 m-0">
+								<div class="row">
+									<div class="col-8 align-items-center">
+										{{ department.name }}
+									</div>
+									<div class="col-4 btn-group align-items-center">
+										<button class="btn btn-sm btn-success"
+												(click)="editDepartmentClicked(department)">
+											<i class="fa fa-edit" aria-hidden="true"></i>
+										</button>
+										<button class="btn btn-sm btn-danger"
+												(click)="deleteDepartmentClicked(department)">
+											<i class="fa fa-remove" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md text-center mb-3">
+			<h2 class="h2">Аудиторії</h2>
+			<button class="btn btn-primary m-3"
+					(click)="addBuildingClicked()">
+				Додати корпус
+			</button>
+
+			<div id="buildings" role="tablist" aria-multiselectable="true">
+				<div class="card" *ngFor="let building of buildings">
+					<div class="card-header" role="tab" id="{{ building.id }}">
+						<span class="h6 m-0">
+							<a data-toggle="collapse" data-parent="#buildings"
+							   href="#building{{ building.id }}" aria-expanded="false"
+							   [attr.aria-controls]="'building' + building.id">
+								{{ building.name }}
+							</a>
+						</span>
+						<span class="btn-group float-right my-1">
+							<button class="btn btn-sm btn-success"
+									(click)="editBuildingClicked(building)">
+								<i class="fa fa-edit" aria-hidden="true"></i>
+							</button>
+							<button class="btn btn-sm btn-danger"
+									(click)="deleteBuildingClicked(building.id)">
+								<i class="fa fa-remove" aria-hidden="true"></i>
+							</button>
+						</span>
+					</div>
+					<div id="building{{ building.id }}" class="collapse"
+						 role="tabpanel" [attr.aria-labelledby]="building.id">
+						<button class="btn btn-sm btn-primary m-2"
+								(click)="addClassroomClicked(building)">
+							Додати
+						</button>
+
+						<div *ngFor="let classroom of classrooms.get(building.id)">
+							<div class="dropdown-divider m-0"></div>
+							<div class="clearfix px-3 py-2 m-0">
+								<div class="row">
+									<div class="col-8 align-items-center">
+										{{ classroom.name }}
+									</div>
+									<div class="col-4 btn-group align-items-center">
+										<button class="btn btn-sm btn-success"
+												(click)="editClassroomClicked(classroom)">
+											<i class="fa fa-edit" aria-hidden="true"></i>
+										</button>
+										<button class="btn btn-sm btn-danger"
+												(click)="deleteClassroomClicked(classroom)">
+											<i class="fa fa-remove" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md text-center">
+			<h2 class="h2">Предмети</h2>
+			<button class="btn btn-primary m-3"
+					(click)="addSubjectClicked()">
+				Додати предмет
+			</button>
+			<div *ngFor="let subject of subjects">
+				<div class="dropdown-divider m-0"></div>
+				<div class="clearfix px-3 py-2 m-0">
+					<div class="row">
+						<div class="col-8 align-items-center">
+							{{ subject.name }}
+						</div>
+						<div class="col-4 btn-group align-items-center">
+							<button class="btn btn-sm btn-success"
+									(click)="editSubjectClicked(subject)">
+								<i class="fa fa-edit" aria-hidden="true"></i>
+							</button>
+							<button class="btn btn-sm btn-danger"
+									(click)="deleteSubjectClicked(subject.id)">
+								<i class="fa fa-remove" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

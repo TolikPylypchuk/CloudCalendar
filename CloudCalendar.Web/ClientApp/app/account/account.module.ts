@@ -10,6 +10,9 @@ import { AccountService } from "./services/account.service";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not-auth.guard";
+import { AdminGuard } from "./guards/admin.guard";
+import { LecturerGuard } from "./guards/lecturer.guard";
+import { StudentGuard } from "./guards/student.guard";
 
 import { RoutesModule } from "./routes.module";
 
@@ -28,7 +31,10 @@ import { RoutesModule } from "./routes.module";
 		AccountService,
 
 		AuthGuard,
-		NotAuthGuard
+		NotAuthGuard,
+		AdminGuard,
+		LecturerGuard,
+		StudentGuard
 	]
 })
 export class AccountModule { }

@@ -53,6 +53,33 @@
     <None Update="ClientApp\app\account\components\login.component.html">
       <DependentUpon>login.component.ts</DependentUpon>
     </None>
+    <None Update="ClientApp\app\admin\components\building-modal.component.html">
+      <DependentUpon>building-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\classroom-modal.component.html">
+      <DependentUpon>classroom-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\department-modal.component.html">
+      <DependentUpon>department-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\faculty-modal.component.html">
+      <DependentUpon>faculty-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\lecturer-modal.component.html">
+      <DependentUpon>lecturer-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\settings.component.html">
+      <DependentUpon>settings.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\subject-modal.component.html">
+      <DependentUpon>subject-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\student-modal.component.html">
+      <DependentUpon>student-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\users.component.html">
+      <DependentUpon>users.component.ts</DependentUpon>
+    </None>
     <None Update="ClientApp\app\app.component.html">
       <DependentUpon>app.component.ts</DependentUpon>
     </None>

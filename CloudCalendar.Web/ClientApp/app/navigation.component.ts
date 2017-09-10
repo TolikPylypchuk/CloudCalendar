@@ -40,6 +40,10 @@ export class NavigationComponent implements OnInit {
 		return this.accoutService.isLoggedIn();
 	}
 
+	isAdmin(): Observable<boolean> {
+		return this.accoutService.isAdmin();
+	}
+
 	getUserName(): Observable<string> {
 		return this.accoutService.getCurrentUser()
 			.map(user => `${user.firstName} ${user.lastName}`)

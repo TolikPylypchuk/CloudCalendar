@@ -8,6 +8,9 @@ import { AccountService } from "./services/account.service";
 
 import { AuthGuard } from "./guards/auth.guard";
 import { NotAuthGuard } from "./guards/not-auth.guard";
+import { AdminGuard } from "./guards/admin.guard";
+import { LecturerGuard } from "./guards/lecturer.guard";
+import { StudentGuard } from "./guards/student.guard";
 
 export {
 	AccountModule,
@@ -19,5 +22,8 @@ export {
 	AccountService,
 
 	AuthGuard,
-	NotAuthGuard
+	NotAuthGuard,
+	AdminGuard,
+	LecturerGuard,
+	StudentGuard
 }

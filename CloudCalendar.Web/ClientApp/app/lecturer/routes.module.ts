@@ -1,7 +1,7 @@
 ﻿import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { AuthGuard } from "../account/account";
+import { AuthGuard, LecturerGuard } from "../account/account";
 
 import { LecturerComponent } from "./lecturer.component";
 import { CalendarComponent } from "./calendar/calendar";
@@ -15,8 +15,8 @@ const routes: Routes = [
 			{ path: "calendar/:date", component: CalendarComponent },
 			{ path: "calendar/:date/:time", component: CalendarComponent }
 		],
-		canActivate: [ AuthGuard ],
-		canActivateChild: [ AuthGuard ]
+		canActivate: [ AuthGuard, LecturerGuard ],
+		canActivateChild: [ AuthGuard, LecturerGuard ]
 	}
 ];
 
