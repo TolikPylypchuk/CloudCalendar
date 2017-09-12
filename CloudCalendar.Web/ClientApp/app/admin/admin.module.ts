@@ -15,6 +15,9 @@ import { BuildingModalComponent } from "./components/building-modal.component";
 import { ClassroomModalComponent } from "./components/classroom-modal.component";
 import { DepartmentModalComponent } from "./components/department-modal.component";
 import { FacultyModalComponent } from "./components/faculty-modal.component";
+import { GroupModalComponent } from "./components/group-modal.component";
+import { LecturerModalComponent } from "./components/lecturer-modal.component";
+import { ScheduleComponent } from "./components/schedule.component";
 import { StudentModalComponent } from "./components/student-modal.component";
 import { SubjectModalComponent } from "./components/subject-modal.component";
 
@@ -27,6 +30,9 @@ import { SubjectModalComponent } from "./components/subject-modal.component";
 		ClassroomModalComponent,
 		DepartmentModalComponent,
 		FacultyModalComponent,
+		GroupModalComponent,
+		LecturerModalComponent,
+		ScheduleComponent,
 		StudentModalComponent,
 		SubjectModalComponent
 	],
@@ -43,6 +49,8 @@ import { SubjectModalComponent } from "./components/subject-modal.component";
 		ClassroomModalComponent,
 		DepartmentModalComponent,
 		FacultyModalComponent,
+		GroupModalComponent,
+		LecturerModalComponent,
 		StudentModalComponent,
 		SubjectModalComponent
 	]

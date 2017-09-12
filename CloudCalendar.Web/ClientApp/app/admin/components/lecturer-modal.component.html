@@ -1,7 +1,7 @@
 <form (ngSubmit)="submit()" #classForm="ngForm">
 	<div class="modal-header">
 		<h4 class="modal-title">
-			{{ isEditing ? "Редагувати" : "Додати" }} користувача
+			{{ isEditing ? "Редагувати" : "Додати" }} викладача
 		</h4>
 		<button type="button" class="close" aria-label="Close"
 		        (click)="activeModal.dismiss('')">
@@ -12,88 +12,91 @@
 	<div class="modal-body">
 		<div class="container">
 			<div class="row">
-				<div class="col">
+				<div class="col-md-12">
 					<p *ngIf="error" class="text-danger text-center">
 						{{ errorText }}
 					</p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col text-center">
-					<div class="form-check form-check-inline">
-						<label *ngFor="let authority of authorities" class="form-check-label">
-							<input class="form-check-inline" type="checkbox"
-							       (change)="authorityChecked(authority)"
-							       [attr.checked]="isAuthorityChecked(authority) ? true : null" />
-							{{ getAuthorityName(authority) }}
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="username" class="form-control-label">
-							Ім'я користувача
+							Електронна пошта
 						</label>
-						<input id="username" name="username" [(ngModel)]="user.username"
-						       class="form-control" required (change)="change()" />
+						<input id="email" name="email" type="email"
+							   [(ngModel)]="lecturer.email" class="form-control"
+							   required (change)="change()" />
 					</div>
 				</div>
-				<div class="col-md">
-					<div class="form-group">
-						<label for="faculty">Факультет</label>
-						<select class="form-control" id="faculty" name="faculty"
-						        [(ngModel)]="user.faculty"
-						        (change)="change()">
-							<option *ngIf="!isEditing" selected [value]="null">
-								Виберіть факультет
-							</option>
-							<option *ngFor="let faculty of faculties"
-							        [ngValue]="faculty">
-								{{ faculty.name }}
-							</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label for="firstName" class="form-control-label">
 							Ім'я
 						</label>
-						<input id="firstName" name="firstName" [(ngModel)]="user.firstName"
-						       class="form-control" required (change)="change()" />
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="form-group">
-						<label for="middleName" class="form-control-label">
-							По-батькові
-						</label>
-						<input id="middleName" name="middleName" [(ngModel)]="user.middleName"
-						       class="form-control" required (change)="change()" />
+						<input id="firstName" name="firstName"
+						       [(ngModel)]="lecturer.firstName"
+							   class="form-control" required
+							   (change)="change()" />
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md">
+				<div class="col-md-6">
 					<div class="form-group">
-						<label for="firstName" class="form-control-label">
-							Прізвище
+						<label for="middleName" class="form-control-label">
+							По-батькові
 						</label>
-						<input id="lastName" name="lastName" [(ngModel)]="user.lastName"
-						       class="form-control" required (change)="change()" />
+						<input id="middleName" name="middleName"
+							   [(ngModel)]="lecturer.middleName"
+							   class="form-control" required
+							   (change)="change()" />
 					</div>
 				</div>
-				<div class="col-md">
-					<div class="form-group">
-						<label for="position" class="form-control-label">
-							Посада
+				<div class="col-md-6">
+					<div class="form-group my-auto">
+						<label for="lastName" class="form-control-label">
+							Прізвище
 						</label>
-						<input id="position" name="position" [(ngModel)]="user.position"
-						       class="form-control" required (change)="change()" />
+						<input id="lastName" name="lastName"
+							   [(ngModel)]="lecturer.lastName"
+							   class="form-control"
+							   required (change)="change()" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-check">
+						<label class="form-check-label">
+							<input id="isAdmin" name="isAdmin"
+								   [(ngModel)]="lecturer.isAdmin"
+								   class="form-check-input" type="checkbox"
+								   required (change)="change()" />
+							Адміністратор
+						</label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-check">
+						<label class="form-check-label">
+							<input id="isDean" name="isDean"
+								   [(ngModel)]="lecturer.isDean"
+								   class="form-check-input" type="checkbox"
+								   required (change)="change()" />
+							Декан
+						</label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-check">
+						<label class="form-check-label">
+							<input id="isHead" name="isHead"
+								   [(ngModel)]="lecturer.isHead"
+								   class="form-check-input" type="checkbox"
+								   required (change)="change()" />
+							Зав. кафедри
+						</label>
 					</div>
 				</div>
 			</div>

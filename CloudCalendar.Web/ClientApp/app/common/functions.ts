@@ -59,3 +59,7 @@ export function compareByLastName<T>(
 
 	return result;
 }
+
+export function getUserInitials<T>(user: GenericUser<T>): string {
+	return `${user.lastName} ${user.firstName[0]}. ${user.lastName[0]}.`;
+}

@@ -5,6 +5,7 @@ import { AdminComponent } from "./admin.component";
 
 import { UsersComponent } from "./components/users.component";
 import { SettingsComponent } from "./components/settings.component";
+import { ScheduleComponent } from "./components/schedule.component";
 
 import { AuthGuard, AdminGuard } from "../account/account";
 
@@ -14,7 +15,8 @@ const routes: Routes = [
 		component: AdminComponent,
 		children: [
 			{ path: "settings", component: SettingsComponent },
-			{ path: "users", component: UsersComponent, pathMatch: "full" }
+			{ path: "users", component: UsersComponent },
+			{ path: "schedule", component: ScheduleComponent }
 		],
 		canActivate: [ AuthGuard, AdminGuard ],
 		canActivateChild: [ AuthGuard, AdminGuard ]

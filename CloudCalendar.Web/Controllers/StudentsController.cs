@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -14,6 +15,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using CloudCalendar.Data.Models;
 using CloudCalendar.Data.Repositories;
 using CloudCalendar.Web.Models.Dto;
+using CloudCalendar.Web.Services;
 
 namespace CloudCalendar.Web.Controllers
 {
@@ -27,6 +29,7 @@ namespace CloudCalendar.Web.Controllers
 	{
 		private IRepository<Student> students;
 		private UserManager<User> manager;
+		private Settings settings;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -38,12 +41,17 @@ namespace CloudCalendar.Web.Controllers
 		/// <param name="manager">
 		/// The user manager that this instance will use.
 		/// </param>
+		/// <param name="settings">
+		/// The application settings that this instance will use.
+		/// </param>
 		public StudentsController(
 			IRepository<Student> repo,
-			UserManager<User> manager)
+			UserManager<User> manager,
+			IOptionsSnapshot<Settings> settings)
 		{
 			this.students = repo;
 			this.manager = manager;
+			this.settings = settings.Value;
 		}
 
 		/// <summary>
@@ -148,6 +156,8 @@ namespace CloudCalendar.Web.Controllers
 			};
 
 			await this.manager.CreateAsync(userToAdd);
+			await this.manager.AddPasswordAsync(
+				userToAdd, this.settings.DefaultPassword);
 			await this.manager.AddToRoleAsync(userToAdd, "Student");
 
 			var studentToAdd = new Student

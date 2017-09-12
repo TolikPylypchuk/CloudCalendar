@@ -65,6 +65,9 @@
     <None Update="ClientApp\app\admin\components\faculty-modal.component.html">
       <DependentUpon>faculty-modal.component.ts</DependentUpon>
     </None>
+    <None Update="ClientApp\app\admin\components\group-modal.component.html">
+      <DependentUpon>group-modal.component.ts</DependentUpon>
+    </None>
     <None Update="ClientApp\app\admin\components\lecturer-modal.component.html">
       <DependentUpon>lecturer-modal.component.ts</DependentUpon>
     </None>

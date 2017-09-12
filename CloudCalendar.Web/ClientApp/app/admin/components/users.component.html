@@ -1,16 +1,8 @@
 <div class="container">
 	<div class="row">
-		<div class="col text-center">
-			<button class="btn btn-lg btn-primary m-3"
-			        (click)="addUser()">
-				Додати користувача
-			</button>
-		</div>
-	</div>
-	<div class="row">
 		<div class="col-md text-center">
 			<h2 class="h2">Викладачі</h2>
-
+			
 			<div class="mt-3">
 				<div id="lecturersFaculties" role="tablist" aria-multiselectable="true">
 					<div class="card" *ngFor="let faculty of faculties">
@@ -24,24 +16,46 @@
 							</h6>
 						</div>
 
-						<div id="lecturersFaculty{{ faculty.id }}" class="collapse"
+						<div id="lecturersFaculty{{ faculty.id }}" class="collapse p-1"
 						     role="tabpanel" [attr.aria-labelledby]="faculty.id">
-							<div *ngFor="let lecturer of lecturers.get(faculty.id)">
-								<div class="dropdown-divider m-0"></div>
-								<div class="clearfix px-3 py-2 m-0">
-									<div class="row">
-										<div class="col-8 align-items-center">
-											{{ getUserInitials(lecturer) }}
-										</div>
-										<div class="col-4 btn-group align-items-center">
-											<button class="btn btn-sm btn-success"
-											        (click)="editUser(lecturer)">
-												<i class="fa fa-edit" aria-hidden="true"></i>
-											</button>
-											<button class="btn btn-sm btn-danger"
-											        (click)="deleteUser(lecturer)">
-												<i class="fa fa-remove" aria-hidden="true"></i>
-											</button>
+							<div class="card" *ngFor="let department of departments.get(faculty.id)">
+								<div class="card-header" role="tab" id="lecturersDepartments{{ faculty.id }}">
+									<h6 class="m-0">
+										<a data-toggle="collapse" [attr.data-parent]="'lecturersFaculty' + faculty.id"
+										   href="#lecturersDepartment{{ department.id }}" aria-expanded="false"
+										   [attr.aria-controls]="'lecturersDepartment' + department.id">
+											{{ department.name }}
+										</a>
+									</h6>
+								</div>
+								
+								<div id="lecturersDepartment{{ department.id }}" class="collapse">
+									
+									<div class="text-center">
+										<button class="btn btn-sm btn-primary m-1"
+												(click)="addLecturer(department.id)">
+											Додати викладача
+										</button>
+									</div>
+
+									<div *ngFor="let lecturer of lecturers.get(department.id)">
+										<div class="dropdown-divider m-0"></div>
+										<div class="clearfix px-3 py-2 m-0">
+											<div class="row">
+												<div class="col-10 align-items-center">
+													{{ getUserInitials(lecturer) }}
+												</div>
+												<div class="col-2 btn-group align-items-center">
+													<button class="btn btn-sm btn-success"
+															(click)="editLecturer(lecturer)">
+														<i class="fa fa-edit" aria-hidden="true"></i>
+													</button>
+													<button class="btn btn-sm btn-danger"
+															(click)="deleteLecturer(lecturer)">
+														<i class="fa fa-remove" aria-hidden="true"></i>
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -54,23 +68,95 @@
 
 		<div class="col-md text-center">
 			<h2 class="h2">Студенти</h2>
-			<div *ngFor="let admin of admins">
-				<div class="dropdown-divider m-0"></div>
-				<div class="clearfix px-3 py-2 m-0">
-					<div class="row">
-						<div class="col-8 align-items-center">
-							{{ getUserInitials(admin) }}
+			
+			<div class="mt-3">
+				<div id="studentsFaculties" role="tablist" aria-multiselectable="true">
+					<div class="card" *ngFor="let faculty of faculties">
+						<div class="card-header" role="tab" id="students{{ faculty.id }}">
+							<h6 class="m-0">
+								<a data-toggle="collapse" data-parent="#faculties"
+								   href="#studentsFaculty{{ faculty.id }}" aria-expanded="false"
+								   [attr.aria-controls]="'studentsFaculty' + faculty.id">
+									{{ faculty.name }}
+								</a>
+							</h6>
 						</div>
-						<div class="col-4 btn-group align-items-center">
-							<button class="btn btn-sm btn-success"
-							        (click)="editUser(admin)">
-								<i class="fa fa-edit" aria-hidden="true"></i>
-							</button>
-							<button class="btn btn-sm btn-danger"
-							        [attr.disabled]="admin.id === currentAdmin.id ? true : null"
-							        (click)="deleteUser(admin)">
-								<i class="fa fa-remove" aria-hidden="true"></i>
-							</button>
+
+						<div id="studentsFaculty{{ faculty.id }}" class="collapse p-1"
+							 role="tabpanel" [attr.aria-labelledby]="faculty.id">
+							<div class="card" *ngFor="let department of departments.get(faculty.id)">
+								<div class="card-header" role="tab" id="studentsDepartments{{ faculty.id }}">
+									<h6 class="m-0">
+										<a data-toggle="collapse" [attr.data-parent]="'studentsFaculty' + faculty.id"
+										   href="#studentsDepartment{{ department.id }}" aria-expanded="false"
+										   [attr.aria-controls]="'studentsDepartment' + department.id">
+											{{ department.name }}
+										</a>
+									</h6>
+								</div>
+
+								<div id="studentsDepartment{{ department.id }}" class="collapse p-1"
+									 role="tabpanel" [attr.aria-labelledby]="faculty.id">
+									<div class="text-center">
+										<button class="btn btn-sm btn-primary m-1"
+												(click)="addGroup(department.id)">
+											Додати групу
+										</button>
+									</div>
+									<div class="card" *ngFor="let group of groups.get(department.id)">
+										<div class="card-header" role="tab" id="studentsGroups{{ department.id }}">
+											<div class="row">
+												<h6 class="col-8 m-0">
+													<a data-toggle="collapse" [attr.data-parent]="'studentsDepartment' + department.id"
+													   href="#studentsGroup{{ group.id }}" aria-expanded="false"
+													   [attr.aria-controls]="'studentsGroup' + group.id">
+														{{ group.name }}
+													</a>
+												</h6>
+												<div class="col-4 btn-group align-items-center">
+													<button class="btn btn-sm btn-success"
+															(click)="editGroup(group, department.id)">
+														<i class="fa fa-edit" aria-hidden="true"></i>
+													</button>
+													<button class="btn btn-sm btn-danger"
+															(click)="deleteGroup(group, department.id)">
+														<i class="fa fa-remove" aria-hidden="true"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+
+										<div id="studentsGroup{{ group.id }}" class="collapse">
+											<span class="text-center">
+												<button class="btn btn-sm btn-primary m-1"
+														(click)="addStudent(group.id)">
+													Додати студента
+												</button>
+											</span>
+											<div *ngFor="let student of students.get(group.id)">
+												<div class="dropdown-divider m-0"></div>
+												<div class="clearfix px-3 py-2 m-0">
+													<div class="row">
+														<div class="col-8 align-items-center">
+															{{ getUserInitials(student) }}
+														</div>
+														<div class="col-4 btn-group align-items-center">
+															<button class="btn btn-sm btn-success"
+																	(click)="editStudent(student)">
+																<i class="fa fa-edit" aria-hidden="true"></i>
+															</button>
+															<button class="btn btn-sm btn-danger"
+																	(click)="deleteStudent(student)">
+																<i class="fa fa-remove" aria-hidden="true"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

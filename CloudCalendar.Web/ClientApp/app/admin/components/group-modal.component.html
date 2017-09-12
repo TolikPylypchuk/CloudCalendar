@@ -1,0 +1,64 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+	<div class="modal-header">
+		<h4 class="modal-title">
+			{{ isEditing ? "Редагувати" : "Додати" }} групу
+		</h4>
+		<button type="button" class="close" aria-label="Close"
+		        (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+	</div>
+
+	<div class="modal-body">
+		<p *ngIf="error" class="text-danger text-center">
+			{{ errorText }}
+		</p>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-8">
+					<label for="name" class="form-control-label">
+						Назва
+					</label>
+					<input id="name" name="name" [(ngModel)]="group.name"
+						   class="form-control" required (change)="change()" />
+				</div>
+				<div class="col-4">
+					<label for="numStudents" class="form-control-label">
+						Рік вступу
+					</label>
+					<input id="year" type="number" name="year"
+						   [(ngModel)]="group.year"
+						   class="form-control" required (change)="change()" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md">
+					<div class="form-group">
+						<label for="curator">Куратор</label>
+						<select class="form-control" id="curator" name="curator"
+								[(ngModel)]="curator" (change)="change()">
+							<option *ngIf="!isEditing" selected [value]="null">
+								Виберіть куратора групи
+							</option>
+							<option *ngFor="let lecturer of lecturers"
+									[ngValue]="lecturer">
+								{{ getUserInitials(lecturer) }}
+							</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-success">
+			OK
+		</button>
+		<button type="button" class="btn btn-secondary"
+		        (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+	</div>
+</form>

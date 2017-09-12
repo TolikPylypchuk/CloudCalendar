@@ -1,18 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { Group, Student } from "../../common/models";
-import { GroupService, StudentService } from "../../common/common";
+import { Student } from "../../common/models";
+import { StudentService } from "../../common/common";
 
 @Component({
 	selector: "admin-student-modal",
 	templateUrl: "./student-modal.component.html",
-	styleUrls: [ "../../../css/style.css" ]
+	styleUrls: ["../../../css/style.css"]
 })
-export class StudentModalComponent implements OnInit {
+export class StudentModalComponent {
 	private activeModal: NgbActiveModal;
 
-	private groupService: GroupService;
 	private studentService: StudentService;
 
 	student: Student = {
@@ -20,11 +19,10 @@ export class StudentModalComponent implements OnInit {
 		firstName: null,
 		middleName: null,
 		lastName: null,
+		groupId: 0,
+		transcriptNumber: null,
 		isGroupLeader: false
 	};
-
-	groups: Group[] = [];
-	currentGroup: Group;
 
 	isEditing = false;
 	error = false;
@@ -32,18 +30,9 @@ export class StudentModalComponent implements OnInit {
 
 	constructor(
 		activeModal: NgbActiveModal,
-		groupService: GroupService,
 		studentService: StudentService) {
 		this.activeModal = activeModal;
-		this.groupService = groupService;
 		this.studentService = studentService;
-	}
-
-	ngOnInit(): void {
-		if (this.isEditing) {
-			this.currentGroup = this.groups.find(
-				g => g.id === this.student.groupId);
-		}
 	}
 
 	change(): void {
@@ -66,7 +55,7 @@ export class StudentModalComponent implements OnInit {
 			() => {
 				this.error = true;
 				this.errorText = "Не вдалося зберегти";
-		});
+			});
 
 		action.connect();
 	}
@@ -76,6 +65,7 @@ export class StudentModalComponent implements OnInit {
 			this.student.firstName && this.student.firstName.length !== 0 &&
 			this.student.middleName && this.student.middleName.length !== 0 &&
 			this.student.lastName && this.student.lastName.length !== 0 &&
+			this.student.transcriptNumber && this.student.transcriptNumber.length !== 0 &&
 			this.student.groupId !== 0;
 	}
 }

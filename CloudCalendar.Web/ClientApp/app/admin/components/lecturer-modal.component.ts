@@ -1,10 +1,8 @@
 import { Component } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { Department, Faculty, Lecturer } from "../../common/models";
-import {
-	DepartmentService, FacultyService, LecturerService
-} from "../../common/common";
+import { Lecturer } from "../../common/models";
+import { LecturerService } from "../../common/common";
 
 @Component({
 	selector: "admin-lecturer-modal",
@@ -14,8 +12,6 @@ import {
 export class LecturerModalComponent {
 	private activeModal: NgbActiveModal;
 
-	private departmentService: DepartmentService;
-	private facultyService: FacultyService;
 	private lecturerService: LecturerService;
 
 	lecturer: Lecturer = {
@@ -28,25 +24,15 @@ export class LecturerModalComponent {
 		isDean: false,
 		isHead: false
 	};
-
-	faculties: Faculty[] = [];
-	departments: Map<number, Department[]> = new Map();
-
-	currentFaculty = null as Faculty;
-	currentDepartment = null as Department;
-
+	
 	isEditing = false;
 	error = false;
 	errorText: string = null;
 
 	constructor(
 		activeModal: NgbActiveModal,
-		departmentService: DepartmentService,
-		facultyService: FacultyService,
 		lecturerService: LecturerService) {
 		this.activeModal = activeModal;
-		this.departmentService = departmentService;
-		this.facultyService = facultyService;
 		this.lecturerService = lecturerService;
 	}
 	
@@ -56,7 +42,7 @@ export class LecturerModalComponent {
 	}
 
 	submit(): void {
-		if (!this.isStudentValid()) {
+		if (!this.isLecturerValid()) {
 			this.error = true;
 			this.errorText = "Дані неправильно заповнені.";
 		}
@@ -75,7 +61,7 @@ export class LecturerModalComponent {
 		action.connect();
 	}
 
-	isStudentValid(): boolean {
+	isLecturerValid(): boolean {
 		return this.lecturer.email && this.lecturer.email.length !== 0 &&
 			this.lecturer.firstName && this.lecturer.firstName.length !== 0 &&
 			this.lecturer.middleName && this.lecturer.middleName.length !== 0 &&

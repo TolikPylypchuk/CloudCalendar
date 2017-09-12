@@ -9,6 +9,8 @@ import { BuildingModalComponent } from "./components/building-modal.component";
 import { ClassroomModalComponent } from "./components/classroom-modal.component";
 import { DepartmentModalComponent } from "./components/department-modal.component";
 import { FacultyModalComponent } from "./components/faculty-modal.component";
+import { GroupModalComponent } from "./components/group-modal.component";
+import { ScheduleComponent } from "./components/schedule.component";
 import { StudentModalComponent } from "./components/student-modal.component";
 import { SubjectModalComponent } from "./components/subject-modal.component";
 
@@ -23,6 +25,8 @@ export {
 	ClassroomModalComponent,
 	DepartmentModalComponent,
 	FacultyModalComponent,
+	GroupModalComponent,
+	ScheduleComponent,
 	StudentModalComponent,
 	SubjectModalComponent
 }

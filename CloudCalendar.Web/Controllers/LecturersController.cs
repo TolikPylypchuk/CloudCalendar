@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -15,6 +16,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using CloudCalendar.Data.Models;
 using CloudCalendar.Data.Repositories;
 using CloudCalendar.Web.Models.Dto;
+using CloudCalendar.Web.Services;
 
 namespace CloudCalendar.Web.Controllers
 {
@@ -28,6 +30,7 @@ namespace CloudCalendar.Web.Controllers
 	{
 		private IRepository<Lecturer> lecturers;
 		private UserManager<User> manager;
+		private Settings settings;
 
 		/// <summary>
 		/// Initializes a new instance of the
@@ -39,12 +42,17 @@ namespace CloudCalendar.Web.Controllers
 		/// <param name="manager">
 		/// The user manager that this instance will use.
 		/// </param>
+		/// <param name="settings">
+		/// The application settings that this instance will use.
+		/// </param>
 		public LecturersController(
 			IRepository<Lecturer> repo,
-			UserManager<User> manager)
+			UserManager<User> manager,
+			IOptionsSnapshot<Settings> settings)
 		{
 			this.lecturers = repo;
 			this.manager = manager;
+			this.settings = settings.Value;
 		}
 
 		/// <summary>
@@ -166,6 +174,8 @@ namespace CloudCalendar.Web.Controllers
 			};
 
 			await this.manager.CreateAsync(userToAdd);
+			await this.manager.AddPasswordAsync(
+				userToAdd, this.settings.DefaultPassword);
 			await this.manager.AddToRoleAsync(userToAdd, "Lecturer");
 			
 			if (lecturerDto.IsAdmin == true)
