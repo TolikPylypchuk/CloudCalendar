@@ -24,6 +24,11 @@
 				</a>
 			</li>
 			<li *ngIf="isAdmin() | async" class="nav-item">
+				<a class="nav-link" routerLink="/admin/schedule">
+					Керування розкладом
+				</a>
+			</li>
+			<li *ngIf="isAdmin() | async" class="nav-item">
 				<a class="nav-link" routerLink="/admin/users">
 					Користувачі
 				</a>

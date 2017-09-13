@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -47,22 +49,23 @@ namespace CloudCalendar.Web.Controllers
 			IRepository<Class> classes,
 			IScheduleSource scheduleSource,
 			ICalendarService calendarService,
-			ScheduleOptions options)
+			IOptionsSnapshot<ScheduleOptions> options)
 		{
 			this.classes = classes;
 			this.scheduleSource = scheduleSource;
 			this.calendarService = calendarService;
-			this.options = options;
+			this.options = options.Value;
 		}
 
 		[HttpPost("create/range/{start}/{end}")]
 		[SwaggerResponse(201)]
 		public async Task<IActionResult> Create(
-			DateTime start,
-			DateTime end)
+			[FromRoute] DateTime start,
+			[FromRoute] DateTime end)
 		{
 			var (year, semester) = GetCurrentYearAndSemester(this.options);
 
+			/*
 			semester++;
 
 			if (semester == this.options.Semesters.Count)
@@ -70,7 +73,7 @@ namespace CloudCalendar.Web.Controllers
 				semester = 0;
 				year++;
 			}
-
+			*/
 			var schedule = await this.scheduleSource.GetScheduleAsync(
 				year, semester + 1);
 
@@ -85,7 +88,15 @@ namespace CloudCalendar.Web.Controllers
 			
 			var calendar = this.calendarService.CreateCalendar(
 				schedule, start, end);
-			
+
+			foreach (var c in this.classes.GetAll()
+				.Where(c => c.DateTime.Date >= start.Date &&
+							c.DateTime.Date <= end.Date)
+				.ToList())
+			{
+				this.classes.Delete(c);
+			}
+
 			this.classes.AddRange(calendar);
 
 			return this.Created(String.Empty, null);

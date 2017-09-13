@@ -17,6 +17,7 @@ import { HomeworkService } from "./services/homework.service";
 import { LecturerService } from "./services/lecturer.service";
 import { MaterialService } from "./services/material.service";
 import { NotificationService } from "./services/notification.service";
+import { ScheduleService } from "./services/schedule.service";
 import { StudentService } from "./services/student.service";
 import { SubjectService } from "./services/subject.service";
 
@@ -40,6 +41,7 @@ import { SubjectService } from "./services/subject.service";
 		LecturerService,
 		MaterialService,
 		NotificationService,
+		ScheduleService,
 		StudentService,
 		SubjectService
 	],

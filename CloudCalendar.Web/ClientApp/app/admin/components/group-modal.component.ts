@@ -2,12 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { Group, Lecturer } from "../../common/models";
-import { compareByLastName, getUserInitials } from "../../common/functions";
+import { getUserInitials } from "../../common/functions";
 import { GroupService, LecturerService } from "../../common/common";
 
 @Component({
 	selector: "admin-group-modal",
-	templateUrl: "./group-modal.component.html"
+	templateUrl: "./group-modal.component.html",
+	styleUrls: [ "../../../css/style.css" ]
 })
 export class GroupModalComponent implements OnInit {
 	private activeModal: NgbActiveModal;

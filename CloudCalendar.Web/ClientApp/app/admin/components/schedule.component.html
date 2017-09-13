@@ -1,1 +1,39 @@
-﻿
+﻿<h1 class="h1 text-center m-3">Керування розкладом</h1>
+
+<div *ngIf="success" class="m-3">
+	<ngb-alert [type]="'success'" (close)="closeAlert()">
+		Розклад згенеровано успішно
+	</ngb-alert>
+</div>
+
+<div *ngIf="success === false" class="m-3">
+	<ngb-alert [type]="'danger'" (close)="closeAlert()">
+		Не вдалося згенерувати розклад
+	</ngb-alert>
+</div>
+
+<form (ngSubmit)="submit()" #classForm="ngForm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md text-center">
+				<h2 class="h2 m-2">Від</h2>
+				<ngb-datepicker #dp [(ngModel)]="model.start" name="start"
+								(navigate)="dateStart = $event.next">
+				</ngb-datepicker>
+			</div>
+			<div class="col-md text-center">
+				<h2 class="h2 m-2">До</h2>
+				<ngb-datepicker #dp [(ngModel)]="model.end" name="end"
+								(navigate)="dateEnd = $event.next">
+				</ngb-datepicker>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-center">
+				<button type="submit" class="btn btn-lg btn-primary m-3">
+					Згенерувати розклад
+				</button>
+			</div>
+		</div>
+	</div>
+</form>

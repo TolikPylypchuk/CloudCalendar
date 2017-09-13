@@ -38,21 +38,14 @@ namespace CloudCalendar.Schedule.Services
 		public IRepository<Lecturer> Lecturers { get; }
 		public IRepository<Subject> Subjects { get; }
 		public ScheduleOptions Options { get; }
-
-		private Dictionary<
-			int,
-			(IList<ClassPlace>, IList<GroupClass>, IList<LecturerClass>)> cache =
-			new Dictionary<
-				int,
-				(IList<ClassPlace>, IList<GroupClass>, IList<LecturerClass>)>();
-
+		
 		public IList<CalendarClass> CreateCalendar(
 			IList<ScheduleClass> schedule,
 			DateTime start,
 			DateTime end)
 		{
 			var mondayStart = start - TimeSpan.FromDays((int)start.DayOfWeek - 1);
-			var fridayEnd = end + TimeSpan.FromDays(7 - (int)end.DayOfWeek);
+			var fridayEnd = end + TimeSpan.FromDays(5 - (int)end.DayOfWeek);
 
 			var result = new List<CalendarClass>();
 
@@ -107,37 +100,24 @@ namespace CloudCalendar.Schedule.Services
 			CalendarClass calendarClass,
 			ScheduleClass scheduleClass)
 		{
-			if (this.cache.ContainsKey(scheduleClass.Id))
-			{
-				(calendarClass.Places,
-				 calendarClass.Groups,
-				 calendarClass.Lecturers) =
-					this.cache[scheduleClass.Id];
-			} else
-			{
-				var places = GetPlaces(
-					calendarClass,
-					scheduleClass.Classrooms,
-					this.Classrooms);
+			var places = GetPlaces(
+				calendarClass,
+				scheduleClass.Classrooms,
+				this.Classrooms);
 
-				var groups = GetGroups(
-					calendarClass,
-					scheduleClass.Groups,
-					this.Groups);
+			var groups = GetGroups(
+				calendarClass,
+				scheduleClass.Groups,
+				this.Groups);
 
-				var lecturers = GetLecturers(
-					calendarClass,
-					scheduleClass.Lecturers,
-					this.Lecturers);
+			var lecturers = GetLecturers(
+				calendarClass,
+				scheduleClass.Lecturers,
+				this.Lecturers);
 
-				calendarClass.Places = places;
-				calendarClass.Groups = groups;
-				calendarClass.Lecturers = lecturers;
-
-				this.cache.Add(
-					scheduleClass.Id,
-					(places, groups, lecturers));
-			}
+			calendarClass.Places = places;
+			calendarClass.Groups = groups;
+			calendarClass.Lecturers = lecturers;
 		}
 	}
 }

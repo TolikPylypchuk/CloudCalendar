@@ -31,7 +31,9 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="ClientApp\app\admin\components\schedule.component.ts" />
     <None Remove="ClientApp\app\common\services\config.service.ts" />
+    <None Remove="ClientApp\app\common\services\schedule.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\admin\components\schedule.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\common\services\config.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\common\services\schedule.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +74,9 @@
     </None>
     <None Update="ClientApp\app\admin\components\lecturer-modal.component.html">
       <DependentUpon>lecturer-modal.component.ts</DependentUpon>
+    </None>
+    <None Update="ClientApp\app\admin\components\schedule.component.html">
+      <DependentUpon>schedule.component.ts</DependentUpon>
     </None>
     <None Update="ClientApp\app\admin\components\settings.component.html">
       <DependentUpon>settings.component.ts</DependentUpon>
