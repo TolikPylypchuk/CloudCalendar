@@ -173,6 +173,8 @@ ClientBin/
 orleans.codegen.cs
 
 node_modules/
+**/wwwroot/dist/
+**/wwwroot/files/
 
 **/yarn.lock
 
